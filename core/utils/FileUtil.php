@@ -56,7 +56,7 @@ class FileUtil
 	*/
 	public static function getImportScope( $directory, $ignoredPaths = array(), $autofixPaths = true )
 	{		
-		require_once( 'ArrayUtil.php' );
+		// require_once( 'ArrayUtil.php' );
 
 		if( $autofixPaths )
 		{

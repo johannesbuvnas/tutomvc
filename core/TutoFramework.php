@@ -19,7 +19,7 @@ final class TutoFramework
 
 	private static $initiated = false;
 
-	private static $_root = "";
+	private static $_pluginRoot = "";
 
 	private static $_rootURL = "";
 
@@ -50,19 +50,19 @@ final class TutoFramework
 
 		$backtrace = debug_backtrace();
 		$caller = $backtrace[0]['file'];
-		self::$_root = realpath( dirname( $caller ) );
+		self::$_pluginRoot = realpath( dirname( $caller ) );
 
 		$wpURL = get_bloginfo( 'wpurl' );
 		$wpRoot = substr( $wpURL, strpos( $wpURL, $_SERVER['SERVER_NAME'] ) + strlen( $_SERVER['SERVER_NAME'] ) );
-		self::$_rootURL = get_bloginfo( 'wpurl' ) . FileUtil::filterFileReference( substr( self::$_root,  strpos( self::$_root, $wpRoot ) + strlen( $wpRoot ) ) );
+		self::$_rootURL = get_bloginfo( 'wpurl' ) . FileUtil::filterFileReference( substr( self::$_pluginRoot,  strpos( self::$_pluginRoot, $wpRoot ) + strlen( $wpRoot ) ) );
 
-		FileUtil::import( self::$_root."/core/src/php" );
+		FileUtil::import( self::$_pluginRoot . "/core" );
 
 		self::$service = new FrameworkService();
 		
 		self::$initiated = true;
 
-		require_once( self::$_root.'/system/bootstrap.php' );
+		require_once( self::$_pluginRoot.'/system/bootstrap.php' );
 
 		do_action( ActionCommand::START_UP );
 
@@ -93,7 +93,7 @@ final class TutoFramework
 		self::$facadeMap[ $facade->getKey() ] = new ApplicationVO( $facadeClassReference, $facade->getKey(), $appRoot );
 		if( $facade->getKey() != Facade::KEY_SYSTEM ) $facade->system = Facade::getInstance( Facade::KEY_SYSTEM );
 		$facade->onRegister();
-		do_action( ActionCommand::FACADE_READY, self::$facadeMap[ $facade->getKey() ] );
+		do_action( ActionCommand::FACADE_READY, $facade->getKey() );
 
 		return $facade;
 	}
@@ -101,7 +101,7 @@ final class TutoFramework
 	/* SET AND GET */
 	public static function getRoot()
 	{
-		return self::$_root;
+		return self::$_pluginRoot;
 	}
 
 	public static function getURL(  $relativePath = NULL )
