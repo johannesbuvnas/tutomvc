@@ -1,0 +1,103 @@
+.cf:before,
+.cf:after {
+    content: " "; /* 1 */
+    display: table; /* 2 */
+}
+.cf:after {
+    clear: both;
+}
+
+#wp-tutons-editor-wrap
+{
+	display: none;
+}
+
+div.MetaBox
+{
+	/*border: 1px solid #eaece7;*/
+	position: relative;
+	margin-bottom: 10px;
+}
+div.MetaBoxInner
+{
+	background: #f9f9f9;
+	padding: 30px;
+}
+div.MetaBox div.title
+{
+	font-family: HelveticaNeue-Light,"Helvetica Neue Light","Helvetica Neue",sans-serif;
+	font-size: 14px;
+	padding: 15px 20px;
+	background: #f1f1f1;
+	/*cursor: move;*/
+	color: #333;
+	font-weight: 600;
+	text-decoration: underline;
+	/*border-left: 1px solid #eaece7;
+	border-top: 1px solid #eaece7;
+	border-right: 1px solid #eaece7;*/
+}
+div.MetaBox div.title a.RemoveMetaBoxButton
+{
+	font-size: 12px;
+	color: red;
+	position: absolute;
+	right: 20px;
+	top: 15px;
+	font-weight: normal;
+}
+div.MetaBox table
+{
+	font-family: HelveticaNeue-Light,"Helvetica Neue Light","Helvetica Neue",sans-serif;
+	font-size: 14px;
+	width: 100%;
+	font-weight: normal;
+	font-style: normal;
+}
+div.MetaBox table input
+{
+	width: 100%;
+	padding: 10px;
+	border-radius: 0px;
+}
+div.MetaBox table tr,
+div.MetaBox table td
+{
+	padding: 0;
+	vertical-align: top;
+	text-align: left;
+}
+
+div.MetaBox span.description
+{
+	font-family: HelveticaNeue-Light,"Helvetica Neue Light","Helvetica Neue",sans-serif;
+	font-weight: normal;
+	font-style: normal;
+}
+
+div.AddMetaBoxButton
+{
+	text-align: center;
+	overflow: hidden;
+	text-indent: -9999em;
+	background: white url( "../images/symbol-add.png" ) center center no-repeat;
+	margin: 10px auto;
+	width: 20px;
+}
+
+div.MetaField
+{
+	margin-bottom: 10px;
+}
+
+div.MetaField label
+{
+	width: 100%;
+}
+
+div.MetaField .title
+{
+	font-size: 14px;
+	color: #333;
+	font-weight: 600;
+}
