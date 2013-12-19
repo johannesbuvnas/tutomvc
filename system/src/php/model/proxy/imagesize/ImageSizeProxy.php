@@ -1,5 +1,5 @@
 <?php
-namespace tutons;
+namespace tutomvc;
 
 final class ImageSizeProxy extends Proxy
 {

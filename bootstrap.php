@@ -1,5 +1,5 @@
 <?php
-namespace tutons;
+namespace tutomvc;
 
 	/*
 	Plugin Name: Tuto MVC

@@ -1,11 +1,11 @@
 define(
 [
-	"tuto",
+	"tutomvc",
 	"app/view/meta/MetaBoxModelMediator"
 ],
 function
 ( 
-	tuto,
+	tutomvc,
 	MetaBoxModelMediator
 )
 {
@@ -23,7 +23,7 @@ function
 
 	MainMediator.prototype.constructor = MainMediator;
 	MainMediator.prototype.NAME = MainMediator.prototype.constructor.name;
-	MainMediator.prototype = new tuto.core.view.mediator.Mediator( MainMediator.prototype.NAME );
+	MainMediator.prototype = new tutomvc.core.view.mediator.Mediator( MainMediator.prototype.NAME );
 
 	return MainMediator;
 });

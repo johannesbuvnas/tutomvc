@@ -1,5 +1,5 @@
 <?php
-namespace tutons;
+namespace tutomvc;
 ?>
 <div class="MetaBox" data-meta-box-name="<?php echo $metaBox->getName(); ?>" data-cardinality-id="<?php echo $cardinalityID; ?>">
 
@@ -12,7 +12,7 @@ namespace tutons;
 	?>
 
 	<div class="MetaBoxInner">
-		<table class="tutons">
+		<table class="tutomvc">
 			<tbody>
 				<?php
 					foreach( $metaFieldMap as $key => $metaVO )

@@ -1,5 +1,5 @@
 <?php
-namespace tutons;
+namespace tutomvc;
 
 class AdminEnqueueScriptsCommand extends ActionCommand
 {
@@ -26,13 +26,13 @@ class AdminEnqueueScriptsCommand extends ActionCommand
 			'tiny_mce',
 			'jquery-ui-dialog',
 			"require-js",
-			"tuto-main-js"
+			"tutomvc-main-js"
 		));
     
 	   wp_enqueue_style ( 'wp-jquery-ui-dialog' );
 
-		wp_enqueue_style( 'tuto-components', $this->getFacade()->getURL( "/assets/css/tuto.components.css" ), NULL, SystemFacade::VERSION );
-		wp_enqueue_style( 'tuto-admin', $this->getFacade()->getURL( "/assets/css/tuto.admin.css" ), NULL, SystemFacade::VERSION );
+		wp_enqueue_style( 'tutomvc-components', $this->getFacade()->getURL( "/assets/css/tutomvc.components.css" ), NULL, SystemFacade::VERSION );
+		wp_enqueue_style( 'tutomvc-admin', $this->getFacade()->getURL( "/assets/css/tutomvc.admin.css" ), NULL, SystemFacade::VERSION );
 
 
 	}

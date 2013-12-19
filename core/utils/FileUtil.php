@@ -1,5 +1,5 @@
 <?php
-namespace tutons;
+namespace tutomvc;
 
 class FileUtil
 {	
@@ -41,7 +41,7 @@ class FileUtil
 		}
 		else
 		{
-			usort( $imports, array( "\\tutons\ArrayUtil", "usortByFolderStructure" ) );
+			usort( $imports, array( "\\tutomvc\ArrayUtil", "usortByFolderStructure" ) );
 		}
 
 		foreach($imports as $import)

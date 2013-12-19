@@ -1,5 +1,5 @@
 <?php
-namespace tutons;
+namespace tutomvc;
 
 class RenderWPEditorCommand extends ActionCommand
 {
@@ -11,6 +11,6 @@ class RenderWPEditorCommand extends ActionCommand
 
 	function execute()
 	{
-		wp_editor( '', 'tutons-editor' );
+		wp_editor( '', 'tutomvc-editor' );
 	}
 }

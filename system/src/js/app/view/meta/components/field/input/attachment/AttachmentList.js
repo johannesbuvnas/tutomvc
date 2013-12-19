@@ -1,10 +1,10 @@
 define(
 [
-	"tuto",
+	"tutomvc",
 	"jquery",
 	"app/view/meta/components/field/input/attachment/AttachmentItem"
 ],
-function( tuto, $, AttachmentItem )
+function( tutomvc, $, AttachmentItem )
 {
 	function AttachmentList( attributes )
 	{
@@ -31,7 +31,7 @@ function( tuto, $, AttachmentItem )
 			_inputProxy = $( "<div class='HiddenElement'></div>" );
 			_element.append( _element );
 
-			_addButton = new tuto.components.buttons.Button();
+			_addButton = new tutomvc.components.buttons.Button();
 			_addButton.getElement().addClass( "AddButton" );
 			_addButton.getElement().on( "click", onOpenClick );
 			_element.append( _addButton.getElement() );
@@ -139,7 +139,7 @@ function( tuto, $, AttachmentItem )
 
 	return function( attributes )
 	{
-		AttachmentList.prototype = new tuto.components.form.input.Input();
+		AttachmentList.prototype = new tutomvc.components.form.input.Input();
 		AttachmentList.prototype.constructor = AttachmentList;
 
 		return new AttachmentList( attributes );

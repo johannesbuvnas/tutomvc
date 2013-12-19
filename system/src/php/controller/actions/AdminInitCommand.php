@@ -1,5 +1,5 @@
 <?php
-namespace tutons;
+namespace tutomvc;
 
 class AdminInitCommand extends ActionCommand
 {
@@ -11,7 +11,7 @@ class AdminInitCommand extends ActionCommand
 	function execute()
 	{
 		wp_register_script( 'require-js', $this->getFacade()->getURL( "libs/js/require.js" ) );
-		wp_register_script( 'tuto-main-js', $this->getFacade()->getURL( "src/js/Main.config.js" ), array( 'require-js' ), '', true);
+		wp_register_script( 'tutomvc-main-js', $this->getFacade()->getURL( "src/js/Main.config.js" ), array( 'require-js' ), '', true);
 		
 		$this->getFacade()->controller->registerCommand( new AdminHeadCommand() );
 		$this->getFacade()->controller->registerCommand( new AdminEnqueueScriptsCommand() );

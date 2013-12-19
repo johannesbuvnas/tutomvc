@@ -5,7 +5,7 @@ function()
 	return {
 		
 		// App Facade Key
-		KEY : "tuto-main",
+		KEY : "tutomvc-main",
 
 		// Event Names
 		STARTUP : "startup",

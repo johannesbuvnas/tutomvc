@@ -5,7 +5,7 @@ require.config({
 	{
 		"jquery" : "../../libs/js/jquery-2.0.3.min",
 		"base64" : "app/modules/base64",
-		"tuto" : "tuto.src"
+		"tutomvc" : "tutomvc.src"
 	},
 	map : 
 	{

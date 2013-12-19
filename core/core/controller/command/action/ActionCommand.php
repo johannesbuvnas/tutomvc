@@ -1,15 +1,15 @@
 <?php
-namespace tutons;
+namespace tutomvc;
 
 class ActionCommand extends Command
 {
 	/* COMMAND NAMES BY TUTO */
-	const START_UP = "tuto/action/startup";
+	const START_UP = "tutomvc/action/startup";
 
-	const FACADE_READY = "tuto/action/facade/ready";
+	const FACADE_READY = "tutomvc/action/facade/ready";
 
-	const RENDER_META_BOX = "tuto/action/render/metabox";
-	const RENDER_WP_EDITOR = "tuto/action/render/wp_editor";
+	const RENDER_META_BOX = "tutomvc/action/render/metabox";
+	const RENDER_WP_EDITOR = "tutomvc/action/render/wp_editor";
 	
 	/* PUBLIC VARS */
 	public $priority = 10;

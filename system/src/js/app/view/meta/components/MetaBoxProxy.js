@@ -1,10 +1,10 @@
 define(
 [
-	"tuto",
+	"tutomvc",
 	"jquery",
 	"app/view/meta/components/MetaBox"
 ],
-function( tuto, $, MetaBox )
+function( tutomvc, $, MetaBox )
 {
 	function MetaBoxProxy( element )
 	{
@@ -73,8 +73,8 @@ function( tuto, $, MetaBox )
 		{
 			if(_addButton)
 			{
-				if( _metaBoxNum >= _maxCardinality && _maxCardinality >= 0 ) _addButton.addClass( "tuto-hidden" );
-				else _addButton.removeClass( "tuto-hidden" );
+				if( _metaBoxNum >= _maxCardinality && _maxCardinality >= 0 ) _addButton.addClass( "tutomvc-hidden" );
+				else _addButton.removeClass( "tutomvc-hidden" );
 			}
 		};
 
@@ -83,7 +83,7 @@ function( tuto, $, MetaBox )
 		{
 			var data = 
 			{
-				action : "tuto/ajax/render/metabox",
+				action : "tutomvc/ajax/render/metabox",
 				nonce : Tuto.nonce,
 				postID : 0,
 				metaBoxName : _metaBoxName,

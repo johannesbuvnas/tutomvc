@@ -1,5 +1,5 @@
 <?php
-namespace tutons;
+namespace tutomvc;
 
 class AdminHeadCommand extends ActionCommand
 {
@@ -20,7 +20,6 @@ class AdminHeadCommand extends ActionCommand
 			<script type="text/javascript">
 				Tuto = '.stripslashes( json_encode( $globals ) ).';
 			</script>
-			<script type="text/javascript" src="http://local.rkivo.com/_wp/wp-includes/js/tinymce/wp-tinymce.php?c=1&ver=359-20131026"></script>
 		';
 
 		// echo '<script type="text/javascript" data-main="'.$this->getFacade()->getURL( "src/js/Main.config.js" ).'" src="'.$this->getFacade()->getURL( "libs/js/require.js" ).'"></script>';

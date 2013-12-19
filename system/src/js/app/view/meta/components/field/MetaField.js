@@ -1,10 +1,10 @@
 define([
-	"tuto",
+	"tutomvc",
 	"app/view/meta/components/field/input/TextareaWYSIWYGInput",
 	"base64",
 	"app/view/meta/components/field/input/attachment/AttachmentList"
 ],
-function( tuto, TextareaWYSIWYGInput, Base64, AttachmentList )
+function( tutomvc, TextareaWYSIWYGInput, Base64, AttachmentList )
 {
 	function MetaField( metaBoxID, element )
 	{
@@ -47,11 +47,11 @@ function( tuto, TextareaWYSIWYGInput, Base64, AttachmentList )
 				break;
 				case "selector_single":
 
-					_inputComponent = new tuto.components.form.input.SingleSelector();
+					_inputComponent = new tutomvc.components.form.input.SingleSelector();
 					_inputComponent.setLabel( _attributes.title );
 					_label.remove();
 
-					var proxy = new tuto.components.model.proxy.Proxy();
+					var proxy = new tutomvc.components.model.proxy.Proxy();
 
 					for(var key in _attributes.type.settings.options)
 					{
@@ -86,7 +86,7 @@ function( tuto, TextareaWYSIWYGInput, Base64, AttachmentList )
 		{
 			if(!_inputComponent) return;
 
-			var event = new tuto.core.controller.event.Event( "change", { name : _attributes.name, value : _inputComponent.getValue() } );
+			var event = new tutomvc.core.controller.event.Event( "change", { name : _attributes.name, value : _inputComponent.getValue() } );
 			_this.dispatchEvent( event );
 		};
 
@@ -151,7 +151,7 @@ function( tuto, TextareaWYSIWYGInput, Base64, AttachmentList )
 
 	return function( metaBoxID, element )
 	{
-		MetaField.prototype = new tuto.core.controller.event.EventDispatcher();
+		MetaField.prototype = new tutomvc.core.controller.event.EventDispatcher();
 		MetaField.prototype.constructor = MetaField;
 
 		return new MetaField( metaBoxID, element );

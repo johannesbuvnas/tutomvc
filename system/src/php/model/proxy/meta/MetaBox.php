@@ -1,5 +1,5 @@
 <?php
-namespace tutons;
+namespace tutomvc;
 
 class MetaBox extends ValueObject implements IMetaBox
 {

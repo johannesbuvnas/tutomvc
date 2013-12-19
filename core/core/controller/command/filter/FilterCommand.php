@@ -1,10 +1,10 @@
 <?php
-namespace tutons;
+namespace tutomvc;
 
 class FilterCommand extends Command
 {
 	/* TYPES */
-	const META_VALUE = "tuto/filter/meta/value";
+	const META_VALUE = "tutomvc/filter/meta/value";
 	
 	/* PUBLIC VARS */
 	public $priority = 10;

@@ -1,12 +1,12 @@
 define(
 [
-	"tuto",
+	"tutomvc",
 	"app/view/MainViewComponent",
 	"app/view/MainMediator"
 ],
 function
 ( 
-	tuto,
+	tutomvc,
 	MainViewComponent,
 	MainMediator
 )
@@ -39,7 +39,7 @@ function
 		};
 	}
 
-	StartUpCommand.prototype = new tuto.core.controller.command.Command();
+	StartUpCommand.prototype = new tutomvc.core.controller.command.Command();
 	StartUpCommand.prototype.constructor = StartUpCommand;
 
 	return StartUpCommand;

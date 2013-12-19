@@ -1,9 +1,9 @@
 define([
-	"tuto",
+	"tutomvc",
 	"jquery",
 	"app/view/meta/components/field/MetaField"
 ],
-function( tuto, $, MetaField )
+function( tutomvc, $, MetaField )
 {
 	function MetaBox( id, element )
 	{
@@ -94,7 +94,7 @@ function( tuto, $, MetaField )
 		{
 			e.preventDefault();
 
-			_this.dispatchEvent( new tuto.core.controller.event.Event( "remove", { id : _this.getID() } ) );
+			_this.dispatchEvent( new tutomvc.core.controller.event.Event( "remove", { id : _this.getID() } ) );
 		};
 
 		var onMetaFieldChange = function(e)
@@ -111,7 +111,7 @@ function( tuto, $, MetaField )
 	
 	return function( id, element )
 	{
-		MetaBox.prototype = new tuto.core.controller.event.EventDispatcher();
+		MetaBox.prototype = new tutomvc.core.controller.event.EventDispatcher();
 		MetaBox.prototype.constructor = MetaBox;
 
 		return new MetaBox( id, element );

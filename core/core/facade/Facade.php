@@ -1,5 +1,5 @@
 <?php
-namespace tutons;
+namespace tutomvc;
 // https://github.com/PureMVC/puremvc-as3-multicore-framework/tree/master/src/org/puremvc/as3/multicore/patterns
 
 class Facade
@@ -7,7 +7,7 @@ class Facade
 	/* PUBLIC CONSTANT VARS */
 	const NAME = __NAMESPACE__;
 
-	const KEY_SYSTEM = "tuto/facade/system";
+	const KEY_SYSTEM = "tutomvc/facade/system";
 
 	/* PUBLIC STATIC VARS */
 

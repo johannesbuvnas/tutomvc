@@ -5,7 +5,7 @@ function( $ )
 {
 	return new function()
 	{
-	// begin tuto
+	// begin tutomvc
 
 		/* PRIVATE REFERENCES */
 		var _ns = this;
@@ -158,11 +158,11 @@ function( $ )
 
 			this.model = new function()
 			{
-			// begin tuto.model
+			// begin tutomvc.model
 
 				this.proxy = new function()
 				{
-				// begin tuto.model.proxy
+				// begin tutomvc.model.proxy
 
 					this.Proxy = function( name )
 					{
@@ -215,7 +215,7 @@ function( $ )
 						return new Proxy( name );
 					};
 
-				// end tuto.model.proxy
+				// end tutomvc.model.proxy
 				};
 
 				this.Model = new function()
@@ -281,16 +281,16 @@ function( $ )
 					return Model;
 				};
 
-			// end tuto.model
+			// end tutomvc.model
 			};
 
 			this.view = new function()
 			{
-			// begin tuto.view
+			// begin tutomvc.view
 
 				this.mediator = new function()
 				{
-				//begin tuto.view.mediator
+				//begin tutomvc.view.mediator
 
 					this.Mediator = function( name, viewComponent )
 					{
@@ -352,7 +352,7 @@ function( $ )
 						return new Mediator( name, viewComponent );
 					};
 
-				//end tuto.view.mediator
+				//end tutomvc.view.mediator
 				};
 
 				this.View = function( key )
@@ -424,16 +424,16 @@ function( $ )
 					return null;
 				};
 
-			// end tuto.view
+			// end tutomvc.view
 			};
 
 			this.controller = new function()
 			{
-			// begin tuto.controller
+			// begin tutomvc.controller
 
 				this.command = new function()
 				{
-				// begin tuto.controller.command
+				// begin tutomvc.controller.command
 					
 					this.Command = function()
 					{
@@ -452,7 +452,7 @@ function( $ )
 						return new Command();
 					};
 
-				// end tuto.controller.command
+				// end tutomvc.controller.command
 				};
 
 				this.Controller = new function()
@@ -526,7 +526,7 @@ function( $ )
 
 				this.event = new function()
 				{
-				// begin tuto.controller.event
+				// begin tutomvc.controller.event
 
 					this.Event = function( name, body )
 					{
@@ -563,7 +563,7 @@ function( $ )
 						/* ACTIONS */
 						this.dispatchEvent = function( event )
 						{
-							// if( !(event instanceof _ns.core.controller.event.Event) ) return console.log( "EventDispatcher::dispatch - event isnt an instance of tuto.core.controller.event.Event" );
+							// if( !(event instanceof _ns.core.controller.event.Event) ) return console.log( "EventDispatcher::dispatch - event isnt an instance of tutomvc.core.controller.event.Event" );
 
 							if( _listenerMap[ event.getName() ] )
 							{
@@ -609,16 +609,16 @@ function( $ )
 						};
 					};
 
-				// end tuto.controller.event
+				// end tutomvc.controller.event
 				};
 
-			// end tuto.controller
+			// end tutomvc.controller
 			};
 		};
 
 		this.components = new function()
 		{
-		// tuto.components
+		// tutomvc.components
 
 			this.controller = new function()
 			{
@@ -635,10 +635,10 @@ function( $ )
 
 			this.model = new function()
 			{
-				// tuto.model
+				// tutomvc.model
 				this.proxy = new function()
 				{
-				// begin tuto.components.model.proxy
+				// begin tutomvc.components.model.proxy
 
 					this.Proxy = function( name )
 					{
@@ -752,11 +752,11 @@ function( $ )
 						construct( name );
 					};
 
-				// end tuto.components.model.proxy
+				// end tutomvc.components.model.proxy
 				};
 				this.vo = new function()
 				{
-				// tuto.components.model.vo
+				// tutomvc.components.model.vo
 
 						this.ValueObject = function( name, value )
 						{
@@ -802,7 +802,7 @@ function( $ )
 							construct( name, value )
 						};
 
-				// end tuto.components.model.vo
+				// end tutomvc.components.model.vo
 				};
 
 				this.Model = function()
@@ -885,12 +885,12 @@ function( $ )
 					construct();
 				};
 
-			// tuto.model
+			// tutomvc.model
 			};
 
 			this.buttons = new function()
 			{
-			// tuto.components.buttons
+			// tutomvc.components.buttons
 
 				this.Button = function( label )
 				{
@@ -927,16 +927,16 @@ function( $ )
 					return new Button( label );
 				};
 
-			// end tuto.components.buttons
+			// end tutomvc.components.buttons
 			};
 
 			this.form = new function()
 			{
-			// tuto.components.form
+			// tutomvc.components.form
 
 				this.input = new function()
 				{
-				// tuto.components.form.input
+				// tutomvc.components.form.input
 
 					this.Input = function()
 					{
@@ -1479,7 +1479,7 @@ function( $ )
 									}
 								}
 
-								if( _tagsContainer.find( ".ValueObject" ).length != 0 ) _this.button.label.addClass( "tuto-hidden" );
+								if( _tagsContainer.find( ".ValueObject" ).length != 0 ) _this.button.label.addClass( "tutomvc-hidden" );
 
 								if(_this.isExpanded()) _this.getElement().find(".Model").css( "top", (_this.getElement().height() - 12) + "px" );
 
@@ -1562,12 +1562,12 @@ function( $ )
 								modelElement.find( ".Proxy" ).each( function()
 									{
 										var voProxy = $(this);
-										voProxy.removeClass( "tuto-hidden" );
+										voProxy.removeClass( "tutomvc-hidden" );
 										var filterFoundInProxy = false;
 										voProxy.find( ".ValueObject" ).each( function()
 											{
 												var vo = $(this);
-												vo.removeClass( "tuto-hidden" );
+												vo.removeClass( "tutomvc-hidden" );
 												vo.find( ".Name" ).html( vo.attr("dataName") );
 												var name = vo.attr("dataName").toLowerCase();
 												var value = vo.attr("dataValue");
@@ -1586,10 +1586,10 @@ function( $ )
 												}
 												else if( string && string.length > 0 )
 												{
-													vo.addClass( "tuto-hidden" );
+													vo.addClass( "tutomvc-hidden" );
 												}
 											} );
-										if( !filterFoundInProxy && string && string.length > 0 ) voProxy.addClass( "tuto-hidden" );
+										if( !filterFoundInProxy && string && string.length > 0 ) voProxy.addClass( "tutomvc-hidden" );
 									} );
 
 								if( totalHits > 0 && !_this.isExpanded() ) _this.expand();
@@ -1630,7 +1630,7 @@ function( $ )
 
 								_this.getElement().addClass("Focus");
 
-								_this.button.label.addClass( "tuto-hidden" );
+								_this.button.label.addClass( "tutomvc-hidden" );
 							};
 
 							var onFocusOut = function( e )
@@ -1639,7 +1639,7 @@ function( $ )
 
 								_this.getElement().removeClass("Focus");
 
-								if( _tagsContainer.find( ".ValueObject" ).length == 0 ) _this.button.label.removeClass( "tuto-hidden" );
+								if( _tagsContainer.find( ".ValueObject" ).length == 0 ) _this.button.label.removeClass( "tutomvc-hidden" );
 
 								// if( _this.isExpanded() ) _this.collapse();
 							};
@@ -1691,14 +1691,14 @@ function( $ )
 						return new FilterMultiSelector();
 					};
 
-				// end tuto.components.form.input
+				// end tutomvc.components.form.input
 				};
-			// end tuto.components.form
+			// end tutomvc.components.form
 			};
-		// end tuto.components
+		// end tutomvc.components
 		};
 
 		// init();
-	// end tuto
+	// end tutomvc
 	};
 });

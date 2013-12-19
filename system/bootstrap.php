@@ -1,4 +1,4 @@
 <?php
-namespace tutons;
+namespace tutomvc;
 
-TutoFramework::importApplication( "\\tutons\SystemFacade" );
+TutoFramework::importApplication( "\\tutomvc\SystemFacade" );

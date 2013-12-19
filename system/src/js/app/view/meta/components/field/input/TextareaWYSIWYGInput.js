@@ -1,8 +1,8 @@
 define([
-	"tuto",
+	"tutomvc",
 	"jquery"
 ],
-function( tuto, $ )
+function( tutomvc, $ )
 {
 	function TextareaWYSIWYGInput( content, id, settings )
 	{
@@ -35,7 +35,7 @@ function( tuto, $ )
 			_settings.quicktags = false;
 			var data = 
 			{
-				action : "tuto/ajax/render/wp_editor",
+				action : "tutomvc/ajax/render/wp_editor",
 				nonce : Tuto.nonce,
 				content : _content,
 				id : _id,
@@ -134,7 +134,7 @@ function( tuto, $ )
 
 	return function( content, id, settings )
 	{
-		TextareaWYSIWYGInput.prototype = new tuto.components.form.input.Input();
+		TextareaWYSIWYGInput.prototype = new tutomvc.components.form.input.Input();
 		TextareaWYSIWYGInput.prototype.constructor = TextareaWYSIWYGInput;
 
 		return new TextareaWYSIWYGInput( content, id, settings );

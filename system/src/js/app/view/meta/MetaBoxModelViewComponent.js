@@ -1,12 +1,12 @@
 define(
 [
-	"tuto",
+	"tutomvc",
 	"jquery",
 	"app/view/meta/components/MetaBoxProxy"
 ],
 function
 (
-	tuto,
+	tutomvc,
 	$,
 	MetaBoxProxy
 )
@@ -24,7 +24,7 @@ function
 		construct();
 	}
 
-	MetaBoxModelViewComponent.prototype = new tuto.core.controller.event.EventDispatcher();
+	MetaBoxModelViewComponent.prototype = new tutomvc.core.controller.event.EventDispatcher();
 	MetaBoxModelViewComponent.prototype.constructor = MetaBoxModelViewComponent;
 	return MetaBoxModelViewComponent;
 })

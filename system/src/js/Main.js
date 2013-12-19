@@ -1,12 +1,12 @@
 define([
 	"jquery",
-	"tuto",
+	"tutomvc",
 	"app/AppConstants",
 	"app/controller/commands/StartUpCommand"
 ],
 function( 
 	$,
-	tuto,
+	tutomvc,
 	AppConstants,
 	StartUpCommand 
 	)
@@ -44,7 +44,7 @@ function(
 			})();
 		}
 
-		AppFacade.prototype = tuto.core.Facade.getInstance( AppConstants.KEY );
+		AppFacade.prototype = tutomvc.core.Facade.getInstance( AppConstants.KEY );
 		AppFacade.prototype.constructor = AppFacade;
 
 		return new AppFacade();

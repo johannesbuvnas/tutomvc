@@ -1,5 +1,5 @@
 <?php
-namespace tutons;
+namespace tutomvc;
 // https://github.com/PureMVC/puremvc-as3-multicore-framework/tree/master/src/org/puremvc/as3/multicore/patterns
 
 // DEPENDENCIES
@@ -12,7 +12,7 @@ final class TutoFramework
 {
 	/* CONSTANTS */
 	const VERSION = "3.0";
-	const NONCE_ID = "tuto-framework_nonce";
+	const NONCE_ID = "tutomvc-framework_nonce";
 
 	/* STATIC VARS */
 	private static $developmentMode = true;
