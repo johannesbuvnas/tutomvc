@@ -11,7 +11,7 @@ function(
 	StartUpCommand 
 	)
 {
-	return $( window ).load(function()
+	return $( document ).ready(function()
 	{
 		function AppFacade()
 		{

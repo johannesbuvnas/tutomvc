@@ -20,11 +20,27 @@ class GetMetaDatFilter extends FilterCommand
 			{
 				if($metaBox->hasPostType( $postType ))
 				{
-					$meta[ $metaBox->getName() ] = $metaBox->getMetaBoxMap( $postID );
+					$meta[ $metaBox->getName() ] = array_map( array($this, "convertMetaVOToValue"), $metaBox->getMetaBoxMap( $postID ) );
 				}
 			}
 		}
 
 		return $meta && count($meta) ? $meta : NULL;
+	}
+
+	public function convertMetaVOToValue( $metaVO )
+	{
+		if(is_a($metaVO, "tutomvc\MetaVO"))
+		{
+			return $metaVO->getValue();
+		}
+		else if(is_array($metaVO))
+		{
+			return array_map( array($this, "convertMetaVOToValue"), $metaVO );
+		}
+		else
+		{
+			return $metaVO;
+		}
 	}
 }

@@ -56,8 +56,6 @@ class FileUtil
 	*/
 	public static function getImportScope( $directory, $ignoredPaths = array(), $autofixPaths = true )
 	{		
-		// require_once( 'ArrayUtil.php' );
-
 		if( $autofixPaths )
 		{
 			$directory = FileUtil::filterFileReference( $directory );
@@ -75,9 +73,13 @@ class FileUtil
 		
 		$directories = ArrayUtil::removeForbiddenElements( glob( $directory."/*", GLOB_ONLYDIR ), $ignoredPaths );
 		
-		foreach($directories as $directory)
+		if(!empty($directories))
 		{
-			$scripts = array_merge( $scripts, self::getImportScope( $directory, $ignoredPaths, false ) );
+			foreach($directories as $directory)
+			{
+				$merge = self::getImportScope( $directory, $ignoredPaths, false );
+				$scripts = array_merge( is_array($scripts) ? $scripts : array(), is_array($merge) ? $merge : array() );
+			}
 		}
 		
 		return $scripts;

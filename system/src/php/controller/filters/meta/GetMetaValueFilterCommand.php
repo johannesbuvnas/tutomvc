@@ -66,6 +66,24 @@ class GetMetaValueFilterCommand extends FilterCommand
 					"fileType" => wp_check_filetype( $title )
 				);
 
+				if(wp_attachment_is_image( $attachmentID ))
+				{
+					// Include custom image sizes
+					if(count( $this->getFacade()->imageSizeCenter->getMap() ))
+					{
+						$item['imageSize'] = array();
+
+						foreach($this->getFacade()->imageSizeCenter->getMap() as $imageSize)
+						{
+							$src = wp_get_attachment_image_src( $attachmentID, $imageSize->getName() );
+							$item['imageSize'][ $imageSize->getName() ]['url'] = $src[0];
+							$item['imageSize'][ $imageSize->getName() ]['width'] = $src[1];
+							$item['imageSize'][ $imageSize->getName() ]['height'] = $src[2];
+							$item['imageSize'][ $imageSize->getName() ]['isResized'] = $src[3];
+						}
+					}
+				}
+
 				$map[] = $item;
 			}
 		}

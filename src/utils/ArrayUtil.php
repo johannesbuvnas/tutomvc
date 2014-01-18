@@ -29,16 +29,19 @@ class ArrayUtil
 	{
 		$i = 0;
 		
-		foreach($array as $element)
+		if(!empty($array))
 		{
-			$indexOf = array_search( $element, $forbiddenElements );
-			
-			if(is_numeric( $indexOf )) 
+			foreach($array as $element)
 			{
-				unset( $array[$i] );
+				$indexOf = array_search( $element, $forbiddenElements );
+				
+				if(is_numeric( $indexOf )) 
+				{
+					unset( $array[$i] );
+				}
+				
+				$i++;
 			}
-			
-			$i++;
 		}
 		
 		return $array;

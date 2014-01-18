@@ -1,7 +1,7 @@
 <?php
 namespace tutomvc;
 
-class ApplicationVO extends ValueObject
+class FacadeVO extends ValueObject
 {
 	/* VARS */
 	protected $_facadeClassReference;

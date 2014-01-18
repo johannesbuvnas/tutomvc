@@ -1,10 +1,11 @@
 define([
 	"tutomvc",
-	"app/view/meta/components/field/input/TextareaWYSIWYGInput",
+	"app/view/meta/components/field/input/text/TextInput",
+	"app/view/meta/components/field/input/text/TextareaWYSIWYGInput",
 	"base64",
 	"app/view/meta/components/field/input/attachment/AttachmentList"
 ],
-function( tutomvc, TextareaWYSIWYGInput, Base64, AttachmentList )
+function( tutomvc, TextInput, TextareaWYSIWYGInput, Base64, AttachmentList )
 {
 	function MetaField( metaBoxID, element )
 	{
@@ -33,6 +34,11 @@ function( tutomvc, TextareaWYSIWYGInput, Base64, AttachmentList )
 
 			switch( _attributes.type.name )
 			{
+				case "text":
+
+					_inputComponent = new TextInput( _attributes.value );
+
+				break;
 				case "textarea_wysiwyg":
 
 					_inputComponent = new TextareaWYSIWYGInput( _attributes.value, _attributes.name + "_" + _metaBoxID, _attributes.type.settings );
@@ -121,6 +127,7 @@ function( tutomvc, TextareaWYSIWYGInput, Base64, AttachmentList )
 			_element.addClass( "HiddenElement" );
 		};
 
+		/* METHODS */
 		/* SET AND GET */
 		this.getName = function()
 		{

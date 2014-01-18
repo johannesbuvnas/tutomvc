@@ -4,15 +4,14 @@ namespace tutomvc;
 class Mediator extends CoreClass implements IMediator
 {
 	/* VARS */
-	protected $_name;
-	protected $_template;
+	protected $_viewComponent;
 	protected $_dataProvider = array();
 	protected $_content = "";
-	
-	
-	public function __construct( $name = NULL )
+
+
+	function __construct( $viewComponent )
 	{
-		$this->setName( is_null( $name ) ? get_class( $this ) : $name );
+		$this->setViewComponent( $viewComponent );
 	}
 
 	/* ACTIONS */
@@ -25,7 +24,7 @@ class Mediator extends CoreClass implements IMediator
 		
 		if(empty( $output ))
 		{
-			var_dump( $this->getName() . ":: Nothing to render." );
+			var_dump( __CLASS__ . ":: Nothing to render." );
 		}
 		else
 		{
@@ -50,28 +49,18 @@ class Mediator extends CoreClass implements IMediator
 		$this->_dataProvider[ $variableName ] = $value;
 	}
 
-	/**
-	*	Set view template (reference string) for this mediator.
-	*/
-	public function setTemplate( $template )
+	public function setViewComponent( $viewComponent )
 	{
-		$this->_template = $template;
+		$this->_viewComponent = $viewComponent;
 	}
-	public function getTemplate()
+	public function getViewComponent()
 	{
-		return $this->getFacade()->getTemplateFileReference( $this->_template );
+		return $this->getFacade()->getTemplateFileReference( $this->_viewComponent );
 	}
 
-	public function setName( $name )
+	final public function getName()
 	{
-		$this->_name = $name;
-	}
-	/**
-	*	@return string Mediator name
-	*/
-	public function getName()
-	{
-		return $this->_name;
+		return $this->_viewComponent;
 	}
 
 	/**
@@ -87,7 +76,7 @@ class Mediator extends CoreClass implements IMediator
 	*/
 	public function getContent()
 	{
-		if(!isset($this->_template) || !strlen($this->_template))
+		if(!isset($this->_viewComponent) || empty($this->_viewComponent))
 		{	
 			if(!isset($this->_content) || !strlen($this->_content)) return "";
 			else return $this->_content;
@@ -97,14 +86,14 @@ class Mediator extends CoreClass implements IMediator
 		
 		ob_start();
 
-		if( is_file( $this->getTemplate() ) )
+		if( is_file( $this->getViewComponent() ) )
 		{
-			include $this->getTemplate();
+			include $this->getViewComponent();
 		}
 		else 
 		{
 			// TODO: Error message. Should error messages be handled within facade or framework?
-			var_dump( $this->getName() . ":: No such file - " . $this->getTemplate() );
+			var_dump( __CLASS__ . ":: No such file - " . $this->getViewComponent() );
 			
 			return "";
 		}
@@ -125,8 +114,6 @@ interface IMediator
 	public function parse( $variableName, $value );
 
 	/* SET AND GET */
-	public function setName( $name );
-	public function getName();
-	public function setTemplate( $templateReference );
-	public function getTemplate();
+	public function setViewComponent( $name );
+	public function getViewComponent();
 }

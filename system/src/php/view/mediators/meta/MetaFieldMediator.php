@@ -1,9 +1,9 @@
 <?php
 namespace tutomvc;
 
-class MetaFieldMediator extends SystemMediator
+class MetaFieldMediator extends Mediator
 {
-	const NAME = "MetaFieldMediator";
+	const NAME = "meta/meta-field.php";
 
 	private $_metaField;
 
@@ -11,29 +11,12 @@ class MetaFieldMediator extends SystemMediator
 
 	function __construct()
 	{
-		$this->setName( self::NAME );
-		$this->setTemplate( "meta/meta-field.php" );
-	}
-
-	function onRegister()
-	{
-		$this->_inputMediator = $this->getFacade()->view->hasMediator( MetaFieldInputMediator::NAME ) ? $this->getFacade()->view->getMediator( MetaFieldInputMediator::NAME ) : $this->getFacade()->view->registerMediator( new MetaFieldInputMediator() );
+		parent::__construct( self::NAME );
 	}
 
 	function render()
 	{
 		$this->parse( "metaField", $this->_metaField );
-
-		switch( $this->_metaField->getType() )
-		{
-			default:
-
-				$this->_inputMediator->setTemplate( "meta/inputs/default.php" );
-
-			break;
-		}
-
-		$this->parse( "inputMediator", $this->_inputMediator );
 
 		parent::render();
 	}
@@ -46,10 +29,5 @@ class MetaFieldMediator extends SystemMediator
 	public function getMetaField()
 	{
 		return $this->_metaField;
-	}
-
-	private function getTemplateFileReference( $fileReference )
-	{
-		return Facade::getInstance( Facade::KEY_SYSTEM_FACADE )->getTemplateFileReference( fileReference );
 	}
 }

@@ -1,17 +1,16 @@
 <?php
 namespace tutomvc;
 
-class MetaBoxMediator extends SystemMediator
+class MetaBoxMediator extends Mediator
 {
-	const NAME = "MetaBoxMediator";
+	const NAME = "meta/meta-box.php";
 
 	private $_metaBox;
 	private $_metaFieldMediator;
 
 	function __construct()
 	{
-		$this->setName( self::NAME );
-		$this->setTemplate( "meta/meta-box.php" );
+		parent::__construct( self::NAME );
 	}
 
 	function onRegister()

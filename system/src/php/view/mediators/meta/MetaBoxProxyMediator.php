@@ -1,18 +1,18 @@
 <?php
 namespace tutomvc;
 
-class MetaBoxProxyMediator extends SystemMediator
+class MetaBoxProxyMediator extends Mediator
 {
-	const NAME = "MetaBoxProxyMediator";
+	const NAME = "meta/meta-box-proxy.php";
 
 	private $_metaBox;
 	private $_metaBoxMediator;
 	private $_postID;
 
+
 	function __construct()
 	{
-		$this->setName( self::NAME );
-		$this->setTemplate( "meta/meta-box-proxy.php" );
+		parent::__construct( self::NAME );
 	}
 
 	function onRegister()
