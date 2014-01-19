@@ -8,7 +8,6 @@ class FacadeVO extends ValueObject
 	protected $_facadeKey;
 	protected $_root;
 	protected $_url;
-	protected $_relativeURL;
 	protected $_wpURL;
 	protected $_wpRoot;
 	
@@ -16,10 +15,11 @@ class FacadeVO extends ValueObject
 	{
 		$this->_facadeClassReference = $facadeClassReference;
 		$this->_facadeKey = $facadeKey;
-		$this->_root = $root;
+		$this->_root = FileUtil::filterFileReference( $root );
 		$this->_wpURL = get_bloginfo( 'wpurl' );
 		$this->_wpRoot = substr( $this->_wpURL, strpos( $this->_wpURL, $_SERVER['SERVER_NAME'] ) + strlen( $_SERVER['SERVER_NAME'] ) );
-		$this->_url = get_bloginfo( 'wpurl' ) . FileUtil::filterFileReference( substr( $this->_root,  strpos( $this->_root, $this->_wpRoot ) + strlen( $this->_wpRoot ) ) );
+		$documentRoot = FileUtil::filterFileReference( getenv( "DOCUMENT_ROOT" ) );
+		$this->_url = get_bloginfo( 'wpurl' ) . FileUtil::filterFileReference( substr( $this->_root,  strpos( $documentRoot, $this->_root ) + strlen( $this->_wpRoot ) + strlen( $documentRoot ) ) );
 	}
 
 	/* SET AND GET */
