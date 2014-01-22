@@ -1,17 +1,16 @@
 define([
 	"tutomvc",
-	"app/view/meta/components/field/input/text/TextInput",
-	"app/view/meta/components/field/input/text/TextareaWYSIWYGInput",
 	"base64",
-	"app/view/meta/components/field/input/attachment/AttachmentList"
+	"app/view/meta/components/field/input/MetaFieldInput"
 ],
-function( tutomvc, TextInput, TextareaWYSIWYGInput, Base64, AttachmentList )
+function( tutomvc, Base64, MetaFieldInput )
 {
 	function MetaField( metaBoxID, element )
 	{
 		/* VARS */
 		var _this = this;
 		var _metaBoxID = metaBoxID;
+		var _id;
 		var _attributes;
 
 		/* DISPLAY OBJECTS */
@@ -24,61 +23,33 @@ function( tutomvc, TextInput, TextareaWYSIWYGInput, Base64, AttachmentList )
 			_attributes = JSON.parse( decodeURIComponent( _element.find(".JSON").html() ) );
 			if (typeof _attributes.value == 'string' || _attributes.value instanceof String) _attributes.value = Base64.decode( _attributes.value );
 
+			_attributes.id = _id = _attributes.name + "_" + _metaBoxID;
+
 			draw();
 		};
 
 		var draw = function()
 		{
 			_label = _element.find( "label" );
-			_label.attr( "for", _attributes.name + "_" + _metaBoxID );
+			_label.attr( "for", _id );
 
-			switch( _attributes.type.name )
-			{
-				case "text":
-
-					_inputComponent = new TextInput( _attributes.value );
-
-				break;
-				case "textarea_wysiwyg":
-
-					_inputComponent = new TextareaWYSIWYGInput( _attributes.value, _attributes.name + "_" + _metaBoxID, _attributes.type.settings );
-
-				break;
-				case "attachment":
-
-					_inputComponent = new AttachmentList( _attributes.type.settings );
-					_inputComponent.setName( _attributes.name );
-					_inputComponent.setValue( _attributes.value );
-
-				break;
-				case "selector_single":
-
-					_inputComponent = new tutomvc.components.form.input.SingleSelector();
-					_inputComponent.setLabel( _attributes.title );
-					_label.remove();
-
-					var proxy = new tutomvc.components.model.proxy.Proxy();
-
-					for(var key in _attributes.type.settings.options)
-					{
-						proxy.addVO( _attributes.type.settings.options[key], key );
-						if(key == _attributes.value)
-						{
-							_inputComponent.setLabel( _attributes.type.settings.options[key] );
-							_inputComponent.setValue( _attributes.value );
-						}
-					}
-
-					_inputComponent.model.addProxy( proxy );
-					_inputComponent.reset();
-
-				break;
-			}
+			_inputComponent = new MetaFieldInput( _attributes );
 
 			if(_inputComponent)
 			{
+				_inputComponent.setID( _id );
 				_inputComponent.addEventListener( "change", _this.change );
 				_element.append( _inputComponent.getElement() );
+			}
+
+			switch( _attributes.type.name )
+			{
+				case "selector_single":
+
+
+					_label.remove();
+
+				break;
 			}
 		};
 
@@ -134,6 +105,9 @@ function( tutomvc, TextInput, TextareaWYSIWYGInput, Base64, AttachmentList )
 			return _attributes.name;
 		};
 
+		/**
+		*	Set and get meta key.
+		*/
 		this.setKey = function( key )
 		{
 			_attributes.key = key;

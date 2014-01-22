@@ -53,6 +53,16 @@ function( tutomvc, $ )
 		};
 
 		/* SET AND GET */
+		// Override
+		this.setID = function( value )
+		{
+			return false;
+		};
+		this.getID = function()
+		{
+			return _id;
+		};
+
 		this.setValue = function( value )
 		{
 			if (typeof value == 'string' || value instanceof String)
@@ -78,7 +88,11 @@ function( tutomvc, $ )
 		{
 			_name = name;
 
-			if(_editor) $("#" + _id).attr("name", name);
+
+			if(_editor)
+			{
+				$("#" + _id).attr("name", name);
+			}
 		};
 
 		/* EVENT HANDLERS */
@@ -116,7 +130,7 @@ function( tutomvc, $ )
 
 		var onAjaxError = function(e)
 		{
-			// console.log(e);
+			console.log(e);
 		};
 
 		var onEditorFocus = function(e)

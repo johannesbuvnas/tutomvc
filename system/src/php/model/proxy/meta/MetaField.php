@@ -7,6 +7,7 @@ class MetaField extends ValueObject implements IMetaBoxField
 	private $_title;
 	private $_description;
 	private $_type;
+	private $_settings;
 	private $_conditions;
 
 	public function __construct( $name, $title = "", $description = "", $type = MetaType::TEXT, $settings = array(), $conditions = array() )

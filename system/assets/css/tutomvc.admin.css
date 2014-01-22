@@ -7,7 +7,8 @@
     clear: both;
 }
 
-#wp-tutomvc-editor-wrap
+#wp-tutomvc-editor-wrap,
+.SettingsField .MetaFieldHeader
 {
 	display: none;
 }
@@ -39,12 +40,17 @@ div.MetaBox div.title
 }
 div.MetaBox div.title a.RemoveMetaBoxButton
 {
-	font-size: 12px;
+	overflow: hidden;
+	text-indent: -999em;
+	width: 20px;
+	height: 20px;
+	display: block;
 	color: red;
 	position: absolute;
 	right: 20px;
 	top: 15px;
 	font-weight: normal;
+	background: #e04b44 url( "../images/symbol-minus-white.png" ) center center no-repeat;
 }
 div.MetaBox table
 {
@@ -80,9 +86,15 @@ div.AddMetaBoxButton
 	text-align: center;
 	overflow: hidden;
 	text-indent: -9999em;
-	background: white url( "../images/symbol-add.png" ) center center no-repeat;
+	background: #f1f1f1 url( "../images/symbol-add.png" ) center center no-repeat;
 	margin: 10px auto;
 	width: 20px;
+	border: none;
+	border-radius: 0px;
+}
+div.AddMetaBoxButton:hover
+{
+	background: #69D2E7 url( "../images/symbol-add-white.png" ) center center no-repeat;
 }
 
 div.MetaField

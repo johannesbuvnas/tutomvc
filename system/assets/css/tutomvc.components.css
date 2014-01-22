@@ -281,10 +281,17 @@ div.AttachmentList .AttachmentItem .AttachmentTitle
 	width: 100%;
 	background: #f1f1f1;
 	font-size: 12px;
-	padding: 5px;
 	position: absolute;
+	padding: 5px 0px;
 	bottom: 0;
 	word-wrap: break-word;
+}
+
+div.AttachmentList .AttachmentItem .AttachmentTitle > span
+{
+	width: 90%;
+	display: block;
+	margin: 0 auto;
 }
 
 div.AttachmentList .AttachmentItem .RemoveButton

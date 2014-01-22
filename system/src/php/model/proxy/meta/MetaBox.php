@@ -19,7 +19,7 @@ class MetaBox extends ValueObject implements IMetaBox
 	private $_supportedPostTypes;
 	private $_context;
 	private $_priority;
-	private $_fieldsMap = array();
+	private $_fieldMap = array();
 
 
 	function __construct( $name, $title, $supportedPostTypes, $maxCardinality = 1, $context = MetaBox::CONTEXT_NORMAL, $priority = MetaBox::PRIORITY_DEFAULT )
@@ -76,22 +76,32 @@ class MetaBox extends ValueObject implements IMetaBox
 		foreach( $this->getFields() as $metaField )
 		{
 			$metaName = $this->getName() . "_" . $cardinalityID . "_" . $metaField->getName();
-			$dp[ $metaField->getName() ] = new MetaVO( $metaName, $postID, $metaField->getType(), $metaField->getSettings() );
+			$dp[ $metaField->getName() ] = new MetaVO( $metaName, $postID, $metaField );
 		}
 
 		return $dp;
 	}
 
 	/* METHODS */
+	public function hasMetaKey( $metaKey )
+	{
+		foreach($this->getFields() as $metaField)
+		{
+			$pattern = "/".$this->getName()."(_[0-9]_)".$metaField->getName()."/";
+			if(preg_match( $pattern, $metaKey )) return TRUE;
+		}
+
+		return FALSE;
+	}
+
 	public function addField( MetaField $metaField )
 	{
-		// $metaField->setMetaBoxName( $this->getName() );
-		$this->_fieldsMap[ $metaField->getName() ] = $metaField;
+		$this->_fieldMap[ $metaField->getName() ] = $metaField;
 	}
 
 	public function hasField( $name )
 	{
-		return array_key_exists( $name, $this->_fieldsMap );
+		return array_key_exists( $name, $this->_fieldMap );
 	}
 
 	public function hasPostType( $postTypeName )
@@ -119,9 +129,9 @@ class MetaBox extends ValueObject implements IMetaBox
 
 	public function getField( $name )
 	{
-		if( array_key_exists( $name, $this->_fieldsMap ) )
+		if( array_key_exists( $name, $this->_fieldMap ) )
 		{
-			return $this->_fieldsMap[ $name ];
+			return $this->_fieldMap[ $name ];
 		}
 		else
 		{
@@ -129,9 +139,20 @@ class MetaBox extends ValueObject implements IMetaBox
 		}
 	}
 
+	public function getFieldByMetaKey( $metaKey )
+	{
+		foreach($this->getFields() as $metaField)
+		{
+			$pattern = "/".$this->getName()."(_[0-9]_)".$metaField->getName()."/";
+			if(preg_match( $pattern, $metaKey )) return $metaField;
+		}
+
+		return NULL;
+	}
+
 	public function getFields()
 	{
-		return $this->_fieldsMap;
+		return $this->_fieldMap;
 	}
 
 	public function setName( $name )
@@ -206,7 +227,6 @@ interface IMetaBox
 
 	/* METHODS */
 	public function hasPostType( $postTypeName );
-	public function addField( MetaField $field );
 	public function hasField( $name );
 	public function isSingle();
 

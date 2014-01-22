@@ -12,7 +12,9 @@ final class SystemFacade extends Facade
 	public $postTypeCenter;
 	public $metaCenter;
 	public $menuCenter;
+	public $adminMenuPageCenter;
 	public $imageSizeCenter;
+	public $settingsCenter;
 
 	function __construct()
 	{	
@@ -31,7 +33,9 @@ final class SystemFacade extends Facade
 		$this->postTypeCenter = $this->model->registerProxy( new PostTypeProxy() );
 		$this->metaCenter = $this->model->registerProxy( new MetaBoxProxy() );
 		$this->menuCenter = $this->model->registerProxy( new MenuProxy() );
+		$this->adminMenuPageCenter = $this->model->registerProxy( new AdminMenuPageProxy() );
 		$this->imageSizeCenter = $this->model->registerProxy( new ImageSizeProxy() );
+		$this->settingsCenter = $this->model->registerProxy( new SettingsProxy() );
 	}
 
 	private function prepView()

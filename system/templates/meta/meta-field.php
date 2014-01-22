@@ -1,5 +1,3 @@
-<tr>
-	<td>
 		<?php
 			$value = $metaVO->getValue();
 
@@ -22,8 +20,8 @@
 			);
 		?>
 
-		<div class="MetaField">
-			<p>
+		<div class="MetaField <?php echo isset( $elementClasses ) ? implode( " ", $elementClasses ) : ""; ?>">
+			<p class="MetaFieldHeader">
 				<label for="<?php echo $metaVO->getName(); ?>[]">
 					<span class="title"><?php echo $metaField->getTitle(); ?></span>
 					<br/>
@@ -38,5 +36,3 @@
 				<?php echo $metaVO->getValue(); ?>
 			</div>
 		</div>
-	</td>
-</tr>

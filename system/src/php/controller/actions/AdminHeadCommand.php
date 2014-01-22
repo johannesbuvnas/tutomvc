@@ -21,7 +21,5 @@ class AdminHeadCommand extends ActionCommand
 				Tuto = '.stripslashes( json_encode( $globals ) ).';
 			</script>
 		';
-
-		// echo '<script type="text/javascript" data-main="'.$this->getFacade()->getURL( "src/js/Main.config.js" ).'" src="'.$this->getFacade()->getURL( "libs/js/require.js" ).'"></script>';
 	}
 }

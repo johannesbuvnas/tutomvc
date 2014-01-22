@@ -1053,6 +1053,15 @@ function( $ )
 							};
 
 							/* SET AND GET */
+							this.setID = function( id )
+							{
+								_input.setID( id );
+							};
+							this.getID = function()
+							{
+								return _input.getID();
+							};
+
 							this.setElement = function( element )
 							{
 								_element = element;

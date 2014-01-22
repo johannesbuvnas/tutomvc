@@ -34,7 +34,7 @@ function( tutomvc, $ )
 			if(_thumbnailURL) _element.append( "<img src='" + _thumbnailURL + "' />" );
 			else if(_iconURL) _element.append( "<img src='" + _iconURL + "' class='Icon' />" );
 
-			if(_title) _element.append( "<div class='AttachmentTitle'>" + _title + "</div>" );
+			if(_title) _element.append( "<div class='AttachmentTitle'><span>" + _title + "</span></div>" );
 
 			_removeButton = new tutomvc.components.buttons.Button();
 			_removeButton.getElement().addClass( "RemoveButton" );

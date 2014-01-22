@@ -15,13 +15,28 @@ class Proxy extends CoreClass
 
 	public function add( $item, $key = NULL )
 	{
-		if( is_null( $key ) ) $this->_map[] = $item;
-		else $this->_map[ $key ] = $item;
+		if( is_null( $key ) )
+		{
+			$this->_map[] = $item;
+			return $item;
+		}
+		else
+		{
+			if(!$this->has( $key ))
+			{
+				$this->_map[ $key ] = $item;
+				return $item;
+			}
+			else
+			{
+				return $this->get( $key );
+			}
+		}
 	}
 
 	public function has( $key )
 	{
-		return isset( $this->_map[ $key ] );
+		return array_key_exists( $key, $this->_map );
 	}
 
 	public function get( $key )

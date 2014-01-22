@@ -10,21 +10,27 @@ class GetMetaValueFilterCommand extends FilterCommand
 		$this->acceptedArguments = 2;	
 	}
 
-	function execute( $metaValue, $metaType )
+	function execute( $metaValue, $metaField )
 	{
-		switch( $metaType )
+		$settings = $metaField->getSettings();
+		
+		switch( $metaField->getType() )
 		{
 			case MetaType::ATTACHMENT:
 
-				return $this->constructAttachmentMap( $metaValue );
+				$metaValue = $this->constructAttachmentMap( $metaValue );
 
 			break;
 			case MetaType::TEXTAREA_WYSIWYG:
 
-				return $this->constructRichTextAreaMap( $metaValue );
+				$metaValue = $this->constructRichTextAreaMap( $metaValue );
 
 			break;
 		}
+
+		if( is_array($metaValue) && count($metaValue) == 1 && is_string( $metaValue[0] ) ) $metaValue = $metaValue[0];
+
+		if((!isset($metaValue) || empty($metaValue)) && isset($settings['defaultValue'])) $metaValue = $settings['defaultValue'];
 
 		return $metaValue;
 	}

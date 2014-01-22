@@ -107,7 +107,8 @@ class MetaBoxProxy extends Proxy
 	/* EVENT HANDLERS */
 	public function onRenderMetaBox( $post, $args )
 	{
-		if( !$this->getFacade()->controller->hasCommand( ActionCommand::RENDER_WP_EDITOR ) ) $this->getFacade()->controller->registerCommand( new RenderWPEditorCommand() );
+		do_action( ActionCommand::PREPARE_META_FIELD );
+		
 		$this->renderMetaBox( $args['args']['name'], $post->ID );
 	}
 

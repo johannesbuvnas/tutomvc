@@ -17,10 +17,18 @@ namespace tutomvc;
 				<?php
 					foreach( $metaFieldMap as $key => $metaVO )
 					{
-						$metaFieldMediator->setMetaField( $metaBox->getField( $key ) );
-						$metaFieldMediator->parse( "metaVO", $metaVO );
-						$metaFieldMediator->parse( "key", $key );
-						$metaFieldMediator->render();
+				?>
+					<tr>
+						<td>
+							<?php
+								$metaFieldMediator->setMetaField( $metaBox->getField( $key ) );
+								$metaFieldMediator->parse( "metaVO", $metaVO );
+								$metaFieldMediator->parse( "key", $key );
+								$metaFieldMediator->render();
+							?>
+						</td>
+					</tr>
+				<?php
 					}
 				?>
 			</tbody>

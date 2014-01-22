@@ -1,12 +1,16 @@
 define(
 [
 	"tutomvc",
-	"app/view/meta/MetaBoxModelMediator"
+	"jquery",
+	"app/view/meta/MetaBoxModelMediator",
+	"app/view/page/SettingsPageMediator"
 ],
 function
 ( 
 	tutomvc,
-	MetaBoxModelMediator
+	$,
+	MetaBoxModelMediator,
+	SettingsPageMediator
 )
 {
 	function MainMediator()
@@ -18,12 +22,16 @@ function
 		this.onRegister = function()
 		{
 			_this.getFacade().view.registerMediator( _this.getViewComponent().metaBoxModelViewComponent, new MetaBoxModelMediator() );
+			_this.getFacade().view.registerMediator( $("body"), new SettingsPageMediator() );
 		};
 	}
 
-	MainMediator.prototype.constructor = MainMediator;
-	MainMediator.prototype.NAME = MainMediator.prototype.constructor.name;
-	MainMediator.prototype = new tutomvc.core.view.mediator.Mediator( MainMediator.prototype.NAME );
+	return function()
+	{
+		MainMediator.prototype.constructor = MainMediator;
+		MainMediator.prototype.NAME = MainMediator.prototype.constructor.name;
+		MainMediator.prototype = new tutomvc.core.view.mediator.Mediator( MainMediator.prototype.NAME );
 
-	return MainMediator;
+		return new MainMediator();
+	};
 });

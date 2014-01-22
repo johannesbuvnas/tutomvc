@@ -1,11 +1,13 @@
 define(
 [
 	"tutomvc",
+	"jquery",
 	"app/view/meta/MetaBoxModelViewComponent"
 ],
 function
 ( 
 	tutomvc,
+	$,
 	MetaBoxModelViewComponent
 )
 {
@@ -14,20 +16,21 @@ function
 		/* PRIVATE REFERENCES */
 		var _this = this;
 
+		/* PUBLIC REFERENCES */
 		this.metaBoxModelViewComponent;
 
-		/* PUBLIC REFERENCES */
-
-		var construct = function()
+		// Constructor
+		(function()
 		{
-			_this.metaBoxProxyViewComponent = new MetaBoxModelViewComponent();
-		};
-
-		construct();
+			_this.metaBoxModelViewComponent = new MetaBoxModelViewComponent();
+		})();
 	}
 
-	MainViewComponent.prototype = new tutomvc.core.controller.event.EventDispatcher();
-	MainViewComponent.prototype.constructor = MainViewComponent;
+	return function()
+	{
+		MainViewComponent.prototype = new tutomvc.core.controller.event.EventDispatcher();
+		MainViewComponent.prototype.constructor = MainViewComponent;
 
-	return MainViewComponent;
+		return new MainViewComponent();
+	};
 });

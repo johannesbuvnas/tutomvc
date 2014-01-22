@@ -10,6 +10,10 @@ class ActionCommand extends Command
 
 	const RENDER_META_BOX = "tutomvc/action/render/metabox";
 	const RENDER_WP_EDITOR = "tutomvc/action/render/wp_editor";
+	const RENDER_ADMIN_MENU_PAGE = "tutomvc/action/render/admin_menu_page";
+	const RENDER_SETTINGS_FIELD = "tutomvc/action/render/settings_field";
+
+	const PREPARE_META_FIELD = "tutomvc/action/prepare/meta/field";
 	
 	/* PUBLIC VARS */
 	public $priority = 10;

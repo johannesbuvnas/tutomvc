@@ -9,14 +9,7 @@ class AdminInitCommand extends ActionCommand
 	}
 
 	function execute()
-	{
-		wp_register_script( 'require-js', $this->getFacade()->getURL( "libs/js/require.js" ) );
-		wp_register_script( 'tutomvc-main-js', $this->getFacade()->getURL( "src/js/Main.config.js" ), array( 'require-js' ), '', true);
-		
-		$this->getFacade()->controller->registerCommand( new AdminHeadCommand() );
-		$this->getFacade()->controller->registerCommand( new AdminEnqueueScriptsCommand() );
-		$this->getFacade()->controller->registerCommand( new AdminFooterCommand() );
-		
+	{	
 		// // var_dump( $this->getFacade()->model->getProxy( PostTypeProxy::NAME )->get( "custom_post_type" )->getMeta( "custom_meta" )->getField( "custom_field" )->setValue( "phuck u", 8 ) );
 
 		// if( isset( $_GET['post'] ) )
@@ -30,5 +23,27 @@ class AdminInitCommand extends ActionCommand
 		// 	var_dump($info);
 		// 	var_dump( date( "Y-m-d H:i", $info ) );
 		// }
+
+		$this->prepModel();
+		$this->prepView();
+		$this->prepController();
+	}
+
+	private function prepModel()
+	{
+	}
+
+	private function prepView()
+	{
+		wp_register_script( 'require-js', $this->getFacade()->getURL( "libs/js/require.js" ) );
+		wp_register_script( 'tutomvc-main-js', $this->getFacade()->getURL( "src/js/Main.config.js" ), array( 'require-js' ), '', true);
+	}
+
+	private function prepController()
+	{
+		$this->getFacade()->controller->registerCommand( new AdminHeadCommand() );
+		$this->getFacade()->controller->registerCommand( new AdminEnqueueScriptsCommand() );
+		$this->getFacade()->controller->registerCommand( new AdminFooterCommand() );
+		$this->getFacade()->controller->registerCommand( new PrepareMetaFieldCommand() );
 	}
 }

@@ -9,7 +9,7 @@ function( tutomvc, $, AttachmentItem )
 	function AttachmentList( attributes )
 	{
 		var _this = this;
-		var _attributes = attributes;
+		var _attributes = $.extend( {}, {title:"", maxCardinality:-1, filter:[], buttonTitle:"Select"}, attributes );
 		var _name = "";
 
 		/* DISPLAY OBJECTS */

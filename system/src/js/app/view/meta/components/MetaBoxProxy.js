@@ -146,7 +146,7 @@ function( tutomvc, $, MetaBox )
 
 		var onGetMetaBoxHTML = function(e)
 		{
-			addMetaBox( $( e ), true ).reset();
+			addMetaBox( $( e ), true );
 		};
 
 		var onRemoveMetaBox = function(e)
