@@ -2,7 +2,6 @@
 namespace tutomvc;
 ?>
 <div class="MetaBox" data-meta-box-name="<?php echo $metaBox->getName(); ?>" data-cardinality-id="<?php echo $cardinalityID; ?>">
-
 	<?php
 		if( !$metaBox->isSingle() ):
 	?>

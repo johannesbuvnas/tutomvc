@@ -31,7 +31,7 @@ class MetaBoxProxy extends Proxy
 		{
 			foreach( $this->getFacade()->model->getProxy( PostTypeProxy::NAME )->getMap() as $postTypeVO )
 			{
-				if($item->hasPostType( $postTypeVO->getName() )) $postTypeVO->addMetaBox( $item );
+				// if($item->hasPostType( $postTypeVO->getName() )) $postTypeVO->addMetaBox( $item );
 			}
 		}
 

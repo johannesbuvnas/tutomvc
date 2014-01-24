@@ -63,14 +63,14 @@ function( tutomvc, $, AttachmentItem )
 		};
 
 		/* METHODS */
-		var addAttachment = function( id, title, thumbnailURL, iconURL )
+		var addAttachment = function( id, title, thumbnailURL, iconURL, editURL )
 		{
 			if( _attributes.hasOwnProperty( "maxCardinality" ) )
 			{
 				if(_element.find( ".AttachmentItem" ).length >= _attributes.maxCardinality && _attributes.maxCardinality >= 0) return false;
 			}
 
-			var attachment = new AttachmentItem( id, title, thumbnailURL, iconURL );
+			var attachment = new AttachmentItem( id, title, thumbnailURL, iconURL, editURL );
 			attachment.input.setName( _name + "[]" );
 			attachment.addEventListener( "remove", adjustButton );
 
@@ -97,7 +97,7 @@ function( tutomvc, $, AttachmentItem )
 				{
 					var attachment = value[key];
 
-					addAttachment( attachment.id, attachment.title, attachment.thumbnailURL, attachment.iconURL );
+					addAttachment( attachment.id, attachment.title, attachment.thumbnailURL, attachment.iconURL, attachment.editURL );
 				}
 			}
 
@@ -130,7 +130,7 @@ function( tutomvc, $, AttachmentItem )
 
 			selection.each(function(attachment)
 			{
-			    if(!addAttachment( attachment.id, attachment.attributes.filename, attachment.attributes.sizes ? attachment.attributes.sizes.thumbnail.url : null, attachment.attributes.icon )) return;
+			    if(!addAttachment( attachment.id, attachment.attributes.filename, attachment.attributes.sizes ? attachment.attributes.sizes.thumbnail.url : null, attachment.attributes.icon, attachment.attributes.editLink )) return;
 			});
 		};
 

@@ -1,4 +1,6 @@
-		<?php
+<?php
+namespace tutomvc;
+			
 			$value = $metaVO->getValue();
 
 			if( is_string($value) ) $value = base64_encode( $value );
@@ -12,7 +14,8 @@
 			$vo['name'] = $metaField->getName();
 			$vo['key'] = $metaVO->getName();
 			$vo['value'] = $value;
-			$vo['conditions'] = $metaField->getConditions();
+			$vo['conditions'] = array();
+			foreach($metaField->getConditions() as $metaCondition) $vo['conditions'][] = $metaCondition->toArray();
 			$vo['type'] = array
 			(
 				"name" => $metaVO->getType(),
@@ -31,8 +34,5 @@
 
 			<div class="JSON">
 				<?php echo json_encode( $vo, JSON_HEX_QUOT | JSON_HEX_TAG ); ?>
-			</div>
-			<div class="MetaFieldValue HiddenElement">
-				<?php echo $metaVO->getValue(); ?>
 			</div>
 		</div>

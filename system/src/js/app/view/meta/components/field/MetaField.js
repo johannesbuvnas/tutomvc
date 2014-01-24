@@ -63,7 +63,7 @@ function( tutomvc, Base64, MetaFieldInput )
 		{
 			if(!_inputComponent) return;
 
-			var event = new tutomvc.core.controller.event.Event( "change", { name : _attributes.name, value : _inputComponent.getValue() } );
+			var event = new tutomvc.core.controller.event.Event( "change", { metaFieldName : _attributes.name, value : _inputComponent.getValue() } );
 			_this.dispatchEvent( event );
 		};
 

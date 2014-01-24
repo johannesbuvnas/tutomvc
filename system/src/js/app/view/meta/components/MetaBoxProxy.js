@@ -11,6 +11,7 @@ function( tutomvc, $, MetaBox )
 		var _this = this;
 		
 		/* VARS */
+		var _attributes;
 		var _postID;
 		var _metaBoxName;
 		var _maxCardinality;
@@ -27,6 +28,8 @@ function( tutomvc, $, MetaBox )
 
 		var construct = function()
 		{
+			_attributes = $.extend({}, {conditions:[]}, JSON.parse( decodeURIComponent( _element.find(".MetaBoxAttributes").html() ) ) );
+
 			_map = {};
 			_postID = _element.attr( "data-post-id" );
 			_metaBoxName = _element.attr( "data-meta-box-name" );
@@ -79,7 +82,16 @@ function( tutomvc, $, MetaBox )
 		};
 
 		/* ACTIONS */
-		var getMetaBoxHTML = function()
+		this.change = function()
+		{
+			for(var key in _map)
+			{
+				var metaBox = _map[ key ];
+				metaBox.change();
+			}
+		};
+
+		var requestMetaBoxHTML = function()
 		{
 			var data = 
 			{
@@ -107,6 +119,7 @@ function( tutomvc, $, MetaBox )
 			var id = getNewMetaBoxID();
 			var metaBox = new MetaBox( id, $( metaBoxElement ) );
 			metaBox.addEventListener( "remove", onRemoveMetaBox );
+			metaBox.addEventListener( "change", onMetaFieldChange );
 
 			_map[ id ] = metaBox;
 
@@ -130,10 +143,45 @@ function( tutomvc, $, MetaBox )
 			adjustUI();
 		};
 
+		this.metaBoxChange = function( metaBoxName, metaFieldName, value )
+		{
+			// console.log("Appearently", metaBoxName + "_" + metaFieldName, "has changed to", value);
+
+			for(var key in _attributes.conditions)
+			{
+				var condition = _attributes.conditions[key];
+				if(condition.metaBoxName == metaBoxName && condition.metaFieldName == metaFieldName)
+				{
+					if(condition.value == value)
+					{
+						if( condition.onElse ) _this[ condition.onMatch ]();
+					}
+					else
+					{
+						if( condition.onElse ) _this[ condition.onElse ]();
+					}
+				}
+			}
+		};
+
+		this.show = function()
+		{
+			_element.removeClass( "HiddenElement" );
+		};
+		this.hide = function()
+		{
+			_element.addClass( "HiddenElement" );
+		};
+
 		/* SET AND GET */
 		var getNewMetaBoxID = function()
 		{
 			return _metaBoxID++;
+		};
+
+		this.getMetaBoxName = function()
+		{
+			return _metaBoxName;
 		};
 
 		/* EVENT HANDLERS */
@@ -141,12 +189,12 @@ function( tutomvc, $, MetaBox )
 		{
 			e.preventDefault();
 
-			getMetaBoxHTML();
+			requestMetaBoxHTML();
 		};
 
 		var onGetMetaBoxHTML = function(e)
 		{
-			addMetaBox( $( e ), true );
+			addMetaBox( $( e ), true ).change();
 		};
 
 		var onRemoveMetaBox = function(e)
@@ -161,8 +209,23 @@ function( tutomvc, $, MetaBox )
 			console.log(e);
 		};
 
+		var onMetaFieldChange = function(e)
+		{
+			_this.metaBoxChange( _metaBoxName, e.getBody().metaFieldName, e.getBody().value );
+
+			e.getBody().metaBoxName = _metaBoxName;
+			_this.dispatchEvent( e );
+		};
+
+
 		construct();
 	}
 
-	return MetaBoxProxy;
+	return function( element )
+	{
+		MetaBoxProxy.prototype = new tutomvc.core.controller.event.EventDispatcher();
+		MetaBoxProxy.prototype.constructor = MetaBoxProxy;
+
+		return new MetaBoxProxy( element );
+	};
 })

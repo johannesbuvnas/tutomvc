@@ -26,6 +26,7 @@ class GetMetaDatFilter extends FilterCommand
 		else
 		{
 			$postType = get_post_type( $postID );
+
 			foreach($this->getFacade()->model->getProxy( MetaBoxProxy::NAME )->getMap() as $metaBox)
 			{
 				if($metaBox->hasPostType( $postType ))
@@ -33,7 +34,7 @@ class GetMetaDatFilter extends FilterCommand
 					$metaField = $metaBox->getFieldByMetaKey( $metaKey );
 					if($metaField)
 					{
-						$meta = apply_filters( FilterCommand::META_VALUE, $this->getDBMetaValue( $postID, $metaKey ), $metaField );
+						$meta = apply_filters( FilterCommand::META_VALUE, self::getDBMetaValue( $postID, $metaKey ), $metaField );
 					}
 				}
 			}
@@ -42,8 +43,10 @@ class GetMetaDatFilter extends FilterCommand
 		return isset($meta) ? $meta : NULL;
 	}
 
-	public function getDBMetaValue( $postID, $metaKey )
+	public static function getDBMetaValue( $postID, $metaKey )
 	{
+		if( !intval($postID) ) return FALSE;
+
 		global $wpdb;
 
 		$query = "

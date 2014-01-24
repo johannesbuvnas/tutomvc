@@ -26,6 +26,11 @@ class MetaField extends ValueObject implements IMetaBoxField
 		return $this->getMaxCardinality() == 1;
 	}
 
+	public function addCondition( MetaCondition $condition )
+	{
+		$this->_conditions[] = $condition;
+	}
+
 	/* SET AND GET */
 	public function setTitle( $title )
 	{

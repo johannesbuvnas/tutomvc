@@ -4,7 +4,7 @@ define([
 ],
 function( tutomvc, $ )
 {
-	function AttachmentItem( id, title, thumbnailURL, iconURL )
+	function AttachmentItem( id, title, thumbnailURL, iconURL, editURL )
 	{
 		/* VARS */
 		var _this = this;
@@ -12,6 +12,7 @@ function( tutomvc, $ )
 		var _title = title;
 		var _thumbnailURL = thumbnailURL;
 		var _iconURL = iconURL;
+		var _editURL = editURL;
 
 		/* DISPLAY OBJECTS */
 		var _element;
@@ -31,8 +32,8 @@ function( tutomvc, $ )
 			_this.input.setValue( _id );
 			_element.append( _this.input.getElement() );
 
-			if(_thumbnailURL) _element.append( "<img src='" + _thumbnailURL + "' />" );
-			else if(_iconURL) _element.append( "<img src='" + _iconURL + "' class='Icon' />" );
+			if(_thumbnailURL) _element.append( "<a href='"+_editURL+"'><img src='" + _thumbnailURL + "' /></a>" );
+			else if(_iconURL) _element.append( "<a href='"+_editURL+"'><img src='" + _iconURL + "' class='Icon' /></a>" );
 
 			if(_title) _element.append( "<div class='AttachmentTitle'><span>" + _title + "</span></div>" );
 
@@ -73,11 +74,11 @@ function( tutomvc, $ )
 		construct();
 	}
 
-	return function( id, title, thumbnailURL, iconURL )
+	return function( id, title, thumbnailURL, iconURL, editURL )
 	{
 		AttachmentItem.prototype = new tutomvc.core.controller.event.EventDispatcher();
 		AttachmentItem.prototype.constructor = AttachmentItem;
 
-		return new AttachmentItem( id, title, thumbnailURL, iconURL );
+		return new AttachmentItem( id, title, thumbnailURL, iconURL, editURL );
 	}
 });

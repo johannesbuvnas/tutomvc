@@ -7,6 +7,8 @@ class PostType extends ValueObject implements IPostType
 	private $_arguments;
 	private $_fieldsMap = array();
 	private $_metaMap = array();
+	private $_orderBy = "date";
+	private $_order = "DESC";
 
 
 	function __construct( $name, $arguments = NULL )
@@ -53,35 +55,67 @@ class PostType extends ValueObject implements IPostType
 	}
 
 	/* METHODS */
-	public function hasField( $fieldName )
-	{
-		return isset( $this->_fieldsMap[ $fieldName ] );
-	}
+	// public function addField( PostTypeField $fieldVO )
+	// {
+	// 	$this->_fieldsMap[ $fieldVO->getName() ] = $fieldVO;
+	// }
+	// public function hasField( $fieldName )
+	// {
+	// 	return isset( $this->_fieldsMap[ $fieldName ] );
+	// }
 
-	public function hasMetaBox( $metaName )
-	{
-		return array_key_exists( $metaName, $this->_metaMap );
-	}
+	// public function addMetaBox( MetaBox $metaBox )
+	// {
+	// 	$this->_metaMap[ $metaBox->getName() ] = $metaBox;
+	// }
+	// public function hasMetaBox( $metaName )
+	// {
+	// 	return array_key_exists( $metaName, $this->_metaMap );
+	// }
 
 	/* SET AND GET */
-	public function addField( PostTypeField $fieldVO )
+	// public function getField( $fieldName )
+	// {
+	// 	return $this->_fieldsMap[ $fieldName ];
+	// }
+	
+	// public function getMetaBox( $metaBoxName )
+	// {
+	// 	if( array_key_exists($metaBoxName, $this->_metaMap) ) return $this->_metaMap[$metaBoxName];
+
+	// 	return NULL;
+	// }
+	public function setOrderBy( $value )
 	{
-		$this->_fieldsMap[ $fieldVO->getName() ] = $fieldVO;
+		$this->_orderBy = $value;
+
+		return $this;
 	}
-	public function getField( $fieldName )
+	public function getOrderBy()
 	{
-		return $this->_fieldsMap[ $fieldName ];
+		return $this->_orderBy;
 	}
 
-	public function addMetaBox( MetaBox $metaBox )
+	public function setOrder( $value )
 	{
-		$this->_metaMap[ $metaBox->getName() ] = $metaBox;
-	}
-	public function getMetaBox( $metaBoxName )
-	{
-		if( array_key_exists($metaBoxName, $this->_metaMap) ) return $this->_metaMap[$metaBoxName];
+		$this->_order = $value;
 
-		return NULL;
+		return $this;
+	}
+	public function getOrder()
+	{
+		return $this->_order;
+	}
+
+	public function setArgument( $name, $value )
+	{
+		$this->_arguments[ $name ] = $value;
+
+		return $this;
+	}
+	public function getArgument( $name )
+	{
+		return $this->_arguments[ $name ];
 	}
 
 	public function setArguments($arguments)
@@ -97,13 +131,13 @@ class PostType extends ValueObject implements IPostType
 interface IPostType
 {
 	/* METHODS */
-	public function hasMetaBox( $metaName );
+	// public function hasMetaBox( $metaName );
 	
 	/* SET AND GET */
-	public function addField( PostTypeField $fieldVO );
-	public function getField( $fieldName );
-	public function addMetaBox( MetaBox $metaBox );
-	public function getMetaBox( $metaBoxName );
+	// public function addField( PostTypeField $fieldVO );
+	// public function getField( $fieldName );
+	// public function addMetaBox( MetaBox $metaBox );
+	// public function getMetaBox( $metaBoxName );
 	public function setArguments($arguments);
 	public function getArguments();
 }

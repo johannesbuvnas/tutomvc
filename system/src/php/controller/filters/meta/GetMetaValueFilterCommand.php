@@ -69,7 +69,8 @@ class GetMetaValueFilterCommand extends FilterCommand
 					"iconURL" => $icon ? $icon[0] : NULL,
 					"permalink" => get_attachment_link( $attachmentID ),
 					"url" => wp_get_attachment_url( $attachmentID ),
-					"fileType" => wp_check_filetype( $title )
+					"fileType" => wp_check_filetype( $title ),
+					"editURL" => get_edit_post_link( $attachmentID )
 				);
 
 				if(wp_attachment_is_image( $attachmentID ))

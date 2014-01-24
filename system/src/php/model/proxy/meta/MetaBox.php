@@ -20,6 +20,7 @@ class MetaBox extends ValueObject implements IMetaBox
 	private $_context;
 	private $_priority;
 	private $_fieldMap = array();
+	private $_conditions = array();
 
 
 	function __construct( $name, $title, $supportedPostTypes, $maxCardinality = 1, $context = MetaBox::CONTEXT_NORMAL, $priority = MetaBox::PRIORITY_DEFAULT )
@@ -47,7 +48,21 @@ class MetaBox extends ValueObject implements IMetaBox
 		return delete_post_meta( $postID, $this->getName() );
 	}
 
+	public function addCondition( MetaCondition $condition )
+	{
+		$this->_conditions[] = $condition;
+	}
+
 	/* SET AND GET */
+	public function setConditions( $conditions )
+	{
+		$this->_conditions = $conditions;
+	}
+	public function getConditions()
+	{
+		return $this->_conditions;
+	}
+	
 	public function getCardinality( $postID )
 	{
 		$cardinality = intval( get_post_meta( $postID, $this->getName(), TRUE ) );
@@ -97,6 +112,8 @@ class MetaBox extends ValueObject implements IMetaBox
 	public function addField( MetaField $metaField )
 	{
 		$this->_fieldMap[ $metaField->getName() ] = $metaField;
+
+		return $metaField;
 	}
 
 	public function hasField( $name )

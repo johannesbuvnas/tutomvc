@@ -24,11 +24,6 @@ function( tutomvc, $, MetaField )
 			_name = _element.attr( "data-meta-box-name" );
 			_cardinalityID = parseInt( _element.attr( "data-cardinality-id" ) );
 			draw();
-
-			$( _metaFieldMap ).each(function()
-			{
-				this.change();
-			});
 		};
 
 		var draw = function()
@@ -54,6 +49,14 @@ function( tutomvc, $, MetaField )
 			$( _metaFieldMap ).each(function()
 			{
 				this.reset();
+			});
+		};
+
+		this.change = function()
+		{
+			$( _metaFieldMap ).each(function()
+			{
+				this.change();
 			});
 		};
 
@@ -101,8 +104,10 @@ function( tutomvc, $, MetaField )
 		{
 			$( _metaFieldMap ).each(function()
 			{
-				this.metaBoxChange( _name, e.getBody().name, e.getBody().value );
+				this.metaBoxChange( _name, e.getBody().metaFieldName, e.getBody().value );
 			});
+
+			_this.dispatchEvent( e );
 		};
 
 		construct();

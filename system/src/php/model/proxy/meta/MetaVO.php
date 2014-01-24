@@ -45,7 +45,7 @@ class MetaVO extends ValueObject implements IMetaVO
 	}
 	public function getValue()
 	{
-		return get_post_meta( $this->getPostID(), $this->getName(), false );
+		return intval($this->getPostID()) ? get_post_meta( $this->getPostID(), $this->getName(), false ) : apply_filters( FilterCommand::META_VALUE, NULL, $this->getMetaField() );
 	}
 
 	public function __toString()
