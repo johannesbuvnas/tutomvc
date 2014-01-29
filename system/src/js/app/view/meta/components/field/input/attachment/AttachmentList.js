@@ -34,6 +34,8 @@ function( tutomvc, $, AttachmentItem )
 			_addButton = new tutomvc.components.buttons.Button();
 			_addButton.getElement().addClass( "AddButton" );
 			_addButton.getElement().on( "click", onOpenClick );
+			_addButton.getElement().on( "dragover", onDragOverFiles );
+			_addButton.getElement().on( "drop", onDropFiles );
 			_element.append( _addButton.getElement() );
 
 			_this.setElement( _element );
@@ -119,6 +121,22 @@ function( tutomvc, $, AttachmentItem )
 		};
 
 		/* EVENT HANDLERS */
+		var onDragOverFiles = function(e)
+		{
+			e.stopPropagation();
+			e.preventDefault();
+
+			e.originalEvent.dataTransfer.dropEffect = 'copy';
+		};
+		var onDropFiles = function(e)
+		{
+			e.stopPropagation();
+			e.preventDefault();
+
+			var files = e.originalEvent.dataTransfer.files;
+			console.log(files);
+		};
+
 		var onOpenClick = function(e)
 		{
 			_wpMedia.open();

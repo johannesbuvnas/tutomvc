@@ -15,6 +15,7 @@ final class SystemFacade extends Facade
 	public $adminMenuPageCenter;
 	public $imageSizeCenter;
 	public $settingsCenter;
+	public $logCenter;
 
 	function __construct()
 	{	
@@ -36,16 +37,17 @@ final class SystemFacade extends Facade
 		$this->adminMenuPageCenter = $this->model->registerProxy( new AdminMenuPageProxy() );
 		$this->imageSizeCenter = $this->model->registerProxy( new ImageSizeProxy() );
 		$this->settingsCenter = $this->model->registerProxy( new SettingsProxy() );
+		$this->logCenter = $this->model->registerProxy( new LogProxy() );
 	}
 
 	private function prepView()
 	{
-
 	}
 
 	private function prepController()
 	{
 		$this->controller->registerCommand( new AdminInitCommand() );
+		$this->controller->registerCommand( new ExceptionCommand() );
 	}
 }
-////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////

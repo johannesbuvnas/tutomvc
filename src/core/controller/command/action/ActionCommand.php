@@ -3,10 +3,11 @@ namespace tutomvc;
 
 class ActionCommand extends Command
 {
-	/* COMMAND NAMES BY TUTO */
+	/* ACTION COMMANDS */
 	const START_UP = "tutomvc/action/startup";
 
 	const FACADE_READY = "tutomvc/action/facade/ready";
+	const ATTACHMENT_UPLOADED = "tutomvc/action/attachment/uploaded";
 
 	const RENDER_META_BOX = "tutomvc/action/render/metabox";
 	const RENDER_WP_EDITOR = "tutomvc/action/render/wp_editor";

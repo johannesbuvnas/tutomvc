@@ -249,6 +249,7 @@ div.AttachmentList .AttachmentItem
 	width: 150px;
 	height: 150px;
 	display: block;
+	overflow: hidden;
 	float: left;
 	background: #FFF;
 	border: 0;
@@ -319,9 +320,15 @@ div.AttachmentList .AttachmentItem .RemoveButton .Symbol
 
 div.AttachmentList .AddButton
 {
-	background: #FFF url( "../images/symbol-add.png" ) center center no-repeat;
+	background: transparent url( "../images/symbol-add.png" ) center center no-repeat;
+	border: 2px #EDE dashed;
+	width: 146px;
+	height: 146px;
 }
 div.AttachmentList .AddButton:hover
 {
+	border: 0;
+	width: 150px;
+	height: 150px;
 	background: #69D2E7 url( "../images/symbol-add-white.png" ) center center no-repeat;
 }

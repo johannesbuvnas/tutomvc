@@ -38,4 +38,14 @@ class FacadeVO extends ValueObject
 		return $this->_facadeClassReference;
 	}
 
+	public function getRoot()
+	{
+		return $this->_root;
+	}
+
+	public function getWPRoot()
+	{
+		return $this->_wpRoot;
+	}
+
 }

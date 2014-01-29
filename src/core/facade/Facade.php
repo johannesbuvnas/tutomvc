@@ -42,6 +42,7 @@ class Facade
 		$this->initializeFacade();
 	}
 
+	/* ACTIONS */
 	private function initializeFacade()
 	{
 		if($this->_initialized) return false;
@@ -57,6 +58,20 @@ class Facade
 		return true;
 	}
 
+	public function log( $message )
+	{
+		return Facade::getInstance( Facade::KEY_SYSTEM )->logCenter->add( $message );
+	}
+
+	/**
+	*	Called when the facade is registered within Tuto Framework and ready.
+	*/
+	public function onRegister()
+	{
+
+	}
+
+	/* SET AND GET */
 	public static function getInstance( $key )
 	{
 		if( array_key_exists( $key, self::$_instanceMap ) )
@@ -69,35 +84,12 @@ class Facade
 		}
 	}
 
-	/* PUBLIC METHODS */
-	/**
-	*	Called when the facade is registered within Tuto Framework and ready.
-	*/
-	public function onRegister()
-	{
-
-	}
-
 	/**
 	*	Get multiton key.
 	*/
 	public function getKey()
 	{
 		return $this->_key;
-	}
-
-	/* Publish a admin notice. */
-	public function notify($message, $type = Notice::TYPE_NORMAL)
-	{
-		if (!session_id())
-		{
-			$this->noticeModel->add( new Notice($message, $type) );
-		}
-		else 
-		{
-			if($_SESSION[ Cookies::ADMIN_NOTICES ]) array_push( $_SESSION[ Cookies::ADMIN_NOTICES ], new Notice($message, $type) );
-			else $_SESSION[ Cookies::ADMIN_NOTICES ] = array( 0 => new Notice($message, $type) );
-		}
 	}
 
 	public function getURL( $relativePath = null )
