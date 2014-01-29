@@ -92,10 +92,7 @@ class Mediator extends CoreClass implements IMediator
 		}
 		else 
 		{
-			// TODO: Error message. Should error messages be handled within facade or framework?
-			var_dump( __CLASS__ . ":: No such file - " . $this->getViewComponent() );
-			
-			return "";
+			throw new \ErrorException( "CUSTOM ERROR: "." No such file - " . $this->getViewComponent(), 0, E_ERROR );
 		}
 
 		$output = ob_get_clean();

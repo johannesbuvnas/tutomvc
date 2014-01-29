@@ -16,12 +16,10 @@ class RenderAdminMenuPageCommand extends ActionCommand
 		{
 			if($item->getName() == $currentScreen->id)
 			{
-				$facade = Facade::getInstance( $item->getFacadeKey() );
-				$mediator = $facade->view->getMediator( $item->getMediatorName() );
-				if($mediator)
+				if($item->getMediator())
 				{
-					$mediator->parse( "adminMenuPage", $item );
-					$mediator->render();
+					$item->getMediator()->setAdminMenuPage( $item );
+					$item->getMediator()->render();
 				}
 
 				break;

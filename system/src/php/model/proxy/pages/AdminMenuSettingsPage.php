@@ -9,6 +9,6 @@ class AdminMenuSettingsPage extends AdminMenuPage
 
 	function __construct( $pageTitle, $menuTitle, $capability, $menuSlug, $menuIconURL = NULL, $menuPosition = NULL )
 	{
-		parent::__construct( $pageTitle, $menuTitle, $capability, $menuSlug, AdminMenuSettingsPageMediator::NAME, $menuIconURL, $menuPosition );
+		parent::__construct( $pageTitle, $menuTitle, $capability, $menuSlug, NULL, $menuIconURL, $menuPosition );
 	}
 }

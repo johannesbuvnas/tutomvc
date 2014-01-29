@@ -16,18 +16,24 @@ class AdminMenuPage extends ValueObject
 	protected $_mediatorName;
 	protected $_menuIconURL;
 	protected $_menuPosition;
-	protected $_facadeKey;
 	protected $_type = self::TYPE_NORMAL;
+	protected $_subpages = array();
 
-	function __construct( $pageTitle, $menuTitle, $capability, $menuSlug, $mediatorName = NULL, $menuIconURL = NULL, $menuPosition = NULL )
+	function __construct( $pageTitle, $menuTitle, $capability, $menuSlug, AdminMenuPageMediator $mediator = NULL, $menuIconURL = NULL, $menuPosition = NULL )
 	{
 		$this->setPageTitle( $pageTitle );
 		$this->setMenuTitle( $menuTitle );
 		$this->setCapability( $capability );
 		$this->setMenuSlug( $menuSlug );
-		$this->setMediatorName( $mediatorName );
+		$this->setMediator( $mediator );
 		$this->setMenuIconURL( $menuIconURL );
 		$this->setMenuPosition( $menuPosition );
+	}
+
+	/* ACTIONS */
+	public function addSubpage( AdminMenuPage $page )
+	{
+		$this->_subpages[] = $page;
 	}
 
 	/* SET AND GET */
@@ -67,11 +73,11 @@ class AdminMenuPage extends ValueObject
 		return $this->_menuSlug;
 	}
 
-	public function setMediatorName( $value )
+	public function setMediator( $value )
 	{
 		return $this->_mediatorName = $value;
 	}
-	public function getMediatorName()
+	public function getMediator()
 	{
 		return $this->_mediatorName;
 	}
@@ -101,6 +107,11 @@ class AdminMenuPage extends ValueObject
 	public function getType()
 	{
 		return $this->_type;
+	}
+
+	public function getSubpages()
+	{
+		return $this->_subpages;
 	}
 
 	/**

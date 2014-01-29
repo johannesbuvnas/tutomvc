@@ -29,7 +29,12 @@ class LogProxy extends Proxy
 
 		foreach($parts as $part)
 		{
-			if(!is_dir( $dir .= "/$part" )) mkdir( $dir );
+			$dir .= strlen($dir) ? "/$part" : "$part";
+			if(!is_dir( $dir ))
+			{
+				var_dump($dir);
+				mkdir( $dir );
+			}
 		}
 
 		return file_put_contents( "$dir/$fileName", $content );
@@ -47,7 +52,7 @@ class LogProxy extends Proxy
 		$month = date( "m" );
 		$day = date( "d" );
 
-		return FileUtil::filterFileReference( $this->getFacade()->getVO()->getRoot()."/logs/".$year."/".$month."/".$day.".php" );
+		return ( $this->getFacade()->getVO()->getRoot()."/logs/".$year."/".$month."/".$day.".php" );
 	}
 
 }

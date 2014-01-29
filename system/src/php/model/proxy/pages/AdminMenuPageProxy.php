@@ -16,14 +16,19 @@ class AdminMenuPageProxy extends Proxy
 
 		// Controller
 		$this->getFacade()->controller->registerCommand( new RenderAdminMenuPageCommand() );
+
+		$this->add( new TutoMVCSettingsPage() )
+			->setMediator( $this->getFacade()->view->registerMediator( new AdminMenuPageMediator( "menu/settings/tutomvc.php" ) ) );
 	}
 
 	/* ACTIONS */
 	public function add( AdminMenuPage $item )
 	{
-		$backtrace = debug_backtrace();
-		$caller = $backtrace[0]['object'];
-		$item->setFacadeKey( $caller->getFacade()->getKey() );
+		if(get_class($item) == "tutomvc\AdminMenuSettingsPage" || is_subclass_of($item, "tutomvc\AdminMenuSettingsPage"))
+		{
+			if(is_null($item->getMediator())) $item->setMediator( $this->getFacade()->view->getMediator( AdminMenuSettingsPageMediator::NAME ) );
+		}
+
 		return parent::add( $item, $item->getMenuSlug() );
 	}
 
@@ -55,6 +60,11 @@ class AdminMenuPageProxy extends Proxy
 		}
 		
 		$item->setName( $name );
+
+		foreach($item->getSubpages() as $adminMenuPage)
+		{
+			$adminMenuPage->setName( add_submenu_page( $item->getMenuSlug(), $adminMenuPage->getPageTitle(), $adminMenuPage->getMenuTitle(), $adminMenuPage->getCapability(), $adminMenuPage->getMenuSlug(), array( $this, "renderItem" ) ) );
+		}
 	}
 
 	/* EVENTS */

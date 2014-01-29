@@ -58,11 +58,6 @@ class Facade
 		return true;
 	}
 
-	public function log( $message )
-	{
-		return Facade::getInstance( Facade::KEY_SYSTEM )->logCenter->add( $message );
-	}
-
 	/**
 	*	Called when the facade is registered within Tuto Framework and ready.
 	*/
@@ -82,6 +77,11 @@ class Facade
 		{
 			return new Facade( $key );
 		}
+	}
+
+	public function getSystem()
+	{
+		return Facade::getInstance( Facade::KEY_SYSTEM );
 	}
 
 	/**

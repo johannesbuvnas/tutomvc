@@ -11,25 +11,38 @@ class ExceptionCommand extends ActionCommand
 	{
 		set_exception_handler( array( $this, "executeException" ) );
 		set_error_handler( array( $this, "executeError" ) );
+		register_shutdown_function( array( $this, "executeShutdown" ) );
 	}
 
 	public function onRegister()
 	{
+		$this->_mediator = $this->getFacade()->view->registerMediator( new CodeMediator() );
 		$this->_mediator = $this->getFacade()->view->registerMediator( new ExceptionMediator() );
 	}
 
 	/* ACTIONS */
+	function executeShutdown()
+	{
+		if($error = error_get_last())
+		{
+			$this->executeError( $error['type'], $error['message'], $error['file'], $error['line'] );
+		}
+	}
 	function executeException( $exception )
 	{
 		$this->render( $exception );
 	}
 
-	function executeError( $errorLevel, $errorMessage, $errorFile, $errorLine, $errorContext )
+	function executeError( $errorLevel, $errorMessage, $errorFile, $errorLine, $errorContext = NULL )
 	{
 		if (error_reporting() & $errorLevel)
 		{
 			switch ( $errorLevel )
 			{
+				case E_USER_ERROR:
+				case E_ERROR:
+				case E_CORE_ERROR:
+				case E_COMPILE_ERROR:
 				case E_USER_ERROR:
 
 					$type = 'FATAL ERROR';

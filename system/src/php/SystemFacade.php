@@ -49,5 +49,11 @@ final class SystemFacade extends Facade
 		$this->controller->registerCommand( new AdminInitCommand() );
 		$this->controller->registerCommand( new ExceptionCommand() );
 	}
+
+	/* ACTIONS */
+	public function log( $message )
+	{
+		return $this->logCenter->add( $message );
+	}
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
