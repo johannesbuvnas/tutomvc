@@ -5,6 +5,7 @@ final class SystemFacade extends Facade
 {
 	/* CONSTANTS */
 	const VERSION = "1.0";
+	const LOGS_DIRECTORY = "/logs/";
 
 	public static $PRODUCTION_MODE = false;
 
@@ -54,6 +55,12 @@ final class SystemFacade extends Facade
 	public function log( $message )
 	{
 		return $this->logCenter->add( $message );
+	}
+
+	/* SET AND GET */
+	public function getLogsPath()
+	{
+		return FileUtil::filterFileReference( $this->getVO()->getRoot().SystemFacade::LOGS_DIRECTORY );
 	}
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////

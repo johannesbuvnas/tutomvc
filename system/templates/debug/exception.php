@@ -1,12 +1,10 @@
 <?php
 namespace tutomvc;
-
 $facade = Facade::getInstance( Facade::KEY_SYSTEM );
 ?>
-<link rel="stylesheet" href="<?php echo $facade->getURL( "assets/css/tutomvc.admin.css" ); ?>">
-
 <div class="Debugger">
 	<div class="Inner">
+		<h1>Tuto MVC</h1>
 		<p>
 			<span class="title"><?php echo $exception->getMessage(); ?></span>
 		</p>

@@ -3,14 +3,16 @@ define(
 	"tutomvc",
 	"jquery",
 	"app/view/meta/MetaBoxModelMediator",
-	"app/view/page/SettingsPageMediator"
+	"app/view/page/SettingsPageMediator",
+	"app/view/page/tutomvc/TutoMVCLogsMediator"
 ],
 function
 ( 
 	tutomvc,
 	$,
 	MetaBoxModelMediator,
-	SettingsPageMediator
+	SettingsPageMediator,
+	TutoMVCLogsMediator
 )
 {
 	function MainMediator()
@@ -23,6 +25,11 @@ function
 		{
 			_this.getFacade().view.registerMediator( _this.getViewComponent().metaBoxModelViewComponent, new MetaBoxModelMediator() );
 			_this.getFacade().view.registerMediator( $("body"), new SettingsPageMediator() );
+
+			if($("#" + TutoMVCLogsMediator.VIEW_COMPONENT_NAME).length)
+			{
+				_this.getFacade().view.registerMediator( $("#" + TutoMVCLogsMediator.VIEW_COMPONENT_NAME), new TutoMVCLogsMediator() );
+			}
 		};
 	}
 

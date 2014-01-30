@@ -1,0 +1,114 @@
+.TagSelector > .Button
+{
+	border-radius: 0;
+	width: 100%;
+	padding: 0px;
+	margin: 0px;
+}
+.TagSelector > div.Button:hover
+{
+	background: #FFF;
+}
+div.TagSelector > div.Button > div.Symbol
+{
+	visibility: hidden;
+	display: none;
+}
+div.TagSelector > div.Button > span.Label,
+div.TagSelector > div.Button > .Tags,
+.TagSelector input,
+.TagSelector .Button.ValueObject
+{
+	display: inline-block;
+	float: left;
+	box-shadow: none!important;
+	border: 0;
+	margin: 0;
+}
+div.TagSelector input,
+div.TagSelector .Button.ValueObject
+{
+	padding: 15px;
+	margin: 1px;
+}
+div.TagSelector .Button.ValueObject
+{
+	background: #ebebeb;
+	/*font-weight: 600;*/
+	color: #000;
+}
+div.TagSelector .Button.ValueObject:hover,
+div.TagSelector .Button.ValueObject.Selected
+{
+	background: #ebebeb;
+	color: #0099FF;
+}
+div.TagSelector .Tags .Button
+{
+	color: #0099FF;
+	/*font-weight: 600;*/
+	background: #ebebeb;
+	font-size: 13px;
+}
+div.TagSelector .Tags .Button:hover,
+div.TagSelector .Button.ValueObject.Selected:hover
+{
+	color: #e04b44;
+}
+.TagSelector > .Button > .Label
+{
+	padding: 15px;
+	background: 0;
+}
+div.TagSelector > div.Button > .Tags
+{
+	padding: 1px;
+}
+div.TagSelector .Tags .ValueObject
+{
+	margin: 1px;
+}
+
+div.TagSelector > div.Button .filterButton
+{
+	background: 0;
+	border: 0;
+}
+
+div.TagSelector > div.Model
+{
+	width: 100%;
+	right: 0px;
+}
+.TagSelector > .Button .Symbol
+{
+	display: none;
+}
+
+div.TagSelector > div.Model
+{
+	border: 0;
+	border-top: 1px solid #d8d9d5;
+	background: 0;
+}
+
+div.TagSelector > div.Model > div.Proxy
+{
+	background: 0;
+	display: inline-block;
+	float: left;
+	width: 100%;
+	background: #FFF;
+	text-align: center;
+	margin: 0;
+}
+
+div.TagSelector > div.Model > div.Proxy div.Name
+{
+	display: none;
+}
+
+div.TagSelector > div.Model > div.Proxy .Name
+{
+	white-space: normal;
+}

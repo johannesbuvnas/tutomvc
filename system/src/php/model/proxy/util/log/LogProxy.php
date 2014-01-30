@@ -23,20 +23,10 @@ class LogProxy extends Proxy
 
 	protected function createFile( $file, $content )
 	{
-		$parts = explode( '/', $file );
-		$fileName = array_pop( $parts );
-		$dir = '';
-
-		foreach($parts as $part)
-		{
-			$dir .= strlen($dir) ? "/$part" : "$part";
-			if(!is_dir( $dir ))
-			{
-				var_dump($dir);
-				mkdir( $dir );
-			}
-		}
-
+		$dir = explode( '/', $file );
+		$fileName = array_pop( $dir );
+		$dir = implode( '/', $dir );
+		if(!is_dir( $dir )) mkdir( $dir, 0777, TRUE );
 		return file_put_contents( "$dir/$fileName", $content );
 	}
 
@@ -46,13 +36,33 @@ class LogProxy extends Proxy
 		return NULL;
 	}
 
-	public function getLogFile()
+	public function getMap()
 	{
-		$year = date( "Y" );
-		$month = date( "m" );
-		$day = date( "d" );
+		if(!count($this->_map))
+		{
+			$di = new \RecursiveDirectoryIterator( $this->getFacade()->getLogsPath(), \RecursiveDirectoryIterator::SKIP_DOTS );
+			$it = new \RecursiveIteratorIterator( $di );
 
-		return ( $this->getFacade()->getVO()->getRoot()."/logs/".$year."/".$month."/".$day.".php" );
+			foreach($it as $file)
+			{
+			    $this->_map[ date("Y-m-d", filemtime($file->getPathname())) ] = $file->getPathname();
+			}
+
+			ksort( $this->_map, SORT_NUMERIC );
+		}
+
+		return $this->_map;
+	}
+
+	public function getLogFile( $time = 0 )
+	{
+		if(!$time) $time = time();
+
+		$year = date( "Y", $time );
+		$month = date( "m", $time );
+		$day = date( "d", $time );
+
+		return FileUtil::filterFileReference( $this->getFacade()->getLogsPath()."/".$year."/".$month."/".$day.".php" );
 	}
 
 }

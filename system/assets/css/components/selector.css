@@ -1,0 +1,95 @@
+.Selector
+{
+	/*width: auto;*/
+	position: relative;
+}
+.Selector .Button:hover
+{
+	background: #f9f9f9;
+}
+.Selector > .Button
+{
+	padding-right: 30px;
+}
+.Selector > .Button > .Symbol
+{
+	background: transparent url( '../../images/symbol-arrow-down.png' ) center center no-repeat;
+	width: 11px;
+	height: 6px;
+	overflow: hidden;
+	display: block;
+	position: absolute;
+	visibility: visible;
+	top: 20px;
+	right: 15px;
+}
+.Selector.Expanded .Label
+{
+	background: #f6f6f6;
+}
+.Selector .Model
+{
+	background: #FFFFFF;
+	border-top: 1px solid #d8d9d5;
+	border-left: 1px solid #d8d9d5;
+	border-right: 1px solid #d8d9d5;
+
+	padding: 0;
+	position: absolute;
+	right: 0px;
+	top: 35px;
+	z-index: 1;
+}
+.Selector.Expanded .Model
+{
+	visibility: visible;
+	-webkit-animation: fadeInDown .4s;
+	-moz-animation: fadeInDown .4s;
+	-ms-animation: fadeInDown .4s;
+	-o-animation: fadeInDown .4s;
+	animation: fadeInDown .4s;
+}
+.Selector.Collapsed .Model
+{
+	visibility: hidden;
+	display: none;
+}
+
+.Selector .Model > .Symbol
+{
+	width: 17px;
+	height: 9px;
+	display: block;
+	overflow: hidden;
+	background: transparent url( "../../images/container-arrow.png" );
+	position: absolute;
+	top: -9px;
+	right: 12px;
+}
+.Selector .Model .ValueObject,
+.Selector .Model .VOProxy .Name
+{
+	white-space: nowrap;
+	text-align: left;
+	display: block;
+	border-radius: 0;
+	border: 0;
+	border-bottom: 1px solid #d8d9d5;
+	padding: 17px 30px;
+}
+.Selector .VOProxy .Name
+{
+	font-family: "Bold";
+}
+.Selector .ValueObject.Deselected
+{
+	background: 0;
+}
+.Selector .ValueObject.Deselected:hover
+{
+	background: #f9f9f9;
+}
+.Selector .ValueObject.Selected
+{
+	background: #ebebeb;
+}

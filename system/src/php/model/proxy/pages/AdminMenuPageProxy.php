@@ -17,8 +17,7 @@ class AdminMenuPageProxy extends Proxy
 		// Controller
 		$this->getFacade()->controller->registerCommand( new RenderAdminMenuPageCommand() );
 
-		$this->add( new TutoMVCSettingsPage() )
-			->setMediator( $this->getFacade()->view->registerMediator( new AdminMenuPageMediator( "menu/settings/tutomvc.php" ) ) );
+		$this->add( new TutoMVCSettingsPage( $this->getFacade()->view->registerMediator( new TutoMVCSettingsPageMediator() ) ) );
 	}
 
 	/* ACTIONS */
@@ -30,6 +29,21 @@ class AdminMenuPageProxy extends Proxy
 		}
 
 		return parent::add( $item, $item->getMenuSlug() );
+	}
+
+	public function find( $name )
+	{
+		foreach($this->getMap() as $adminMenuPage)
+		{
+			if($adminMenuPage->getName() == $name) return $adminMenuPage;
+
+			foreach($adminMenuPage->getSubpages() as $adminMenuSubpage)
+			{
+				if($adminMenuSubpage->getName() == $name) return $adminMenuSubpage;
+			}
+		}
+
+		return NULL;
 	}
 
 	/* ACTIONS */

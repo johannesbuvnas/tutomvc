@@ -91,7 +91,8 @@ div.AddMetaBoxButton
 }
 div.AddMetaBoxButton:hover
 {
-	background: #69D2E7 url( "../images/symbol-add-white.png" ) center center no-repeat;
+	/*#69D2E7*/
+	background: #0099FF url( "../images/symbol-add-white.png" ) center center no-repeat;
 }
 
 div.MetaField
@@ -118,13 +119,12 @@ div.MetaField .title
 	font-size: 14px;
 	line-height: 1.5em;
 	color: #333;
-	padding: 30px 0;
 }
 .Debugger > .Inner
 {
 	width: 560px;
 	padding: 30px 30px;
-	margin: 0 auto;
+	/*margin: 0 auto;*/
 	background: #ebebeb;
 }
 .Debugger .title
@@ -158,6 +158,10 @@ div.MetaField .title
 .Debugger code
 {
 	font-size: 10px;
+	background: 0;
+	padding: 0;
+	margin: 0;
+	line-height: 1em;
 }
 
 .Debugger pre
@@ -176,4 +180,16 @@ div.MetaField .title
 .Debugger .Code .LineNumber
 {
 	color: #e9e9e9;
+}
+
+.Log
+{
+	display: inline-block;
+	width: auto;
+	float: left;
+	margin: 5px;
+}
+.Log .title
+{
+	color: #0099FF;
 }

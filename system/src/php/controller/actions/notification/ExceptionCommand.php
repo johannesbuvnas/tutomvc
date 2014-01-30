@@ -12,6 +12,7 @@ class ExceptionCommand extends ActionCommand
 		set_exception_handler( array( $this, "executeException" ) );
 		set_error_handler( array( $this, "executeError" ) );
 		register_shutdown_function( array( $this, "executeShutdown" ) );
+		ini_set( "display_errors", FALSE );
 	}
 
 	public function onRegister()
@@ -79,6 +80,8 @@ class ExceptionCommand extends ActionCommand
 
 	public function render( $exception )
 	{
+		echo '<link rel="stylesheet" href="'.$facade->getURL( "assets/css/tutomvc.admin.css" ).'">';
+		
 		$this->getFacade()->log( $exception->getMessage()." @ ".$exception->getFile() );
 
 		$this->_mediator->parse( "exception", $exception );

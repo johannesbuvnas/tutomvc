@@ -10,4 +10,9 @@ class TutoMVCLogsPage extends AdminMenuPage
 	{
 		parent::__construct( __( "Logs" ), __( "Logs" ), "manage_options", self::NAME );
 	}
+
+	function getContentMediatorName()
+	{
+		return TutoMVCLogsPageContentMediator::NAME;
+	}
 }

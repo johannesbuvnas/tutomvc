@@ -1,4 +1,27 @@
 @import "animate.css";
+@import "components/selector.css";
+@import "components/tagselector.css";
+
+.clearfix:after {
+	content: ".";
+	display: block;
+	clear: both;
+	visibility: hidden;
+	line-height: 0;
+	height: 0;
+}
+ 
+.clearfix {
+	display: inline-block;
+}
+ 
+html[xmlns] .clearfix {
+	display: block;
+}
+ 
+* html .clearfix {
+	height: 1%;
+}
 
 /* FUNCTIONAL CLASSES */
 div.Button
@@ -8,31 +31,26 @@ div.Button
 	-moz-user-select: none;
 	-ms-user-select: none;
 }
+
+.Highlight
+{
+	color: #0099FF;
+	font-weight: 600;
+}
 /* end FUNCTIONAL CLASSES */
 
 /* STYLES */
 .JSON,
-.tutomvc-hidden,
 .HiddenElement
 {
 	display: none !important;
 	visibility: hidden !important;
 }
-.highlight
-{
-	font-family: "Bold";
-	text-decoration: underline;
-}
-
-.TextBox
-{
-	border: 0;
-}
 
 div.Button
 {
-	color: #333;
-	border: 1px solid #e1e0da;
+	color: #000;
+	/*border: 1px solid #e1e0da;*/
 	background: #FFF;
 	position: relative;
 	padding: 15px 15px;
@@ -40,163 +58,47 @@ div.Button
 }
 
 /* DROP COMPONENT */
-div.Selector
-{
-	/*width: auto;*/
-	position: relative;
-}
-div.Selector div.Button:hover
-{
-	background: #f9f9f9;
-}
-div.Selector > div.Button
-{
-	padding-right: 30px;
-}
-div.Selector > div.Button > div.Symbol
-{
-	background: transparent url( '../images/symbol-arrow-down.png' ) center center no-repeat;
-	width: 11px;
-	height: 6px;
-	overflow: hidden;
-	display: block;
-	position: absolute;
-	visibility: visible;
-	top: 20px;
-	right: 15px;
-}
-div.Selector.Expanded div.Label
-{
-	background: #f6f6f6;
-}
-div.Selector div.Model
-{
-	background: #FFFFFF;
-	border-top: 1px solid #d8d9d5;
-	border-left: 1px solid #d8d9d5;
-	border-right: 1px solid #d8d9d5;
-
-	padding: 0;
-	position: absolute;
-	right: 0px;
-	top: 35px;
-	z-index: 1;
-}
-div.Selector.Expanded div.Model
-{
-	visibility: visible;
-	-webkit-animation: fadeInDown .4s;
-	-moz-animation: fadeInDown .4s;
-	-ms-animation: fadeInDown .4s;
-	-o-animation: fadeInDown .4s;
-	animation: fadeInDown .4s;
-}
-div.Selector.Collapsed div.Model
-{
-	visibility: hidden;
-	display: none;
-}
-
-div.Selector div.Model > div.Symbol
-{
-	width: 17px;
-	height: 9px;
-	display: block;
-	overflow: hidden;
-	background: transparent url( "../images/container-arrow.png" );
-	position: absolute;
-	top: -9px;
-	right: 12px;
-}
-div.Selector div.Model div.ValueObject,
-div.Selector div.Model div.VOProxy div.Name
-{
-	white-space: nowrap;
-	text-align: left;
-	display: block;
-	border-radius: 0;
-	border: 0;
-	border-bottom: 1px solid #d8d9d5;
-	padding: 17px 30px;
-}
-div.Selector div.VOProxy div.Name
-{
-	font-family: "Bold";
-}
-div.Selector div.ValueObject.Deselected
-{
-	background: 0;
-}
-div.Selector div.ValueObject.Deselected:hover
-{
-	background: #f9f9f9;
-}
-div.Selector div.ValueObject.Selected
-{
-	background: #f9f9f9 url( "../images/symbol-x.png" ) 10px center no-repeat;
-}
 /* end DROP COMPONENT */
-/* TAG MULTI SELECTOR COMPONENT */
-div.TagMultiSelector > div.Button
+/* SWITCH COMPONENT */
+.SwitchSelector > .Model
 {
-	border-radius: 0;
-	width: 100%;
-	padding: 0px;
-	margin: 0px;
-}
-div.TagMultiSelector > div.Button:hover
-{
+	border: 1px solid #d8d9d5;
+	border-radius: 4px;
 	background: #FFF;
 }
-div.TagMultiSelector > div.Button > div.Symbol
+div.SwitchSelector div.Model div.Proxy div.Name
 {
-	visibility: hidden;
 	display: none;
+	visibility: hidden;
 }
-div.TagMultiSelector > div.Button > div.selectedValues,
-div.TagMultiSelector > div.Button > span.Label
+.SwitchSelector > .Model .Proxy,
+.SwitchSelector > .Model .ValueObject
 {
 	display: inline-block;
 	float: left;
 }
-
-div.TagMultiSelector > div.Button > span.Label > .Button
+.SwitchSelector > .Model .ValueObject.Deselected
 {
-	background: 0;
+	color: #999;
 	border: 0;
+	background: 0;
 }
-div.TagMultiSelector > div.Button > div.selectedValues
+.SwitchSelector > .Model .ValueObject.Deselected:hover
 {
-	margin: 10px;
+	color: #333;
 }
-
-div.TagMultiSelector > div.Button > div.selectedValues div.ValueObject
+.SwitchSelector > .Model .ValueObject.Selected
 {
-	display: inline-block;
-	float: left;
-	margin-left: 1px;
-	padding-right: 30px;
+	margin: -1px -1px;
+	background: #69d2e7;
+	color: #FFF;
+	-webkit-animation: pulse .2s;
+	-moz-animation: pulse .2s;
+	-ms-animation: pulse .2s;
+	-o-animation: pulse .2s;
+	animation: pulse .2s;
 }
-div.TagMultiSelector > div.Button > div.selectedValues div.ValueObject > div.Symbol
-{
-	background: transparent url( "../images/symbol-x.png" ) center center no-repeat;
-	display: block;
-	visibility: visible;
-	width: 7px;
-	height: 7px;
-	overflow: hidden;
-	display: block;
-	position: absolute;
-	top: 14px;
-	right: 12px;
-}
-
-div.TagMultiSelector > div.Model
-{
-	width: 100%;
-}
-/* end TAG MULTI SELECTOR COMPONENT */
-
+/* end SWITCH COMPONENT */
 /* SWITCH COMPONENT */
 .SwitchSelector > .Model
 {
@@ -330,5 +232,5 @@ div.AttachmentList .AddButton:hover
 	border: 0;
 	width: 150px;
 	height: 150px;
-	background: #69D2E7 url( "../images/symbol-add-white.png" ) center center no-repeat;
+	background: #0099FF url( "../images/symbol-add-white.png" ) center center no-repeat;
 }

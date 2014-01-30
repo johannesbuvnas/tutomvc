@@ -834,6 +834,8 @@ function( $ )
 					{
 						// if( !(proxy instanceof _ns.components.model.proxy.Proxy) ) return console.log( "Model::addProxy - proxy isnt instance of Proxy" );
 
+						if( !proxy.getName() ) proxy.setName( _proxyMap.length );
+
 						if( proxy.getName() ) _proxyMap[ proxy.getName() ] = proxy;
 						else _proxyMap.push( proxy );
 
@@ -1388,7 +1390,7 @@ function( $ )
 									}
 								}
 
-								_this.getInput().attr( "value", v );
+								_this.getInput().getElement().attr( "value", v );
 								_this.getElement().attr( "dataValue", v );
 							};
 
@@ -1454,15 +1456,16 @@ function( $ )
 						return new MultiSelector();
 					};
 
-					this.FilterMultiSelector = function( element )
+					this.TagSelector = function( element )
 					{
-						function FilterMultiSelector()
+						function TagSelector()
 						{
 							var _this = this;
 							var _super = this.constructor.prototype;
 							var _filter;
 							var _tagsContainer;
 							var _blockFilterEvents = false;
+							this.freeTagEnabled = true;
 
 							var construct = function()
 							{
@@ -1488,9 +1491,9 @@ function( $ )
 									}
 								}
 
-								if( _tagsContainer.find( ".ValueObject" ).length != 0 ) _this.button.label.addClass( "tutomvc-hidden" );
+								if( _tagsContainer.find( ".ValueObject" ).length != 0 ) _this.button.label.addClass( "HiddenElement" );
 
-								if(_this.isExpanded()) _this.getElement().find(".Model").css( "top", (_this.getElement().height() - 12) + "px" );
+								if(_this.isExpanded()) _this.getElement().find(".Model").css( "top", (_this.getElement().height()) + "px" );
 
 								// _this.resetFilter();
 							};
@@ -1512,7 +1515,7 @@ function( $ )
 							{
 								_super.reset();
 
-								_tagsContainer = $( "<div class='TagsContainer'></div>" );
+								_tagsContainer = $( "<div class='Tags'></div>" );
 
 								_filter = $( "<input type='text' autocomplete='off' />" );
 								_filter.addClass( "TextBox" );
@@ -1534,7 +1537,7 @@ function( $ )
 										$(this).on( "click", onSelect );
 									});
 
-								_this.getElement().addClass( "TagMultiSelector" );
+								_this.getElement().addClass( "TagSelector" );
 							};
 
 							this.select = function( proxyName, name, value )
@@ -1546,6 +1549,8 @@ function( $ )
 
 							this.customSelect = function()
 							{
+								if(!_this.freeTagEnabled) return;
+
 								if(_filter.val() && _filter.val().length && !_this.getFilteredModel().getProxyByValue( _filter.val() ))
 								{
 									_this.select( "", _filter.val(), _filter.val()  );
@@ -1571,12 +1576,12 @@ function( $ )
 								modelElement.find( ".Proxy" ).each( function()
 									{
 										var voProxy = $(this);
-										voProxy.removeClass( "tutomvc-hidden" );
+										voProxy.removeClass( "HiddenElement" );
 										var filterFoundInProxy = false;
 										voProxy.find( ".ValueObject" ).each( function()
 											{
 												var vo = $(this);
-												vo.removeClass( "tutomvc-hidden" );
+												vo.removeClass( "HiddenElement" );
 												vo.find( ".Name" ).html( vo.attr("dataName") );
 												var name = vo.attr("dataName").toLowerCase();
 												var value = vo.attr("dataValue");
@@ -1589,16 +1594,16 @@ function( $ )
 													if ( index >= 0 )
 													{
 														var innerHTML = vo.attr("dataName");
-														var innerHTML = innerHTML.substring(0,index) + "<span class='highlight'>" + innerHTML.substring(index,index+string.length) + "</span>" + innerHTML.substring(index + string.length);
+														var innerHTML = innerHTML.substring(0,index) + "<span class='Highlight'>" + innerHTML.substring(index,index+string.length) + "</span>" + innerHTML.substring(index + string.length);
 														vo.find( ".Name" ).html( innerHTML );
 													}
 												}
 												else if( string && string.length > 0 )
 												{
-													vo.addClass( "tutomvc-hidden" );
+													vo.addClass( "HiddenElement" );
 												}
 											} );
-										if( !filterFoundInProxy && string && string.length > 0 ) voProxy.addClass( "tutomvc-hidden" );
+										if( !filterFoundInProxy && string && string.length > 0 ) voProxy.addClass( "HiddenElement" );
 									} );
 
 								if( totalHits > 0 && !_this.isExpanded() ) _this.expand();
@@ -1607,7 +1612,7 @@ function( $ )
 
 							_this.expand = function()
 							{
-								_this.getElement().find(".Model").css( "top", (_this.getElement().height() - 12) + "px" );
+								_this.getElement().find(".Model").css( "top", (_this.getElement().height()) + "px" );
 
 								_super.expand();
 							};
@@ -1615,6 +1620,11 @@ function( $ )
 							_this.collapse = function()
 							{
 								_super.collapse();
+							};
+
+							_this.focus = function()
+							{
+								onClick();
 							};
 
 							/* SET AND GET */
@@ -1635,11 +1645,11 @@ function( $ )
 							{
 								if(_blockFilterEvents) return;
 
-								// if( !_this.isExpanded() ) _this.expand();
+								if( !_this.isExpanded() ) _this.expand();
 
 								_this.getElement().addClass("Focus");
 
-								_this.button.label.addClass( "tutomvc-hidden" );
+								_this.button.label.addClass( "HiddenElement" );
 							};
 
 							var onFocusOut = function( e )
@@ -1648,7 +1658,7 @@ function( $ )
 
 								_this.getElement().removeClass("Focus");
 
-								if( _tagsContainer.find( ".ValueObject" ).length == 0 ) _this.button.label.removeClass( "tutomvc-hidden" );
+								if( _tagsContainer.find( ".ValueObject" ).length == 0 ) _this.button.label.removeClass( "HiddenElement" );
 
 								// if( _this.isExpanded() ) _this.collapse();
 							};
@@ -1694,10 +1704,10 @@ function( $ )
 							construct();
 						}
 
-						FilterMultiSelector.prototype = new _ns.components.form.input.MultiSelector( element );
-						FilterMultiSelector.prototype.constructor = FilterMultiSelector;
+						TagSelector.prototype = new _ns.components.form.input.MultiSelector( element );
+						TagSelector.prototype.constructor = TagSelector;
 
-						return new FilterMultiSelector();
+						return new TagSelector();
 					};
 
 				// end tutomvc.components.form.input

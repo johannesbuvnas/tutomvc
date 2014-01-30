@@ -24,7 +24,7 @@ class Mediator extends CoreClass implements IMediator
 		
 		if(empty( $output ))
 		{
-			var_dump( __CLASS__ . ":: Nothing to render." );
+			throw new \ErrorException( "CUSTOM ERROR: Nothing to render", 0, E_ERROR );
 		}
 		else
 		{
@@ -47,6 +47,8 @@ class Mediator extends CoreClass implements IMediator
 	public function parse( $variableName, $value )
 	{
 		$this->_dataProvider[ $variableName ] = $value;
+
+		return $this;
 	}
 
 	public function setViewComponent( $viewComponent )
