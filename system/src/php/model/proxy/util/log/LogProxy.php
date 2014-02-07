@@ -38,7 +38,7 @@ class LogProxy extends Proxy
 
 	public function getMap()
 	{
-		if(!count($this->_map))
+		if(!count($this->_map) && is_dir($this->getFacade()->getLogsPath()))
 		{
 			$di = new \RecursiveDirectoryIterator( $this->getFacade()->getLogsPath(), \RecursiveDirectoryIterator::SKIP_DOTS );
 			$it = new \RecursiveIteratorIterator( $di );

@@ -35,6 +35,8 @@ class ExceptionCommand extends ActionCommand
 
 	function executeError( $errorLevel, $errorMessage, $errorFile, $errorLine, $errorContext = NULL )
 	{
+		if(strpos( $errorMessage, "magic_quotes_gpc")) return;
+		
 		if (error_reporting() & $errorLevel)
 		{
 			switch ( $errorLevel )
