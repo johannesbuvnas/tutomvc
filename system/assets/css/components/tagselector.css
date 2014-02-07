@@ -5,17 +5,17 @@
 	padding: 0px;
 	margin: 0px;
 }
-.TagSelector > div.Button:hover
+.TagSelector > .Button:hover
 {
 	background: #FFF;
 }
-div.TagSelector > div.Button > div.Symbol
+.TagSelector > .Button > .Symbol
 {
 	visibility: hidden;
 	display: none;
 }
-div.TagSelector > div.Button > span.Label,
-div.TagSelector > div.Button > .Tags,
+.TagSelector > .Button > span.Label,
+.TagSelector > .Button > .Tags,
 .TagSelector input,
 .TagSelector .Button.ValueObject
 {
@@ -25,34 +25,25 @@ div.TagSelector > div.Button > .Tags,
 	border: 0;
 	margin: 0;
 }
-div.TagSelector input,
-div.TagSelector .Button.ValueObject
+.TagSelector input,
+.TagSelector .Button.ValueObject
 {
-	padding: 15px;
-	margin: 1px;
+	padding: 10px;
+	margin: 5px;
+	border-radius: 5px;
 }
-div.TagSelector .Button.ValueObject
+.TagSelector .Button.ValueObject.Selected
+{
+	display: none;
+}
+.TagSelector .Tags .Button
+{
+	background: #69D2E7;
+	color: #FFF;
+}
+.TagSelector .Tags .Button:hover
 {
 	background: #ebebeb;
-	/*font-weight: 600;*/
-	color: #000;
-}
-div.TagSelector .Button.ValueObject:hover,
-div.TagSelector .Button.ValueObject.Selected
-{
-	background: #ebebeb;
-	color: #0099FF;
-}
-div.TagSelector .Tags .Button
-{
-	color: #0099FF;
-	/*font-weight: 600;*/
-	background: #ebebeb;
-	font-size: 13px;
-}
-div.TagSelector .Tags .Button:hover,
-div.TagSelector .Button.ValueObject.Selected:hover
-{
 	color: #e04b44;
 }
 .TagSelector > .Button > .Label
@@ -60,55 +51,39 @@ div.TagSelector .Button.ValueObject.Selected:hover
 	padding: 15px;
 	background: 0;
 }
-div.TagSelector > div.Button > .Tags
+.TagSelector > .Button > .Tags
 {
 	padding: 1px;
 }
-div.TagSelector .Tags .ValueObject
-{
-	margin: 1px;
-}
-
-div.TagSelector > div.Button .filterButton
+/*.TagSelector > .Button .filterButton
 {
 	background: 0;
 	border: 0;
-}
+}*/
 
-div.TagSelector > div.Model
+.TagSelector .Model
 {
 	width: 100%;
-	right: 0px;
 }
-.TagSelector > .Button .Symbol
+.TagSelector .Button .Symbol
 {
 	display: none;
 }
 
-div.TagSelector > div.Model
+.TagSelector .Model
 {
 	border: 0;
-	border-top: 1px solid #d8d9d5;
+	border-top: 1px solid #ebebeb;
 	background: 0;
 }
 
-div.TagSelector > div.Model > div.Proxy
+.TagSelector > .Model > .Proxy
 {
 	background: 0;
 	display: inline-block;
 	float: left;
 	width: 100%;
-	background: #FFF;
+	background: #F9F9F9;
 	text-align: center;
 	margin: 0;
-}
-
-div.TagSelector > div.Model > div.Proxy div.Name
-{
-	display: none;
-}
-
-div.TagSelector > div.Model > div.Proxy .Name
-{
-	white-space: normal;
 }

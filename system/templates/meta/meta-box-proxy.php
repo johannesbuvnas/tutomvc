@@ -6,9 +6,6 @@ $vo = array();
 $vo['conditions'] = array();
 foreach($metaBox->getConditions() as $metaCondition) $vo['conditions'][] = $metaCondition->toArray();
 ?>
-<?php
-	// wp_editor( "", "testing" );
-?>
 <div class="MetaBoxModel" data-post-id="<?php echo $postID; ?>" data-meta-box-name="<?php echo $metaBox->getName(); ?>" data-max-cardinality="<?php echo $metaBox->getMaxCardinality(); ?>">
 	<?php
 		echo '<input type="hidden" id="'.$metaBox->getName().'" name="'.$metaBox->getName().'" value="'.$metaBox->getCardinality( $postID ).'" />';
@@ -24,6 +21,13 @@ foreach($metaBox->getConditions() as $metaCondition) $vo['conditions'][] = $meta
 				$metaBoxMediator->parse( "metaFieldMap", $metaFieldMap );
 				$metaBoxMediator->render();
 			}
+		?>
+	</div>
+	<div class="HiddenElement MetaBoxDummy">
+		<?php
+			$metaBoxMediator->parse( "cardinalityID", 0 );
+			$metaBoxMediator->parse( "metaFieldMap", $metaBox->getMetaFieldMap( 0, 0 ) );
+			$metaBoxMediator->render();
 		?>
 	</div>
 	<div class="Button AddMetaBoxButton">

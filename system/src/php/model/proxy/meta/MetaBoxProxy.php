@@ -23,7 +23,7 @@ class MetaBoxProxy extends Proxy
 		$this->getFacade()->controller->registerCommand( new GetMetaDatFilter() );
 	}
 
-	public function add( MetaBox $item, $key = NULL )
+	public function add( $item, $key = NULL )
 	{
 		add_action( self::WP_HOOK_REGISTER, array( $this, "registerMetaBox" ) );
 

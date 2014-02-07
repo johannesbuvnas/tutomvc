@@ -10,11 +10,11 @@ final class ImageSizeProxy extends Proxy
 		$this->getFacade()->controller->registerCommand( new ImageSizeSelectionFilter() );
 	}
 
-	public function add( ImageSize $item )
+	public function add( $item, $key = NULL )
 	{
-		parent::add( $item, $item->getName() );
-
 		add_image_size( $item->getName(), $item->getWidth(), $item->getHeight(), $item->getCrop() );
+
+		return parent::add( $item, $item->getName() );
 	}
 
 	public function getImageSizeName($width = 1, $height = 1)

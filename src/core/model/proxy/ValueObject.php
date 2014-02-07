@@ -8,9 +8,10 @@ class ValueObject implements IValueObject
 	private $_value;
 
 
-	function __construct( $name )
+	function __construct( $name, $value )
 	{
 		$this->setName( $name );
+		$this->setValue( $value );
 	}
 
 	/* SET AND GET */

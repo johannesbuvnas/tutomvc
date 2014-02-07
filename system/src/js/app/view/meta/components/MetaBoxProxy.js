@@ -2,9 +2,10 @@ define(
 [
 	"tutomvc",
 	"jquery",
-	"app/view/meta/components/MetaBox"
+	"app/view/meta/components/MetaBox",
+	"app/view/components/SortableComponent"
 ],
-function( tutomvc, $, MetaBox )
+function( tutomvc, $, MetaBox, SortableComponent )
 {
 	function MetaBoxProxy( element )
 	{
@@ -23,8 +24,10 @@ function( tutomvc, $, MetaBox )
 		/* DISPLAY OBJECTS */
 		var _element = $( element );
 		var _proxyElement;
+		var _sortableComponent;
 		var _input;
 		var _addButton;
+		var _metaBoxDummyHTML;
 
 		var construct = function()
 		{
@@ -52,6 +55,11 @@ function( tutomvc, $, MetaBox )
 			_addButton = _element.find( ".AddMetaBoxButton" );
 			_addButton.on( "click", onAddClick );
 
+			// _sortableComponent = new SortableComponent( _proxyElement, ".title" );
+
+			_metaBoxDummyHTML = _element.find(".MetaBoxDummy").html();
+			_element.find(".MetaBoxDummy").remove();
+
 			adjustUI();
 		};
 
@@ -76,9 +84,14 @@ function( tutomvc, $, MetaBox )
 		{
 			if(_addButton)
 			{
-				if( _metaBoxNum >= _maxCardinality && _maxCardinality >= 0 ) _addButton.addClass( "tutomvc-hidden" );
-				else _addButton.removeClass( "tutomvc-hidden" );
+				if( hasReachedMax() ) _addButton.addClass( "HiddenElement" );
+				else _addButton.removeClass( "HiddenElement" );
 			}
+		};
+
+		var hasReachedMax = function()
+		{
+			return _metaBoxNum >= _maxCardinality && _maxCardinality >= 0;
 		};
 
 		/* ACTIONS */
@@ -93,6 +106,8 @@ function( tutomvc, $, MetaBox )
 
 		var requestMetaBoxHTML = function()
 		{
+			return onGetMetaBoxHTML( _metaBoxDummyHTML );
+
 			var data = 
 			{
 				action : "tutomvc/ajax/render/metabox",
@@ -123,7 +138,11 @@ function( tutomvc, $, MetaBox )
 
 			_map[ id ] = metaBox;
 
-			if( append ) _proxyElement.append( metaBox.getElement() );
+			if( append )
+			{
+				_proxyElement.append( metaBox.getElement() );
+				//_sortableComponent.update();
+			}
 
 			adjustUI();
 
@@ -189,7 +208,8 @@ function( tutomvc, $, MetaBox )
 		{
 			e.preventDefault();
 
-			requestMetaBoxHTML();
+			// requestMetaBoxHTML();
+			if(!hasReachedMax()) addMetaBox( $( _metaBoxDummyHTML ), true ).change();
 		};
 
 		var onGetMetaBoxHTML = function(e)

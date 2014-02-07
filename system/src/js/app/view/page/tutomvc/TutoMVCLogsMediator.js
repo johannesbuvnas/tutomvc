@@ -82,7 +82,11 @@ function(tutomvc, $)
 				dataType: "html",
 				url: Tuto.ajaxURL,
 				data: data,
-				success: onAjaxResult,
+				success: function(e)
+				{
+					var element = $(e).addClass( "Log" ).attr( "data-key", file );
+					_container.prepend( element );
+				},
 				error: onAjaxError
 			});
 		};
@@ -93,12 +97,6 @@ function(tutomvc, $)
 			_selections = e.getBody();
 			
 			adjustUI();
-		};
-
-		var onAjaxResult = function(e)
-		{
-			var element = $(e).addClass( "Log" );
-			_container.prepend( element );
 		};
 		var onAjaxError = function(e)
 		{

@@ -3,10 +3,6 @@
 	/*width: auto;*/
 	position: relative;
 }
-.Selector .Button:hover
-{
-	background: #f9f9f9;
-}
 .Selector > .Button
 {
 	padding-right: 30px;
@@ -84,12 +80,13 @@
 .Selector .ValueObject.Deselected
 {
 	background: 0;
+	color: #000;
 }
 .Selector .ValueObject.Deselected:hover
 {
-	background: #f9f9f9;
 }
 .Selector .ValueObject.Selected
 {
-	background: #ebebeb;
+	background: #69D2E7;
+	color: #FFF;
 }

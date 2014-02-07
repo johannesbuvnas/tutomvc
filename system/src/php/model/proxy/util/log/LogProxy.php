@@ -5,7 +5,7 @@ class LogProxy extends Proxy
 {
 	
 	/* METHODS */
-	public function add( $message )
+	public function add( $message, $key = NULL )
 	{
 		$file = $this->getLogFile();
 
@@ -31,7 +31,7 @@ class LogProxy extends Proxy
 	}
 
 	/* SET AND GET */
-	public function get()
+	public function get( $key )
 	{
 		return NULL;
 	}
@@ -42,13 +42,21 @@ class LogProxy extends Proxy
 		{
 			$di = new \RecursiveDirectoryIterator( $this->getFacade()->getLogsPath(), \RecursiveDirectoryIterator::SKIP_DOTS );
 			$it = new \RecursiveIteratorIterator( $di );
+			$regex = new \RegexIterator($it, '/^.+\.php$/i', \RecursiveRegexIterator::GET_MATCH);
 
-			foreach($it as $file)
+			foreach($regex as $file)
 			{
-			    $this->_map[ date("Y-m-d", filemtime($file->getPathname())) ] = $file->getPathname();
+				$fileSplit = explode( "/", FileUtil::filterFileReference( $file[0] ) );
+				$d = basename( array_pop( $fileSplit ), ".php" );
+				$m = array_pop( $fileSplit );
+				$y = array_pop( $fileSplit );
+			    $this->_map[ strtotime("{$y}-{$m}-{$d}") ] = $file[0];
 			}
 
 			ksort( $this->_map, SORT_NUMERIC );
+			$newMap = array();
+			foreach($this->_map as $key => $value) $newMap[ date( "Y-m-d", $key ) ] = $value;
+			$this->_map = array_reverse($newMap);
 		}
 
 		return $this->_map;

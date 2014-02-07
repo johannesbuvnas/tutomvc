@@ -100,6 +100,15 @@ function( tutomvc, Base64, MetaFieldInput )
 
 		/* METHODS */
 		/* SET AND GET */
+		this.getElement = function()
+		{
+			return _element;
+		};
+		this.getLabelElement = function()
+		{
+			return _label;
+		};
+
 		this.getName = function()
 		{
 			return _attributes.name;

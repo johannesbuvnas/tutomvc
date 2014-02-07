@@ -17,9 +17,12 @@ class CodeMediator extends Mediator
 	/* ACTIONS */
 	public function prepareFile( $file, $highlightedLine = -1 )
 	{
-		$this->setTitle( $file );
-		$this->setLines( file( $file ) );
-		$this->setHighlightedLine( $highlightedLine );
+		if(is_file($file))
+		{
+			$this->setTitle( $file );
+			$this->setLines( file( $file ) );
+			$this->setHighlightedLine( $highlightedLine );
+		}
 
 		return $this;
 	}

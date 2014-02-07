@@ -28,11 +28,11 @@ class Settings extends MetaBox
 	}
 
 	/* METHODS */
-	public function addField( SettingsField $sectionsField )
+	public function addSettingsField( SettingsField $field )
 	{
-		parent::addField( $sectionsField );
+		return parent::addField( $field );
 	}
-
+	
 	/* SET AND GET */
 	/**
 	*	Which settings page should these settings be visible on.

@@ -11,7 +11,7 @@ class AdminHeadCommand extends ActionCommand
 	function execute()
 	{
 		$globals = array(
-			"nonce" => wp_create_nonce( TutoFramework::NONCE_ID ),
+			"nonce" => wp_create_nonce( TutoMVC::NONCE_NAME ),
 			"baseURL" => $this->getFacade()->getURL(),
 			"ajaxURL" => admin_url( 'admin-ajax.php' )
 		);

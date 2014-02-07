@@ -8,7 +8,7 @@ class AjaxCommand extends ActionCommand
 	private $_nonceName;
 
 	
-	function __construct( $name, $nonceName = TutoFramework::NONCE_ID )
+	function __construct( $name, $nonceName = TutoMVC::NONCE_NAME )
 	{
 		parent::__construct( $name );
 

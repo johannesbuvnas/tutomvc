@@ -17,6 +17,7 @@ final class SystemFacade extends Facade
 	public $imageSizeCenter;
 	public $settingsCenter;
 	public $logCenter;
+	public $notificationCenter;
 
 	function __construct()
 	{	
@@ -39,6 +40,7 @@ final class SystemFacade extends Facade
 		$this->imageSizeCenter = $this->model->registerProxy( new ImageSizeProxy() );
 		$this->settingsCenter = $this->model->registerProxy( new SettingsProxy() );
 		$this->logCenter = $this->model->registerProxy( new LogProxy() );
+		$this->notificationCenter = $this->model->registerProxy( new NotificationProxy() );
 	}
 
 	private function prepView()

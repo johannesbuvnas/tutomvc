@@ -2,9 +2,10 @@ define(
 [
 	"tutomvc",
 	"jquery",
-	"app/view/meta/components/field/input/attachment/AttachmentItem"
+	"app/view/meta/components/field/input/attachment/AttachmentItem",
+	"app/view/components/SortableComponent"
 ],
-function( tutomvc, $, AttachmentItem )
+function( tutomvc, $, AttachmentItem, SortableComponent )
 {
 	function AttachmentList( attributes )
 	{
@@ -14,6 +15,7 @@ function( tutomvc, $, AttachmentItem )
 
 		/* DISPLAY OBJECTS */
 		var _element;
+		var _sortableComponent;
 		var _inputProxy;
 		var _addButton;
 		var _wpMedia;
@@ -27,6 +29,8 @@ function( tutomvc, $, AttachmentItem )
 		var draw = function()
 		{
 			_element = $( "<div class='AttachmentList cf'></div>" );
+
+			_sortableComponent = new SortableComponent( _element, ".AttachmentItem" );
 
 			_inputProxy = $( "<div class='HiddenElement'></div>" );
 			_element.append( _element );
@@ -79,6 +83,8 @@ function( tutomvc, $, AttachmentItem )
 			_addButton.getElement().before( attachment.getElement() );
 
 			adjustButton();
+
+			_sortableComponent.update();
 
 			return true;
 		};

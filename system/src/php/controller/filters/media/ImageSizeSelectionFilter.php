@@ -15,6 +15,8 @@ class ImageSizeSelectionFilter extends FilterCommand
 			$defaultImageSizes[ $imageSize->getName() ] = $imageSize->getTitle();
 		}
 
+		// var_dump($this->getFacade()->model->getProxy( ImageSizeProxy::NAME )->getMap());
+
 		return $defaultImageSizes;
 	}
 }

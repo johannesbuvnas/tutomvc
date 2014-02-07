@@ -15,9 +15,14 @@ class SettingsProxy extends Proxy
 	}
 
 	/* ACTIONS */
-	public function add( Settings $item )
+	public function add( $item, $key = NULL )
 	{
-		parent::add( $item );
+		foreach($item->getFields() as $sectionField)
+		{
+			add_option( $sectionField->getName(), apply_filters( FilterCommand::META_VALUE, NULL, $sectionField ) );
+			$this->getFacade()->controller->registerCommand( new GetOptionFilterCommand( $sectionField->getName() ) );
+		}
+		return parent::add( $item, $key );
 	}
 
 	public function register()
@@ -33,8 +38,6 @@ class SettingsProxy extends Proxy
 		{
 			add_settings_field( $sectionField->getName(), $sectionField->getTitle(), array( $this, "renderSectionField" ), $item->getMenuSlug(), $item->getName(), array( "field" => $sectionField ) );
 			register_setting( $item->getName(), $sectionField->getName() );
-			add_option( $sectionField->getName(), apply_filters( FilterCommand::META_VALUE, NULL, $sectionField ) );
-			$this->getFacade()->controller->registerCommand( new GetOptionFilterCommand( $sectionField->getName() ) );
 		}
 	}
 	

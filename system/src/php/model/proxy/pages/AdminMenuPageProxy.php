@@ -21,7 +21,7 @@ class AdminMenuPageProxy extends Proxy
 	}
 
 	/* ACTIONS */
-	public function add( AdminMenuPage $item )
+	public function add( $item, $key = NULL )
 	{
 		if(get_class($item) == "tutomvc\AdminMenuSettingsPage" || is_subclass_of($item, "tutomvc\AdminMenuSettingsPage"))
 		{

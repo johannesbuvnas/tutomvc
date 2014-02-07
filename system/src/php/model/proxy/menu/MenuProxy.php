@@ -8,7 +8,7 @@ class MenuProxy extends Proxy
 	}
 
 	/* ACTIONS */
-	public function add( Menu $item, $key = NULL )
+	public function add( $item, $key = NULL )
 	{
 		$this->register( $item );
 

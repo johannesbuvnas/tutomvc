@@ -9,6 +9,7 @@ class Command extends CoreClass implements ICommand
 	protected $_name;
 	protected $_executionLimit = -1;
 	protected $_executions = 0;
+	protected $_args;
 
 
 	function __construct( $name = NULL )
@@ -63,6 +64,18 @@ class Command extends CoreClass implements ICommand
 	}
 
 	/**
+	* Get arguments parsed when executed.
+	*/
+	protected function getArgs()
+	{
+		return $this->_args;
+	}
+	protected function getArg( $index )
+	{
+		return array_key_exists($index, $this->_args) ? $this->_args[$index] : NULL;
+	}
+
+	/**
 	*	Do not override.
 	*/
 	public function preExecution()
@@ -70,6 +83,7 @@ class Command extends CoreClass implements ICommand
 		if( $this->hasReachedExecutionLimit() ) return;
 
 		$this->_executions++;
+		$this->_args = func_get_args();
 
 		return call_user_func_array( array( $this, "execute" ), func_get_args() );
 	}

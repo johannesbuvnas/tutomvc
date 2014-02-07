@@ -94,17 +94,17 @@ class Facade
 
 	public function getURL( $relativePath = null )
 	{
-		return TutoFramework::getApplicationVO( $this->_key )->getURL( $relativePath );
+		return TutoMVC::getApplicationVO( $this->_key )->getURL( $relativePath );
 	}
 
 	public function getTemplateFileReference( $relativePath = null )
 	{
-		return TutoFramework::getApplicationVO( $this->_key )->getTemplateFileReference( $relativePath );
+		return TutoMVC::getApplicationVO( $this->_key )->getTemplateFileReference( $relativePath );
 	}
 
 	public function getVO()
 	{
-		return TutoFramework::getApplicationVO( $this->_key );
+		return TutoMVC::getApplicationVO( $this->_key );
 	}
 
 	/**
@@ -112,7 +112,7 @@ class Facade
 	*/
 	public function debug($message)
 	{
-		if(TutoFramework::$debugMode)
+		if(TutoMVC::$debugMode)
 		{
 			$this->renderView("\\".__NAMESPACE__."\DebugView", array(
 					"message" => $message

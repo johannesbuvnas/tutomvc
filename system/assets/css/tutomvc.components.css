@@ -34,7 +34,7 @@ div.Button
 
 .Highlight
 {
-	color: #0099FF;
+	color: #000;
 	font-weight: 600;
 }
 /* end FUNCTIONAL CLASSES */
@@ -232,5 +232,5 @@ div.AttachmentList .AddButton:hover
 	border: 0;
 	width: 150px;
 	height: 150px;
-	background: #0099FF url( "../images/symbol-add-white.png" ) center center no-repeat;
+	background: #69D2E7 url( "../images/symbol-add-white.png" ) center center no-repeat;
 }

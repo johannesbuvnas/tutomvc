@@ -8,11 +8,11 @@ require_once realpath( dirname( __FILE__ ) ) . '/utils/ArrayUtil.php';
 require_once realpath( dirname( __FILE__ ) ) . '/utils/FileUtil.php';
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-final class TutoFramework
+final class TutoMVC
 {
 	/* CONSTANTS */
 	const VERSION = "3.0";
-	const NONCE_ID = "tutomvc-framework_nonce";
+	const NONCE_NAME = "tutomvc/nonce";
 
 	/* STATIC VARS */
 	private static $developmentMode = true;
@@ -70,7 +70,7 @@ final class TutoFramework
 	*	@param string $facadeClassReference A reference to the class name which extends the Facade.
 	*	@return boolean
 	*/
-	public static function importApplication( $facadeClassReference )
+	public static function startup( $facadeClassReference )
 	{
 		if(!self::$initiated)
 		{
