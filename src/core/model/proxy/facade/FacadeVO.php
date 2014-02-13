@@ -9,6 +9,7 @@ class FacadeVO extends ValueObject
 	protected $_root;
 	protected $_url;
 	protected $_wpURL;
+	protected $_domain;
 	protected $_wpRoot;
 	
 	function __construct( $facadeClassReference, $facadeKey, $root )
@@ -17,9 +18,11 @@ class FacadeVO extends ValueObject
 		$this->_facadeKey = $facadeKey;
 		$this->_root = FileUtil::filterFileReference( $root );
 		$this->_wpURL = get_bloginfo( 'wpurl' );
-		$this->_wpRoot = substr( $this->_wpURL, strpos( $this->_wpURL, $_SERVER['SERVER_NAME'] ) + strlen( $_SERVER['SERVER_NAME'] ) );
+		$this->_domain = parse_url( $this->_wpURL );
+		$this->_domain = array_key_exists( "port", $this->_domain ) ? $this->_domain['host'] . ":" . $this->_domain['port'] : $this->_domain['host'];
+		$this->_wpRoot = substr( $this->_wpURL, strpos( $this->_wpURL, $this->_domain ) + strlen( $this->_domain ) );
 		$documentRoot = FileUtil::filterFileReference( getenv( "DOCUMENT_ROOT" ) );
-		$this->_url = get_bloginfo( 'wpurl' ) . FileUtil::filterFileReference( substr( $this->_root,  strpos( $documentRoot, $this->_root ) + strlen( $this->_wpRoot ) + strlen( $documentRoot ) ) );
+		$this->_url = get_bloginfo( 'wpurl' ) . FileUtil::filterFileReference( substr( $this->_root,  strripos( $this->_root, $documentRoot ) + strlen( $this->_wpRoot ) + strlen( $documentRoot ) ) );
 	}
 
 	/* SET AND GET */
@@ -38,9 +41,9 @@ class FacadeVO extends ValueObject
 		return $this->_facadeClassReference;
 	}
 
-	public function getRoot()
+	public function getRoot( $relativePath = NULL )
 	{
-		return $this->_root;
+		return is_null( $relativePath ) ? FileUtil::filterFileReference( $this->_root ) : FileUtil::filterFileReference( $this->_root . "/{$relativePath}" );
 	}
 
 	public function getWPRoot()

@@ -30,6 +30,8 @@ class ExceptionCommand extends ActionCommand
 	}
 	function executeException( $exception )
 	{
+		// if( filter_var( ini_get('display_errors'), FILTER_VALIDATE_BOOLEAN ) !== TRUE ) return FALSE;
+
 		$this->render( $exception );
 	}
 

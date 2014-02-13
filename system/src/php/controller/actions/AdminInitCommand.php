@@ -37,7 +37,7 @@ class AdminInitCommand extends ActionCommand
 	private function prepView()
 	{
 		wp_register_script( 'require-js', $this->getFacade()->getURL( "libs/js/require.js" ) );
-		wp_register_script( 'tutomvc-main-js', $this->getFacade()->getURL( "src/js/Main.config.js" ), array( 'require-js' ), '', true);
+		wp_register_script( 'tutomvc-wpadmin-js', $this->getFacade()->getURL( "src/js/com/tutomvc/wpadmin/MainWPAdmin.config.js" ), array( 'require-js' ), '', true);
 	}
 
 	private function prepController()

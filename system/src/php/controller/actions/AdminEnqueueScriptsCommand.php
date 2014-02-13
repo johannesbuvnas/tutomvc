@@ -26,7 +26,7 @@ class AdminEnqueueScriptsCommand extends ActionCommand
 			'tiny_mce',
 			'jquery-ui-dialog',
 			"require-js",
-			"tutomvc-main-js"
+			"tutomvc-wpadmin-js"
 		));
     
 	   wp_enqueue_style ( 'wp-jquery-ui-dialog' );
