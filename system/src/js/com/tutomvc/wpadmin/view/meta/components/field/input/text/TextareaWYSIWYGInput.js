@@ -8,7 +8,6 @@ function( Input, $ )
 	{
 		/* VARS */
 		var _this = this;
-		var _super = this.constructor.prototype;
 		var _content = content ? content : "";
 		var _name;
 		var _id = id ? id : "";
@@ -19,6 +18,7 @@ function( Input, $ )
 
 		var construct = function()
 		{
+			_this.super();
 			draw();
 		};
 
@@ -36,7 +36,7 @@ function( Input, $ )
 			var data = 
 			{
 				action : "tutomvc/ajax/render/wp_editor",
-				nonce : Tuto.nonce,
+				nonce : TutoMVC.nonce,
 				content : _content,
 				id : _id,
 				settings : _settings
@@ -45,7 +45,7 @@ function( Input, $ )
 			$.ajax({
 				type: "post",
 				dataType: "html",
-				url: Tuto.ajaxURL,
+				url: TutoMVC.ajaxURL,
 				data: data,
 				success: onAjaxResult,
 				error: onAjaxError
@@ -146,11 +146,5 @@ function( Input, $ )
 		construct();
 	}
 
-	return function( content, id, settings )
-	{
-		TextareaWYSIWYGInput.prototype = new Input();
-		TextareaWYSIWYGInput.prototype.constructor = TextareaWYSIWYGInput;
-
-		return new TextareaWYSIWYGInput( content, id, settings );
-	};
+	return TextareaWYSIWYGInput.extends( Input );
 });

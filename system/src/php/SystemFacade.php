@@ -7,6 +7,8 @@ final class SystemFacade extends Facade
 	const VERSION = "1.0";
 	const LOGS_DIRECTORY = "/logs/";
 
+	const SCRIPT_JS_MAIN = "tutomvc-main-js";
+
 	public static $PRODUCTION_MODE = false;
 
 	/* PUBLIC VARS */
@@ -45,10 +47,12 @@ final class SystemFacade extends Facade
 
 	private function prepView()
 	{
+		$this->view->registerMediator( new JSGlobalMediator() );
 	}
 
 	private function prepController()
 	{
+		$this->controller->registerCommand( new InitCommand() );
 		$this->controller->registerCommand( new AdminInitCommand() );
 		$this->controller->registerCommand( new ExceptionCommand() );
 	}

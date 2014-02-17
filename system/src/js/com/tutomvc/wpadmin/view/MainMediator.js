@@ -26,7 +26,9 @@ function( Mediator,	$, MetaBoxModelViewComponent, MetaBoxModelMediator, Settings
 				_this.getFacade().view.registerMediator( $("#" + TutoMVCLogsMediator.VIEW_COMPONENT_NAME), new TutoMVCLogsMediator() );
 			}
 		};
+
+		this.super( MainMediator.NAME );
 	}
 
-	return Mediator.extend( MainMediator, MainMediator.NAME );
+	return Mediator.superOf( MainMediator );
 });

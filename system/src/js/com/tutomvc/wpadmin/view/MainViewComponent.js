@@ -18,5 +18,5 @@ function( EventDispatcher, $ )
 		})();
 	}
 
-	return EventDispatcher.extend( MainViewComponent );
+	return MainViewComponent;
 });

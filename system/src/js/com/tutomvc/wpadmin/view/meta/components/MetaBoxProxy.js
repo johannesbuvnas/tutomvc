@@ -31,6 +31,8 @@ function( EventDispatcher, $, MetaBox, SortableComponent )
 
 		var construct = function()
 		{
+			_this.super();
+			
 			_attributes = $.extend({}, {conditions:[]}, JSON.parse( decodeURIComponent( _element.find(".MetaBoxAttributes").html() ) ) );
 
 			_map = {};
@@ -106,12 +108,12 @@ function( EventDispatcher, $, MetaBox, SortableComponent )
 
 		var requestMetaBoxHTML = function()
 		{
-			return onGetMetaBoxHTML( _metaBoxDummyHTML );
+			// return onGetMetaBoxHTML( _metaBoxDummyHTML );
 
 			var data = 
 			{
 				action : "tutomvc/ajax/render/metabox",
-				nonce : Tuto.nonce,
+				nonce : TutoMVC.nonce,
 				postID : 0,
 				metaBoxName : _metaBoxName,
 				key : 0
@@ -122,7 +124,7 @@ function( EventDispatcher, $, MetaBox, SortableComponent )
 			$.ajax({
 				type: "post",
 				dataType: "html",
-				url: Tuto.ajaxURL,
+				url: TutoMVC.ajaxURL,
 				data: data,
 				success: onGetMetaBoxHTML,
 				error: onAjaxError
@@ -241,5 +243,5 @@ function( EventDispatcher, $, MetaBox, SortableComponent )
 		construct();
 	}
 
-	return EventDispatcher.extend( MetaBoxProxy );
+	return MetaBoxProxy.extends( EventDispatcher );
 })

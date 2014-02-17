@@ -25,15 +25,12 @@ class AdminEnqueueScriptsCommand extends ActionCommand
 			'quicktags',
 			'tiny_mce',
 			'jquery-ui-dialog',
-			"require-js",
-			"tutomvc-wpadmin-js"
+			SystemFacade::SCRIPT_JS_MAIN
 		));
     
-	   wp_enqueue_style ( 'wp-jquery-ui-dialog' );
+		wp_enqueue_style ( 'wp-jquery-ui-dialog' );
 
 		wp_enqueue_style( 'tutomvc-components', $this->getFacade()->getURL( "/assets/css/tutomvc.components.css" ), NULL, SystemFacade::VERSION );
 		wp_enqueue_style( 'tutomvc-admin', $this->getFacade()->getURL( "/assets/css/tutomvc.admin.css" ), NULL, SystemFacade::VERSION );
-
-
 	}
 }

@@ -23,6 +23,7 @@ function( Input, Button, $, AttachmentItem, SortableComponent )
 
 		var construct = function()
 		{
+			_this.super();
 			draw();
 			adjustButton();
 		};
@@ -162,11 +163,5 @@ function( Input, Button, $, AttachmentItem, SortableComponent )
 		construct();
 	}
 
-	return function( attributes )
-	{
-		AttachmentList.prototype = new Input();
-		AttachmentList.prototype.constructor = AttachmentList;
-
-		return new AttachmentList( attributes );
-	}
+	return AttachmentList.extends( Input );
 });

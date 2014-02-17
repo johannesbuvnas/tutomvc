@@ -1,52 +1,49 @@
-define([
+require([
 	"jquery",
 	"com/tutomvc/core/facade/Facade",
 	"com/tutomvc/wpadmin/Constants",
 	"com/tutomvc/wpadmin/controller/commands/StartUpCommand"
 ],
-function( 
-	$,
-	Facade,
-	Constants,
-	StartUpCommand 
-	)
+function( $, Facade, Constants, StartUpCommand )
 {
+	"use strict";
+	var facade = Facade.getInstance( Constants.FACADE_KEY );
+	facade.controller.registerCommand( Constants.STARTUP, StartUpCommand );
+
+	// function A()
+	// {
+	// 	var _this = this;
+	// 	this.element = $("<div class='A' />");
+	// 	this.element.on("click", function(e)
+	// 	{
+	// 		console.log(e);
+	// 	});
+	// 	this.getElement = function()
+	// 	{
+	// 		return _this.element;
+	// 	};
+	// }
+
+	// function B()
+	// {
+	// 	this.super();
+	// 	this.element.addClass("B");
+	// }
+	// A.superOf(B);
+
+	// function C()
+	// {
+	// 	this.super();
+	// 	this.element.addClass("C");
+	// }
+	// B.superOf(C);
+
+	// var instance = new C();
+	// instance.getElement().trigger("click");
+	// return;
+
 	return $( document ).ready(function()
 	{
-		function AppFacade()
-		{
-			var _this = this;
-
-			/* PRIVATE METHODS */
-			var prepModel = function()
-			{
-
-			};
-
-			var prepView = function()
-			{
-
-			};
-
-			var prepController = function()
-			{
-				_this.controller.registerCommand( Constants.STARTUP, StartUpCommand );
-			};
-
-			// Construct
-			(function()
-			{
-				prepModel();
-				prepView();
-				prepController();
-
-				_this.dispatch( Constants.STARTUP, {} );
-			})();
-		}
-
-		AppFacade.prototype = Facade.getInstance( Constants.FACADE_KEY );
-		AppFacade.prototype.constructor = AppFacade;
-
-		return new AppFacade();
+		facade.dispatch( Constants.STARTUP, {} );
 	});
 });

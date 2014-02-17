@@ -24,6 +24,7 @@ function( EventDispatcher, Input, Button, $, Event )
 
 		var construct = function()
 		{
+			_this.super();
 			draw();
 		};
 
@@ -77,5 +78,5 @@ function( EventDispatcher, Input, Button, $, Event )
 		construct();
 	}
 
-	return EventDispatcher.extend( AttachmentItem );
+	return AttachmentItem.extends( EventDispatcher );
 });

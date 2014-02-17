@@ -13,7 +13,9 @@ function( Mediator )
 		this.onRegister = function()
 		{
 		};
+
+		this.super( MetaBoxModelMediator.NAME );
 	}
 
-	return Mediator.extend( MetaBoxModelMediator, MetaBoxModelMediator.NAME );
+	return Mediator.superOf( MetaBoxModelMediator );
 });

@@ -22,7 +22,9 @@ function( Mediator, $, MetaField )
 					$(this).append ("<p class='description'>" + description.html() + "</p>" );
 				});
 		};
+
+		this.super( SettingsPageMediator.NAME );
 	}
 
-	return Mediator.extend( SettingsPageMediator, SettingsPageMediator.NAME );
+	return Mediator.superOf( SettingsPageMediator );
 });

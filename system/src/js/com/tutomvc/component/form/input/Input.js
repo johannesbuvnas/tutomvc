@@ -13,6 +13,7 @@ function($, EventDispatcher)
 
 		var construct = function()
 		{
+			_this.super();
 			draw();
 		};
 
@@ -76,5 +77,5 @@ function($, EventDispatcher)
 		construct();
 	}
 
-	return EventDispatcher.extend( Input );
+	return Input.extends( EventDispatcher );
 });

@@ -42,5 +42,5 @@ function( EventDispatcher, $, MetaBoxProxy )
 		construct();
 	}
 
-	return EventDispatcher.extend( MetaBoxModelViewComponent );
+	return MetaBoxModelViewComponent;
 })

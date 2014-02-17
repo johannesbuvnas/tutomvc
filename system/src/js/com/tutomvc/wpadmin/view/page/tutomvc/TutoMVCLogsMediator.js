@@ -7,6 +7,7 @@ define([
 function(Mediator, $, TagSelector, Proxy)
 {
 	TutoMVCLogsMediator.VIEW_COMPONENT_NAME = "logsViewComponent";
+	TutoMVCLogsMediator.NAME = "TutoMVCLogsMediator";
 	function TutoMVCLogsMediator()
 	{
 		/* VARS */
@@ -75,7 +76,7 @@ function(Mediator, $, TagSelector, Proxy)
 			var data = 
 			{
 				action : "tutomvc/ajax/render/log",
-				nonce : Tuto.nonce,
+				nonce : TutoMVC.nonce,
 				file : file,
 				title : title
 			};
@@ -83,7 +84,7 @@ function(Mediator, $, TagSelector, Proxy)
 			$.ajax({
 				type: "post",
 				dataType: "html",
-				url: Tuto.ajaxURL,
+				url: TutoMVC.ajaxURL,
 				data: data,
 				success: function(e)
 				{
@@ -105,7 +106,9 @@ function(Mediator, $, TagSelector, Proxy)
 		{
 			console.log(e);
 		};
+
+		this.super( TutoMVCLogsMediator.NAME );
 	};
 
-	return Mediator.extend( TutoMVCLogsMediator, TutoMVCLogsMediator.NAME );
+	return Mediator.superOf( TutoMVCLogsMediator );
 });

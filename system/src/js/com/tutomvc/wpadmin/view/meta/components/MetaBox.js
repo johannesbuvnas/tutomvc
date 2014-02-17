@@ -22,6 +22,8 @@ function( EventDispatcher, Event, $, MetaField )
 
 		var construct = function()
 		{
+			_this.super();
+			
 			_name = _element.attr( "data-meta-box-name" );
 			_cardinalityID = parseInt( _element.attr( "data-cardinality-id" ) );
 			draw();
@@ -114,6 +116,5 @@ function( EventDispatcher, Event, $, MetaField )
 		construct();
 	}
 
-	
-	return EventDispatcher.extend( MetaBox );
+	return MetaBox.extends( EventDispatcher );
 });

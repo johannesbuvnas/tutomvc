@@ -162,9 +162,10 @@ function( EventDispatcher, $ )
 		// Constructor
 		(function()
 			{
+				_this.super();
 				draw();
 			})();
 	}
 
-	return EventDispatcher.extend( SortableComponent );
+	return SortableComponent.extends( EventDispatcher );
 });

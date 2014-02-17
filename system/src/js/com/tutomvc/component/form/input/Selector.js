@@ -6,8 +6,10 @@ define([
 ],
 function($, EventDispatcher, Input, Model)
 {
+	"use strict";
 	function Selector()
 	{
+		"use strict";
 		var _this = this;
 		this.model;
 
@@ -17,6 +19,8 @@ function($, EventDispatcher, Input, Model)
 
 		var construct = function()
 		{
+			_this.super();
+			
 			_this.setElement( $( "<div></div>" ) );
 			_input = new Input();
 
@@ -83,13 +87,5 @@ function($, EventDispatcher, Input, Model)
 		construct();
 	}
 
-	Selector.extend = function( parentClass )
-	{
-		parentClass.prototype = new Selector();
-		parentClass.prototype.constructor = parentClass;
-
-		return parentClass;
-	};
-
-	return EventDispatcher.extend( Selector );
+	return Selector.extends( EventDispatcher );
 });

@@ -9,8 +9,8 @@ function( $, SingleSelector, Model, Proxy, Event )
 {
 	function MultiSelector()
 	{
+		this.super();
 		var _this = this;
-		var _super = this.constructor.prototype;
 		var _modelFiltered;
 		this.autoUpdateLabel = false;
 
@@ -22,7 +22,7 @@ function( $, SingleSelector, Model, Proxy, Event )
 		/* ACTIONS */
 		this.reset = function()
 		{
-			_super.reset();
+			_this.super.reset();
 
 			_modelFiltered = new Model();
 
@@ -116,13 +116,5 @@ function( $, SingleSelector, Model, Proxy, Event )
 		construct();
 	}
 
-	MultiSelector.extend = function( parentClass )
-	{
-		parentClass.prototype = new MultiSelector();
-		parentClass.prototype.constructor = parentClass;
-
-		return parentClass;
-	};
-
-	return SingleSelector.extend( MultiSelector );
+	return MultiSelector.extends( SingleSelector );
 });

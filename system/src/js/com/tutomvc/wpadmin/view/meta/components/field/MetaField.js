@@ -21,6 +21,8 @@ function( EventDispatcher, Event, Base64, MetaFieldInput )
 
 		var construct = function()
 		{
+			_this.super();
+			
 			_attributes = JSON.parse( decodeURIComponent( _element.find(".JSON").html() ) );
 			if (typeof _attributes.value == 'string' || _attributes.value instanceof String) _attributes.value = Base64.decode( _attributes.value );
 
@@ -140,5 +142,5 @@ function( EventDispatcher, Event, Base64, MetaFieldInput )
 		construct();
 	}
 
-	return EventDispatcher.extend( MetaField );
+	return MetaField.extends( EventDispatcher );
 });

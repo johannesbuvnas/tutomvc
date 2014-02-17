@@ -6,12 +6,14 @@ define([
 ],
 function($, Selector, Button, Event)
 {
+	"use strict";
+
 	function SingleSelector()
 	{
+		this.super();
 		var _this = this;
-		var _super = this.constructor.prototype;
 		this.autoUpdateLabel = true;
-		this.button;
+		this.button = new Button();
 		var _label = "";
 		var _expanded = false;
 
@@ -25,9 +27,8 @@ function($, Selector, Button, Event)
 		/* ACTIONS */
 		this.reset = function()
 		{
-			_super.reset();
+			_this.super.reset();
 
-			_this.button = new Button();
 			_this.button.setLabel( _label );
 			_this.button.getElement().on( "click", _this.toggle );
 			_this.getElement().append( _this.button.getElement() );
@@ -97,7 +98,7 @@ function($, Selector, Button, Event)
 		/* SET AND GET */
 		this.setValue = function( value )
 		{
-			_super.setValue( value );
+			_this.super.setValue( value );
 
 			_this.getElement().find( "div.ValueObject" ).each(function()
 				{
@@ -152,13 +153,5 @@ function($, Selector, Button, Event)
 		construct();
 	}
 
-	SingleSelector.extend = function( parentClass )
-	{
-		parentClass.prototype = new SingleSelector();
-		parentClass.prototype.constructor = parentClass;
-
-		return parentClass;
-	};
-
-	return Selector.extend( SingleSelector );
+	return SingleSelector.extends( Selector );
 });

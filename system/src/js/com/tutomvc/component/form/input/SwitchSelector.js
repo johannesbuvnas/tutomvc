@@ -8,17 +8,17 @@ function( $, Selector, Event )
 	function SwitchSelector()
 	{
 		var _this = this;
-		var _super = this.constructor.prototype;
 
 		var construct = function()
 		{
+			_this.super();
 			_this.reset();
 		};
 
 		/* ACTIONS */
 		this.reset = function()
 		{
-			_super.reset();
+			_this.super.reset();
 
 			_this.getElement().find( ".Model" ).addClass( "clearfix" );
 
@@ -44,7 +44,7 @@ function( $, Selector, Event )
 		/* SET AND GET */
 		this.setValue = function( value )
 		{
-			_super.setValue( value );
+			_this.super.setValue( value );
 
 			_this.getElement().attr( "dataValue", value );
 
@@ -76,5 +76,5 @@ function( $, Selector, Event )
 		construct();
 	}
 
-	return Selector.extend( SwitchSelector );
+	return SwitchSelector.extends( Selector );
 });

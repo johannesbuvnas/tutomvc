@@ -32,7 +32,9 @@ function( $, Command, MainViewComponent, MainMediator )
 			prepCommands();
 			prepViews();
 		};
+
+		this.super();
 	}
 
-	return Command.extend( StartUpCommand );
+	return Command.superOf( StartUpCommand );
 });

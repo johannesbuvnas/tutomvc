@@ -8,11 +8,11 @@ function( Input, $ )
 	{
 		/* VARS */
 		var _this = this;
-		var _super = this.constructor.prototype;
 		var _value = value ? value : "";
 
 		var construct = function()
 		{
+			_this.super();
 			draw();
 		};
 
@@ -29,11 +29,5 @@ function( Input, $ )
 		construct();
 	}
 
-	return function( value )
-	{
-		TextInput.prototype = new Input();
-		TextInput.prototype.constructor = TextInput;
-
-		return new TextInput( value );
-	};
+	return TextInput.extends( Input );
 });

@@ -29,7 +29,9 @@ function( $, EventDispatcher )
 		};
 
 		_this.setLabel( label );
+
+		this.super();
 	}
 
-	return EventDispatcher.extend( Button );
+	return Button.extends( EventDispatcher );
 });

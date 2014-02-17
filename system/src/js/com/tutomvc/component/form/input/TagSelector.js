@@ -7,8 +7,8 @@ function( $, MultiSelector, Event )
 {
 						function TagSelector()
 						{
+							this.super();
 							var _this = this;
-							var _super = this.constructor.prototype;
 							var _filter;
 							var _tagsContainer;
 							var _blockFilterEvents = false;
@@ -17,6 +17,8 @@ function( $, MultiSelector, Event )
 							var construct = function()
 							{
 								_this.reset();
+
+								_this.dispatch( new Event("SHIT") );
 							};
 
 							/* ACTIONS */
@@ -60,8 +62,9 @@ function( $, MultiSelector, Event )
 
 							this.reset = function()
 							{
-								_super.reset();
+								_this.super.reset();
 
+								if(_tagsContainer) _tagsContainer.remove();
 								_tagsContainer = $( "<div class='Tags'></div>" );
 
 								_filter = $( "<input type='text' autocomplete='off' />" );
@@ -72,8 +75,8 @@ function( $, MultiSelector, Event )
 								_filter.on( "keyup", onKeyUp );
 								_tagsContainer.append( _filter );
 
-								_this.button.element.addClass("clearfix");
-								_this.button.element.addClass("filterButton");
+								_this.button.getElement().addClass("clearfix");
+								_this.button.getElement().addClass("filterButton");
 								_this.button.getElement().append( _tagsContainer );
 								_this.button.getElement().off( "click" );
 								_this.button.getElement().on( "click", onClick );
@@ -89,7 +92,7 @@ function( $, MultiSelector, Event )
 
 							this.select = function( proxyName, name, value )
 							{
-								_super.select( proxyName, name, value );
+								_this.super.select( proxyName, name, value );
 
 								adjustUI();
 							};
@@ -161,12 +164,12 @@ function( $, MultiSelector, Event )
 							{
 								_this.getElement().find(".Model").css( "top", (_this.getElement().height()) + "px" );
 
-								_super.expand();
+								_this.super.expand();
 							};
 
 							_this.collapse = function()
 							{
-								_super.collapse();
+								_this.super.collapse();
 							};
 
 							_this.focus = function()
@@ -251,5 +254,5 @@ function( $, MultiSelector, Event )
 							construct();
 						}
 
-						return MultiSelector.extend( TagSelector );
+						return TagSelector.extends( MultiSelector );
 });
