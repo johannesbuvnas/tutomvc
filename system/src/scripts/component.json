@@ -1,0 +1,9 @@
+{
+	"name" : "Tuto MVC WP Admin",
+	"version" : "1.0",
+	"dependencies" : {
+		"backbone" : null,
+		"jquery" : null,
+		"underscore" : null
+	}
+}

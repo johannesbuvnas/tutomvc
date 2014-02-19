@@ -15,9 +15,9 @@ final class TutoMVC
 	const NONCE_NAME = "tutomvc/nonce";
 
 	const SCRIPT_JS_REQUIRE = "require-js";
-	const SCRIPT_JS_REQUIRE_PATH = "src/js/libs/require.js";
+	const SCRIPT_JS_REQUIRE_PATH = "src/scripts/libs/requirejs/require.js";
 	const SCRIPT_JS = "tutomvc-core-js";
-	const SCRIPT_JS_PATH = "src/js/com.tutomvc.core.js";
+	const SCRIPT_JS_PATH = "deploy/com.tutomvc.core.js";
 
 	/* STATIC VARS */
 	private static $developmentMode = true;

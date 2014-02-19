@@ -1,7 +1,15 @@
 <?php
 namespace tutomvc;
-			
-			$value = $metaVO->getValue();
+
+			if($metaField->getType() == MetaType::TEXTAREA_WYSIWYG)
+			{
+				$value = GetMetaDatFilter::getDBMetaValue( $metaVO->getPostID(), $metaVO->getName() );
+				$value = is_array($value) ? $value[0] : $value;
+			}
+			else
+			{
+				$value = $metaVO->getValue();
+			}
 
 			if( is_string($value) ) $value = base64_encode( $value );
 
