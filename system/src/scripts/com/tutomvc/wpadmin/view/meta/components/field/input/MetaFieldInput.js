@@ -20,9 +20,14 @@ function( SingleSelector, Proxy, TextInput, TextareaWYSIWYGInput, AttachmentList
 			break;
 			case "attachment":
 
-				component = new AttachmentList( attributes.type.settings );
+				// console.time( "AttachmentList" );
+				// AttachmentList: 28.725ms
+				component = new AttachmentList( {
+					model : new AttachmentList.Model( attributes.type.settings )
+				} );
 				component.setName( attributes.name );
 				component.setValue( attributes.value );
+				// console.timeEnd( "AttachmentList" );
 
 			break;
 			case "selector_single":

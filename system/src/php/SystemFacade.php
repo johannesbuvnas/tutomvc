@@ -8,6 +8,7 @@ final class SystemFacade extends Facade
 	const LOGS_DIRECTORY = "/logs/";
 
 	const SCRIPT_JS_MAIN = "tutomvc-main-js";
+	const SCRIPT_JS_MAIN_PKGD = "tutomvc-main-pkgd-js";
 
 	public static $PRODUCTION_MODE = false;
 

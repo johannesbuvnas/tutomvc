@@ -1,21 +1,22 @@
 define([
 	"backbone",
-	"jquery"
+	"jquery",
+	"underscore"
 ],
-function( Backbone, $ )
+function( Backbone, $, _ )
 {
 	"use strict";
 
 	var ArrangeableList = Backbone.View.extend({
-		constructor : function( itemSelector, handleSelector )
+		itemSelector : "",
+		handleSelector : "",
+		constructor : function(options)
 		{
-			this.itemSelector = itemSelector;
-			this.handleSelector = handleSelector;
-			this.events = {};
+			this.events = this.events || {};
 			this.events[ "mousedown" + ( this.handleSelector ? " " + this.handleSelector : "" ) ] = "onMouseDown";
 			this.events[ "mouseover " + this.itemSelector ] = "onMouseOver";
 
-			Backbone.View.call( this );
+			Backbone.View.call(this, options);
 		},
 		drawDummy : function()
 		{

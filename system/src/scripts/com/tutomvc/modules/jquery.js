@@ -1,7 +1,7 @@
 define([
-	'jquery',
+	"libs/jquery/dist/jquery",
 ],
-function( $ )
+function()
 {
-	return $.noConflict( true );
+	return jQuery.noConflict( true );
 });

@@ -1,82 +1,69 @@
 define([
-	"com/tutomvc/core/controller/event/EventDispatcher",
-	"com/tutomvc/component/form/input/Input",
-	"com/tutomvc/component/button/Button",
-	"jquery",
-	"com/tutomvc/core/controller/event/Event"
+	"backbone",
+	"underscore",
+	"com/tutomvc/component/form/input/BBInput",
+	"text!com/tutomvc/wpadmin/view/meta/components/field/input/attachment/AttachmentItem.tpl.html"
 ],
-function( EventDispatcher, Input, Button, $, Event )
+function( Backbone, _, Input, Template )
 {
-	function AttachmentItem( id, title, thumbnailURL, iconURL, editURL )
+	var AttachmentItem = Backbone.View.extend({
+		tag : "div",
+		className : "AttachmentItem",
+		template : _.template( Template ),
+		initialize : function()
+		{
+			if(this.model)
+			{
+				this.render();
+				this.listenTo(this.model, 'change', this.render);
+				this.listenTo(this.model, 'destroy', this.remove);
+				this.listenTo(this.model, 'change:name', this.onChangeName);
+			}
+		},
+		// Methods
+		render : function()
+		{
+			this.$el.html( this.template( this.model.toJSON() ) );
+			return this;
+		},
+		setName : function(name)
+		{
+			this.$("input").attr("name", name);
+
+			return this;
+		},
+		// Events
+		events : {
+			"mouseover" : "onMouseOver",
+			"mouseout" : "onMouseOut",
+			"click .RemoveButton" : "onRemove",
+		},
+		onRemove : function()
+		{
+			// this.trigger( "remove" );
+			// this.remove();
+			this.model.destroy();
+		},
+		onMouseOver : function()
+		{
+			this.$(".RemoveButton").toggleClass( "HiddenElement" );
+		},
+		onMouseOut : function()
+		{
+			this.$(".RemoveButton").toggleClass( "HiddenElement" );
+		}
+	},
 	{
-		/* VARS */
-		var _this = this;
-		var _id = id;
-		var _title = title;
-		var _thumbnailURL = thumbnailURL;
-		var _iconURL = iconURL;
-		var _editURL = editURL;
+		Model : Input.Model.extend({
+			defaults : {
+				attachmentID : "",
+				title : "",
+				thumbnailURL : null,
+				iconURL : null,
+				editURL : ""
+			}
+		})
+	});
 
-		/* DISPLAY OBJECTS */
-		var _element;
-		this.input;
-		var _removeButton;
-
-		var construct = function()
-		{
-			_this.super();
-			draw();
-		};
-
-		var draw = function()
-		{
-			_element = $( "<div class='AttachmentItem'></div>" );
-
-			_this.input = new Input();
-			_this.input.setValue( _id );
-			_element.append( _this.input.getElement() );
-
-			if(_thumbnailURL) _element.append( "<a href='"+_editURL+"'><img src='" + _thumbnailURL + "' /></a>" );
-			else if(_iconURL) _element.append( "<a href='"+_editURL+"'><img src='" + _iconURL + "' class='Icon' /></a>" );
-
-			if(_title) _element.append( "<div class='AttachmentTitle'><span>" + _title + "</span></div>" );
-
-			_removeButton = new Button();
-			_removeButton.getElement().addClass( "RemoveButton" );
-			_removeButton.getElement().addClass( "HiddenElement" );
-			_removeButton.getElement().on( "click", onRemove );
-			_element.append( _removeButton.getElement() );
-
-			_element.on( "mouseover", onMouseOver );
-			_element.on( "mouseout", onMouseOut );
-		};
-
-		/* SET AND GET */
-		this.getElement = function()
-		{
-			return _element;
-		};
-
-		/* EVENT HANDLERS */
-		var onMouseOver = function()
-		{
-			_removeButton.getElement().removeClass( "HiddenElement" );
-		};
-
-		var onMouseOut = function()
-		{
-			_removeButton.getElement().addClass( "HiddenElement" );
-		};
-
-		var onRemove = function()
-		{
-			_element.remove();
-
-			_this.dispatchEvent( new Event( "remove" ) );
-		};
-
-		construct();
-	}
-
-	return AttachmentItem.extends( EventDispatcher );
+	return AttachmentItem;
 });

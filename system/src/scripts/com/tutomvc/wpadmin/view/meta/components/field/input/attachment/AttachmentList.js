@@ -1,171 +1,152 @@
 define(
 [	
 	"backbone",
-	"com/tutomvc/component/form/input/Input",
-	"com/tutomvc/component/button/Button",
-	"jquery",
+	"com/tutomvc/component/button/BBButton",
 	"com/tutomvc/wpadmin/view/meta/components/field/input/attachment/AttachmentItem",
 	"com/tutomvc/wpadmin/view/components/ArrangeableList",
+	"com/tutomvc/component/form/input/BBInput"
 ],
-function( Backbone, Input, Button, $, AttachmentItem, ArrangeableList )
+function( Backbone, Button, AttachmentItem, ArrangeableList, Input )
 {
-	function AttachmentList( attributes )
-	{
-		var _this = this;
-		var _attributes = $.extend( {}, {title:"", maxCardinality:-1, filter:[], buttonTitle:"Select"}, attributes );
-		var _name = "";
-
-		/* DISPLAY OBJECTS */
-		var _element;
-		var _sortableComponent;
-		var _inputProxy;
-		var _addButton;
-		var _wpMedia;
-
-		var construct = function()
+	var AttachmentList = ArrangeableList.extend({
+		className : "AttachmentList cf",
+		collection : new Backbone.Collection([], {
+			model : AttachmentItem.Model
+		}),
+		itemSelector : ".AttachmentItem",
+		handleSelector : "img",
+		initialize : function(options)
 		{
-			_this.super();
-			draw();
-			adjustButton();
-		};
+			if(!this.model) this.model = new BBAttachmentList.Model();
 
-		var draw = function()
-		{
-			_element = $( "<div class='AttachmentList cf'></div>" );
+			this.addButton = new Button({
+				className : "AddButton"
+			});
+			this.$el.append( this.addButton.$el );
 
-			// _sortableComponent = new SortableComponent( _element, ".AttachmentItem" );
-
-			_inputProxy = $( "<div class='HiddenElement'></div>" );
-			_element.append( _element );
-
-			_addButton = new Button();
-			_addButton.getElement().addClass( "AddButton" );
-			_addButton.getElement().on( "click", onOpenClick );
-			_addButton.getElement().on( "dragover", onDragOverFiles );
-			_addButton.getElement().on( "drop", onDropFiles );
-			_element.append( _addButton.getElement() );
-
-			_this.setElement( _element );
-
-			_wpMedia = wp.media({
-			    title: _attributes.title ? _attributes.title : "",
-			    multiple: _attributes.maxCardinality < 0 || _attributes.maxCardinality > 1 ? true : false,
-			    library: { type: _attributes.filter ? _attributes.filter : "" },
-			    button : { text : _attributes.buttonTitle ? _attributes.buttonTitle : "Select" },
+			this.wpMedia = wp.media({
+			    title: this.model.get("title"),
+			    multiple: this.model.get("maxCardinality") < 0 || this.model.get("maxCardinality") > 1 ? true : false,
+			    library: this.model.get("filter") ? { type: this.model.get("filter") } : undefined,
+			    button : { text : this.model.get("buttonTitle") },
 			    frame: 'select'
 			});
 
-			_wpMedia.on( 'select', onSelectAttachment );
+			this.listenTo( this.collection, "add", this.onAdd );
+			this.listenTo( this.collection, "change", this.adjust );
+			this.listenTo( this.collection, "remove", this.adjust );
+			this.listenTo( this.collection, "add", this.adjust );
+			this.listenTo( this.model, "change:value", this.onValueChange );
+			this.listenTo( this.model, "change:name", this.onNameChange );
+			this.listenTo( this.wpMedia, "select", this.onWPMediaSelect );
 
-			_sortableComponent = new ArrangeableList( ".AttachmentItem", "img" );
-			_sortableComponent.setElement( _element );
-		};
-
-		var adjustButton = function()
+			this.adjust();
+		},
+		adjust : function()
 		{
-			if( _attributes.hasOwnProperty( "maxCardinality" ) )
+			if(this.collection.length >= this.model.get("maxCardinality") && this.model.get("maxCardinality") >= 0) this.addButton.$el.addClass( "HiddenElement" );
+			else this.addButton.$el.removeClass( "HiddenElement" );
+		},
+		addEventListener :  function( eventName, callback )
+		{
+			this.on( eventName, callback );
+		},
+		getElement : function()
+		{
+			return this.$el;
+		},
+		setID : function(id)
+		{
+			this.$el.attr("id", id);
+		},
+		setName : function(name)
+		{
+			this.model.set( {name:name} );
+			// this.collection.invoke( "set", {name:name} );
+		},
+		getName : function()
+		{
+			return this.model.get("name");
+		},
+		setValue : function(value)
+		{
+			this.model.set( "value", value );
+		},
+		getValue : function()
+		{
+			this.$("input").val();
+		},
+
+		// Events
+		events : {
+			"click .AddButton" : "onAddClick",
+		},
+		onNameChange : function(model, value)
+		{
+			this.collection.invoke( "set", {name:value} );
+		},
+		onValueChange : function()
+		{
+			if( !this.model.get("value") )
 			{
-				if(_element.find( ".AttachmentItem" ).length >= _attributes.maxCardinality && _attributes.maxCardinality >= 0) _addButton.getElement().addClass( "HiddenElement" );
-				else _addButton.getElement().removeClass( "HiddenElement" );
+				this.collection.reset();
 			}
 			else
 			{
-				_addButton.getElement().removeClass( "HiddenElement" );
-			}
-		};
-
-		/* METHODS */
-		var addAttachment = function( id, title, thumbnailURL, iconURL, editURL )
-		{
-			if( _attributes.hasOwnProperty( "maxCardinality" ) )
-			{
-				if(_element.find( ".AttachmentItem" ).length >= _attributes.maxCardinality && _attributes.maxCardinality >= 0) return false;
-			}
-
-			var attachment = new AttachmentItem( id, title, thumbnailURL, iconURL, editURL );
-			attachment.input.setName( _name + "[]" );
-			attachment.addEventListener( "remove", adjustButton );
-
-			_addButton.getElement().before( attachment.getElement() );
-
-			adjustButton();
-
-			// _sortableComponent.update();
-
-			return true;
-		};
-
-		/* SET AND GET */
-		this.setValue = function( value )
-		{
-			if( !value )
-			{
-				_element.find( ".AttachmentItem" ).each(function()
-					{
-						$(this).remove();
-					});
-			}
-			else
-			{
-				for(var key in value)
+				for(var key in this.model.get("value"))
 				{
-					var attachment = value[key];
-
-					addAttachment( attachment.id, attachment.title, attachment.thumbnailURL, attachment.iconURL, attachment.editURL );
+					var attachment = this.model.get("value")[key];
+					this.collection.add({
+						attachmentID : attachment.id,
+						title : attachment.title,
+						thumbnailURL : attachment.thumbnailURL,
+						iconURL : attachment.iconURL,
+						editURL : attachment.editURL
+					});
 				}
 			}
-
-			adjustButton();
-		};
-
-		this.setName = function( name )
+		},
+		onAddClick : function()
 		{
-			_name = name;
-
-			_element.find( "input" ).each(function()
-				{
-					$(this).attr( "name", _name + "[]" );
-				});
-		};
-		this.getName = function()
+			this.wpMedia.open();
+		},
+		onAdd : function( model )
 		{
-			return _name;
-		};
-
-		/* EVENT HANDLERS */
-		var onDragOverFiles = function(e)
+			var item = new AttachmentItem({
+				model : model
+			});
+			this.addButton.$el.before( item.el );
+		},
+		onWPMediaSelect : function(e)
 		{
-			e.stopPropagation();
-			e.preventDefault();
-
-			e.originalEvent.dataTransfer.dropEffect = 'copy';
-		};
-		var onDropFiles = function(e)
-		{
-			e.stopPropagation();
-			e.preventDefault();
-
-			var files = e.originalEvent.dataTransfer.files;
-			console.log(files);
-		};
-
-		var onOpenClick = function(e)
-		{
-			_wpMedia.open();
-		};
-
-		var onSelectAttachment = function()
-		{
-			var selection = _wpMedia.state().get('selection');
-
+			var selection = this.wpMedia.state().get('selection');
+			var _this = this;
 			selection.each(function(attachment)
 			{
-			    if(!addAttachment( attachment.id, attachment.attributes.filename, attachment.attributes.sizes ? attachment.attributes.sizes.thumbnail.url : null, attachment.attributes.icon, attachment.attributes.editLink )) return;
+				if(_this.collection.length < _this.model.get("maxCardinality"))
+				{
+					_this.collection.add( {
+						attachmentID : attachment.id,
+						title : attachment.attributes.filename,
+						thumbnailURL : attachment.attributes.sizes ? attachment.attributes.sizes.thumbnail.url : null,
+						iconURL : attachment.attributes.icon,
+						editURL : attachment.attributes.editLink,
+						name : _this.model.get("name")
+					} );
+				}
 			});
-		};
+		},
+	},
+	{
+		Model : Input.Model.extend({
+			defaults : {
+				title : null,
+				buttonTitle : "Select",
+				maxCardinality : -1,
+				filter : null,
+			}
+		})
+	});
 
-		construct();
-	}
-
-	return AttachmentList.extends( Input );
+	return AttachmentList;
 });

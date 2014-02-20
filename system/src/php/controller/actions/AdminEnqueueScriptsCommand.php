@@ -25,7 +25,7 @@ class AdminEnqueueScriptsCommand extends ActionCommand
 			'quicktags',
 			'tiny_mce',
 			'jquery-ui-dialog',
-			SystemFacade::SCRIPT_JS_MAIN
+			SystemFacade::SCRIPT_JS_MAIN_PKGD
 		));
     
 		wp_enqueue_style ( 'wp-jquery-ui-dialog' );
