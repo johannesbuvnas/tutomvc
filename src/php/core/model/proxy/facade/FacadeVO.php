@@ -8,21 +8,18 @@ class FacadeVO extends ValueObject
 	protected $_facadeKey;
 	protected $_root;
 	protected $_url;
-	protected $_wpURL;
-	protected $_domain;
 	protected $_wpRoot;
+	/**
+	*	Relative to the root.
+	*/
+	public $templatesDir = "/templates/";
 	
 	function __construct( $facadeClassReference, $facadeKey, $root )
 	{
 		$this->_facadeClassReference = $facadeClassReference;
 		$this->_facadeKey = $facadeKey;
 		$this->_root = FileUtil::filterFileReference( $root );
-		$this->_wpURL = get_bloginfo( 'wpurl' );
-		$this->_domain = parse_url( $this->_wpURL );
-		$this->_domain = array_key_exists( "port", $this->_domain ) ? $this->_domain['host'] . ":" . $this->_domain['port'] : $this->_domain['host'];
-		$this->_wpRoot = substr( $this->_wpURL, strpos( $this->_wpURL, $this->_domain ) + strlen( $this->_domain ) );
-		$documentRoot = FileUtil::filterFileReference( getenv( "DOCUMENT_ROOT" ) );
-		$this->_url = get_bloginfo( 'wpurl' ) . FileUtil::filterFileReference( substr( $this->_root,  strripos( $this->_root, $documentRoot ) + strlen( $this->_wpRoot ) + strlen( $documentRoot ) ) );
+		$this->_url = get_bloginfo( 'wpurl' ) . FileUtil::filterFileReference( substr( $this->_root,  strripos( $this->_root, TutoMVC::getDocumentRoot() ) + strlen( TutoMVC::getWPRelativeRoot() ) + strlen( TutoMVC::getDocumentRoot() ) ) );
 	}
 
 	/* SET AND GET */
@@ -33,7 +30,7 @@ class FacadeVO extends ValueObject
 
 	public function getTemplateFileReference( $relativePath = NULL )
 	{
-		return is_null( $relativePath ) ? FileUtil::filterFileReference( $this->_root . "/templates" ) : FileUtil::filterFileReference( $this->_root . "/templates/{$relativePath}" );
+		return is_null( $relativePath ) ? FileUtil::filterFileReference( $this->_root . "/" . $this->templatesDir . "/" ) : FileUtil::filterFileReference( $this->_root . "/{$this->templatesDir}/{$relativePath}" );
 	}
 
 	public function getFacadeClassReference()
@@ -48,7 +45,6 @@ class FacadeVO extends ValueObject
 
 	public function getWPRoot()
 	{
-		return $this->_wpRoot;
+		return TutoMVC::getWPRoot();
 	}
-
 }

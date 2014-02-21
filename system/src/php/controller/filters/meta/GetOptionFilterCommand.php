@@ -12,8 +12,10 @@ class GetOptionFilterCommand extends FilterCommand
 		parent::__construct( "option_" . $optionName );
 	}
 
-	public function execute( $value )
+	public function execute()
 	{
+		$value = $this->getArg(0);
+
 		$field = $this->getFacade()->settingsCenter->getSectionFieldByOptionName( $this->_optionName );
 
 		return $field ? apply_filters( FilterCommand::META_VALUE, $value, $field ) : $value;

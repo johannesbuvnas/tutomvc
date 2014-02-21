@@ -9,8 +9,11 @@ class GetMetaDatFilter extends FilterCommand
 		$this->acceptedArguments = 4;
 	}
 
-	function execute( $null, $postID, $metaKey, $isSingle )
+	function execute()
 	{		
+		$postID = $this->getArg(1);
+		$metaKey = $this->getArg(2);
+		$isSingle = $this->getArg(3);
 		if(!$metaKey || !strlen($metaKey))
 		{
 			$meta = array();

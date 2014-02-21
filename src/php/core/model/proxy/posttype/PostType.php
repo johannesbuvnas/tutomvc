@@ -55,36 +55,6 @@ class PostType extends ValueObject implements IPostType
 	}
 
 	/* METHODS */
-	// public function addField( PostTypeField $fieldVO )
-	// {
-	// 	$this->_fieldsMap[ $fieldVO->getName() ] = $fieldVO;
-	// }
-	// public function hasField( $fieldName )
-	// {
-	// 	return isset( $this->_fieldsMap[ $fieldName ] );
-	// }
-
-	// public function addMetaBox( MetaBox $metaBox )
-	// {
-	// 	$this->_metaMap[ $metaBox->getName() ] = $metaBox;
-	// }
-	// public function hasMetaBox( $metaName )
-	// {
-	// 	return array_key_exists( $metaName, $this->_metaMap );
-	// }
-
-	/* SET AND GET */
-	// public function getField( $fieldName )
-	// {
-	// 	return $this->_fieldsMap[ $fieldName ];
-	// }
-	
-	// public function getMetaBox( $metaBoxName )
-	// {
-	// 	if( array_key_exists($metaBoxName, $this->_metaMap) ) return $this->_metaMap[$metaBoxName];
-
-	// 	return NULL;
-	// }
 	public function setOrderBy( $value )
 	{
 		$this->_orderBy = $value;
@@ -134,10 +104,6 @@ interface IPostType
 	// public function hasMetaBox( $metaName );
 	
 	/* SET AND GET */
-	// public function addField( PostTypeField $fieldVO );
-	// public function getField( $fieldName );
-	// public function addMetaBox( MetaBox $metaBox );
-	// public function getMetaBox( $metaBoxName );
 	public function setArguments($arguments);
 	public function getArguments();
 }

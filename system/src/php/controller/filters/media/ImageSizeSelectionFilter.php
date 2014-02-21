@@ -8,8 +8,10 @@ class ImageSizeSelectionFilter extends FilterCommand
 		parent::__construct( 'image_size_names_choose' );
 	}
 
-	function execute( $defaultImageSizes )
+	function execute()
 	{
+		$defaultImageSizes = $this->getArg(0);
+		
 		foreach($this->getFacade()->model->getProxy( ImageSizeProxy::NAME )->getMap() as $imageSize)
 		{
 			$defaultImageSizes[ $imageSize->getName() ] = $imageSize->getTitle();

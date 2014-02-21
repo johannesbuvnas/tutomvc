@@ -8,10 +8,11 @@ class PreGetPostsCommand extends ActionCommand
 		parent::__construct( "pre_get_posts" );
 	}
 
-	function execute($wpQuery)
+	function execute()
 	{
 		// if(is_admin())
 		// {
+			$wpQuery = $this->getArg(0);
 			foreach($this->getFacade()->postTypeCenter->getMap() as $postType)
 			{
 				if($postType->getName() == $wpQuery->get("post_type"))

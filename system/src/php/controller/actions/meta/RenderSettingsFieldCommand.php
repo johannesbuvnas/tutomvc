@@ -8,8 +8,10 @@ class RenderSettingsFieldCommand extends ActionCommand
 		parent::__construct( ActionCommand::RENDER_SETTINGS_FIELD );
 	}
 
-	function execute( $field )
+	function execute()
 	{
+		$field = $this->getArg(0);
+
 		if(!$field->getRendered())
 		{
 			$metaFieldMediator = $this->getFacade()->view->hasMediator( MetaFieldMediator::NAME ) ? $this->getFacade()->view->getMediator( MetaFieldMediator::NAME ) : $this->getFacade()->view->registerMediator( new MetaFieldMediator() );

@@ -9,8 +9,11 @@ class RenderMetaBoxProxyCommand extends ActionCommand
 		$this->acceptedArguments = 2;
 	}
 
-	function execute( $metaBoxName, $postID = 0 )
+	function execute()
 	{
+		$metaBoxName = $this->getArg( 0 );
+		$postID = !is_null($this->getArg( 1 )) ? $this->getArg( 1 ) : 0;
+		
 		$mediator = $this->getMediator();
 		$mediator->setMetaBox( $this->getFacade()->model->getProxy( MetaBoxProxy::NAME )->get( $metaBoxName ) );
 		$mediator->setPostID( $postID );

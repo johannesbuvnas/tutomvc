@@ -4,22 +4,18 @@ namespace tutomvc;
 	/*
 	Plugin Name: Tuto MVC
 	Plugin URI: http://www.tutomvc.com
-	Description: A WordPress MVC framework.
+	Description: The WordPress MVC framework.
 	Author: J. Buvnäs
 	Version: 1.0
-	Author URI: http://www.funkyjones.se
+	Author URI: http://www.tutomvc.com
 	*/
 
 	/** Loads the Tuto Framework */
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	// Temporary fix
-	/**
-	*	TODO: Remove this and fix the strict errors.
-	*/
-	error_reporting( E_ALL );
+	// error_reporting( E_ALL );
 	// error_reporting( error_reporting() & ~E_STRICT );
 	// error_reporting( E_ERROR );
-	ini_set( "display_errors", TRUE );
+	// ini_set( "display_errors", TRUE );
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	require_once 'src/php/TutoMVC.php';

@@ -10,8 +10,11 @@ class GetMetaValueFilterCommand extends FilterCommand
 		$this->acceptedArguments = 2;	
 	}
 
-	function execute( $metaValue, $metaField )
+	function execute()
 	{
+		$metaValue = $this->getArg(0);
+		$metaField = $this->getArg(1);
+
 		$settings = $metaField->getSettings();
 		
 		switch( $metaField->getType() )

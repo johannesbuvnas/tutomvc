@@ -5,65 +5,46 @@ namespace tutomvc;
 class Facade
 {
 	/* PUBLIC CONSTANT VARS */
-	const NAME = __NAMESPACE__;
-
+	const NAME = __CLASS__;
 	const KEY_SYSTEM = "tutomvc/facade/system";
 
-	/* PUBLIC STATIC VARS */
-
 	/* PUBLIC VARS */
-	public $noticeModel;
-
-	public $system;
-
-	/* PROTECTED VARS */
-	private $_initialized = false;
-
-	protected $_key;
-
+	public $vo;
 	public $model;
-
 	public $view;
-
 	public $controller;
 
-	/* STATIC VARS */
-	protected static $_instanceMap = array();
-
+	/* PRIVATE VARS */
+	private $_initialized = false;
+	private $_key;
+	private $_modulesMap = array();
+	private static $_instanceMap = array();
 
 	public function __construct( $key )
 	{
-		if( array_key_exists($key, $this::$_instanceMap) ) die( "Instance of Facade with that particular key already exists." );
-
-		$this::$_instanceMap[ $key ] = $this;
-
+		if( array_key_exists($key, self::$_instanceMap) ) die( "Instance of Facade with that particular key already exists." );
+		self::$_instanceMap[ $key ] = $this;
 		$this->_key = $key;
-
-		$this->initializeFacade();
+		$this->initialize();
 	}
 
 	/* ACTIONS */
-	private function initializeFacade()
+	private function initialize()
 	{
-		if($this->_initialized) return false;
-
+		if($this->_initialized) return FALSE;
 		$this->model = Model::getInstance( $this->getKey() );
-
 		$this->view = View::getInstance( $this->getKey() );
-
 		$this->controller = Controller::getInstance( $this->getKey() );
-
-		$this->_initialized = true;
-
-		return true;
+		$this->_initialized = TRUE;
+		return $this->_initialized;
 	}
 
-	/**
-	*	Called when the facade is registered within Tuto Framework and ready.
-	*/
-	public function onRegister()
+	final public function registerSubFacade( $facade )
 	{
-
+		$this->_modulesMap[ $facade->getKey() ] = $facade;
+		$facade->vo = $this->vo;
+		$facade->onRegister();
+		return $facade;
 	}
 
 	/* SET AND GET */
@@ -78,45 +59,44 @@ class Facade
 			return new Facade( $key );
 		}
 	}
-
 	public function getSystem()
 	{
 		return Facade::getInstance( Facade::KEY_SYSTEM );
 	}
 
 	/**
-	*	Get multiton key.
+	*	Get key.
 	*/
 	public function getKey()
 	{
 		return $this->_key;
 	}
-
+	/**
+	*	Get APP URL.
+	*/
 	public function getURL( $relativePath = null )
 	{
-		return TutoMVC::getApplicationVO( $this->_key )->getURL( $relativePath );
+		return $this->vo->getURL( $relativePath );
 	}
 
+	/**
+	*	Get template file path.
+	*/
 	public function getTemplateFileReference( $relativePath = null )
 	{
-		return TutoMVC::getApplicationVO( $this->_key )->getTemplateFileReference( $relativePath );
+		return $this->vo->getTemplateFileReference( $relativePath );
 	}
 
 	public function getVO()
 	{
-		return TutoMVC::getApplicationVO( $this->_key );
+		return $this->vo;
 	}
 
 	/**
-	*	Publish a debug message.
+	*	Called when the facade is registered within Tuto Framework and ready.
 	*/
-	public function debug($message)
+	public function onRegister()
 	{
-		if(TutoMVC::$debugMode)
-		{
-			$this->renderView("\\".__NAMESPACE__."\DebugView", array(
-					"message" => $message
-				));
-		}
+
 	}
 }

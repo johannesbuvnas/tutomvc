@@ -12,6 +12,7 @@ final class TutoMVC
 {
 	/* CONSTANTS */
 	const VERSION = "1.01";
+	const NAME = "tutomvc";
 	const NONCE_NAME = "tutomvc/nonce";
 
 	const SCRIPT_JS_REQUIRE = "require-js";
@@ -21,21 +22,15 @@ final class TutoMVC
 
 	/* STATIC VARS */
 	private static $developmentMode = true;
-
 	private static $initiated = false;
-
-	private static $_pluginRoot = "";
+	private static $_domain = "";
+	private static $_wpRelativeRoot = "";
+	private static $_documentRoot = "";
+	private static $_root = "";
 	private static $_src = "";
-
-	private static $_rootURL = "";
-
-	private static $facadeMap = array();
-
+	private static $_url = "";
+	private static $_facadeMap = array();
 	private static $_priority = -1;
-
-	/* PUBLIC OBJECTS */
-	static $service;
-
 
 	/* ACTIONS */
 	/**
@@ -45,29 +40,36 @@ final class TutoMVC
 	{	
 		if( self::$initiated ) 
 		{
-			return false;
+			return FALSE;
 		}
 
 		$backtrace = debug_backtrace();
 		$caller = $backtrace[0]['file'];
-		self::$_pluginRoot = realpath( dirname( $caller ) );
+
+		// Plugin root path
+		self::$_root = realpath( dirname( $caller ) );
+		// Plugin src path
 		self::$_src = realpath( dirname( __FILE__ ) );
-
+		// Figure out domain name
 		$wpURL = get_bloginfo( 'wpurl' );
-		$wpRoot = substr( $wpURL, strpos( $wpURL, $_SERVER['SERVER_NAME'] ) + strlen( $_SERVER['SERVER_NAME'] ) );
-		self::$_rootURL = get_bloginfo( 'wpurl' ) . FileUtil::filterFileReference( substr( self::$_pluginRoot,  strpos( self::$_pluginRoot, $wpRoot ) + strlen( $wpRoot ) ) );
+		self::$_domain = parse_url( $wpURL );
+		self::$_domain = array_key_exists( "port", self::$_domain ) ? self::$_domain['host'] . ":" . self::$_domain['port'] : self::$_domain['host'];
+		// Figure out the root of the WP folder
+		self::$_wpRelativeRoot = substr( $wpURL, strpos( $wpURL, self::$_domain ) + strlen( self::$_domain ) );
+		// Figure out URL to this plugin
+		self::$_documentRoot = FileUtil::filterFileReference( getenv( "DOCUMENT_ROOT" ) );
+		self::$_url = $wpURL . FileUtil::filterFileReference( substr( self::$_root,  strripos( self::$_root, self::$_documentRoot ) + strlen( self::$_wpRelativeRoot ) + strlen( self::$_documentRoot ) ) );
 
-		FileUtil::import( self::$_src );
-
-		// self::$service = new FrameworkService();
+		self::requireAll( self::$_src );
 		
 		self::$initiated = true;
 
-		require_once( self::$_pluginRoot.'/system/bootstrap.php' );
+		// Auto load the system app facade
+		require_once( self::$_root.'/system/bootstrap.php' );
 
 		do_action( ActionCommand::START_UP );
 
-		return true;
+		return TRUE;
 	}
 
 	/**
@@ -75,56 +77,62 @@ final class TutoMVC
 	*	@param string $facadeClassReference A reference to the class name which extends the Facade.
 	*	@return boolean
 	*/
-	public static function startup( $facadeClassReference )
+	public static function startup( $facadeClassReference, $templatesDir = "/templates/", $autoRequireAll = TRUE, $relativePath = "/src/php", $ignoredPaths = array() )
 	{
 		if(!self::$initiated)
 		{
 			die("ERROR! Cannot import application. Tuto Framework hasn't been initialized.");
 		}
 
-		if( self::hasImportedApplication( $facadeClassReference ) ) return false;
+		// If this class already exists, don't do anything
+		if( class_exists( $facadeClassReference ) ) return FALSE;
 
+		// The file that called this function will set the root for this app
 		$backtrace = debug_backtrace();
 		$caller = $backtrace[0]['file'];
 		$appRoot = realpath( dirname( $caller ) );
 
-		FileUtil::import( $appRoot . "/src/php" );
+		// Require all PHP files from the app
+		if($autoRequireAll)
+		{
+			self::requireAll( $appRoot . "/" . $relativePath, $ignoredPaths );
+		}
 
-		$facade = new $facadeClassReference();
-		self::$facadeMap[ $facade->getKey() ] = new FacadeVO( $facadeClassReference, $facade->getKey(), $appRoot );
-		if( $facade->getKey() != Facade::KEY_SYSTEM ) $facade->system = Facade::getInstance( Facade::KEY_SYSTEM );
+		// Construct and initalize the facade
+		$facade = new $facadeClassReference;
+		self::$_facadeMap[ $facade->getKey() ] = $facade;
+		$facade->vo = new FacadeVO( $facadeClassReference, $facade->getKey(), $appRoot );
+		$facade->vo->templatesDir = $templatesDir;
 		$facade->onRegister();
 		do_action( ActionCommand::FACADE_READY, $facade->getKey() );
-
 		return $facade;
+	}
+
+	/**
+	*	Finds all PHP files and require them.
+	*/
+	public static function requireAll( $path, $ignoredPaths = array() )
+	{
+		return FileUtil::import( $path, $ignoredPaths );
 	}
 
 	/* SET AND GET */
 	public static function getRoot()
 	{
-		return self::$_pluginRoot;
+		return self::$_root;
+	}
+	public static function getDocumentRoot()
+	{
+		return self::$_documentRoot;
+	}
+	public static function getWPRelativeRoot()
+	{
+		return self::$_wpRelativeRoot;
 	}
 
 	public static function getURL(  $relativePath = NULL )
 	{
-		return is_null( $relativePath ) ? self::$_rootURL : self::$_rootURL . FileUtil::filterFileReference( "/" . $relativePath );
-	}
-	
-	/**
-	*	@return FacadeVO
-	*/
-	public static function getApplicationVO( $facadeKey )
-	{
-		return self::$facadeMap[ $facadeKey ];
-	}
-
-	/**
-	*	Returns initialize priority ID.
-	*	@return int
-	*/
-	public static function getApplicationPriorityID()
-	{
-		return self::$_priority++;
+		return is_null( $relativePath ) ? self::$_url : self::$_url . FileUtil::filterFileReference( "/" . $relativePath );
 	}
 
 	/* PRIVATE METHODS */

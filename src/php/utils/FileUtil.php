@@ -48,6 +48,8 @@ class FileUtil
 		{
 			require_once( $import );
 		}
+
+		return TRUE;
 	}
 
 	/**
