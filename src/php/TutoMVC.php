@@ -15,8 +15,6 @@ final class TutoMVC
 	const NAME = "tutomvc";
 	const NONCE_NAME = "tutomvc/nonce";
 
-	const SCRIPT_JS_REQUIRE = "require-js";
-	const SCRIPT_JS_REQUIRE_PATH = "src/scripts/libs/requirejs/require.js";
 	const SCRIPT_JS = "tutomvc-core-js";
 	const SCRIPT_JS_PATH = "deploy/com.tutomvc.core.js";
 
@@ -101,7 +99,7 @@ final class TutoMVC
 		// Construct and initalize the facade
 		$facade = new $facadeClassReference;
 		self::$_facadeMap[ $facade->getKey() ] = $facade;
-		$facade->vo = new FacadeVO( $facadeClassReference, $facade->getKey(), $appRoot );
+		$facade->vo = new FacadeVO( $appRoot );
 		$facade->vo->templatesDir = $templatesDir;
 		$facade->onRegister();
 		do_action( ActionCommand::FACADE_READY, $facade->getKey() );

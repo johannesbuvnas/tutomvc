@@ -1,7 +1,7 @@
 <?php
 namespace tutomvc;
 
-			if($metaField->getType() == MetaType::TEXTAREA_WYSIWYG)
+			if($metaField->getType() == MetaField::TYPE_TEXTAREA_WYSIWYG)
 			{
 				$value = GetMetaDatFilter::getDBMetaValue( $metaVO->getPostID(), $metaVO->getName() );
 				$value = is_array($value) && count($value) ? $value[0] : $value;

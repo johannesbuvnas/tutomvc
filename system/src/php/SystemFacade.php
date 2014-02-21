@@ -5,10 +5,12 @@ final class SystemFacade extends Facade
 {
 	/* CONSTANTS */
 	const VERSION = "1.0";
+	const DEVELOPMENT_MODE = TRUE;
 	const LOGS_DIRECTORY = "/logs/";
 
-	const SCRIPT_JS_MAIN = "tutomvc-main-js";
-	const SCRIPT_JS_MAIN_PKGD = "tutomvc-main-pkgd-js";
+	const STYLE_CSS = "tutomvc-css";
+	const SCRIPT_JS = "tutomvc-js";
+	const SCRIPT_JS_REQUIRE = "tutomvc-require-js";
 
 	public static $PRODUCTION_MODE = false;
 

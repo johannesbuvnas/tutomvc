@@ -23,7 +23,14 @@ class MetaBox extends ValueObject implements IMetaBox
 	private $_conditions = array();
 
 
-	function __construct( $name, $title, $supportedPostTypes, $maxCardinality = 1, $context = MetaBox::CONTEXT_NORMAL, $priority = MetaBox::PRIORITY_DEFAULT )
+	function __construct( 
+		$name, 
+		$title, 
+		$supportedPostTypes, 
+		$maxCardinality = 1, 
+		$context = MetaBox::CONTEXT_NORMAL, 
+		$priority = MetaBox::PRIORITY_DEFAULT 
+	)
 	{
 		$this->setName( $name );
 		$this->setMaxCardinality( $maxCardinality );

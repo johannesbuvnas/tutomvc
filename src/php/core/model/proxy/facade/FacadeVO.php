@@ -4,8 +4,6 @@ namespace tutomvc;
 class FacadeVO extends ValueObject
 {
 	/* VARS */
-	protected $_facadeClassReference;
-	protected $_facadeKey;
 	protected $_root;
 	protected $_url;
 	protected $_wpRoot;
@@ -14,10 +12,8 @@ class FacadeVO extends ValueObject
 	*/
 	public $templatesDir = "/templates/";
 	
-	function __construct( $facadeClassReference, $facadeKey, $root )
+	function __construct( $root )
 	{
-		$this->_facadeClassReference = $facadeClassReference;
-		$this->_facadeKey = $facadeKey;
 		$this->_root = FileUtil::filterFileReference( $root );
 		$this->_url = get_bloginfo( 'wpurl' ) . FileUtil::filterFileReference( substr( $this->_root,  strripos( $this->_root, TutoMVC::getDocumentRoot() ) + strlen( TutoMVC::getWPRelativeRoot() ) + strlen( TutoMVC::getDocumentRoot() ) ) );
 	}
@@ -31,11 +27,6 @@ class FacadeVO extends ValueObject
 	public function getTemplateFileReference( $relativePath = NULL )
 	{
 		return is_null( $relativePath ) ? FileUtil::filterFileReference( $this->_root . "/" . $this->templatesDir . "/" ) : FileUtil::filterFileReference( $this->_root . "/{$this->templatesDir}/{$relativePath}" );
-	}
-
-	public function getFacadeClassReference()
-	{
-		return $this->_facadeClassReference;
 	}
 
 	public function getRoot( $relativePath = NULL )

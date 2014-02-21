@@ -7,24 +7,25 @@ class GetMetaValueFilterCommand extends FilterCommand
 	function __construct()
 	{
 		parent::__construct( FilterCommand::META_VALUE );
-		$this->acceptedArguments = 2;	
+		$this->acceptedArguments = 3;	
 	}
 
 	function execute()
 	{
-		$metaValue = $this->getArg(0);
-		$metaField = $this->getArg(1);
+		$postID = $this->getArg(0);
+		$metaValue = $this->getArg(1);
+		$metaField = $this->getArg(2);
 
 		$settings = $metaField->getSettings();
 		
 		switch( $metaField->getType() )
 		{
-			case MetaType::ATTACHMENT:
+			case MetaField::TYPE_ATTACHMENT:
 
 				$metaValue = $this->constructAttachmentMap( $metaValue );
 
 			break;
-			case MetaType::TEXTAREA_WYSIWYG:
+			case MetaField::TYPE_TEXTAREA_WYSIWYG:
 
 				$metaValue = $this->constructRichTextAreaMap( $metaValue );
 
@@ -33,7 +34,11 @@ class GetMetaValueFilterCommand extends FilterCommand
 
 		if( is_array($metaValue) && count($metaValue) == 1 && is_string( $metaValue[0] ) ) $metaValue = $metaValue[0];
 
-		if((!isset($metaValue) || empty($metaValue)) && isset($settings['defaultValue'])) $metaValue = $settings['defaultValue'];
+		if((!isset($metaValue) || empty($metaValue)) && (isset($settings[ MetaField::SETTING_DEFAULT_VALUE ]) || isset($settings[ MetaField::SETTING_DEFAULT_VALUE_CALLBACK ])))
+		{
+			if(isset($settings[ MetaField::SETTING_DEFAULT_VALUE ])) $metaValue = $settings[ MetaField::SETTING_DEFAULT_VALUE ];
+			else if(isset($settings[ MetaField::SETTING_DEFAULT_VALUE_CALLBACK ])) $metaValue = call_user_func_array( $settings[ MetaField::SETTING_DEFAULT_VALUE_CALLBACK ], $postID, $metaField );
+		}
 
 		return $metaValue;
 	}

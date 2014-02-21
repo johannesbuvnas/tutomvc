@@ -4,20 +4,24 @@ define(
 	"com/tutomvc/component/button/BBButton",
 	"com/tutomvc/wpadmin/view/meta/components/field/input/attachment/AttachmentItem",
 	"com/tutomvc/wpadmin/view/components/ArrangeableList",
-	"com/tutomvc/component/form/input/BBInput"
+	"com/tutomvc/component/form/Input"
 ],
 function( Backbone, Button, AttachmentItem, ArrangeableList, Input )
 {
 	var AttachmentList = ArrangeableList.extend({
+		tagName : "div",
 		className : "AttachmentList cf",
-		collection : new Backbone.Collection([], {
-			model : AttachmentItem.Model
-		}),
 		itemSelector : ".AttachmentItem",
 		handleSelector : "img",
 		initialize : function(options)
 		{
-			if(!this.model) this.model = new BBAttachmentList.Model();
+			if(!this.model) this.model = new AttachmentList.Model();
+			if(!this.collection)
+			{
+				this.collection = new Backbone.Collection([], {
+					model : AttachmentItem.Model
+				});
+			}
 
 			this.addButton = new Button({
 				className : "AddButton"

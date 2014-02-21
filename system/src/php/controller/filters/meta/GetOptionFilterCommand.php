@@ -18,6 +18,6 @@ class GetOptionFilterCommand extends FilterCommand
 
 		$field = $this->getFacade()->settingsCenter->getSectionFieldByOptionName( $this->_optionName );
 
-		return $field ? apply_filters( FilterCommand::META_VALUE, $value, $field ) : $value;
+		return $field ? apply_filters( FilterCommand::META_VALUE, NULL, $value, $field ) : $value;
 	}
 }

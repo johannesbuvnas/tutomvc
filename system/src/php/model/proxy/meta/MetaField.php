@@ -3,6 +3,19 @@ namespace tutomvc;
 
 class MetaField extends ValueObject implements IMetaBoxField
 {
+	// Types
+	const TYPE_TEXT = "text";
+	const TYPE_TEXTAREA = "textarea";
+	const TYPE_TEXTAREA_WYSIWYG = "textarea_wysiwyg";
+	const TYPE_ATTACHMENT = "attachment";
+	const TYPE_SELECTOR_SINGLE = "selector_single";
+	const TYPE_SELECTOR_SWITCH = "selector_switch";
+
+	// Settings
+	const SETTING_MAX_CARDINALITY = "maxCardinality";
+	const SETTING_DEFAULT_VALUE = "defaultValue";
+	const SETTING_DEFAULT_VALUE_CALLBACK = "defaultValueCallback";
+
 	/* VARS */
 	private $_title;
 	private $_description;

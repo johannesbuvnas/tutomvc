@@ -44,6 +44,8 @@ function( EventDispatcher, Event, $, MetaField )
 			_removeButton = _element.find( ".RemoveMetaBoxButton" );
 			// _removeButton.off( "click" );
 			_removeButton.on( "click", onRemoveClick );
+
+			_element.removeClass("Loading");
 		};
 
 		/* ACTIONS */

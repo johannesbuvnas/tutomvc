@@ -19,7 +19,7 @@ class SettingsProxy extends Proxy
 	{
 		foreach($item->getFields() as $sectionField)
 		{
-			add_option( $sectionField->getName(), apply_filters( FilterCommand::META_VALUE, NULL, $sectionField ) );
+			add_option( $sectionField->getName(), apply_filters( FilterCommand::META_VALUE, NULL, NULL, $sectionField ) );
 			$this->getFacade()->controller->registerCommand( new GetOptionFilterCommand( $sectionField->getName() ) );
 		}
 		return parent::add( $item, $key );

@@ -6,7 +6,7 @@ require.config({
 		"underscore" : "com/tutomvc/modules/underscore",
 		"text" : "libs/requirejs-text/text",
 		"base64" : "com/tutomvc/modules/base64",
-		"tutomvc" : "../../../deploy/com.tutomvc.core"
+		"tutomvc" : "libs/com.tutomvc.core"
 	},
 	shim : {
 		"backbone" : {

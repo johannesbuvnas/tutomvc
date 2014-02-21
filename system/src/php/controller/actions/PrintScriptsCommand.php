@@ -10,7 +10,7 @@ class PrintScriptsCommand extends ActionCommand
 
 	function execute()
 	{
-		if(wp_script_is( TutoMVC::SCRIPT_JS, "registered" ))
+		if(wp_script_is( TutoMVC::NAME ))
 		{
 			$this->getFacade()->view->getMediator( JSGlobalMediator::NAME )->render();
 		}

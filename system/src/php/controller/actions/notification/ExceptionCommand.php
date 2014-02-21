@@ -83,7 +83,7 @@ class ExceptionCommand extends ActionCommand
 
 	public function render( $exception )
 	{
-		echo '<link rel="stylesheet" href="'.$this->getFacade()->getURL( "assets/css/tutomvc.admin.css" ).'">';
+		echo '<link rel="stylesheet" href="'.$this->getFacade()->getURL( "style.css" ).'">';
 		
 		$this->getFacade()->log( $exception->getMessage()." @ ".$exception->getFile() );
 

@@ -18,6 +18,10 @@ div.MetaBox
 	position: relative;
 	margin-bottom: 10px;
 }
+div.MetaBox.Loading .MetaBoxInner
+{
+	background: #f9f9f9 url('../images/preloader.gif') center center no-repeat;
+}
 div.MetaBoxInner
 {
 	background: #f9f9f9;

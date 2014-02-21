@@ -3,13 +3,19 @@ define([
 	"com/tutomvc/component/model/proxy/Proxy",
 	"com/tutomvc/wpadmin/view/meta/components/field/input/text/TextInput",
 	"com/tutomvc/wpadmin/view/meta/components/field/input/text/TextareaWYSIWYGInput",
-	"com/tutomvc/wpadmin/view/meta/components/field/input/attachment/AttachmentList"
+	"com/tutomvc/wpadmin/view/meta/components/field/input/attachment/AttachmentList",
+	"com/tutomvc/component/form/TextArea",
+	"com/tutomvc/component/form/Input"
 ],
-function( SingleSelector, Proxy, TextInput, TextareaWYSIWYGInput, AttachmentList )
+function( SingleSelector, Proxy, TextInput, TextareaWYSIWYGInput, AttachmentList, TextArea, Input )
 {
 	return function( attributes )
 	{
 		var component;
+		var model = new Input.Model({
+			value : attributes.value,
+			name : attributes.name
+		});
 
 		switch( attributes.type.name )
 		{
@@ -49,6 +55,13 @@ function( SingleSelector, Proxy, TextInput, TextareaWYSIWYGInput, AttachmentList
 
 				component.model.addProxy( proxy );
 				component.reset();
+
+			break;
+			case "textarea":
+
+				component = new TextArea({
+					model : model
+				});
 
 			break;
 			default:

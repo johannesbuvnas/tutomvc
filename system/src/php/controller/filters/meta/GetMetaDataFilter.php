@@ -37,7 +37,7 @@ class GetMetaDatFilter extends FilterCommand
 					$metaField = $metaBox->getFieldByMetaKey( $metaKey );
 					if($metaField)
 					{
-						$meta = apply_filters( FilterCommand::META_VALUE, self::getDBMetaValue( $postID, $metaKey ), $metaField );
+						$meta = apply_filters( FilterCommand::META_VALUE, $postID, self::getDBMetaValue( $postID, $metaKey ), $metaField );
 					}
 				}
 			}

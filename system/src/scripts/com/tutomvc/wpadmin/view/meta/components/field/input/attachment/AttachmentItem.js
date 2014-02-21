@@ -1,13 +1,13 @@
 define([
 	"backbone",
 	"underscore",
-	"com/tutomvc/component/form/input/BBInput",
+	"com/tutomvc/component/form/Input",
 	"text!com/tutomvc/wpadmin/view/meta/components/field/input/attachment/AttachmentItem.tpl.html"
 ],
 function( Backbone, _, Input, Template )
 {
 	var AttachmentItem = Backbone.View.extend({
-		tag : "div",
+		tagName : "div",
 		className : "AttachmentItem",
 		template : _.template( Template ),
 		initialize : function()
@@ -17,7 +17,6 @@ function( Backbone, _, Input, Template )
 				this.render();
 				this.listenTo(this.model, 'change', this.render);
 				this.listenTo(this.model, 'destroy', this.remove);
-				this.listenTo(this.model, 'change:name', this.onChangeName);
 			}
 		},
 		// Methods
@@ -29,7 +28,6 @@ function( Backbone, _, Input, Template )
 		setName : function(name)
 		{
 			this.$("input").attr("name", name);
-
 			return this;
 		},
 		// Events
