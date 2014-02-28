@@ -11,7 +11,7 @@ require_once realpath( dirname( __FILE__ ) ) . '/utils/FileUtil.php';
 final class TutoMVC
 {
 	/* CONSTANTS */
-	const VERSION = "1.01";
+	const VERSION = "1.02";
 	const NAME = "tutomvc";
 	const NONCE_NAME = "tutomvc/nonce";
 
@@ -19,8 +19,7 @@ final class TutoMVC
 	const SCRIPT_JS_PATH = "deploy/com.tutomvc.core.js";
 
 	/* STATIC VARS */
-	private static $developmentMode = true;
-	private static $initiated = false;
+	private static $initiated = FALSE;
 	private static $_domain = "";
 	private static $_wpRelativeRoot = "";
 	private static $_documentRoot = "";

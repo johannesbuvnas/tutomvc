@@ -3,8 +3,10 @@ namespace tutomvc;
 
 			if($metaField->getType() == MetaField::TYPE_TEXTAREA_WYSIWYG)
 			{
-				$value = GetMetaDatFilter::getDBMetaValue( $metaVO->getPostID(), $metaVO->getName() );
-				$value = is_array($value) && count($value) ? $value[0] : $value;
+				// Textarea value is set when the editor is requested from AJAX
+				// $value = GetMetaDatFilter::getDBMetaValue( $metaVO->getPostID(), $metaVO->getName() );
+				// $value = is_array($value) && count($value) ? $value[0] : $value;
+				$value = "";
 			}
 			else
 			{
@@ -17,6 +19,7 @@ namespace tutomvc;
 			// else if( count( $value ) == 0 ) $value = "";
 			
 			$vo = array();
+			$vo['postID'] = $metaVO->getPostID();
 			$vo['title'] = $metaField->getTitle();
 			$vo['description'] = $metaField->getDescription();
 			$vo['name'] = $metaField->getName();

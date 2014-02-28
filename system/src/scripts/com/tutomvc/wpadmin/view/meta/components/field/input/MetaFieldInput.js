@@ -11,29 +11,24 @@ function( SingleSelector, Proxy, TextInput, TextareaWYSIWYGInput, AttachmentList
 {
 	return function( attributes )
 	{
-		var component;
-		var model = new Input.Model({
-			value : attributes.value,
-			name : attributes.name
-		});
+		var component; 
+		var model = new Input.Model( attributes );
+		model.set( attributes.type.settings );
 
 		switch( attributes.type.name )
 		{
 			case "textarea_wysiwyg":
 
-				component = new TextareaWYSIWYGInput( attributes.value, attributes.id, attributes.type.settings );
+				component = new TextareaWYSIWYGInput({
+					model : model,
+				});
 
 			break;
 			case "attachment":
 
-				// console.time( "AttachmentList" );
-				// AttachmentList: 28.725ms
 				component = new AttachmentList( {
-					model : new AttachmentList.Model( attributes.type.settings )
+					model : model
 				} );
-				component.setName( attributes.name );
-				component.setValue( attributes.value );
-				// console.timeEnd( "AttachmentList" );
 
 			break;
 			case "selector_single":
@@ -66,7 +61,13 @@ function( SingleSelector, Proxy, TextInput, TextareaWYSIWYGInput, AttachmentList
 			break;
 			default:
 
-				component = new TextInput( attributes.value );
+				// component = new TextInput( attributes.value );
+				component = new Input({
+					model : model,
+					attributes : {
+						type : "text"
+					}
+				});
 
 			break;
 		}

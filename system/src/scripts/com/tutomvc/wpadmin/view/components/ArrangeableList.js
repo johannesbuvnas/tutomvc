@@ -12,7 +12,7 @@ function( Backbone, $, _ )
 		handleSelector : "",
 		constructor : function(options)
 		{
-			this.events = this.events || {};
+			this.events = this.events ? this.events : {};
 			this.events[ "mousedown" + ( this.handleSelector ? " " + this.handleSelector : "" ) ] = "onMouseDown";
 			this.events[ "mouseover " + this.itemSelector ] = "onMouseOver";
 

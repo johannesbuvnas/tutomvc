@@ -12,9 +12,9 @@ class MetaField extends ValueObject implements IMetaBoxField
 	const TYPE_SELECTOR_SWITCH = "selector_switch";
 
 	// Settings
+	const SETTING_TITLE = "title";
 	const SETTING_MAX_CARDINALITY = "maxCardinality";
 	const SETTING_DEFAULT_VALUE = "defaultValue";
-	const SETTING_DEFAULT_VALUE_CALLBACK = "defaultValueCallback";
 
 	/* VARS */
 	private $_title;

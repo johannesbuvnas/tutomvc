@@ -40,11 +40,28 @@ function( Backbone, Button, AttachmentItem, ArrangeableList, Input )
 			this.listenTo( this.collection, "change", this.adjust );
 			this.listenTo( this.collection, "remove", this.adjust );
 			this.listenTo( this.collection, "add", this.adjust );
-			this.listenTo( this.model, "change:value", this.onValueChange );
-			this.listenTo( this.model, "change:name", this.onNameChange );
 			this.listenTo( this.wpMedia, "select", this.onWPMediaSelect );
+			this.listenTo( this.model, "change", this.render );
+		},
+		render : function()
+		{
+			this.collection.reset();
+			var attachments = this.model.get("value");
+			for(var p in attachments)
+			{
+				this.collection.add({
+					attachmentID : attachments[p].id,
+					title : attachments[p].title,
+					thumbnailURL : attachments[p].thumbnailURL,
+					iconURL : attachments[p].iconURL,
+					editURL : attachments[p].editURL,
+					name : this.model.get("name")
+				});
+			}
 
 			this.adjust();
+
+			return this;
 		},
 		adjust : function()
 		{
@@ -127,7 +144,7 @@ function( Backbone, Button, AttachmentItem, ArrangeableList, Input )
 			var _this = this;
 			selection.each(function(attachment)
 			{
-				if(_this.collection.length < _this.model.get("maxCardinality"))
+				if(_this.model.get("maxCardinality") < 0 || _this.collection.length < _this.model.get("maxCardinality"))
 				{
 					_this.collection.add( {
 						attachmentID : attachment.id,

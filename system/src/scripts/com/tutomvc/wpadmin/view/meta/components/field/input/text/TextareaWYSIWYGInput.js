@@ -1,150 +1,85 @@
 define([
-	"com/tutomvc/component/form/input/Input",
-	"jquery"
+	"jquery",
+	"backbone",
+	"underscore",
+	"com/tutomvc/component/form/Input"
 ],
-function( Input, $ )
+function( $, Backbone, _, Input )
 {
-	function TextareaWYSIWYGInput( content, id, settings )
-	{
-		/* VARS */
-		var _this = this;
-		var _content = content ? content : "";
-		var _name;
-		var _id = id ? id : "";
-		var _settings = settings ? settings : "";
-
-		/* DISPLAY OBJECTS */
-		var _editor;
-
-		var construct = function()
+	var TextareaWYSIWYGInput = Input.extend({
+		tagName : "div",
+		editorRequested : false,
+		attributes : null,
+		render : function()
 		{
-			_this.super();
-			draw();
-		};
-
-		var draw = function()
-		{
-			_this.setElement( $( "<div></div>" ) );
-
-			requestEditor();
-		};
-
-		/* ACTIONCS */
-		var requestEditor = function()
-		{
-			_settings.quicktags = false;
-			var data = 
+			if(this.wpEditor)
 			{
-				action : "tutomvc/ajax/render/wp_editor",
-				nonce : TutoMVC.nonce,
-				content : _content,
-				id : _id,
-				settings : _settings
-			};
-
-			$.ajax({
-				type: "post",
-				dataType: "html",
-				url: TutoMVC.ajaxURL,
-				data: data,
-				success: onAjaxResult,
-				error: onAjaxError
-			});
-		};
-
-		/* SET AND GET */
-		// Override
-		this.setID = function( value )
-		{
-			return false;
-		};
-		this.getID = function()
-		{
-			return _id;
-		};
-
-		this.setValue = function( value )
-		{
-			if (typeof value == 'string' || value instanceof String)
-			{
-
+				this.$( "textarea" ).attr( "name", this.model.get("name") );
 			}
 			else
 			{
-				value = "";
+				if(!this.editorRequested)
+				{
+					this.editorRequested = true;
+						var data = 
+						{
+							action : "tutomvc/ajax/render/wp_editor",
+							nonce : TutoMVC.nonce,
+							content : this.model.get("value"),
+							id : this.model.get("id"),
+							postID : this.model.get( "postID" ),
+							metaKey : this.model.get( "key" ),
+							settings : {}
+						};
+
+						$.ajax({
+							type: "post",
+							dataType: "html",
+							url: TutoMVC.ajaxURL,
+							data: data,
+							success: _.bind( this.onAjaxResult, this ),
+							error: _.bind( this.onAjaxError, this )
+						});
+				}
 			}
+
+			return this;
+		},
+
+		// Events
+		events : {
+			"click" : "onEditorFocus"
+		},
+		onEditorFocus : function(e)
+		{
+			TextareaWYSIWYGInput.setActiveWPEditor( this.model.get("id") );
+		},
+		onEditorBlur : function(e)
+		{
+			TextareaWYSIWYGInput.setActiveWPEditor( null );
+		},
+		onAjaxResult : function(e)
+		{
+			this.$el.append( e );
+
+			tinyMCE.execCommand( "mceAddControl", false, this.model.get("id") );
+			this.wpEditor = tinyMCE.get( this.model.get("id") );
+			$(this.wpEditor.getBody()).on( "blur", _.bind( this.onEditorBlur, this ) );
+			TextareaWYSIWYGInput.setActiveWPEditor( null );
 			
-			if( _editor )
-			{
-				_editor.setContent( value ? value : "" );
-			}
-			else
-			{
-				_content = value;
-			}
-		};
-
-		this.setName = function( name )
-		{
-			_name = name;
-
-
-			if(_editor)
-			{
-				$("#" + _id).attr("name", name);
-			}
-		};
-
-		/* EVENT HANDLERS */
-		var onAjaxResult = function(e)
-		{
-			_this.getElement().append( $(e) );
-
-			// tinyMCE.init( {
-			//     skin : "wp_theme",
-			//     // mode : "exact",
-			//     elements : _id
-			//     // theme: "advanced"
-			// } );
-
-			// _this.getElement().find( ".switch-tmce" ).trigger( "click" );
-			// var qtags = quicktags( {id : _id} );
-			// console.log(qtags);
-			// console.log( switchEditors.go( _id ) );
-
-			// quicktags( {id : _id} );
-			tinyMCE.execCommand( "mceAddControl", false, _id );
-			// tinymce.init( tinyMCEPreInit.mceInit[ _id ] );
-
-			// console.log( switchEditors.go( _id ) );
-
-			_editor = tinyMCE.get( _id );
-			$( _editor.getBody() ).on( "blur" , onEditorBlur );
-			$( '#wp-' + _id + '-wrap' ).on( "click", onEditorFocus );
-			_this.setValue( _content );
-
-			wpActiveEditor = null;
-
-			$("#" + _id).attr( "name", _name );
-		};
-
-		var onAjaxError = function(e)
+			this.render();
+		},
+		onAjaxError : function(e)
 		{
 			console.log(e);
-		};
-
-		var onEditorFocus = function(e)
+		}
+	}, 
+	{
+		setActiveWPEditor : function( id )
 		{
-			wpActiveEditor = _id;
-		};
+			wpActiveEditor = id;
+		}
+	});
 
-		var onEditorBlur = function(e)
-		{
-			wpActiveEditor = null;
-		};
-
-		construct();
-	}
-
-	return TextareaWYSIWYGInput.extends( Input );
+	return TextareaWYSIWYGInput;
 });

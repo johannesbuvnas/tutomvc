@@ -10,11 +10,12 @@ class RenderWPEditorAjaxCommand extends AjaxCommand
 
 	public function execute(  )
 	{
-		$content = array_key_exists( "content", $_REQUEST ) ? stripslashes( $_REQUEST[ 'content' ] ) : "";
+		$content = GetMetaDatFilter::getDBMetaValue( $_REQUEST['postID'], $_REQUEST['metaKey'] );
+		$content = is_array($content) && count($content) ? $content[0] : $content;
+		
 		$id = $_REQUEST[ 'id' ];
 		$settings = array(
-			"quicktags" => FALSE,
-			// 'textarea_rows' => 30,
+			"quicktags" => FALSE
 		);		
 
 		wp_editor( $content, $id, $settings );

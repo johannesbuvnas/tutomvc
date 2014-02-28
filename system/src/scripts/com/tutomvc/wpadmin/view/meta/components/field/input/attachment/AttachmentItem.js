@@ -6,28 +6,18 @@ define([
 ],
 function( Backbone, _, Input, Template )
 {
-	var AttachmentItem = Backbone.View.extend({
+	var AttachmentItem = Input.extend({
 		tagName : "div",
 		className : "AttachmentItem",
+		attributes : null,
 		template : _.template( Template ),
 		initialize : function()
 		{
-			if(this.model)
-			{
-				this.render();
-				this.listenTo(this.model, 'change', this.render);
-				this.listenTo(this.model, 'destroy', this.remove);
-			}
 		},
 		// Methods
 		render : function()
 		{
 			this.$el.html( this.template( this.model.toJSON() ) );
-			return this;
-		},
-		setName : function(name)
-		{
-			this.$("input").attr("name", name);
 			return this;
 		},
 		// Events
@@ -38,8 +28,6 @@ function( Backbone, _, Input, Template )
 		},
 		onRemove : function()
 		{
-			// this.trigger( "remove" );
-			// this.remove();
 			this.model.destroy();
 		},
 		onMouseOver : function()

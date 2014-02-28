@@ -8,6 +8,7 @@ function( Backbone, Input )
 
 	var TextArea = Input.extend({
 		tagName : "textarea",
+		attributes : null,
 		initialize : function(options)
 		{
 		},
@@ -15,20 +16,18 @@ function( Backbone, Input )
 		{
 			this.$el.attr( "name", this.model.get("name") );
 			this.$el.attr( "id", this.model.get("id") );
+			this.$el.attr( "rows", this.model.get("rows") );
 			this.$el.html( this.model.get("value") );
 
 			return this;
 		},
-
-		//TODO: Remove this when all is backbone
-		onNameChange : function()
-		{
-			this.$el.attr("name", this.model.get("name"));
-		},
-		onValueChange : function(e)
-		{
-			this.$el.html( this.model.get("value") );
-		},
+	},
+	{
+		Model : Input.Model.extend({
+			defaults : {
+				rows : 5, 
+			}
+		})
 	});
 
 	return TextArea;

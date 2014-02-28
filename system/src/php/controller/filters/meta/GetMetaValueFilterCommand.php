@@ -34,11 +34,7 @@ class GetMetaValueFilterCommand extends FilterCommand
 
 		if( is_array($metaValue) && count($metaValue) == 1 && is_string( $metaValue[0] ) ) $metaValue = $metaValue[0];
 
-		if((!isset($metaValue) || empty($metaValue)) && (isset($settings[ MetaField::SETTING_DEFAULT_VALUE ]) || isset($settings[ MetaField::SETTING_DEFAULT_VALUE_CALLBACK ])))
-		{
-			if(isset($settings[ MetaField::SETTING_DEFAULT_VALUE ])) $metaValue = $settings[ MetaField::SETTING_DEFAULT_VALUE ];
-			else if(isset($settings[ MetaField::SETTING_DEFAULT_VALUE_CALLBACK ])) $metaValue = call_user_func_array( $settings[ MetaField::SETTING_DEFAULT_VALUE_CALLBACK ], $postID, $metaField );
-		}
+		if((!isset($metaValue) || empty($metaValue)) && (isset($settings[ MetaField::SETTING_DEFAULT_VALUE ]))) $metaValue = $settings[ MetaField::SETTING_DEFAULT_VALUE ];
 
 		return $metaValue;
 	}

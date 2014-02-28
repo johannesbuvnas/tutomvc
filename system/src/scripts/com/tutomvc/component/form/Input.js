@@ -7,17 +7,11 @@ function(Backbone)
 
 	var Input = Backbone.View.extend({
 		tagName : "input",
+		attributes : {
+			type : "hidden"
+		},
 		constructor : function(options)
 		{
-			var attributes = 
-			{
-				type : "hidden",
-				id : null,
-				name : null,
-				value : null
-			}
-			this.attributes = options ? _.extend( attributes, options.attributes ) : attributes;
-
 			Backbone.View.call(this, options);
 
 			if(!this.model) this.model = new Input.Model();
@@ -27,7 +21,6 @@ function(Backbone)
 		},
 		render : function()
 		{
-			this.$el.attr( "type", this.model.get("type") );
 			this.$el.attr( "name", this.model.get("name") );
 			this.$el.attr( "id", this.model.get("id") );
 			this.$el.val( this.model.get("value") );
@@ -48,7 +41,7 @@ function(Backbone)
 		},
 		setID : function(id)
 		{
-			this.$el.attr("id", id);
+			this.model.set("elementID", id);
 		},
 		setName : function(name)
 		{
@@ -74,8 +67,7 @@ function(Backbone)
 				var defaults = {
 					value : null,
 					name : null,
-					id : null,
-					type : "hidden",
+					elementID : null
 				};
 				this.defaults = _.extend( defaults, this.defaults );
 
