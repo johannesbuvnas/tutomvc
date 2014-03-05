@@ -13,7 +13,7 @@ class AdminNoticesCommand extends ActionCommand
 	function execute()
 	{
 		$mediator = $this->getFacade()->view->getMediator( NotificationMediator::NAME ) ? $this->getFacade()->view->getMediator( NotificationMediator::NAME ) : $this->getFacade()->view->registerMediator( new NotificationMediator() );
-
+		
 		foreach($this->getFacade()->notificationCenter->getMap() as $notification)
 		{
 			$mediator->setNotification( $notification );

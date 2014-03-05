@@ -41,6 +41,18 @@ class Controller
 
 		return $command;
 	}
+	public function removeCommand( $name )
+	{
+		if($this->hasCommand($name))
+		{
+			$this->getCommand($name)->remove();
+			unset( $this->_commandMap[ $name ] );
+
+			return TRUE;
+		}
+
+		return FALSE;
+	}
 
 	public function getCommand( $commandName )
 	{

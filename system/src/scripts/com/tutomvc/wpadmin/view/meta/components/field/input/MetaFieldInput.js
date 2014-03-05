@@ -1,13 +1,12 @@
 define([
 	"com/tutomvc/component/form/input/SingleSelector",
 	"com/tutomvc/component/model/proxy/Proxy",
-	"com/tutomvc/wpadmin/view/meta/components/field/input/text/TextInput",
 	"com/tutomvc/wpadmin/view/meta/components/field/input/text/TextareaWYSIWYGInput",
 	"com/tutomvc/wpadmin/view/meta/components/field/input/attachment/AttachmentList",
 	"com/tutomvc/component/form/TextArea",
 	"com/tutomvc/component/form/Input"
 ],
-function( SingleSelector, Proxy, TextInput, TextareaWYSIWYGInput, AttachmentList, TextArea, Input )
+function( SingleSelector, Proxy, TextareaWYSIWYGInput, AttachmentList, TextArea, Input )
 {
 	return function( attributes )
 	{
@@ -61,7 +60,6 @@ function( SingleSelector, Proxy, TextInput, TextareaWYSIWYGInput, AttachmentList
 			break;
 			default:
 
-				// component = new TextInput( attributes.value );
 				component = new Input({
 					model : model,
 					attributes : {

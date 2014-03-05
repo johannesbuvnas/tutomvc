@@ -35,7 +35,7 @@ function( EventDispatcher, Event, $, MetaField )
 			_element.find( ".MetaField" ).each( function()
 			{
 				var input = new MetaField( _name + "_" + _this.getID(), $( this ) );
-				input.addEventListener( "change", onMetaFieldChange );
+				input.on( "change", onMetaFieldChange );
 				_metaFieldMap.push( input );
 			} );
 
@@ -77,9 +77,12 @@ function( EventDispatcher, Event, $, MetaField )
 
 			_this.setLabel( "No. " + (_cardinalityID + 1) );
 
+			var metaKey;
 			$( _metaFieldMap ).each(function()
 			{
-				this.setKey( _name + "_" + _cardinalityID + "_" + this.getName() );
+				// [metaBoxName]_[cardinalityID]_[metaFieldName]
+				metaKey = _name + "_" + _cardinalityID + "_" + this.model.get("metaFieldName");
+				this.model.set( {name : metaKey, name : metaKey} );
 			});
 		};
 		this.getCardinalityID = function()
@@ -105,14 +108,15 @@ function( EventDispatcher, Event, $, MetaField )
 			_this.dispatchEvent( new Event( "remove", { id : _this.getID() } ) );
 		};
 
-		var onMetaFieldChange = function(e)
+		var onMetaFieldChange = function( metaFieldModel )
 		{
 			$( _metaFieldMap ).each(function()
 			{
-				this.metaBoxChange( _name, e.getBody().metaFieldName, e.getBody().value );
+				this.metaBoxChange( _name, metaFieldModel.get("metaFieldName"), metaFieldModel.get("value") );
 			});
 
-			_this.dispatchEvent( e );
+			var event = new Event( "change", { metaFieldName : this.model.get("metaFieldName"), value : this.model.get("value") } );
+			_this.dispatchEvent( event );
 		};
 
 		construct();

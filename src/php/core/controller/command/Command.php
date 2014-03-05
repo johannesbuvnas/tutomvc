@@ -34,6 +34,11 @@ class Command extends CoreClass implements ICommand
 	{
 	}
 
+	public function remove()
+	{
+		
+	}
+
 	public function setName( $name )
 	{
 		$this->_name = is_null( $name ) ? $this::NAME : $name;

@@ -37,15 +37,13 @@ function( Backbone, Button, AttachmentItem, ArrangeableList, Input )
 			});
 
 			this.listenTo( this.collection, "add", this.onAdd );
-			this.listenTo( this.collection, "change", this.adjust );
-			this.listenTo( this.collection, "remove", this.adjust );
-			this.listenTo( this.collection, "add", this.adjust );
+			this.listenTo( this.collection, "change", this.render );
+			this.listenTo( this.collection, "remove", this.render );
+			this.listenTo( this.collection, "add", this.render );
+			this.listenTo( this.model, "change:name", this.onNameChange );
 			this.listenTo( this.wpMedia, "select", this.onWPMediaSelect );
-			this.listenTo( this.model, "change", this.render );
-		},
-		render : function()
-		{
-			this.collection.reset();
+			this.on( "focus", this.onAddClick );
+
 			var attachments = this.model.get("value");
 			for(var p in attachments)
 			{
@@ -58,47 +56,29 @@ function( Backbone, Button, AttachmentItem, ArrangeableList, Input )
 					name : this.model.get("name")
 				});
 			}
-
-			this.adjust();
-
-			return this;
 		},
-		adjust : function()
+		render : function()
 		{
 			if(this.collection.length >= this.model.get("maxCardinality") && this.model.get("maxCardinality") >= 0) this.addButton.$el.addClass( "HiddenElement" );
 			else this.addButton.$el.removeClass( "HiddenElement" );
+
+			var value = [];
+			this.collection.each(function(model)
+				{
+					value.push( model.get("attachmentID") );
+				});
+			this.model.set( {value:value} );
+
+			return this;
 		},
-		addEventListener :  function( eventName, callback )
-		{
-			this.on( eventName, callback );
-		},
+
+		// TODO: REMOVE THIS WHEN MIGRATED TO BACKBONE
 		getElement : function()
 		{
 			return this.$el;
 		},
-		setID : function(id)
-		{
-			this.$el.attr("id", id);
-		},
-		setName : function(name)
-		{
-			this.model.set( {name:name} );
-			// this.collection.invoke( "set", {name:name} );
-		},
-		getName : function()
-		{
-			return this.model.get("name");
-		},
-		setValue : function(value)
-		{
-			this.model.set( "value", value );
-		},
-		getValue : function()
-		{
-			this.$("input").val();
-		},
 
-		// Events
+		// EVENTS
 		events : {
 			"click .AddButton" : "onAddClick",
 		},
@@ -106,29 +86,10 @@ function( Backbone, Button, AttachmentItem, ArrangeableList, Input )
 		{
 			this.collection.invoke( "set", {name:value} );
 		},
-		onValueChange : function()
-		{
-			if( !this.model.get("value") )
-			{
-				this.collection.reset();
-			}
-			else
-			{
-				for(var key in this.model.get("value"))
-				{
-					var attachment = this.model.get("value")[key];
-					this.collection.add({
-						attachmentID : attachment.id,
-						title : attachment.title,
-						thumbnailURL : attachment.thumbnailURL,
-						iconURL : attachment.iconURL,
-						editURL : attachment.editURL
-					});
-				}
-			}
-		},
 		onAddClick : function()
 		{
+			if(this.collection.length >= this.model.get("maxCardinality") && this.model.get("maxCardinality") >= 0) return;
+
 			this.wpMedia.open();
 		},
 		onAdd : function( model )

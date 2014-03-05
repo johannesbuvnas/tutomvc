@@ -22,7 +22,7 @@ function(Backbone)
 		render : function()
 		{
 			this.$el.attr( "name", this.model.get("name") );
-			this.$el.attr( "id", this.model.get("id") );
+			this.$el.attr( "id", this.model.get("elementID") );
 			this.$el.val( this.model.get("value") );
 
 			return this;
@@ -65,9 +65,9 @@ function(Backbone)
 			constructor : function( options )
 			{
 				var defaults = {
-					value : null,
-					name : null,
-					elementID : null
+					value : "",
+					name : "",
+					elementID : ""
 				};
 				this.defaults = _.extend( defaults, this.defaults );
 

@@ -22,27 +22,21 @@ namespace tutomvc;
 			$vo['postID'] = $metaVO->getPostID();
 			$vo['title'] = $metaField->getTitle();
 			$vo['description'] = $metaField->getDescription();
-			$vo['name'] = $metaField->getName();
-			$vo['key'] = $metaVO->getName();
+			$vo['metaFieldName'] = $metaField->getName();
+			$vo['name'] = $metaVO->getName();
 			$vo['value'] = $value;
 			$vo['conditions'] = array();
 			foreach($metaField->getConditions() as $metaCondition) $vo['conditions'][] = $metaCondition->toArray();
-			$vo['type'] = array
-			(
-				"name" => $metaVO->getType(),
-				"settings" => $metaVO->getSettings()
-			);
-		?>
+			$vo['type'] = $metaVO->getType();
+			$vo = is_array($metaVO->getSettings()) ? array_merge( $metaVO->getSettings(), $vo ) : $vo;
+			// $vo['type'] = array
+			// (
+			// 	"name" => $metaVO->getType(),
+			// 	"settings" => $metaVO->getSettings()
+			// );
+?>
 
 		<div class="MetaField <?php echo isset( $elementClasses ) ? implode( " ", $elementClasses ) : ""; ?>">
-			<p class="MetaFieldHeader">
-				<label for="<?php echo $metaVO->getName(); ?>[]">
-					<span class="title"><?php echo $metaField->getTitle(); ?></span>
-					<br/>
-					<span class="description"><?php echo $metaField->getDescription(); ?></span>
-				</label>
-			</p>
-
 			<div class="JSON">
 				<?php echo json_encode( $vo, JSON_HEX_QUOT | JSON_HEX_TAG ); ?>
 			</div>

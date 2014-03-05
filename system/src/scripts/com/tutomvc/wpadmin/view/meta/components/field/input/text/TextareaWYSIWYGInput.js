@@ -25,10 +25,9 @@ function( $, Backbone, _, Input )
 						{
 							action : "tutomvc/ajax/render/wp_editor",
 							nonce : TutoMVC.nonce,
-							content : this.model.get("value"),
-							id : this.model.get("id"),
+							elementID : this.model.get("elementID"),
 							postID : this.model.get( "postID" ),
-							metaKey : this.model.get( "key" ),
+							metaKey : this.model.get( "name" ),
 							settings : {}
 						};
 
@@ -52,7 +51,7 @@ function( $, Backbone, _, Input )
 		},
 		onEditorFocus : function(e)
 		{
-			TextareaWYSIWYGInput.setActiveWPEditor( this.model.get("id") );
+			TextareaWYSIWYGInput.setActiveWPEditor( this.model.get("elementID") );
 		},
 		onEditorBlur : function(e)
 		{
@@ -62,8 +61,8 @@ function( $, Backbone, _, Input )
 		{
 			this.$el.append( e );
 
-			tinyMCE.execCommand( "mceAddControl", false, this.model.get("id") );
-			this.wpEditor = tinyMCE.get( this.model.get("id") );
+			tinyMCE.execCommand( "mceAddControl", false, this.model.get("elementID") );
+			this.wpEditor = tinyMCE.get( this.model.get("elementID") );
 			$(this.wpEditor.getBody()).on( "blur", _.bind( this.onEditorBlur, this ) );
 			TextareaWYSIWYGInput.setActiveWPEditor( null );
 			

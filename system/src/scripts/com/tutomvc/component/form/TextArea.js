@@ -15,7 +15,7 @@ function( Backbone, Input )
 		render : function()
 		{
 			this.$el.attr( "name", this.model.get("name") );
-			this.$el.attr( "id", this.model.get("id") );
+			this.$el.attr( "id", this.model.get("elementID") );
 			this.$el.attr( "rows", this.model.get("rows") );
 			this.$el.html( this.model.get("value") );
 

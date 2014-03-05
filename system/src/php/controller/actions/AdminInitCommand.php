@@ -16,7 +16,6 @@ class AdminInitCommand extends ActionCommand
 
 	private function prepModel()
 	{
-		$this->getFacade()->notificationCenter = $this->getFacade()->model->registerProxy( new NotificationProxy() );
 	}
 
 	private function prepController()

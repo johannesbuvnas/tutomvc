@@ -2,145 +2,179 @@ define([
 	"com/tutomvc/core/controller/event/EventDispatcher",
 	"com/tutomvc/core/controller/event/Event",
 	"base64",
-	"com/tutomvc/wpadmin/view/meta/components/field/input/MetaFieldInput"
+	"com/tutomvc/wpadmin/view/meta/components/field/input/MetaFieldInput",
+	"backbone",
+	"underscore",
+	"text!com/tutomvc/wpadmin/view/meta/components/field/MetaField.tpl.html",
+	"com/tutomvc/component/form/Input",
+	"com/tutomvc/component/form/input/SingleSelector",
+	"com/tutomvc/component/model/proxy/Proxy",
+	"com/tutomvc/wpadmin/view/meta/components/field/input/text/TextareaWYSIWYGInput",
+	"com/tutomvc/wpadmin/view/meta/components/field/input/attachment/AttachmentList",
+	"com/tutomvc/component/form/TextArea"
 ],
-function( EventDispatcher, Event, Base64, MetaFieldInput )
+function( EventDispatcher, Event, Base64, MetaFieldInput, Backbone, _, Template, Input, SingleSelector, Proxy, TextareaWYSIWYGInput, AttachmentList, TextArea )
 {
-	function MetaField( metaBoxID, element )
-	{
-		/* VARS */
-		var _this = this;
-		var _metaBoxID = metaBoxID;
-		var _id;
-		var _attributes;
+	"use strict";
 
-		/* DISPLAY OBJECTS */
-		var _element = element;
-		var _label;
-		var _inputComponent;
-
-		var construct = function()
+	var MetaField = Backbone.View.extend({
+		template : _.template( Template ),
+		constructor : function(metaBoxID, element)
 		{
-			_this.super();
-			
-			_attributes = JSON.parse( decodeURIComponent( _element.find(".JSON").html() ) );
-			if (typeof _attributes.value == 'string' || _attributes.value instanceof String) _attributes.value = Base64.decode( _attributes.value );
+			var attr = JSON.parse( decodeURIComponent( element.find(".JSON").html() ) );
+			if (typeof attr.value == 'string' || attr.value instanceof String) attr.value = Base64.decode( attr.value );
+			attr.elementID = attr.metaFieldName + "_" + metaBoxID;
+			attr.metaBoxID = metaBoxID;
 
-			_attributes.id = _id = _attributes.name + "_" + _metaBoxID;
-
-			draw();
-		};
-
-		var draw = function()
+			Backbone.View.call(this, {
+				el : element,
+				model : new MetaField.Model( attr )
+			});
+		},
+		initialize : function()
 		{
-			_label = _element.find( "label" );
-			_label.attr( "for", _id );
+			this.input = MetaField.getInputInstance( this.model );
+			this.$el.append( this.input.getElement() );
+			if(this.model.get("type") == "selector_single") this.input.addEventListener( "change", _.bind(this.change, this) );
 
-			_inputComponent = new MetaFieldInput( _attributes );
-
-			if(_inputComponent)
-			{
-				_inputComponent.setID( _id );
-				_inputComponent.addEventListener( "change", _this.change );
-				_element.append( _inputComponent.getElement() );
-			}
-
-			switch( _attributes.type.name )
-			{
-				case "selector_single":
-
-
-					_label.remove();
-
-				break;
-			}
-		};
-
-		/* ACTIONS */
-		this.reset = function()
+			this.listenTo( this.model, "change:elementID", this.render );
+			this.listenTo( this.model, "change:title", this.render );
+			this.listenTo( this.model, "change:description", this.render );
+			this.listenTo( this.model, "change:name", this.onKeyChange );
+			this.render();
+		},
+		render : function()
 		{
-			if(_inputComponent) _inputComponent.setValue( null );
-		};
-
-		this.change = function()
+			this.$(".MetaFieldHeader").remove();
+			this.$el.prepend( this.template( this.model.toJSON() ) );
+			return this;
+		},
+		show : function()
 		{
-			if(!_inputComponent) return;
+			this.$el.removeClass( "HiddenElement" );
+		},
+		hide : function()
+		{
+			this.$el.addClass( "HiddenElement" );
+		},
+		change : function()
+		{
+			if(this.model.get("type") == "selector_single") this.model.set({value:this.input.getValue()})
 
-			var event = new Event( "change", { metaFieldName : _attributes.name, value : _inputComponent.getValue() } );
-			_this.dispatchEvent( event );
-		};
+			// var event = new Event( "change", { metaFieldName : this.model.get("metaFieldName"), value : this.model.get("value") } );
+			this.trigger( "change", this.model );
+		},
 
-		this.metaBoxChange = function( metaBoxName, metaFieldName, value )
+		// EVENTS
+		events : {
+			"click label" : "onClick"
+		},
+		// TODO: Remove this later
+		onKeyChange : function()
+		{
+			if(this.model.get("type") == "selector_single") this.input.setName( this.model.get("name") );
+		},
+		metaBoxChange : function( metaBoxName, metaFieldName, value )
 		{
 			// console.log("Appearently", metaBoxName + "_" + metaFieldName, "has changed to", value);
 
-			for(var key in _attributes.conditions)
+			for(var key in this.model.get("conditions"))
 			{
-				var condition = _attributes.conditions[key];
+				var condition = this.model.get("conditions")[key];
 				if(condition.metaBoxName == metaBoxName && condition.metaFieldName == metaFieldName)
 				{
 					if(condition.value == value)
 					{
-						if( condition.onElse ) _this[ condition.onMatch ]();
+						if( condition.onElse ) this[ condition.onMatch ]();
 					}
 					else
 					{
-						if( condition.onElse ) _this[ condition.onElse ]();
+						if( condition.onElse ) this[ condition.onElse ]();
 					}
 				}
 			}
-		};
-
-		this.show = function()
+		},
+		onClick : function(e)
 		{
-			_element.removeClass( "HiddenElement" );
-		};
-
-		this.hide = function()
+			if(this.model.get("type") != "selector_single") this.input.trigger( "focus" );
+		}
+	},
+	{
+		Model : Input.Model.extend({
+			defaults : {
+				metaBoxID : "",
+				title : "",
+				description : "",
+				metaFieldName : "",
+				conditions : [],
+				type : "text"
+			}
+		}),
+		getInputInstance : function( model )
 		{
-			_element.addClass( "HiddenElement" );
-		};
+			var component;
 
-		/* METHODS */
-		/* SET AND GET */
-		this.getElement = function()
-		{
-			return _element;
-		};
-		this.getLabelElement = function()
-		{
-			return _label;
-		};
+			switch( model.get("type") )
+			{
+				case "textarea_wysiwyg":
 
-		this.getName = function()
-		{
-			return _attributes.name;
-		};
+					component = new TextareaWYSIWYGInput({
+						model : model
+					});
 
-		/**
-		*	Set and get meta key.
-		*/
-		this.setKey = function( key )
-		{
-			_attributes.key = key;
+				break;
+				case "attachment":
 
-			if(_inputComponent) _inputComponent.setName( _attributes.key );
-		};
-		this.getKey = function()
-		{
-			return _attributes.key;
-		};
+					component = new AttachmentList( {
+						model : model
+					} );
 
-		var focus = function(e)
-		{
-			
-		};
+				break;
+				case "selector_single":
 
-		/* EVENT HANDLERS */
-		
+					component = new SingleSelector();
+					component.setLabel( model.get("title") );
 
-		construct();
-	}
+					var proxy = new Proxy();
 
-	return MetaField.extends( EventDispatcher );
+					for(var key in model.get("options"))
+					{
+						proxy.addVO( model.get("options")[key], key );
+						if(key == model.get("value"))
+						{
+							component.setLabel( model.get("options")[key] );
+							component.setValue( model.get("value") );
+						}
+					}
+
+					component.model.addProxy( proxy );
+					component.reset();
+
+				break;
+				case "textarea":
+
+					component = new TextArea({
+						model : model
+					});
+
+				break;
+				default:
+
+					component = new Input({
+						model : model,
+						attributes : {
+							type : "text"
+						}
+					});
+
+				break;
+			}
+
+			if(component && component.setName) component.setName( model.get("name") );
+
+			return component;
+		}
+	});
+
+	return MetaField;
 });

@@ -21,4 +21,8 @@ class FilterCommand extends Command
 	{
 		add_filter( $this->getName(), array( $this, "preExecution" ), $this->priority, $this->acceptedArguments );
 	}
+	public function remove()
+	{
+		remove_filter( $this->getName(), array( $this, "preExecution" ), $this->priority );
+	}
 }

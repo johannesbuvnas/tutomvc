@@ -18,7 +18,7 @@ function( Mediator, $, MetaField )
 			_this.getViewComponent().find( ".SettingsField" ).each(function()
 				{
 					var metaField = new MetaField( "", $( this ) );
-					var description = metaField.getLabelElement().find( ".description" );
+					var description = metaField.$( ".description" );
 					$(this).append ("<p class='description'>" + description.html() + "</p>" );
 				});
 		};
