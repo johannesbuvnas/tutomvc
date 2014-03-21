@@ -25,6 +25,8 @@ class MetaFieldMediator extends Mediator
 	public function setMetaField( MetaField $metaField )
 	{
 		$this->_metaField = $metaField;
+
+		return $this;
 	}
 	public function getMetaField()
 	{

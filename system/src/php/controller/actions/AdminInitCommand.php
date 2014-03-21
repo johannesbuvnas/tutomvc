@@ -16,6 +16,7 @@ class AdminInitCommand extends ActionCommand
 
 	private function prepModel()
 	{
+		foreach($this->getFacade()->settingsCenter->getMap() as $item) $this->getFacade()->settingsCenter->registerItem( $item );
 	}
 
 	private function prepController()

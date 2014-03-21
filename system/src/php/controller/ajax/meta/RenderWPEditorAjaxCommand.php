@@ -14,6 +14,7 @@ class RenderWPEditorAjaxCommand extends AjaxCommand
 		{
 			$content = GetMetaDatFilter::getDBMetaValue( $_REQUEST['postID'], $_REQUEST['metaKey'] );
 			$content = is_array($content) && count($content) ? $content[0] : $content;
+			if(is_array($content) && !count($content)) $content = "";
 		}
 		else 
 		{

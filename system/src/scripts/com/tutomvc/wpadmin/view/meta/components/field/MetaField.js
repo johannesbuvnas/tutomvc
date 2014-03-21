@@ -1,8 +1,5 @@
 define([
-	"com/tutomvc/core/controller/event/EventDispatcher",
-	"com/tutomvc/core/controller/event/Event",
 	"base64",
-	"com/tutomvc/wpadmin/view/meta/components/field/input/MetaFieldInput",
 	"backbone",
 	"underscore",
 	"text!com/tutomvc/wpadmin/view/meta/components/field/MetaField.tpl.html",
@@ -13,7 +10,7 @@ define([
 	"com/tutomvc/wpadmin/view/meta/components/field/input/attachment/AttachmentList",
 	"com/tutomvc/component/form/TextArea"
 ],
-function( EventDispatcher, Event, Base64, MetaFieldInput, Backbone, _, Template, Input, SingleSelector, Proxy, TextareaWYSIWYGInput, AttachmentList, TextArea )
+function( Base64, Backbone, _, Template, Input, SingleSelector, Proxy, TextareaWYSIWYGInput, AttachmentList, TextArea )
 {
 	"use strict";
 
@@ -34,7 +31,8 @@ function( EventDispatcher, Event, Base64, MetaFieldInput, Backbone, _, Template,
 		initialize : function()
 		{
 			this.input = MetaField.getInputInstance( this.model );
-			this.$el.append( this.input.getElement() );
+			this.$el.append( this.input.$el );
+			if(this.model.get("dividerAfter")) this.$el.append("<hr/>");
 			if(this.model.get("type") == "selector_single") this.input.addEventListener( "change", _.bind(this.change, this) );
 
 			this.listenTo( this.model, "change:elementID", this.render );
@@ -45,7 +43,6 @@ function( EventDispatcher, Event, Base64, MetaFieldInput, Backbone, _, Template,
 		},
 		render : function()
 		{
-			this.$(".MetaFieldHeader").remove();
 			this.$el.prepend( this.template( this.model.toJSON() ) );
 			return this;
 		},
@@ -107,7 +104,9 @@ function( EventDispatcher, Event, Base64, MetaFieldInput, Backbone, _, Template,
 				description : "",
 				metaFieldName : "",
 				conditions : [],
-				type : "text"
+				type : "text",
+				dividerBefore : false,
+				dividerAfter : false
 			}
 		}),
 		getInputInstance : function( model )
@@ -155,6 +154,20 @@ function( EventDispatcher, Event, Base64, MetaFieldInput, Backbone, _, Template,
 
 					component = new TextArea({
 						model : model
+					});
+
+				break;
+				case "selector_datetime":
+
+					component = new Input({
+						model : model,
+						attributes : {
+							type : "text"
+						}
+					});
+					component.$el.datetimepicker({
+						format : 'Y-m-d H:i',
+						value : model.get("value")
 					});
 
 				break;

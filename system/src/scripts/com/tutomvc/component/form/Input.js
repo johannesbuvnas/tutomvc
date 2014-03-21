@@ -27,38 +27,6 @@ function(Backbone)
 
 			return this;
 		},
-
-		// EVENTS
-
-		// TODO: Remove this later
-		addEventListener :  function( eventName, callback )
-		{
-			this.on( eventName, callback );
-		},
-		getElement : function()
-		{
-			return this.$el;
-		},
-		setID : function(id)
-		{
-			this.model.set("elementID", id);
-		},
-		setName : function(name)
-		{
-			this.model.set( {name:name} );
-		},
-		getName : function()
-		{
-			return this.model.get("name");
-		},
-		setValue : function(value)
-		{
-			this.model.set( "value", value );
-		},
-		getValue : function()
-		{
-			this.$("input").val();
-		}
 	},
 	{
 		Model : Backbone.Model.extend({

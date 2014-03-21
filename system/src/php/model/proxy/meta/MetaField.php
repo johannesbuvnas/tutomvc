@@ -10,10 +10,16 @@ class MetaField extends ValueObject implements IMetaBoxField
 	const TYPE_ATTACHMENT = "attachment";
 	const TYPE_SELECTOR_SINGLE = "selector_single";
 	const TYPE_SELECTOR_SWITCH = "selector_switch";
+	const TYPE_SELECTOR_DATETIME = "selector_datetime";
 
 	// Settings
+	const SETTING_DIVIDER_BEFORE = "dividerBefore";
+	const SETTING_DIVIDER_AFTER = "dividerAfter";
 	const SETTING_TITLE = "title";
+	const SETTING_OPTIONS = "options";
 	const SETTING_MAX_CARDINALITY = "maxCardinality";
+	const SETTING_FILTER = "filter"; // Used by attachment
+	const SETTING_BUTTON_TITLE = "buttonTitle"; // Used by attachment
 	const SETTING_DEFAULT_VALUE = "defaultValue";
 
 	/* VARS */
@@ -23,7 +29,14 @@ class MetaField extends ValueObject implements IMetaBoxField
 	private $_settings;
 	private $_conditions;
 
-	public function __construct( $name, $title = "", $description = "", $type = MetaType::TEXT, $settings = array(), $conditions = array() )
+	public function __construct( 
+		$name, 
+		$title = "", 
+		$description = "", 
+		$type = MetaField::TYPE_TEXT, 
+		$settings = array(), 
+		$conditions = array()
+	)
 	{
 		$this->setTitle( $title );
 		$this->setDescription( $description );

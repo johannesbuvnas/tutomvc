@@ -41,6 +41,12 @@ class MetaBox extends ValueObject implements IMetaBox
 	}
 
 	/* ACTIONS */
+	public static function constructMetaKey( $metaBoxName, $metaFieldName, $cardinality = 1 )
+	{
+		$cardinalityID = $cardinality - 1;
+		return "{$metaBoxName}_{$cardinalityID}_{$metaFieldName}";
+	}
+
 	public function delete( $postID )
 	{
 		$map = $this->getMetaBoxMap( $postID );
@@ -139,18 +145,6 @@ class MetaBox extends ValueObject implements IMetaBox
 	}
 
 	/* SET AND GET */
-	// public function setFieldValue( $fieldName, $value)
-	// {
-	// 	if( $this->hasField( $fieldName ) ) return $this->getField( $fieldName )->setValue( $value, $postID );
-	// 	return FALSE;
-	// }
-
-	// public function getFieldValue( $fieldName )
-	// {
-	// 	if( $this->hasField( $fieldName ) ) return $this->getField( $fieldName )->getValue( $postID );
-	// 	else return NULL;
-	// }
-
 	public function getField( $name )
 	{
 		if( array_key_exists( $name, $this->_fieldMap ) )
@@ -167,7 +161,7 @@ class MetaBox extends ValueObject implements IMetaBox
 	{
 		foreach($this->getFields() as $metaField)
 		{
-			$pattern = "/".$this->getName()."(_[0-9]_)".$metaField->getName()."/";
+			$pattern = "/".$this->getName()."(_[0-9]_)".$metaField->getName()."$/";
 			if(preg_match( $pattern, $metaKey )) return $metaField;
 		}
 

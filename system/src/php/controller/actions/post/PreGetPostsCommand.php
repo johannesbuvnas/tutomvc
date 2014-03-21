@@ -17,8 +17,9 @@ class PreGetPostsCommand extends ActionCommand
 			{
 				if($postType->getName() == $wpQuery->get("post_type"))
 				{
-					if(!isset($_GET['orderby'])) $wpQuery->set( "orderby", $postType->getOrderBy() );
-					if(!isset($_GET['order'])) $wpQuery->set( "order", $postType->getOrder() );
+					// if(!isset($_GET['orderby'])) $wpQuery->set( "orderby", $postType->getOrderBy() );
+					// if(!isset($_GET['order'])) $wpQuery->set( "order", $postType->getOrder() );
+					$postType->pre_get_posts( $wpQuery );
 				}
 			}
 		// }

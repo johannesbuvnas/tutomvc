@@ -10,6 +10,13 @@ class InitCommand extends ActionCommand
 
 	function execute()
 	{
+		$this->prepModel();
+		$this->prepView();
+		$this->prepController();
+	}
+
+	function prepView()
+	{
 		wp_register_script( TutoMVC::NAME, NULL );
 
 		if( SystemFacade::DEVELOPMENT_MODE )
@@ -23,7 +30,16 @@ class InitCommand extends ActionCommand
 			wp_register_style( SystemFacade::STYLE_CSS, $this->getFacade()->getURL( "style-min.css" ), NULL, TutoMVC::VERSION );
 			wp_register_script( SystemFacade::SCRIPT_JS, $this->getFacade()->getURL( "deploy/Main.pkgd.js" ), NULL, TutoMVC::VERSION, TRUE );
 		}
+	}
 
+	function prepModel()
+	{
+
+	}
+
+	function prepController()
+	{
 		$this->getFacade()->controller->registerCommand( new PrintScriptsCommand() );
+		$this->getFacade()->controller->registerCommand( new AdminMenuCommand() );
 	}
 }

@@ -4,6 +4,7 @@
 	"dependencies" : {
 		"backbone" : null,
 		"jquery" : "1.10.2",
+		"datetimepicker" : "latest",
 		"underscore" : null,
 		"requirejs" : "latest",
 		"requirejs-text" : "latest"

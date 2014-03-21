@@ -15,6 +15,7 @@ function($, EventDispatcher, Input, Model)
 
 		/* DISPLAY OBJECTS */
 		var _element;
+		this.$el;
 		var _input;
 
 		var construct = function()
@@ -55,6 +56,7 @@ function($, EventDispatcher, Input, Model)
 		this.setElement = function( element )
 		{
 			_element = element;
+			_this.$el = _element;
 		};
 		this.getElement = function()
 		{

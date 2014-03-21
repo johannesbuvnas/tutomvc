@@ -4,13 +4,10 @@ namespace tutomvc;
 class AdminMenuPageProxy extends Proxy
 {
 	const NAME = __CLASS__;
-	const WP_HOOK_REGISTER = "admin_menu";
 
 
 	public function onRegister()
 	{
-		add_action( self::WP_HOOK_REGISTER, array( $this, "register" ) );
-
 		// View
 		$this->getFacade()->view->registerMediator( new AdminMenuSettingsPageMediator() );
 
@@ -47,12 +44,7 @@ class AdminMenuPageProxy extends Proxy
 	}
 
 	/* ACTIONS */
-	public function register()
-	{
-		foreach($this->getMap() as $item) $this->registerItem( $item );
-	}
-
-	protected function registerItem( AdminMenuPage $item )
+	public function registerItem( AdminMenuPage $item )
 	{
 		switch( $item->getType() )
 		{

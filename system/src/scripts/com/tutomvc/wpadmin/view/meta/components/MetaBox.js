@@ -80,9 +80,10 @@ function( EventDispatcher, Event, $, MetaField )
 			var metaKey;
 			$( _metaFieldMap ).each(function()
 			{
+				// Meta key construction
 				// [metaBoxName]_[cardinalityID]_[metaFieldName]
 				metaKey = _name + "_" + _cardinalityID + "_" + this.model.get("metaFieldName");
-				this.model.set( {name : metaKey, name : metaKey} );
+				this.model.set( {name : metaKey} );
 			});
 		};
 		this.getCardinalityID = function()

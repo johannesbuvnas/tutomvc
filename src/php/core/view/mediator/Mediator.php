@@ -4,6 +4,7 @@ namespace tutomvc;
 class Mediator extends CoreClass implements IMediator
 {
 	/* VARS */
+	public $hookRender;
 	protected $_viewComponent;
 	protected $_dataProvider = array();
 	protected $_content = "";
@@ -20,6 +21,9 @@ class Mediator extends CoreClass implements IMediator
 	*/
 	public function render()
 	{
+		$params = func_num_args() > 0 ? func_get_arg( 0 ) : NULL;
+		if(is_array($params)) $this->_dataProvider = is_array( $this->_dataProvider ) ? array_merge( $params, $this->_dataProvider ) : $params;
+
 		$output = $this->getContent();
 		
 		if(empty( $output ))
@@ -30,6 +34,12 @@ class Mediator extends CoreClass implements IMediator
 		{
 			echo $output;
 		}
+	}
+
+	public function flush()
+	{
+		unset($this->_dataProvider);
+		$this->_dataProvider = array();
 	}
 	
 	/* METHODS */
@@ -44,11 +54,22 @@ class Mediator extends CoreClass implements IMediator
 	/**
 	*	Parse a variable to template.
 	*/
-	public function parse( $variableName, $value )
+	public function parse( $variableName, $value = NULL )
 	{
-		$this->_dataProvider[ $variableName ] = $value;
+		if(is_array($variableName))
+		{
+			foreach( $variableName as $key => $value ) $this->parse( $key, $value );
+		}
+		else
+		{
+			$this->_dataProvider[ $variableName ] = $value;
+		}
 
 		return $this;
+	}
+	public function retrieve( $variableName )
+	{
+		return array_key_exists($variableName, $this->_dataProvider) ? $this->_dataProvider[ $variableName ] : NULL;
 	}
 
 	public function setViewComponent( $viewComponent )
@@ -78,6 +99,9 @@ class Mediator extends CoreClass implements IMediator
 	*/
 	public function getContent()
 	{
+		$params = func_num_args() > 0 ? func_get_arg( 0 ) : NULL;
+		if(is_array($params)) $this->_dataProvider = is_array( $this->_dataProvider ) ? array_merge( $params, $this->_dataProvider ) : $params;
+
 		if(!isset($this->_viewComponent) || empty($this->_viewComponent))
 		{	
 			if(!isset($this->_content) || !strlen($this->_content)) return "";

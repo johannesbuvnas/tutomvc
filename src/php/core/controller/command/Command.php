@@ -6,6 +6,7 @@ class Command extends CoreClass implements ICommand
 	const NAME = "";
 
 	/* VARS */
+	public $registered = FALSE;
 	protected $_name;
 	protected $_executionLimit = -1;
 	protected $_executions = 0;

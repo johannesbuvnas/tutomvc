@@ -55,26 +55,8 @@ class PostType extends ValueObject implements IPostType
 	}
 
 	/* METHODS */
-	public function setOrderBy( $value )
+	function pre_get_posts( $wpQuery )
 	{
-		$this->_orderBy = $value;
-
-		return $this;
-	}
-	public function getOrderBy()
-	{
-		return $this->_orderBy;
-	}
-
-	public function setOrder( $value )
-	{
-		$this->_order = $value;
-
-		return $this;
-	}
-	public function getOrder()
-	{
-		return $this->_order;
 	}
 
 	public function setArgument( $name, $value )

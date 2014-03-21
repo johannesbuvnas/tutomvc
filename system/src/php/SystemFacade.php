@@ -45,7 +45,7 @@ final class SystemFacade extends Facade
 		$this->settingsCenter = $this->model->registerProxy( new SettingsProxy() );
 		$this->logCenter = $this->model->registerProxy( new LogProxy() );
 		$this->notificationCenter = $this->model->registerProxy( new NotificationProxy() );
-		if(self::DEVELOPMENT_MODE) $this->notificationCenter->add( "DEVELOPMENT_MODE" );
+		if(self::DEVELOPMENT_MODE) $this->notificationCenter->add( "TutoMVC System: DEVELOPMENT MODE" );
 	}
 
 	private function prepView()

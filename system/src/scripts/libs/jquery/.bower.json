@@ -1,38 +1,21 @@
 {
   "name": "jquery",
-  "version": "2.1.0",
-  "ignore": [
-    "**/.*",
-    "build",
-    "speed",
-    "test",
-    "*.md",
-    "AUTHORS.txt",
-    "Gruntfile.js",
-    "package.json",
-    "bower.json"
-  ],
-  "dependencies": {
-    "sizzle": "1.10.16"
-  },
-  "devDependencies": {
-    "requirejs": "~2.1.8",
-    "qunit": "~1.12.0",
-    "sinon": "~1.7.3"
-  },
+  "version": "1.10.2",
+  "description": "jQuery component",
   "keywords": [
     "jquery",
-    "javascript",
-    "library"
+    "component"
   ],
+  "main": "jquery.js",
+  "license": "MIT",
   "homepage": "https://github.com/jquery/jquery",
-  "_release": "2.1.0",
+  "_release": "1.10.2",
   "_resolution": {
     "type": "version",
-    "tag": "2.1.0",
-    "commit": "cac43f3ef791b7e68c1917a734fb92e04450c111"
+    "tag": "1.10.2",
+    "commit": "16b079b164d62bd807c612806842a13bf9b04d17"
   },
   "_source": "git://github.com/jquery/jquery.git",
-  "_target": "*",
+  "_target": "1.10.2",
   "_originalSource": "jquery"
 }

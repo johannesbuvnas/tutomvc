@@ -1,7 +1,9 @@
 define([
-	"libs/jquery/dist/jquery",
+	"jquery",
+	"datetimepicker"
 ],
-function()
+function($)
 {
-	return jQuery.noConflict( true );
+	'use strict';
+	return $.noConflict( true );
 });

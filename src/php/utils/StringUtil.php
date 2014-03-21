@@ -17,6 +17,13 @@ class StringUtil
 		return $text;
 	}
 
+	public static function text2link($text) 
+	{
+		$reg_exUrl = "/((((http|https|ftp|ftps):\/\/)|www.)[a-zA-Z0-9-.]+.[a-zA-Z]{2,4}(\/?\S*))/";
+
+		return preg_replace( $reg_exUrl, "<a href=\"$1\" target='_blank'>$1</a> ", $text );
+	}
+
 	public static function generateSlug($phrase, $maxLength = -1)
 	{
 	    $result = strtolower($phrase);

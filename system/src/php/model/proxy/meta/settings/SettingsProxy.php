@@ -4,13 +4,10 @@ namespace tutomvc;
 class SettingsProxy extends Proxy
 {
 	const NAME = __CLASS__;
-	const WP_HOOK_REGISTER = "admin_init";
-
 
 	public function onRegister()
 	{
 		// Controller
-		add_action( self::WP_HOOK_REGISTER, array( $this, "register" ) );
 		$this->getFacade()->controller->registerCommand( new RenderSettingsFieldCommand() );
 	}
 
@@ -25,12 +22,9 @@ class SettingsProxy extends Proxy
 		return parent::add( $item, $key );
 	}
 
-	public function register()
-	{
-		foreach($this->getMap() as $item) $this->registerItem( $item );
-	}
 
-	protected function registerItem( Settings $item )
+	// This should be called from "admin_init" action hook
+	public function registerItem( Settings $item )
 	{
 		if($item->getRegisterAsNewSection()) add_settings_section( $item->getName(), $item->getTitle(), array( $item, "renderDescription" ), $item->getMenuSlug() );
 

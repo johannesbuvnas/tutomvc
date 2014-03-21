@@ -72,12 +72,6 @@ function( Backbone, Button, AttachmentItem, ArrangeableList, Input )
 			return this;
 		},
 
-		// TODO: REMOVE THIS WHEN MIGRATED TO BACKBONE
-		getElement : function()
-		{
-			return this.$el;
-		},
-
 		// EVENTS
 		events : {
 			"click .AddButton" : "onAddClick",

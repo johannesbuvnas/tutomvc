@@ -12,15 +12,6 @@ class PostTypeProxy extends Proxy
 
 	public function add( $item, $key = NULL )
 	{
-		// Wtf is this?
-		// if( $this->getFacade()->model->hasProxy( MetaBoxProxy::NAME ) )
-		// {
-		// 	foreach( $this->getFacade()->model->getProxy( MetaBoxProxy::NAME )->getMap() as $metaBox )
-		// 	{
-		// 		if($metaBox->hasPostType( $item->getName() )) $item->addMetaBox( $metaBox );
-		// 	}
-		// }
-
 		register_post_type( $item->getName(), $item->getArguments() );
 
 		return parent::add( $item, $item->getName() );

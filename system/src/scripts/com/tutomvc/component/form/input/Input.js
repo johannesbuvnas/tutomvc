@@ -7,6 +7,7 @@ function($, EventDispatcher)
 	function Input()
 	{
 		var _this = this;
+		this.$el;
 
 		/* DISPLAY OBJECTS */
 		var _element;
@@ -32,6 +33,7 @@ function($, EventDispatcher)
 		this.setElement = function( element )
 		{
 			_element = $( element );
+			_this.$el = _element;
 		};
 		this.getElement = function()
 		{

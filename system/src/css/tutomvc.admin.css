@@ -75,6 +75,10 @@
 		text-align: left;
 	}
 
+	.MetaBox hr {
+		margin: 50px 0;
+	}
+
 	div.MetaBox span.description
 	div.Debugger .description
 	{
