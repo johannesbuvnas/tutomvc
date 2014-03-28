@@ -5,6 +5,24 @@ function(Backbone)
 {
 	"use strict";
 
+	var Model = Backbone.Model.extend({
+			constructor : function( options )
+			{
+				var defaults = {
+					name : "",
+					value : "",
+					elementID : ""
+				};
+				this.defaults = _.extend( defaults, this.defaults );
+
+				Backbone.Model.call( this, options );
+			},
+		});
+
+	var Collection = Backbone.Collection.extend({
+		model : Model
+	});
+
 	var Input = Backbone.View.extend({
 		tagName : "input",
 		attributes : {
@@ -29,19 +47,8 @@ function(Backbone)
 		},
 	},
 	{
-		Model : Backbone.Model.extend({
-			constructor : function( options )
-			{
-				var defaults = {
-					value : "",
-					name : "",
-					elementID : ""
-				};
-				this.defaults = _.extend( defaults, this.defaults );
-
-				Backbone.Model.call( this, options );
-			},
-		})
+		Model : Model,
+		Collection : Collection
 	});
 	return Input;
 });

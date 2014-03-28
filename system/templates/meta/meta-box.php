@@ -5,7 +5,10 @@ namespace tutomvc;
 	<?php
 		if( !$metaBox->isSingle() ):
 	?>
-	<div class="title"><span class="Label">#<?php echo $cardinalityID + 1; ?></span><a href="#" class="RemoveMetaBoxButton">Remove</a></div>
+	<div class="title">
+		<span class="Label">#<?php echo $cardinalityID + 1; ?></span>
+		<a href="#" class="RemoveMetaBoxButton">Remove</a>
+	</div>
 	<?php
 		endif;
 	?>
