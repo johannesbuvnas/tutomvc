@@ -22,7 +22,8 @@
 	top: 20px;
 	right: 15px;
 }
-.Selector.Expanded .Label
+.Selector.Expanded .Label,
+.BBSelector.Expanded .Label
 {
 	background: #f6f6f6;
 }
@@ -44,6 +45,7 @@
 .BBSelector.Expanded > .Options
 {
 	visibility: visible;
+	display: block;
 	-webkit-animation: fadeInDown .4s;
 	-moz-animation: fadeInDown .4s;
 	-ms-animation: fadeInDown .4s;
@@ -51,7 +53,7 @@
 	animation: fadeInDown .4s;
 }
 .Selector.Collapsed .Model,
-.BBSelector.Collapsed > .Options
+.BBSelector > .Options
 {
 	visibility: hidden;
 	display: none;

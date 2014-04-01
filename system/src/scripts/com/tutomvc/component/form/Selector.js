@@ -10,14 +10,14 @@ function(Backbone, _, Input, HTML)
 	// Selector.Model
 	var Model = Input.Model.extend({
 		defaults :{
-			title : "Select"
+			label : "Select"
 		},
 		initialize : function()
 		{
-			if(!this.get("options"))
+			if(!this.get("options") || !Input.Collection.prototype.isPrototypeOf( this.get('options') ))
 			{
 				this.set({
-					options : new Input.Collection()
+					options : new Input.Collection( this.get('options') )
 				});
 			}
 		}
@@ -27,42 +27,58 @@ function(Backbone, _, Input, HTML)
 	var Selector = Input.extend({
 		tagName : "div",
 		attributes : {
-			class : "BBSelector"
+			class : "BBSelector Unselectable"
 		},
 		template : _.template( HTML ),
 		initialize : function()
 		{
 			if(!this.model) this.model = new Selector.Model();
 
-			this.template = _.template( HTML );
-
 			this.listenTo( this.model.get("options"), "add", this.render );
 			this.listenTo( this.model.get("options"), "remove", this.render );
 			this.listenTo( this.model.get("options"), "change", this.render );
 			this.listenTo( this.model, "change", this.render );
+
+			this.listenTo( this, "focus", this.onClick );
 		},
 		render : function()
 		{
+			if(this.model.hasChanged("value") && !this.model.hasChanged("label"))
+			{
+				var option = this.model.get("options").findWhere( {value:this.model.get("value")} );
+				if(option)
+				{
+					this.model.set({
+						label : option.get("name")
+					});
+
+					return this;
+				}
+			}
+
 			this.$el.html( this.template(this) );
 
 			return this;
 		},
 		// Events
 		events : {
-			"click .Options > .Model" : "onSelect"
+			"click .Options > .Model" : "onSelect",
+			"click" : "onClick"
+		},
+		onClick : function(e)
+		{
+			e.preventDefault();
+			
+			this.$el.toggleClass("Expanded");
 		},
 		onSelect : function(e)
 		{
 			var selectedModel = this.model.get("options").get( Backbone.$( e.currentTarget ).attr("data-cid") );
 
 			this.model.set({
-				title : selectedModel.get("name"),
+				label : selectedModel.get("name"),
 				value : selectedModel.get("value")
 			});
-		},
-		onCollectionChange : function()
-		{
-			console.log("onCollectionChange");
 		}
 	},
 	{

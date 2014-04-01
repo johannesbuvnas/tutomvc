@@ -11,6 +11,6 @@ class RenderWPEditorCommand extends ActionCommand
 
 	function execute()
 	{
-		wp_editor( '', 'tutomvc-editor' );
+		wp_editor( 'Tuto MVC', 'tutomvc-editor' );
 	}
 }

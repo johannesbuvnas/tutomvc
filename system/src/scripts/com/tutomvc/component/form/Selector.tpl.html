@@ -1,9 +1,10 @@
 <% 
 var _this = this;
 %>
+<input type="hidden" name="<%= _this.model.get("name") %>" value="<%= _this.model.get("value") %>" />
 <div class="Button">
 	<div class="Symbol"></div>
-	<span class="Label"><%= this.model.get('title') %></span>
+	<span class="Label"><%= this.model.get('label') %></span>
 </div>
 <div class="Options">
 	<div class="Symbol"></div>
@@ -13,15 +14,7 @@ var _this = this;
 	%>
 		<div class="Model Button" data-cid="<%= model.cid %>" data-selected="<%= _this.model.get("value") == model.get("value") %>">
 			<div class="Symbol"></div>
-			<span class="Label"><%= model.get('name') %></span>
-			<% 
-				if(model.get("selected") === true)
-				{
-			%>
-					<input type="hidden" name="<%= _this.model.get("name") %>" value="<%= model.get("value") %>" />
-			<%
-				}
-			%>
+			<span class="Label"><%= model.get('name') %></span> 
 		</div>
 	<%
 		});

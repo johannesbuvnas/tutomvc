@@ -30,6 +30,11 @@ class GetMetaValueFilterCommand extends FilterCommand
 				$metaValue = $this->constructRichTextAreaMap( $metaValue );
 
 			break;
+			case MetaField::TYPE_LINK:
+
+				$metaValue = (array) json_decode( is_array($metaValue) ? $metaValue[0] : $metaValue );
+
+			break;
 		}
 
 		if( is_array($metaValue) && count($metaValue) == 1 && is_string( $metaValue[0] ) ) $metaValue = $metaValue[0];

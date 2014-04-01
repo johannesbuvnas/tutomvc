@@ -111,6 +111,8 @@ function( EventDispatcher, Event, $, MetaField )
 
 		var onMetaFieldChange = function( metaFieldModel )
 		{
+			// console.log("META FIELD CHANGE");
+			
 			$( _metaFieldMap ).each(function()
 			{
 				this.metaBoxChange( _name, metaFieldModel.get("metaFieldName"), metaFieldModel.get("value") );

@@ -20,7 +20,11 @@ function(Backbone)
 		});
 
 	var Collection = Backbone.Collection.extend({
-		model : Model
+		model : Model,
+		initialize : function()
+		{
+			
+		}
 	});
 
 	var Input = Backbone.View.extend({

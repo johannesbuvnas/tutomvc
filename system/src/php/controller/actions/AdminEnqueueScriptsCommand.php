@@ -20,6 +20,7 @@ class AdminEnqueueScriptsCommand extends ActionCommand
 			'wp-color-picker',
 			'thickbox',
 			'media-upload',
+			'wpdialogs-popup',
 			
 			'editor',
 			'quicktags',
