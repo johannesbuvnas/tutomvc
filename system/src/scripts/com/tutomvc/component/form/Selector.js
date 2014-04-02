@@ -67,7 +67,7 @@ function(Backbone, _, Input, HTML)
 		},
 		onClick : function(e)
 		{
-			e.preventDefault();
+			if(e) e.preventDefault();
 			
 			this.$el.toggleClass("Expanded");
 		},

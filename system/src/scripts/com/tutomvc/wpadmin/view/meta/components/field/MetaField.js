@@ -205,7 +205,8 @@ function( Base64, Backbone, _, Template, Input, SingleSelector, Selector, Proxy,
 					component = new Input({
 						model : model,
 						attributes : {
-							type : "text"
+							type : "text",
+							readonly : model.get("readOnly") ? model.get("readOnly") : false
 						}
 					});
 

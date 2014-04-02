@@ -15,7 +15,8 @@ class MetaBox extends ValueObject implements IMetaBox
 
 	/* VARS */
 	private $_title;
-	private $_maxCardinality;
+	private $_maxCardinality = 1;
+	private $_minCardinality = 0;
 	private $_supportedPostTypes;
 	private $_context;
 	private $_priority;
@@ -47,7 +48,7 @@ class MetaBox extends ValueObject implements IMetaBox
 		return "{$metaBoxName}_{$cardinalityID}_{$metaFieldName}";
 	}
 
-	public function delete( $postID )
+	public function clearMetaFields( $postID )
 	{
 		$map = $this->getMetaBoxMap( $postID );
 		foreach( $map as $metaBoxMap )
@@ -66,6 +67,25 @@ class MetaBox extends ValueObject implements IMetaBox
 		$this->_conditions[] = $condition;
 	}
 
+	public function hasReachedMaxCardinality( $postID )
+	{
+		if($this->getMaxCardinality() < 0) return FALSE;
+
+		$cardinality = $this->getCardinality( $postID );
+		if($cardinality >= $this->getMaxCardinality()) return TRUE;
+
+		return FALSE;
+	}
+
+	public function create( $postID )
+	{
+		if($this->hasReachedMaxCardinality()) return $this->getMetaFieldMap( $postID, $this->getCardinality() - 1 );
+
+		update_post_meta( $postID, $this->getName(), $this->getCardinality() + 1) || add_post_meta( $postID, $this->getName(), $this->getCardinality() + 1, TRUE );
+
+		return $this->getMetaFieldMap( $postID, $this->getCardinality() - 1 );
+	}
+
 	/* SET AND GET */
 	public function setConditions( $conditions )
 	{
@@ -79,7 +99,7 @@ class MetaBox extends ValueObject implements IMetaBox
 	public function getCardinality( $postID )
 	{
 		$cardinality = intval( get_post_meta( $postID, $this->getName(), TRUE ) );
-		return $cardinality >= 0 ? $cardinality : 1;
+		return $cardinality >= $this->getMinCardinality() ? $cardinality : $this->getMinCardinality();
 	}
 
 	public function getMetaBoxMap( $postID )
@@ -229,6 +249,14 @@ class MetaBox extends ValueObject implements IMetaBox
 	public function getMaxCardinality()
 	{
 		return $this->_maxCardinality;
+	}
+	public function setMinCardinality( $value )
+	{
+		$this->_minCardinality = $value;
+	}
+	public function getMinCardinality()
+	{
+		return $this->_minCardinality;
 	}
 }
 

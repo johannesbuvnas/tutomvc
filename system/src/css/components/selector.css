@@ -22,8 +22,7 @@
 	top: 20px;
 	right: 15px;
 }
-.Selector.Expanded .Label,
-.BBSelector.Expanded .Label
+.Selector.Expanded .Label
 {
 	background: #f6f6f6;
 }

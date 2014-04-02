@@ -30,7 +30,7 @@ class SavePostCommand extends ActionCommand
 			{
 				if( WordPressUtil::verifyNonce( $metaBox->getName() . "_nonce", $metaBox->getName() ) )
 				{
-					$metaBox->delete( $postID );
+					$metaBox->clearMetaFields( $postID );
 					update_post_meta( $postID, $metaBox->getName(), $_POST[ $metaBox->getName() ] ) || add_post_meta( $postID, $metaBox->getName(), $_POST[ $metaBox->getName() ], TRUE );
 					
 					$map = $metaBox->getMetaBoxMap( $postID );
