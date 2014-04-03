@@ -7,7 +7,8 @@ class GetMetaValueFilterCommand extends FilterCommand
 	function __construct()
 	{
 		parent::__construct( FilterCommand::META_VALUE );
-		$this->acceptedArguments = 3;	
+		$this->acceptedArguments = 3;
+		$this->priority = 1;
 	}
 
 	function execute()
@@ -39,7 +40,13 @@ class GetMetaValueFilterCommand extends FilterCommand
 
 		if( is_array($metaValue) && count($metaValue) == 1 && is_string( $metaValue[0] ) ) $metaValue = $metaValue[0];
 
-		if((!isset($metaValue) || empty($metaValue)) && (isset($settings[ MetaField::SETTING_DEFAULT_VALUE ]))) $metaValue = $settings[ MetaField::SETTING_DEFAULT_VALUE ];
+		if((!isset($metaValue) || empty($metaValue)))
+		{
+			if($metaField->hasSetting( MetaField::SETTING_DEFAULT_VALUE ))
+			{
+				$metaValue = $metaField->getSetting( MetaField::SETTING_DEFAULT_VALUE );
+			}
+		}
 
 		return $metaValue;
 	}

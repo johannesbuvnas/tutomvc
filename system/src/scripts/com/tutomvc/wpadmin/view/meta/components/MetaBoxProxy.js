@@ -45,6 +45,10 @@ function( EventDispatcher, $, MetaBox, SortableComponent )
 
 		var draw = function()
 		{
+			// TODO: Show a dilaog until everything is loaded
+			// $("#post-lock-dialog").removeClass("hidden");
+			// $("#post-lock-dialog").addClass("saving");
+
 			_proxyElement = _element.find( ".MetaBoxProxy" );
 
 			_input = _element.find( "input#" + _metaBoxName );

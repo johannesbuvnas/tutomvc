@@ -23,6 +23,7 @@ class MetaField extends ValueObject implements IMetaBoxField
 	const SETTING_BUTTON_TITLE = "buttonTitle"; // Used by attachment
 	const SETTING_DEFAULT_VALUE = "defaultValue";
 	const SETTING_READ_ONLY = "readOnly"; // Used by text, textarea
+	const SETTING_ROWS = "rows"; // Used by textarea
 
 	/* VARS */
 	private $_title;
@@ -89,6 +90,21 @@ class MetaField extends ValueObject implements IMetaBoxField
 	public function getSettings()
 	{
 		return $this->_settings;
+	}
+	public function setSetting( $name, $value )
+	{
+		$this->_settings[ $name ] = $value;
+
+		return $this;
+	}
+	public function getSetting( $settingName )
+	{
+		if( $this->hasSetting($settingName) ) return $this->_settings[$settingName];
+		else return NULL;
+	}
+	public function hasSetting( $settingName )
+	{
+		return is_array($this->_settings) ? array_key_exists($settingName, $this->_settings) : FALSE;
 	}
 
 	public function setConditions( $conditions )

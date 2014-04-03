@@ -98,7 +98,8 @@ class MetaBox extends ValueObject implements IMetaBox
 	
 	public function getCardinality( $postID )
 	{
-		$cardinality = intval( get_post_meta( $postID, $this->getName(), TRUE ) );
+		$cardinality = GetMetaDatFilter::getDBMetaValue( $postID, $this->getName() );
+		$cardinality = count($cardinality) ? intval( $cardinality[0] ) : 0;
 		return $cardinality >= $this->getMinCardinality() ? $cardinality : $this->getMinCardinality();
 	}
 

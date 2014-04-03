@@ -25,4 +25,10 @@ class FilterCommand extends Command
 	{
 		remove_filter( $this->getName(), array( $this, "preExecution" ), $this->priority );
 	}
+
+	/* STATIC METHODS */
+	public static function constructFilterMetaValueCommandName( $metaBoxName, $metaFieldName )
+	{
+		return FilterCommand::META_VALUE . "/" . $metaBoxName . "/" . $metaFieldName;
+	}
 }

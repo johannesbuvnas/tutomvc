@@ -34,10 +34,16 @@ class GetMetaDatFilter extends FilterCommand
 			{
 				if($metaBox->hasPostType( $postType ))
 				{
-					$metaField = $metaBox->getFieldByMetaKey( $metaKey );
-					if($metaField)
+					if($metaBox->getName() == $metaKey)
 					{
+						$meta = array_map( array($this, "convertMetaVOToValue"), $metaBox->getMetaBoxMap( $postID ) );
+					}
+					else if($metaField = $metaBox->getFieldByMetaKey( $metaKey ))
+					{
+						// Default filter command by Tuto MVC
 						$meta = apply_filters( FilterCommand::META_VALUE, $postID, self::getDBMetaValue( $postID, $metaKey ), $metaField );
+						// Possibility for other listeners to filter the meta value
+						$meta = apply_filters( FilterCommand::constructFilterMetaValueCommandName( $metaBox->getName(), $metaField->getName() ), $meta, $postID );
 					}
 				}
 			}
