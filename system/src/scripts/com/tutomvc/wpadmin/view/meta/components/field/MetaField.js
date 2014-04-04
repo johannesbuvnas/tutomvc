@@ -32,8 +32,14 @@ function( Base64, Backbone, _, Template, Input, SingleSelector, Selector, Proxy,
 		},
 		initialize : function()
 		{
-			this.input = MetaField.getInputInstance( this.model );
-			this.$el.append( this.input.$el );
+			// Clear the default PHP fallback solution and hand it over to the component
+			this.model.set({
+				fallbackValues : this.$(".Input textarea").map(function(){return Backbone.$(this).val();}).get()
+			});
+			this.input = MetaField.getInputInstance( this.model, this.$(".Input").find("input") );
+			this.$(".Input").html("");
+			this.$(".Input").append( this.input.$el );
+
 			if(this.model.get("dividerAfter")) this.$el.append("<hr/>");
 			// if(this.model.get("type") == "selector_single") this.input.addEventListener( "change", _.bind(this.change, this) );
 
@@ -103,6 +109,7 @@ function( Base64, Backbone, _, Template, Input, SingleSelector, Selector, Proxy,
 	{
 		Model : Input.Model.extend({
 			defaults : {
+				fallbackValues : [],
 				metaBoxID : "",
 				title : "",
 				description : "",

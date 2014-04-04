@@ -16,14 +16,15 @@ class MetaField extends ValueObject implements IMetaBoxField
 	// Settings
 	const SETTING_DIVIDER_BEFORE = "dividerBefore";
 	const SETTING_DIVIDER_AFTER = "dividerAfter";
-	const SETTING_TITLE = "title"; // Used by attachment
+	const SETTING_TITLE = "title"; // DEPRECATED
 	const SETTING_OPTIONS = "options"; // Used by selector
-	const SETTING_MAX_CARDINALITY = "maxCardinality";
+	const SETTING_MAX_CARDINALITY = "maxCardinality"; // Used bu attachment
 	const SETTING_FILTER = "filter"; // Used by attachment
 	const SETTING_BUTTON_TITLE = "buttonTitle"; // Used by attachment
 	const SETTING_DEFAULT_VALUE = "defaultValue";
 	const SETTING_READ_ONLY = "readOnly"; // Used by text, textarea
 	const SETTING_ROWS = "rows"; // Used by textarea
+	const SETTING_LABEL = "label"; // Used by selector
 
 	/* VARS */
 	private $_title;

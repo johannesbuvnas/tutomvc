@@ -3,10 +3,17 @@ namespace tutomvc;
 ?>
 <script type="text/javascript">
 	window.TutoMVC = {
+		constructURL : function(baseURL, relativePath)
+		{
+			return relativePath ? baseURL + "/" + relativePath : baseURL;
+		},
 		getURL : function(relativePath)
 		{
-			var url = "<?php echo TutoMVC::getURL(); ?>";
-			return relativePath ? url + "/" + relativePath : url;
+			return this.constructURL( "<?php echo TutoMVC::getURL(); ?>", relativePath );
+		},
+		getAdminURL : function(relativePath)
+		{
+			return this.constructURL( "<?php echo admin_url(); ?>", relativePath );
 		},
 		version : "<?php echo TutoMVC::VERSION; ?>",
 		nonce : "<?php echo wp_create_nonce( TutoMVC::NONCE_NAME ); ?>",

@@ -14,7 +14,7 @@ function( $, Backbone, _, Input )
 		{
 			if(this.wpEditor)
 			{
-				this.$( "textarea" ).attr( "name", this.model.get("name") );
+				if(this.fallback) this.fallback.remove();
 			}
 			else
 			{
@@ -39,8 +39,26 @@ function( $, Backbone, _, Input )
 							success: _.bind( this.onAjaxResult, this ),
 							error: _.bind( this.onAjaxError, this )
 						});
+
+						// Create a fallback solution until the ajax has return with the editor
+						var _this = this;
+						this.fallback = new Backbone.View();
+						for(var k in this.model.get("fallbackValues"))
+						{
+							var textarea = new Input({
+								tagName : "textarea",
+								attributes : {
+									rows : 5
+								}
+							});
+							textarea.$el.val( this.model.get("fallbackValues")[k] );
+							_this.fallback.$el.append( textarea.$el );
+						}
+						this.$el.append( this.fallback.$el );
 				}
 			}
+
+			this.$( "textarea" ).attr( "name", this.model.get("name") + "[]" );
 
 			return this;
 		},
