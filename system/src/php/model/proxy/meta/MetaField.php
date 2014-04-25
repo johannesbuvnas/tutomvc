@@ -25,6 +25,7 @@ class MetaField extends ValueObject implements IMetaBoxField
 	const SETTING_READ_ONLY = "readOnly"; // Used by text, textarea
 	const SETTING_ROWS = "rows"; // Used by textarea
 	const SETTING_LABEL = "label"; // Used by selector
+	const SETTING_FORMAT = "format"; // Used by datetime selector
 
 	/* VARS */
 	private $_title;

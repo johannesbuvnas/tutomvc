@@ -22,7 +22,7 @@ class InitCommand extends ActionCommand
 		if( SystemFacade::DEVELOPMENT_MODE )
 		{
 			wp_register_style( SystemFacade::STYLE_CSS, $this->getFacade()->getURL( "style.css" ), NULL, TutoMVC::VERSION );
-			wp_register_script( SystemFacade::SCRIPT_JS_REQUIRE, $this->getFacade()->getURL( "src/scripts/libs/requirejs/require.js" ), TutoMVC::VERSION );
+			wp_register_script( SystemFacade::SCRIPT_JS_REQUIRE, $this->getFacade()->getURL( "src/scripts/libs/requirejs/require.js" ), NULL, TutoMVC::VERSION, TRUE );
 			wp_register_script( SystemFacade::SCRIPT_JS, $this->getFacade()->getURL( "src/scripts/Main.config.js" ), array( SystemFacade::SCRIPT_JS_REQUIRE, TutoMVC::NAME ), TutoMVC::VERSION, TRUE );
 		}
 		else

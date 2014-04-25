@@ -79,7 +79,7 @@ function( $, Backbone, _, Input )
 		{
 			this.$el.append( e );
 
-			tinyMCE.execCommand( "mceAddControl", false, this.model.get("elementID") );
+			tinyMCE.execCommand( "mceAddControl", false, this.model.get("elementID") ) || tinyMCE.execCommand( "mceAddEditor", false, this.model.get("elementID") );
 			this.wpEditor = tinyMCE.get( this.model.get("elementID") );
 			$(this.wpEditor.getBody()).on( "blur", _.bind( this.onEditorBlur, this ) );
 			TextareaWYSIWYGInput.setActiveWPEditor( null );
