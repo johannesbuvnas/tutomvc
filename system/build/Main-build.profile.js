@@ -1,36 +1,37 @@
 ({
     baseUrl : "../src/scripts/",
-    paths : {
-        "jquery" : "libs/jquery/jquery",
-        "datetimepicker" : "libs/datetimepicker/jquery.datetimepicker",
-        "jquery-mousewheel" : "libs/jquery-mousewheel/jquery.mousewheel",
-        "backbone" : "com/tutomvc/modules/Backbone",
-        "underscore" : "com/tutomvc/modules/underscore",
-        "text" : "libs/requirejs-text/text",
-        "base64" : "com/tutomvc/modules/base64",
-        "tutomvc" : "libs/com.tutomvc.core"
+    paths :	{
+      "jquery" : "libs/jquery/jquery",
+      "datetimepicker" : "libs/datetimepicker/jquery.datetimepicker",
+      "jquery-mousewheel" : "libs/jquery-mousewheel/jquery.mousewheel",
+      "backbone" : "com/tutomvc/modules/Backbone",
+      "underscore" : "com/tutomvc/modules/underscore",
+      "text" : "libs/requirejs-text/text",
+      "base64" : "com/tutomvc/modules/base64",
+      "tutomvc" : "libs/com.tutomvc.core",
+      "console" : "libs/console"
     },
     map : {
-        "*" : {
-            "jquery" : "com/tutomvc/modules/jquery"
-        },
-        "com/tutomvc/modules/jquery" : {
-            "jquery" : "jquery"
-        },
-        "datetimepicker" : {
-            "jquery" : "jquery"
-        }
+      "*" : {
+        "jquery" : "com/tutomvc/modules/jquery"
+      },
+      "com/tutomvc/modules/jquery" : {
+        "jquery" : "jquery"
+      },
+      "datetimepicker" : {
+        "jquery" : "jquery"
+      }
     },
     shim : {
-        "com/tutomvc/modules/jquery" : {
-            deps : [ "jquery" ]
-        },
-        "backbone" : {
-            deps : [ "underscore", "jquery" ]
-        },
-        "com/tutomvc/wpadmin/MainWPAdmin" : {
-            deps : [ "backbone", "tutomvc" ]
-        }
+      "com/tutomvc/modules/jquery" : {
+        deps : [ "jquery" ]
+      },
+      "backbone" : {
+        deps : [ "underscore", "jquery" ]
+      },
+      "com/tutomvc/wpadmin/MainWPAdmin" : {
+        deps : [ "console", "backbone", "tutomvc" ]
+      }
     },
     include : [
     	"libs/requirejs/require",

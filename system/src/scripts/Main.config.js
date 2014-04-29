@@ -8,7 +8,8 @@ require.config({
 		"underscore" : "com/tutomvc/modules/underscore",
 		"text" : "libs/requirejs-text/text",
 		"base64" : "com/tutomvc/modules/base64",
-		"tutomvc" : "libs/com.tutomvc.core"
+		"tutomvc" : "libs/com.tutomvc.core",
+		"console" : "libs/console"
 	},
 	map : {
 		"*" : {
@@ -29,7 +30,7 @@ require.config({
 			deps : [ "underscore", "jquery" ]
 		},
 		"com/tutomvc/wpadmin/MainWPAdmin" : {
-			deps : [ "backbone", "tutomvc" ]
+			deps : [ "console", "backbone", "tutomvc" ]
 		}
 	}
 });

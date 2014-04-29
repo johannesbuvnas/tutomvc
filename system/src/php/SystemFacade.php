@@ -24,7 +24,7 @@ final class SystemFacade extends Facade
 	public $notificationCenter;
 
 	function __construct()
-	{	
+	{
 		parent::__construct( Facade::KEY_SYSTEM );
 	}
 

@@ -11,7 +11,7 @@ require_once realpath( dirname( __FILE__ ) ) . '/utils/FileUtil.php';
 final class TutoMVC
 {
 	/* CONSTANTS */
-	const VERSION = "1.022";
+	const VERSION = "1.023";
 	const NAME = "tutomvc";
 	const NONCE_NAME = "tutomvc/nonce";
 
@@ -34,8 +34,8 @@ final class TutoMVC
 	*	Initializie.
 	*/
 	public static function initialize()
-	{	
-		if( self::$initiated ) 
+	{
+		if( self::$initiated )
 		{
 			return FALSE;
 		}
@@ -58,7 +58,7 @@ final class TutoMVC
 		self::$_url = $wpURL . FileUtil::filterFileReference( substr( self::$_root,  strripos( self::$_root, self::$_documentRoot ) + strlen( self::$_wpRelativeRoot ) + strlen( self::$_documentRoot ) ) );
 
 		self::requireAll( self::$_src );
-		
+
 		self::$initiated = true;
 
 		// Auto load the system app facade
