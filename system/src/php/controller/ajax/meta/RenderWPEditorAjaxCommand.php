@@ -14,9 +14,8 @@ class RenderWPEditorAjaxCommand extends AjaxCommand
 		{
 			$content = GetMetaDatFilter::getDBMetaValue( $_REQUEST['postID'], $_REQUEST['metaKey'] );
 			$content = is_array($content) && count($content) ? $content[0] : $content;
-			if(is_array($content) && !count($content)) $content = "";
 		}
-		else 
+		else
 		{
 			$this->getFacade()->controller->removeCommand( "option_" . $_REQUEST['metaKey'] );
 			$content = get_option( $_REQUEST['metaKey'] );
@@ -24,7 +23,10 @@ class RenderWPEditorAjaxCommand extends AjaxCommand
 
 		$settings = array(
 			"quicktags" => FALSE
-		);		
+		);
+
+		if(is_array($content) && count($content)) $content = array_pop($content);
+		if(is_array($content) && !count($content)) $content = "";
 
 		wp_editor( $content, $_REQUEST[ 'elementID' ], $settings );
 		exit;
