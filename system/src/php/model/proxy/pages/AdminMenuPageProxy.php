@@ -64,12 +64,15 @@ class AdminMenuPageProxy extends Proxy
 
 			break;
 		}
-		
+
 		$item->setName( $name );
+		add_action( "load-".$name, array( $item, "_onLoad" ) );
 
 		foreach($item->getSubpages() as $adminMenuPage)
 		{
-			$adminMenuPage->setName( add_submenu_page( $item->getMenuSlug(), $adminMenuPage->getPageTitle(), $adminMenuPage->getMenuTitle(), $adminMenuPage->getCapability(), $adminMenuPage->getMenuSlug(), array( $this, "renderItem" ) ) );
+			$name = add_submenu_page( $item->getMenuSlug(), $adminMenuPage->getPageTitle(), $adminMenuPage->getMenuTitle(), $adminMenuPage->getCapability(), $adminMenuPage->getMenuSlug(), array( $this, "renderItem" ) );
+			$adminMenuPage->setName( $name );
+			add_action( "load-".$name, array( $item, "_onLoad" ) );
 		}
 	}
 

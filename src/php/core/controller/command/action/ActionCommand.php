@@ -15,7 +15,10 @@ class ActionCommand extends Command
 	const RENDER_SETTINGS_FIELD = "tutomvc/action/render/settings_field";
 
 	const PREPARE_META_FIELD = "tutomvc/action/prepare/meta/field";
-	
+
+	const GIT_PULL = "tutomvc/action/git/pull";
+	const GIT_ADD = "tutomvc/action/git/add";
+
 	/* PUBLIC VARS */
 	public $priority = 10;
 	public $acceptedArguments = 1;

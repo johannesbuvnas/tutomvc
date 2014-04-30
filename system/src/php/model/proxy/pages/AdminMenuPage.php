@@ -121,6 +121,23 @@ class AdminMenuPage extends ValueObject
 		return $this->_subpages;
 	}
 
+	/* EVENTS */
+	/** Triggered by WordPress */
+	public function onLoad()
+	{
+
+	}
+	public function _onLoad()
+	{
+		$this->onLoad();
+
+		$screen = get_current_screen();
+		foreach($this->getSubpages() as $subpage)
+		{
+			if($subpage->getName() == $screen->id) $subpage->onLoad();
+		}
+	}
+
 	/**
 	*	Used by AdminMenuPageProxy
 	*/

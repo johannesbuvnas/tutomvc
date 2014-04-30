@@ -20,12 +20,12 @@ class Controller
 
 		$this->_facadeKey = $key;
 	}
-	
+
 	/* PUBLIC STATIC METHODS */
 	public static function getInstance( $key )
 	{
 		if( !array_key_exists( $key, self::$_instanceMap ) ) self::$_instanceMap[$key] = new Controller( $key );
-		
+
 		return self::$_instanceMap[ $key ];
 	}
 
@@ -33,7 +33,7 @@ class Controller
 	public function registerCommand( Command $command )
 	{
 		if( $this->hasCommand( $command->getName() ) ) return $this->getCommand( $command->getName() );
-		
+
 		$command->initializeFacadeKey( $this->_facadeKey );
 		$command->register();
 		$this->_commandMap[ $command->getName() ] = $command;

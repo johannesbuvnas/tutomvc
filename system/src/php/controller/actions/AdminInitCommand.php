@@ -9,7 +9,7 @@ class AdminInitCommand extends ActionCommand
 	}
 
 	function execute()
-	{	
+	{
 		$this->prepModel();
 		$this->prepController();
 	}

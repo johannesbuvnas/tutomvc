@@ -22,6 +22,7 @@ final class SystemFacade extends Facade
 	public $settingsCenter;
 	public $logCenter;
 	public $notificationCenter;
+	public $repository;
 
 	function __construct()
 	{
@@ -37,6 +38,7 @@ final class SystemFacade extends Facade
 
 	private function prepModel()
 	{
+		$this->notificationCenter = $this->model->registerProxy( new NotificationProxy() );
 		$this->postTypeCenter = $this->model->registerProxy( new PostTypeProxy() );
 		$this->metaCenter = $this->model->registerProxy( new MetaBoxProxy() );
 		$this->menuCenter = $this->model->registerProxy( new MenuProxy() );
@@ -44,7 +46,6 @@ final class SystemFacade extends Facade
 		$this->imageSizeCenter = $this->model->registerProxy( new ImageSizeProxy() );
 		$this->settingsCenter = $this->model->registerProxy( new SettingsProxy() );
 		$this->logCenter = $this->model->registerProxy( new LogProxy() );
-		$this->notificationCenter = $this->model->registerProxy( new NotificationProxy() );
 
 		if(self::DEVELOPMENT_MODE) $this->notificationCenter->add( "TutoMVC System: DEVELOPMENT MODE" );
 	}
