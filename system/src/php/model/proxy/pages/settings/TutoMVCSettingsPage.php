@@ -23,6 +23,7 @@ class TutoMVCSettingsPage extends AdminMenuPage
 	function getContentMediatorName()
 	{
 		return '';
+<<<<<<< HEAD
 	}
 
 	function onLoad()
@@ -33,5 +34,7 @@ class TutoMVCSettingsPage extends AdminMenuPage
 			$facade = Facade::getInstance( Facade::KEY_SYSTEM );
 			$facade->notificationCenter->add( "Tuto MVC " . TutoMVC::VERSION );
 		}
+=======
+>>>>>>> affebb7cb75c5d18df94e0c38db3bf735f0c58e0
 	}
 }

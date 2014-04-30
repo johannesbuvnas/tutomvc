@@ -15,9 +15,12 @@ class TutoMVCGitPage extends AdminMenuPage
   {
     return TutoMVCGitContentMediator::NAME;
   }
+<<<<<<< HEAD
 
   function onLoad()
   {
     do_action( TutoMVCGitContentMediator::ACTION_DISPLAY_STATUS );
   }
+=======
+>>>>>>> affebb7cb75c5d18df94e0c38db3bf735f0c58e0
 }
