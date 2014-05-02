@@ -8,7 +8,7 @@ class TutoMVCGitPage extends AdminMenuPage
 
   function __construct()
   {
-    parent::__construct( __( "Git" ), __( "Git" ), "manage_options", self::NAME );
+    parent::__construct( __( "Repository" ), __( "Repository" ), "manage_options", self::NAME );
   }
 
   function getContentMediatorName()
