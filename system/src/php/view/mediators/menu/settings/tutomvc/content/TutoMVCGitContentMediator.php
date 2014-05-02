@@ -48,6 +48,7 @@ class TutoMVCGitContentMediator extends Mediator
   {
     if(is_dir( FileUtil::filterFileReference( TutoMVC::getRoot()."/.git" ) ))
     {
+      shell_exec( "cd ".TutoMVC::getRoot()." && git fetch" );
       $localVersion = shell_exec( "cd ".TutoMVC::getRoot()." && git log -n 1" );
       $remoteVersion = shell_exec( "cd ".TutoMVC::getRoot()." && git log origin/master -n 1" );
 
