@@ -52,12 +52,15 @@ class TutoMVCGitContentMediator extends Mediator
       $localVersion = shell_exec( "cd ".TutoMVC::getRoot()." && git log -n 1" );
       $remoteVersion = shell_exec( "cd ".TutoMVC::getRoot()." && git log origin/master -n 1" );
 
+      if($localVersion != $remoteVersion)
+      {
+        $this->getFacade()->notificationCenter->add( "It seems that you have unpulled commits." );
+      }
+
       $status = "<pre>STATUS\n\n".shell_exec( "cd ".TutoMVC::getRoot()." && git status" )."\n</pre>";
       $status .= "<pre>LOCAL REVISION\n\n".$localVersion."\n</pre>";
       $status .= "<pre>REMOTE REVISION\n\n".$remoteVersion."</pre>";
       $this->getFacade()->notificationCenter->add( $status );
-
-      if($localVersion != $remoteVersion) $this->getFacade()->notificationCenter->add( "It seems that you have unpulled commits.", Notification::TYPE_UPDATE );
     }
   }
 }
