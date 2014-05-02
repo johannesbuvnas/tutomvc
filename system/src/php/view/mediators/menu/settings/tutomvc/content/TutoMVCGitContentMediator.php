@@ -56,6 +56,8 @@ class TutoMVCGitContentMediator extends Mediator
       $status .= "<pre>LOCAL REVISION\n\n".$localVersion."\n</pre>";
       $status .= "<pre>REMOTE REVISION\n\n".$remoteVersion."</pre>";
       $this->getFacade()->notificationCenter->add( $status );
+
+      if($localVersion != $remoteVersion) $this->getFacade()->notificationCenter->add( "It seems that you have unpulled commits.", Notification::TYPE_UPDATE );
     }
   }
 }
