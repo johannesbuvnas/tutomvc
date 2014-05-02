@@ -48,9 +48,9 @@ class TutoMVCGitContentMediator extends Mediator
   {
     if(is_dir( FileUtil::filterFileReference( TutoMVC::getRoot()."/.git" ) ))
     {
-      shell_exec( "cd ".TutoMVC::getRoot()." && git fetch" );
       $status = "<pre>STATUS\n\n".shell_exec( "cd ".TutoMVC::getRoot()." && git status" )."\n</pre>";
-      $status .= "<pre>LATEST COMMIT\n\n".shell_exec( "cd ".TutoMVC::getRoot()." && git log -n 1" )."</pre>";
+      $status .= "<pre>LATEST COMMIT\n\n".shell_exec( "cd ".TutoMVC::getRoot()." && git log -n 1" )."\n</pre>";
+      $status .= "<pre>DFF\n\n".shell_exec( "cd ".TutoMVC::getRoot()." && git fetch && git diff" )."</pre>";
       $this->getFacade()->notificationCenter->add( $status );
     }
   }
