@@ -62,5 +62,9 @@ class TutoMVCGitContentMediator extends Mediator
       $status .= "<pre>REMOTE REVISION\n\n".$remoteVersion."</pre>";
       $this->getFacade()->notificationCenter->add( $status );
     }
+    else
+    {
+      $this->getFacade()->notificationCenter->add( "No git repository is added / initiated." );
+    }
   }
 }
