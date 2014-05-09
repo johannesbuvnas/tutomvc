@@ -197,12 +197,20 @@ class WordPressUtil
 	*/
 	public static function uploadAttachmentFromByteArray($fileName, $byteArray, $postID, $description = NULL)
 	{
+		return self::uploadAttachmentFromData( $fileName, $byteArray->data, $postID, $description );
+	}
+
+	/**
+	*	Uploads attachment from data, returns WP attachment URL or WP Error object.
+	*/
+	public static function uploadAttachmentFromData($fileName, $data, $postID, $description = NULL)
+	{
 		require_once( ABSPATH . "wp-admin" . '/includes/image.php' );
     	require_once( ABSPATH . "wp-admin" . '/includes/file.php' );
     	require_once( ABSPATH . "wp-admin" . '/includes/media.php' );
 
     	$localFileName = wp_tempnam();
-		file_put_contents( $localFileName, $byteArray->data );
+		file_put_contents( $localFileName, $data );
 
 		$file_array['name'] = $fileName;
 		$file_array['tmp_name'] = $localFileName;

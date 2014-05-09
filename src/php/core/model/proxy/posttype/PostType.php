@@ -5,8 +5,7 @@ class PostType extends ValueObject implements IPostType
 {
 	/* VARS */
 	private $_arguments;
-	private $_fieldsMap = array();
-	private $_metaMap = array();
+	private $_columnsMap = array();
 	private $_orderBy = "date";
 	private $_order = "DESC";
 
@@ -55,8 +54,11 @@ class PostType extends ValueObject implements IPostType
 	}
 
 	/* METHODS */
-	function pre_get_posts( $wpQuery )
+	public function addColumn( WPAdminPostTypeColumn $column )
 	{
+		$this->_columnsMap[ $column->getName() ] = $column;
+
+		return $this;
 	}
 
 	public function setArgument( $name, $value )
@@ -78,13 +80,63 @@ class PostType extends ValueObject implements IPostType
 	{
 		return $this->_arguments;
 	}
+
+	/* EVENTS */
+	final public function _pre_get_posts( $wpQuery )
+	{
+		if( $wpQuery->get( "orderby" ) )
+		{
+			foreach( $this->_columnsMap as $wpAdminPostTypeColumn )
+			{
+				if($wpAdminPostTypeColumn->getSortable())
+				{
+					$wpAdminPostTypeColumn->sort( $wpQuery );
+				}
+			}
+		}
+
+		return $this->pre_get_posts( $wpQuery );
+	}
+
+	public function pre_get_posts( $wpQuery )
+	{
+		return $wpQuery;
+	}
+
+	public function manage_columns( $columns )
+	{
+		foreach($this->_columnsMap as $wpAdminPostTypeColumn)
+		{
+			$columns[ $wpAdminPostTypeColumn->getName() ] = $wpAdminPostTypeColumn->getValue();
+		}
+
+		return $columns;
+	}
+
+	public function manage_sortable_columns( $columns )
+	{
+		foreach($this->_columnsMap as $wpAdminPostTypeColumn)
+		{
+			if($wpAdminPostTypeColumn->getSortable()) $columns[ $wpAdminPostTypeColumn->getName() ] = $wpAdminPostTypeColumn->getName();
+		}
+
+		return $columns;
+	}
+
+	final public function custom_column( $columnName, $postID )
+	{
+		if(array_key_exists($columnName, $this->_columnsMap))
+		{
+			$this->_columnsMap[ $columnName ]->render( $postID );
+		}
+	}
 }
 
 interface IPostType
 {
 	/* METHODS */
 	// public function hasMetaBox( $metaName );
-	
+
 	/* SET AND GET */
 	public function setArguments($arguments);
 	public function getArguments();
