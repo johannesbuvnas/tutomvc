@@ -23,7 +23,7 @@ $vo['metaFieldName'] = $metaField->getName();
 $vo['name'] = $metaVO->getName();
 $vo['value'] = $value;
 $vo['conditions'] = array();
-foreach($metaField->getConditions() as $metaCondition) $vo['conditions'][] = $metaCondition->toArray();
+if(is_array($metaField->getConditions()) && count($metaField->getConditions())) foreach($metaField->getConditions() as $metaCondition) $vo['conditions'][] = $metaCondition->toArray();
 $vo['type'] = $metaVO->getType();
 $vo = is_array($metaVO->getSettings()) ? array_merge( $metaVO->getSettings(), $vo ) : $vo;
 ?>
