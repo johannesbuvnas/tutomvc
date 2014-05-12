@@ -42,11 +42,13 @@ function(Backbone, _, Input, HTML)
 		},
 		onFocus : function(e)
 		{
+			LinkInput.currentFocusCID = this.cid;
+
 			// Set active editor to hidden Tuto MVC Editor
 			wpActiveEditor = "tutomvc-editor";
 			window.wpLink.open();
 
-			if(this.model.get("value").get("href").length) this.$url.val( this.model.get("value").get("href") );
+			if(this.model.get("value").get("href") && this.model.get("value").get("href").length) this.$url.val( this.model.get("value").get("href") );
 			this.$title.val( this.model.get("value").get("title") );
 			this.$openInNewTab.prop('checked', '_blank' == this.model.get("value").get("target") );
 		},
@@ -58,12 +60,18 @@ function(Backbone, _, Input, HTML)
 		{
 			e.preventDefault();
 
-			this.model.get("value").set( window.wpLink.getAttrs() );
+			if(this.cid == LinkInput.currentFocusCID)
+			{
+				this.model.get("value").set( window.wpLink.getAttrs() );
 
-			window.wpLink.refresh();
-			window.wpLink.close();
-			wpActiveEditor = null;
+				window.wpLink.refresh();
+				window.wpLink.close();
+				wpActiveEditor = null;
+			}
 		}
+	},
+	{
+		currentFocusCID : null
 	});
 
 	return LinkInput;

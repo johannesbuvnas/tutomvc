@@ -4,7 +4,7 @@ namespace tutomvc;
 final class SystemFacade extends Facade
 {
 	/* CONSTANTS */
-	const DEVELOPMENT_MODE = FALSE;
+	const DEVELOPMENT_MODE = TRUE;
 	const LOGS_DIRECTORY = "/logs/";
 
 	const STYLE_CSS = "tutomvc-css";

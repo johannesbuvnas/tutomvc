@@ -33,7 +33,7 @@ class GetMetaValueFilterCommand extends FilterCommand
 			break;
 			case MetaField::TYPE_LINK:
 
-				$metaValue = (array) json_decode( is_array($metaValue) ? $metaValue[0] : $metaValue );
+				$metaValue = is_array($metaValue) && count($metaValue) ? (array)json_decode($metaValue[0]) : json_decode($metaValue);
 
 			break;
 		}

@@ -28,7 +28,7 @@ class Mediator extends CoreClass implements IMediator
 		
 		if(empty( $output ))
 		{
-			throw new \ErrorException( "CUSTOM ERROR: Nothing to render", 0, E_ERROR );
+			throw new \ErrorException( get_called_class() . ": Nothing to render", 0, E_ERROR );
 		}
 		else
 		{
