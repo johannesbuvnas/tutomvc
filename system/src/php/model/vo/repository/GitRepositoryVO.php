@@ -52,7 +52,7 @@ class GitRepositoryVO extends ValueObject
 	{
 		$status = "<pre>STATUS\n\n".shell_exec( "cd ".$this->_localPath." && git status" )."\n</pre>";
 		$status .= "<pre>LOCAL REVISION\n\n".$this->getLocalVersion()."\n</pre>";
-		$status .= "<pre>REMOTE REVISION\n\n".$this->getRemoteVersionp()."</pre>";
+		$status .= "<pre>REMOTE REVISION\n\n".$this->getRemoteVersion()."</pre>";
 
 		return $status;
 	}
