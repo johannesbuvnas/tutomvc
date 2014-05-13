@@ -35,7 +35,7 @@ class GetMetaValueFilterCommand extends FilterCommand
 
 				if(is_array($metaValue) && count($metaValue)) $metaValue = array_pop($metaValue);
 
-				if(is_string($metaValue)) $metaValue = (array)json_decode($metaValue);
+				if(is_string($metaValue)) $metaValue = json_decode($metaValue);
 
 			break;
 		}
