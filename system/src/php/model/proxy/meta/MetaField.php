@@ -9,6 +9,7 @@ class MetaField extends ValueObject implements IMetaBoxField
 	const TYPE_TEXTAREA_WYSIWYG = "textarea_wysiwyg";
 	const TYPE_ATTACHMENT = "attachment";
 	const TYPE_SELECTOR_SINGLE = "selector_single";
+	const TYPE_SELECTOR_MULTIPLE = "selector_multiple";
 	const TYPE_SELECTOR_SWITCH = "selector_switch";
 	const TYPE_SELECTOR_DATETIME = "selector_datetime";
 	const TYPE_LINK = "link";

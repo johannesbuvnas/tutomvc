@@ -1,6 +1,7 @@
 @import "animate.css";
 @import "components/selector.css";
 @import "components/tagselector.css";
+@import "components/multiselector.css";
 
 .clearfix:after {
 	content: ".";

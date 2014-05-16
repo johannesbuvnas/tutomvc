@@ -10,11 +10,6 @@ function( $, Facade, Constants, StartUpCommand, Test )
 	var facade = Facade.getInstance( Constants.FACADE_KEY );
 	facade.controller.registerCommand( Constants.STARTUP, StartUpCommand );
 
-	if(console && console.log)
-	{
-		console.log( "MainWPAdmin::hello world" );
-	}
-
 	return $( document ).ready(function()
 	{
 		facade.dispatch( Constants.STARTUP, {} );

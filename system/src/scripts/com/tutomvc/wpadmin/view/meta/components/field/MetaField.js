@@ -4,15 +4,15 @@ define([
 	"underscore",
 	"text!com/tutomvc/wpadmin/view/meta/components/field/MetaField.tpl.html",
 	"com/tutomvc/component/form/Input",
-	"com/tutomvc/component/form/input/SingleSelector",
 	"com/tutomvc/component/form/Selector",
+	"com/tutomvc/component/form/MultiSelector",
 	"com/tutomvc/component/model/proxy/Proxy",
 	"com/tutomvc/wpadmin/view/meta/components/field/input/text/TextareaWYSIWYGInput",
 	"com/tutomvc/wpadmin/view/meta/components/field/input/attachment/AttachmentList",
 	"com/tutomvc/component/form/TextArea",
 	"com/tutomvc/wpadmin/view/meta/components/field/input/text/LinkInput"
 ],
-function( Base64, Backbone, _, Template, Input, SingleSelector, Selector, Proxy, TextareaWYSIWYGInput, AttachmentList, TextArea, LinkInput )
+function( Base64, Backbone, _, Template, Input, Selector, MultiSelector, Proxy, TextareaWYSIWYGInput, AttachmentList, TextArea, LinkInput )
 {
 	"use strict";
 
@@ -148,6 +148,7 @@ function( Base64, Backbone, _, Template, Input, SingleSelector, Selector, Proxy,
 
 				break;
 				case "selector_single":
+				case "selector_multiple":
 
 					// console.log( model.toJSON() );
 					var options = new Input.Collection();
@@ -158,32 +159,24 @@ function( Base64, Backbone, _, Template, Input, SingleSelector, Selector, Proxy,
 							value : key,
 							name : optionsObject[ key ]
 						});
-						if(key == model.get("value")) model.set({label:optionsObject[key]});
+						if(key == model.get("value") && model.get("type") == "selector_single") model.set({label:optionsObject[key]});
 					}
 					model.set({
 						options : options
 					});
-					component = new Selector({
-						model : model
-					});
 
-					// component = new SingleSelector();
-					// component.setLabel( model.get("title") );
-
-					// var proxy = new Proxy();
-
-					// for(var key in model.get("options"))
-					// {
-					// 	proxy.addVO( model.get("options")[key], key );
-					// 	if(key == model.get("value"))
-					// 	{
-					// 		component.setLabel( model.get("options")[key] );
-					// 		component.setValue( model.get("value") );
-					// 	}
-					// }
-
-					// component.model.addProxy( proxy );
-					// component.reset();
+					if(model.get("type") == "selector_single")
+					{
+						component = new Selector({
+							model : model
+						});
+					}
+					else if(model.get("type") == "selector_multiple")
+					{
+						component = new MultiSelector({
+							model : model
+						});
+					}
 
 				break;
 				case "textarea":
