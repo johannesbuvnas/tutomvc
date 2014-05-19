@@ -14,10 +14,11 @@ class Proxy extends CoreClass
 		$this->_name = is_null( $name ) ? get_class( $this ) : $name;
 	}
 
-	public function add( $item, $key = NULL )
+	public function add( $item, $key = NULL, $override = FALSE )
 	{
 		$key = is_null( $key ) ? uniqid() : $key;
 
+		if($override) $this->delete( $key );
 		if(!$this->has( $key ))
 		{
 			$this->_map[ $key ] = $item;
@@ -37,6 +38,7 @@ class Proxy extends CoreClass
 
 	public function delete( $key )
 	{
+		if(!$key) return $this;
 		if(array_key_exists( $key, $this->_map )) unset( $this->_map[ $key ] );
 		if($this->getCacheEnabled()) wp_cache_delete( $key, $this->getCacheGroupName() );
 
