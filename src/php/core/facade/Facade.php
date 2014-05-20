@@ -22,7 +22,7 @@ class Facade
 
 	public function __construct( $key )
 	{
-		if( array_key_exists($key, self::$_instanceMap) ) die( "Instance of Facade with that particular key already exists." );
+		if( array_key_exists($key, self::$_instanceMap) ) throw new \ErrorException( "CUSTOM ERROR: "." Instance of Facade with that particular key already exists.", 0, E_ERROR );
 		self::$_instanceMap[ $key ] = $this;
 		$this->_key = $key;
 		$this->initialize();
