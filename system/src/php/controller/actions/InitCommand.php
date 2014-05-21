@@ -34,10 +34,6 @@ class InitCommand extends ActionCommand
 
 	function prepModel()
 	{
-		if(SystemFacade::DEVELOPMENT_MODE)
-		{
-			$this->getFacade()->metaCenter->add( new TestMetaBox() );
-		}
 	}
 
 	function prepController()
