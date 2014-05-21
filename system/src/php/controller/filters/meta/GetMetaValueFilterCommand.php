@@ -74,6 +74,8 @@ class GetMetaValueFilterCommand extends FilterCommand
 		{
 			foreach( $attachmentIDMap as $attachmentID )
 			{
+				if(!get_post($attachmentID)) return NULL;
+
 				$thumb = wp_get_attachment_image_src( $attachmentID, "thumbnail", false );
 				$icon = wp_get_attachment_image_src( $attachmentID, "thumbnail", true );
 

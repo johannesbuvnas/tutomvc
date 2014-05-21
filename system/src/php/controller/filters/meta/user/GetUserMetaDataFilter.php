@@ -21,6 +21,7 @@ class GetUserMetaDataFilter extends FilterCommand
 			{
 				$meta[ $metaBox->getName() ] = array_map( array($this, "convertMetaVOToValue"), $metaBox->getMetaBoxMap( $userID ) );
 			}
+			if(!count($meta)) $meta = NULL;
 		}
 		else
 		{
