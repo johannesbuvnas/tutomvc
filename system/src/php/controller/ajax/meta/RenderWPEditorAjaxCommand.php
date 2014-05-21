@@ -10,7 +10,12 @@ class RenderWPEditorAjaxCommand extends AjaxCommand
 
 	public function execute(  )
 	{
-		if(intval($_REQUEST['postID']))
+		if(array_key_exists("userID", $_REQUEST) && intval($_REQUEST['userID']))
+		{
+			$content = GetUserMetaDataFilter::getDBMetaValue( $_REQUEST['userID'], $_REQUEST['metaKey'] );
+			$content = is_array($content) && count($content) ? $content[0] : $content;
+		}
+		else if(array_key_exists("postID", $_REQUEST) && intval($_REQUEST['postID']))
 		{
 			$content = GetMetaDatFilter::getDBMetaValue( $_REQUEST['postID'], $_REQUEST['metaKey'] );
 			$content = is_array($content) && count($content) ? $content[0] : $content;

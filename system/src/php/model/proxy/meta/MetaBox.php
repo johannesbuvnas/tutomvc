@@ -42,6 +42,19 @@ class MetaBox extends ValueObject implements IMetaBox
 	}
 
 	/* ACTIONS */
+	public function addPostMeta( $postID, $key, $value )
+	{
+		return update_post_meta( $postID, $key, $value ) || add_post_meta( $postID, $key, $value, TRUE );
+	}
+	public function deletePostMeta( $postID, $key )
+	{
+		return delete_post_meta( $postID, $key );
+	}
+	public function getInstanceOfMetaVO( $metaName, $postID, $metaField )
+	{
+		return new MetaVO( $metaName, $postID, $metaField );
+	}
+
 	public static function constructMetaKey( $metaBoxName, $metaFieldName, $cardinality = 1 )
 	{
 		$cardinalityID = $cardinality - 1;
@@ -59,7 +72,7 @@ class MetaBox extends ValueObject implements IMetaBox
 			}
 		}
 
-		return delete_post_meta( $postID, $this->getName() );
+		return $this->deletePostMeta( $postID, $this->getName() );
 	}
 
 	public function addCondition( MetaCondition $condition )
@@ -81,7 +94,7 @@ class MetaBox extends ValueObject implements IMetaBox
 	{
 		if($this->hasReachedMaxCardinality()) return $this->getMetaFieldMap( $postID, $this->getCardinality() - 1 );
 
-		update_post_meta( $postID, $this->getName(), $this->getCardinality() + 1) || add_post_meta( $postID, $this->getName(), $this->getCardinality() + 1, TRUE );
+		$this->addPostMeta( $postID, $this->getName(), $this->getCardinality() + 1);
 
 		return $this->getMetaFieldMap( $postID, $this->getCardinality() - 1 );
 	}
@@ -125,7 +138,7 @@ class MetaBox extends ValueObject implements IMetaBox
 		foreach( $this->getFields() as $metaField )
 		{
 			$metaName = $this->getName() . "_" . $cardinalityID . "_" . $metaField->getName();
-			$dp[ $metaField->getName() ] = new MetaVO( $metaName, $postID, $metaField );
+			$dp[ $metaField->getName() ] = $this->getInstanceOfMetaVO( $metaName, $postID, $metaField );
 		}
 
 		return $dp;

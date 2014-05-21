@@ -16,6 +16,8 @@ function( Backbone, Button, AttachmentItem, ArrangeableList, Input )
 		initialize : function(options)
 		{
 			if(!this.model) this.model = new AttachmentList.Model();
+			else this.model = new AttachmentList.Model( this.model.toJSON() );
+
 			if(!this.collection)
 			{
 				this.collection = new Backbone.Collection([], {

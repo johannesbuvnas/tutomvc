@@ -72,6 +72,26 @@ class GetMetaDatFilter extends FilterCommand
 		return $dp;
 	}
 
+	public static function getDBUserMetaValue( $userID, $metaKey )
+	{
+		if( !intval($userID) ) return FALSE;
+
+		global $wpdb;
+
+		$query = "
+			SELECT {$wpdb->usermeta}.meta_value
+			FROM {$wpdb->usermeta}
+			WHERE {$wpdb->usermeta}.user_id = '{$userID}'
+			AND {$wpdb->usermeta}.meta_key = '{$metaKey}'
+		";
+
+		$myrows = $wpdb->get_results( $query );
+		$dp = array();
+		foreach($myrows as $row) $dp[] = $row->meta_value;
+		
+		return $dp;
+	}
+
 	public function convertMetaVOToValue( $metaVO )
 	{
 		if(is_a($metaVO, "tutomvc\MetaVO"))

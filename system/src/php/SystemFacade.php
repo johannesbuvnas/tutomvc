@@ -16,6 +16,7 @@ final class SystemFacade extends Facade
 	/* PUBLIC VARS */
 	public $postTypeCenter;
 	public $metaCenter;
+	public $userMetaCenter;
 	public $menuCenter;
 	public $adminMenuPageCenter;
 	public $imageSizeCenter;
@@ -41,6 +42,7 @@ final class SystemFacade extends Facade
 		$this->notificationCenter = $this->model->registerProxy( new NotificationProxy() );
 		$this->postTypeCenter = $this->model->registerProxy( new PostTypeProxy() );
 		$this->metaCenter = $this->model->registerProxy( new MetaBoxProxy() );
+		$this->userMetaCenter = $this->model->registerProxy( new UserMetaProxy() );
 		$this->menuCenter = $this->model->registerProxy( new MenuProxy() );
 		$this->adminMenuPageCenter = $this->model->registerProxy( new AdminMenuPageProxy() );
 		$this->imageSizeCenter = $this->model->registerProxy( new ImageSizeProxy() );

@@ -31,6 +31,12 @@ function( $, Backbone, _, Input )
 							settings : {}
 						};
 
+						if(TutoMVC.currentScreenID == "profile" || TutoMVC.currentScreenID == "user-edit")
+						{
+							data.userID = data.postID;
+							data.postID = undefined;
+						}
+
 						$.ajax({
 							type: "post",
 							dataType: "html",

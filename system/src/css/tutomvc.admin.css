@@ -14,6 +14,14 @@
 }
 
 /* .MetaBox */
+	div.UserMeta
+	{
+		padding: 15px;
+		background: #FFF;
+		box-sizing:border-box;
+		-webkit-box-sizing:border-box;
+		-moz-box-sizing:border-box; /* Firefox */
+	}
 	div.MetaBox
 	{
 		position: relative;
