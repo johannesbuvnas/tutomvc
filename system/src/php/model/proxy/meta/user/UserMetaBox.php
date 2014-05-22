@@ -4,11 +4,12 @@ namespace tutomvc;
 class UserMetaBox extends MetaBox
 {
 
-	function __construct( $name, $title, $maxCardinality )
+	function __construct( $name, $title, $maxCardinality, $minCardinality )
 	{
 		$this->setName( $name );
 		$this->setTitle( $title );
 		$this->setMaxCardinality( $maxCardinality );
+		$this->setMinCardinality( $minCardinality );
 	}
 
 	public function addPostMeta( $postID, $key, $value )

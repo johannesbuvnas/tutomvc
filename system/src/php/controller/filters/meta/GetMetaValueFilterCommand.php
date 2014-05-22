@@ -16,8 +16,6 @@ class GetMetaValueFilterCommand extends FilterCommand
 		$postID = $this->getArg(0);
 		$metaValue = $this->getArg(1);
 		$metaField = $this->getArg(2);
-
-		$settings = $metaField->getSettings();
 		
 		switch( $metaField->getType() )
 		{
