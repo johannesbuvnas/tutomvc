@@ -9,7 +9,7 @@ class UserMetaProxy extends Proxy
 
 	public function onRegister()
 	{
-		// $dummy = new UserMetaBox( "dummy_user_meta", "Dummy User Meta", -1 );
+		// $dummy = new UserMetaBox( "dummy_user_meta", "Dummy User Meta", 1 );
 		// $dummy->addField( new MetaField(
 		// 	"dummy_field",
 		// 	"Dummy Field",

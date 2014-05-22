@@ -46,24 +46,7 @@ class AdminMenuPageProxy extends Proxy
 	/* ACTIONS */
 	public function registerItem( AdminMenuPage $item )
 	{
-		switch( $item->getType() )
-		{
-			case AdminMenuPage::TYPE_THEME:
-
-				$name = add_theme_page( $item->getPageTitle(), $item->getMenuTitle(), $item->getCapability(), $item->getMenuSlug(), array( $this, "renderItem" ) );
-
-			break;
-			case AdminMenuPage::TYPE_OPTIONS:
-
-				$name = add_options_page( $item->getPageTitle(), $item->getMenuTitle(), $item->getCapability(), $item->getMenuSlug(), array( $this, "renderItem" ) );
-
-			break;
-			default:
-
-				$name = add_menu_page( $item->getPageTitle(), $item->getMenuTitle(), $item->getCapability(), $item->getMenuSlug(), array( $this, "renderItem" ), $item->getMenuIconURL(), $item->getMenuPosition() );
-
-			break;
-		}
+		$name =  call_user_func_array( "add_".$item->getType(), array( $item->getPageTitle(), $item->getMenuTitle(), $item->getCapability(), $item->getMenuSlug(), array( $this, "renderItem" ) ) );
 
 		$item->setName( $name );
 		add_action( "load-".$name, array( $item, "_onLoad" ) );

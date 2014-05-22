@@ -4,9 +4,18 @@ namespace tutomvc;
 class AdminMenuPage extends ValueObject
 {
 	/* CONSTANTS */
-	const TYPE_NORMAL = "type_normal";
-	const TYPE_THEME = "type_theme";
-	const TYPE_OPTIONS = "type_options";
+	const TYPE_NORMAL = "menu_page";
+	const TYPE_THEME = "theme_page";
+	const TYPE_OPTIONS = "options_page";
+	const TYPE_COMMENTS = "comments_page";
+	const TYPE_PAGES = "pages_page";
+	const TYPE_PLUGINS = "plugins_page";
+	const TYPE_USERS = "users_page";
+	const TYPE_MANAGEMENT = "management_page";
+	const TYPE_LINKS = "links_page";
+	const TYPE_MEDIA = "media_page";
+	const TYPE_POSTS = "posts_page";
+	const TYPE_DASHBOARD = "dashboard_page";
 
 	/* VARS */
 	protected $_pageTitle;
