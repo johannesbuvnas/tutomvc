@@ -24,8 +24,8 @@ class ActionCommand extends Command
 	public $acceptedArguments = 1;
 
 
-	public function register()
+	public function register( $name = NULL )
 	{
-		add_action( $this->getName(), array( $this, "preExecution" ), $this->priority, $this->acceptedArguments );
+		add_action( $name ? $name : $this->getName(), array( $this, "preExecution" ), $this->priority, $this->acceptedArguments );
 	}
 }
