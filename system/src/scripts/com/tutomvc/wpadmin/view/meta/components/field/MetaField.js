@@ -148,7 +148,6 @@ function( Base64, Backbone, _, Template, Input, Selector, MultiSelector, Proxy, 
 
 				break;
 				case "selector_single":
-				case "selector_multiple":
 
 					// console.log( model.toJSON() );
 					var options = new Input.Collection();
@@ -159,24 +158,31 @@ function( Base64, Backbone, _, Template, Input, Selector, MultiSelector, Proxy, 
 							value : key,
 							name : optionsObject[ key ]
 						});
-						if(key == model.get("value") && model.get("type") == "selector_single") model.set({label:optionsObject[key]});
+						if(key == model.get("value")) model.set({label:optionsObject[key]});
 					}
 					model.set({
 						options : options
 					});
+					component = new Selector({
+						model : model
+					});
 
-					if(model.get("type") == "selector_single")
+				break;
+				case "selector_multiple":
+
+					var options = new Input.Collection();
+					var optionsObject = model.get("options");
+					for(var key in optionsObject)
 					{
-						component = new Selector({
-							model : model
+						options.add({
+							value : key,
+							name : optionsObject[ key ]
 						});
 					}
-					else if(model.get("type") == "selector_multiple")
-					{
-						component = new MultiSelector({
-							model : model
-						});
-					}
+
+					component = new MultiSelector({
+						model : new MultiSelector.Model( _.extend( model.toJSON(), {options:options} ) )
+					});
 
 				break;
 				case "textarea":

@@ -25,6 +25,22 @@
 	width: auto;
 	border: 0;
 }
+.MultiSelector > .SelectedOptions .Model > .RemoveButton,
+.MultiSelector > .Options .Model > .AddButton
+{
+	padding: 0;
+	height: 100%;
+	width: 100%;
+	position: absolute;
+	top: 0;
+	left: 0;
+	background: transparent;
+}
+.MultiSelector > .SelectedOptions .Model > .RemoveButton > .Label,
+.MultiSelector > .Options .Model > .AddButton > .Label
+{
+	display: none;
+}
 .MultiSelector > .SelectedOptions .Model:hover > .Label
 {
 	color: #e04b44;

@@ -42,8 +42,10 @@ function(
 			this.$el.addClass("MultiSelector");
 
 			// Prep controller
-			this.events["click .SelectedOptions > .Model"] = "onSelect";
-			this.events["keyup .SelectedOptions > input.Filter"] = "onTypeFilter";
+			// this.events["click .SelectedOptions > .Model"] = "onSelect";
+			// this.events["keyup .SelectedOptions > input.Filter"] = "onFilterKeyUp";
+			// this.events["keydown .SelectedOptions > input.Filter"] = "onFilterKeyDown";
+			Backbone.$("body").on( "click", _.bind(this.hide, this));
 
 			this.render();
 		},
@@ -63,7 +65,6 @@ function(
 			}
 			else
 			{
-				console.log("filter:", value);
 				this.model.get("options").forEach(function(model)
 					{
 						var index = model.get("name").toLowerCase().indexOf( value.toLowerCase() );
@@ -84,7 +85,45 @@ function(
 			return this;
 		},
 		// Events
-		onTypeFilter : function(e)
+		events : {
+			"click .Options > .Model > .AddButton" : "onSelect",
+			"click .SelectedOptions > .Model > .RemoveButton" : "onSelect",
+			"keyup .SelectedOptions > input.Filter" : "onFilterKeyUp",
+			"keydown .SelectedOptions > input.Filter" : "onFilterKeyDown",
+			"focus .SelectedOptions > input.Filter" : "onFilterFocus",
+			"click" : "onClick"
+		},
+		onClick : function(e)
+		{
+			if(e)
+			{
+				e.preventDefault();
+				e.stopPropagation();
+			}
+
+			if(Backbone.$(e.target).is("input[type=text]")) this.show();
+			else this.toggle();
+		},
+		onFilterKeyDown : function(e)
+		{
+			if(e.keyCode == 13)
+			{
+				e.preventDefault();
+
+				if(this.model.get("inputSelectEnabled"))
+				{
+					this.model.get("options").add({
+						name : this.$(".SelectedOptions > input.Filter").val(),
+						value : this.$(".SelectedOptions > input.Filter").val(),
+						selected : true
+					});
+
+					this.$(".SelectedOptions > input.Filter").val("");
+					this.filter(null);
+				}
+			}
+		},
+		onFilterKeyUp : function(e)
 		{
 			this.filter( this.$(".SelectedOptions > input.Filter").val() );
 		},
@@ -107,6 +146,13 @@ function(
 
 			this.model.set({value:newValue});
 		}
+	},
+	{
+		Model : Selector.Model.extend({
+			defaults : {
+				inputSelectEnabled : false
+			}
+		})
 	});
 
 	return MultiSelector;

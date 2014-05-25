@@ -40,6 +40,8 @@ function(Backbone, _, Input, HTML)
 			this.listenTo( this.model, "change", this.render );
 
 			this.listenTo( this, "focus", this.onClick );
+
+			Backbone.$("body").on( "click", _.bind(this.hide, this));
 		},
 		render : function()
 		{
@@ -60,16 +62,33 @@ function(Backbone, _, Input, HTML)
 
 			return this;
 		},
+		show : function()
+		{
+			this.$el.addClass("Expanded");
+		},
+		hide : function()
+		{
+			this.$el.removeClass("Expanded");
+		},
+		toggle : function()
+		{
+			this.$el.toggleClass("Expanded");
+		},
 		// Events
 		events : {
 			"click .Options > .Model" : "onSelect",
-			"click" : "onClick"
+			"click" : "onClick",
+			"blur" : "hide"
 		},
 		onClick : function(e)
 		{
-			if(e) e.preventDefault();
+			if(e)
+			{
+				e.preventDefault();
+				e.stopPropagation();
+			}
 			
-			this.$el.toggleClass("Expanded");
+			this.toggle();
 		},
 		onSelect : function(e)
 		{

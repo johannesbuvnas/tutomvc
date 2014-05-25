@@ -13,6 +13,10 @@ var selectedInt = 0;
 		%>
 			<div class="Model Button" data-cid="<%= model.cid %>" data-selected="true">
 				<input type="hidden" name="<%= _this.model.get("name") %>[]" value="<%= model.get("value") %>" />
+				<div class="RemoveButton Button" data-cid="<%= model.cid %>" data-selected="true">
+					<div class="Symbol"></div>
+					<span class="Label">Remove</span>
+				</div>
 				<div class="Symbol"></div>
 				<span class="Label"><%= model.get('name') %></span> 
 			</div>
@@ -37,6 +41,10 @@ var selectedInt = 0;
 			{
 	%>
 				<div class="Model Button" data-cid="<%= model.cid %>">
+					<div class="AddButton Button" data-cid="<%= model.cid %>">
+						<div class="Symbol"></div>
+						<span class="Label">Add</span>
+					</div>
 					<div class="Symbol"></div>
 					<span class="Label"><%= model.get('name') %></span> 
 				</div>
