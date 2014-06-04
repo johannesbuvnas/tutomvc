@@ -85,7 +85,9 @@ function( $, Backbone, _, Input )
 		{
 			this.$el.append( e );
 
-			tinyMCE.execCommand( "mceAddControl", false, this.model.get("elementID") ) || tinyMCE.execCommand( "mceAddEditor", false, this.model.get("elementID") );
+			if(parseInt(tinyMCE.majorVersion) >= 4) tinyMCE.execCommand( "mceAddEditor", false, this.model.get("elementID") ); // New versions
+			else tinyMCE.execCommand( "mceAddControl", false, this.model.get("elementID") ); // Old versions
+			
 			this.wpEditor = tinyMCE.get( this.model.get("elementID") );
 			$(this.wpEditor.getBody()).on( "blur", _.bind( this.onEditorBlur, this ) );
 			TextareaWYSIWYGInput.setActiveWPEditor( null );
