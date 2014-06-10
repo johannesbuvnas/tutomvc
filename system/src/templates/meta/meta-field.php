@@ -48,7 +48,7 @@ $vo = is_array($metaVO->getSettings()) ? array_merge( $metaVO->getSettings(), $v
 			}
 		?>
 	</div>
-	<div class="JSON">
+	<textarea class="JSON">
 		<?php echo json_encode( $vo, JSON_HEX_QUOT | JSON_HEX_TAG ); ?>
-	</div>
+	</textarea>
 </div>

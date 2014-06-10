@@ -14,9 +14,9 @@ foreach($metaBox->getConditions() as $metaCondition) $model['conditions'][] = $m
 	<?php
 		echo '<input type="hidden" id="'.$metaBox->getName().'" name="'.$metaBox->getName().'" value="'.$metaBox->getCardinality( $postID ).'" />';
 	?>
-	<div class="JSON MetaBoxAttributes">
+	<textarea class="JSON MetaBoxAttributes">
 		<?php echo json_encode( $model, JSON_HEX_QUOT | JSON_HEX_TAG ); ?>
-	</div>
+	</textarea>
 	<div class="MetaBoxProxy">
 		<?php
 			foreach( $metaBox->getMetaBoxMap( $postID ) as $cardinalityID => $metaFieldMap )

@@ -15,21 +15,20 @@ function( Backbone, Button, AttachmentItem, ArrangeableList, Input )
 		handleSelector : "img",
 		initialize : function(options)
 		{
+			// Model
 			if(!this.model) this.model = new AttachmentList.Model();
 			else this.model = new AttachmentList.Model( this.model.toJSON() );
-
 			if(!this.collection)
 			{
 				this.collection = new Backbone.Collection([], {
 					model : AttachmentItem.Model
 				});
 			}
-
+			// View
 			this.addButton = new Button({
 				className : "AddButton"
 			});
 			this.$el.append( this.addButton.$el );
-
 			this.wpMedia = wp.media({
 			    title: this.model.get("title"),
 			    multiple: this.model.get("maxCardinality") < 0 || this.model.get("maxCardinality") > 1 ? true : false,
@@ -37,7 +36,7 @@ function( Backbone, Button, AttachmentItem, ArrangeableList, Input )
 			    button : { text : this.model.get("buttonTitle") },
 			    frame: 'select'
 			});
-
+			// Controller
 			this.listenTo( this.collection, "add", this.onAdd );
 			this.listenTo( this.collection, "change", this.render );
 			this.listenTo( this.collection, "remove", this.render );
@@ -49,14 +48,18 @@ function( Backbone, Button, AttachmentItem, ArrangeableList, Input )
 			var attachments = this.model.get("value");
 			for(var p in attachments)
 			{
-				this.collection.add({
-					attachmentID : attachments[p].id,
-					title : attachments[p].title,
-					thumbnailURL : attachments[p].thumbnailURL,
-					iconURL : attachments[p].iconURL,
-					editURL : attachments[p].editURL,
-					name : this.model.get("name")
-				});
+				// IE8 bugfix
+				if(attachments[p].id)
+				{
+					this.collection.add({
+						attachmentID : attachments[p].id,
+						title : attachments[p].title,
+						thumbnailURL : attachments[p].thumbnailURL,
+						iconURL : attachments[p].iconURL,
+						editURL : attachments[p].editURL,
+						name : this.model.get("name")
+					});
+				}
 			}
 		},
 		render : function()
