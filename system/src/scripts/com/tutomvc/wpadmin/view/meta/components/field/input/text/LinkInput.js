@@ -54,7 +54,6 @@ function(Backbone, _, Input, HTML)
 		},
 		onClose : function(e)
 		{
-			console.log(wpLink.range);
 		},
 		onSubmit : function(e)
 		{

@@ -1,129 +1,99 @@
 define([
-	"com/tutomvc/core/controller/event/EventDispatcher",
-	"com/tutomvc/core/controller/event/Event",
 	"jquery",
+	"underscore",
+	"backbone",
 	"com/tutomvc/wpadmin/view/meta/components/field/MetaField"
 ],
-function( EventDispatcher, Event, $, MetaField )
+function( $, _, Backbone, MetaField )
 {
-	function MetaBox( id, element )
-	{
-		/* VARS */
-		var _this = this;
-		var _cardinalityID;
-		var _name;
-		var _metaFieldMap;
-		var _id = id;
-
-		/* DISPLAY OBJECTS */
-		var _element = element;
-		var _label;
-		var _removeButton;
-
-		var construct = function()
+	var MetaBox = Backbone.View.extend({
+		id : undefined,
+		initialize : function()
 		{
-			_this.super();
-			
-			_name = _element.attr( "data-meta-box-name" );
-			_cardinalityID = parseInt( _element.attr( "data-cardinality-id" ) );
-			draw();
-		};
+			var _this = this;
 
-		var draw = function()
-		{
-			_metaFieldMap = [];
-			_element.find( ".MetaField" ).each( function()
+			// Model
+			this.model = new MetaBox.Model({
+				name : this.$el.attr("data-meta-box-name"),
+				cardinalityID : parseInt( this.$el.attr( "data-cardinality-id" ) ),
+				metaFieldMap : []
+			});
+
+			// View
+			this.$(".MetaField").each(function()
 			{
-				var input = new MetaField( _name + "_" + _this.getID(), $( this ) );
-				input.on( "change", onMetaFieldChange );
-				_metaFieldMap.push( input );
-			} );
+				var input = new MetaField( _this.model.get("name") + "_" + _this.id, $( this ) );
+				input.on( "change", _.bind( _this.onMetaFieldChange, _this ) );
+				_this.model.get("metaFieldMap").push( input );
+			});
+			this.$el.removeClass("Loading");
 
-			_label = _element.find( "div.title span.Label" );
-			
-			_removeButton = _element.find( ".RemoveMetaBoxButton" );
-			// _removeButton.off( "click" );
-			_removeButton.on( "click", onRemoveClick );
+			// Controller
+			this.listenTo( this.model, "change:cardinalityID", this.render );
+			this.listenTo( this.model, "change:cardinalityID", this.updateMetaKeys );
 
-			_element.removeClass("Loading");
-		};
-
-		/* ACTIONS */
-		this.reset = function()
+			this.render();
+		},
+		render : function()
 		{
-			$( _metaFieldMap ).each(function()
+			this.$( "div.title span.Label" ).html(  "No. " + (this.model.get("cardinalityID") + 1) );
+		},
+		reset : function()
+		{
+			$( this.model.get("metaFieldMap") ).each(function()
 			{
 				this.reset();
 			});
-		};
-
-		this.change = function()
+		},
+		updateMetaKeys : function()
 		{
-			$( _metaFieldMap ).each(function()
+			var _this = this;
+			$( this.model.get("metaFieldMap") ).each(function()
+			{
+				this.model.setMetaKey( _this.model.get("name"), _this.model.get("cardinalityID") );
+			});
+		},
+		change : function()
+		{
+			$( this.model.get("metaFieldMap") ).each(function()
 			{
 				this.change();
 			});
-		};
 
-		/* SET AND GET */
-		this.setLabel = function( label )
-		{
-			_label.html( label );
-		};
-
-		this.setCardinalityID = function( cardinalityID )
-		{
-			_cardinalityID = cardinalityID;
-
-			_this.setLabel( "No. " + (_cardinalityID + 1) );
-
-			var metaKey;
-			$( _metaFieldMap ).each(function()
-			{
-				// Meta key construction
-				// [metaBoxName]_[cardinalityID]_[metaFieldName]
-				metaKey = _name + "_" + _cardinalityID + "_" + this.model.get("metaFieldName");
-				this.model.set( {name : metaKey} );
-			});
-		};
-		this.getCardinalityID = function()
-		{
-			return _cardinalityID;
-		};
-
-		this.getElement = function()
-		{
-			return _element;
-		};
-
-		this.getID = function()
-		{
-			return _id;
-		};
-
-		/* EVENT HANDLERS */
-		var onRemoveClick = function(e)
+			return this;
+		},
+		// Events
+		events : {
+			"click .RemoveMetaBoxButton" : "onRemoveClick"
+		},
+		onRemoveClick : function(e)
 		{
 			e.preventDefault();
 
-			_this.dispatchEvent( new Event( "remove", { id : _this.getID() } ) );
-		};
-
-		var onMetaFieldChange = function( metaFieldModel )
+			this.trigger( "remove" );
+		},
+		onMetaFieldChange : function( metaFieldModel )
 		{
-			// console.log("META FIELD CHANGE");
+			// console.log("onMetaFieldChange",this.model.get("cardinalityID"),this.model.get("name"),metaFieldModel.get("metaFieldName"));
 			
-			$( _metaFieldMap ).each(function()
+			var _this = this;
+			$( this.model.get("metaFieldMap") ).each(function()
 			{
-				this.metaBoxChange( _name, metaFieldModel.get("metaFieldName"), metaFieldModel.get("value") );
+				this.metaBoxChange( _this.model.get("name"), metaFieldModel.get("metaFieldName"), metaFieldModel.get("value") );
 			});
 
-			var event = new Event( "change", { metaFieldName : this.model.get("metaFieldName"), value : this.model.get("value") } );
-			_this.dispatchEvent( event );
-		};
-
-		construct();
-	}
-
-	return MetaBox.extends( EventDispatcher );
+			this.trigger( "change", metaFieldModel );
+		}
+	},
+	{
+		Model : Backbone.Model.extend({
+			defaults : {
+				name : undefined,
+				cardinalityID : undefined,
+				metaFieldMap : undefined
+			}
+		})
+	});
+	
+	return MetaBox;
 });

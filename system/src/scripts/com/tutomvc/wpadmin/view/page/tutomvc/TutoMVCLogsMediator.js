@@ -1,77 +1,40 @@
 define([
-	"com/tutomvc/core/view/mediator/Mediator",
 	"jquery",
-	"com/tutomvc/component/form/input/TagSelector",
-	"com/tutomvc/component/model/proxy/Proxy"
+	"underscore",
+	"backbone",
+	"com/tutomvc/component/form/MultiSelector"
 ],
-function(Mediator, $, TagSelector, Proxy)
+function($, _, Backbone, MultiSelector)
 {
-	TutoMVCLogsMediator.VIEW_COMPONENT_NAME = "logsViewComponent";
-	TutoMVCLogsMediator.NAME = "TutoMVCLogsMediator";
-	function TutoMVCLogsMediator()
-	{
-		/* VARS */
-		var _this = this;
-		var _json;
-		var _totalLogs = 0;
-		var _selector;
-		var _selections = [];
-		var _proxy;
-		var _container;
-
-		this.onRegister = function()
+	var TutoMVCLogsMediator = Backbone.View.extend({
+		initialize : function()
 		{
-			_json = JSON.parse( _this.getViewComponent().attr("data-provider") );
-			
-			draw();
-		};
-
-		var draw = function()
-		{
-			_container = _this.getViewComponent().find(".Logs");
-
-			_selector = new TagSelector( $("<div></div>") );
-			_selector.freeTagEnabled = false;
-
-			_proxy = new Proxy();
-			for(var key in _json)
+			// Model
+			this.model = new Backbone.Model( $.parseJSON( this.$el.attr("data-provider") ) );
+			var selectorModel = new MultiSelector.Model();
+			for(var k in this.model.attributes)
 			{
-				_totalLogs++;
-				_proxy.addVO( key, _json[key] );
+				selectorModel.get("options").add({
+					name : k,
+					value : this.model.attributes[k]
+				}).on("change:selected", _.bind( this.onOptionChange, this ));
 			}
-
-			_selector.model.addProxy( _proxy );
-			_selector.reset();
-			_selector.setLabel( _totalLogs + " logs" );
-			_selector.addEventListener( "change", onSelect );
-
-			_this.getViewComponent().prepend( _selector.getElement() );
-		};
-
-		var adjustUI = function()
+			// View
+			this.selector = new MultiSelector({
+				model : selectorModel
+			});
+			this.$el.prepend( this.selector.$el );
+			// Controller
+		},
+		add : function( inputModel )
 		{
-			$(_selector.getFilteredModel().getMap()).each(function()
-				{
-					var proxy = this;
-					var proxyMap = proxy.getMap();
-
-					_container.find(".Log").each(function()
-					{
-						if(!proxy.getVOByValue( $(this).attr("data-key") )) $(this).remove();
-					});
-
-					for(var key in proxyMap)
-					{
-						if(!_container.find(".Log[data-key='"+key+"']").length)
-						{
-							requestLog( proxyMap[key].getName(), key );
-							// _container.prepend( $("<h1 class='Log' data-key='"+key+"'>"+proxyMap[key].getName()+"</h1>") );
-						}
-					}
-				});
-		};
-
-		var requestLog = function( title, file )
+			this.requestLog( inputModel.get( "name" ), inputModel.get( "value" ) );
+		},
+		remove : function( inputModel )
+		{
+			this.$( ".Log[data-key='" + inputModel.get("value") + "']" ).remove();
+		},
+		requestLog : function( title, file )
 		{
 			var data = 
 			{
@@ -81,6 +44,8 @@ function(Mediator, $, TagSelector, Proxy)
 				title : title
 			};
 
+			var _this = this;
+
 			$.ajax({
 				type: "post",
 				dataType: "html",
@@ -89,26 +54,21 @@ function(Mediator, $, TagSelector, Proxy)
 				success: function(e)
 				{
 					var element = $(e).addClass( "Log" ).attr( "data-key", file );
-					_container.prepend( element );
+					_this.$(".Logs").prepend( element );
 				},
-				error: onAjaxError
+				error: function(e)
+				{
+
+				}
 			});
-		};
-
-		/* EVENTS */
-		var onSelect = function(e)
+		},
+		// Events
+		onOptionChange : function( model )
 		{
-			_selections = e.getBody();
-			
-			adjustUI();
-		};
-		var onAjaxError = function(e)
-		{
-			console.log(e);
-		};
+			if( model.get("selected") ) this.add( model );
+			else this.remove( model );
+		}
+	});
 
-		this.super( TutoMVCLogsMediator.NAME );
-	};
-
-	return Mediator.superOf( TutoMVCLogsMediator );
+	return TutoMVCLogsMediator;
 });

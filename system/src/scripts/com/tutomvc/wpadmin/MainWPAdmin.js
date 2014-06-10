@@ -1,17 +1,31 @@
 require([
 	"jquery",
-	"com/tutomvc/core/facade/Facade",
+	"backbone",
 	"com/tutomvc/wpadmin/Constants",
-	"com/tutomvc/wpadmin/controller/commands/StartUpCommand"
+	"com/tutomvc/wpadmin/controller/commands/StartUpCommand",
+	"doc-ready/doc-ready"
 ],
-function( $, Facade, Constants, StartUpCommand, Test )
+function( 
+	$,
+	Backbone,
+	Constants,
+	StartUpCommand,
+	DocReady
+	)
 {
 	"use strict";
-	var facade = Facade.getInstance( Constants.FACADE_KEY );
-	facade.controller.registerCommand( Constants.STARTUP, StartUpCommand );
+	var App = Backbone.View.extend({
+		el : "body",
+		initialize : function()
+		{
+			this.listenTo( this, Constants.STARTUP, StartUpCommand );
+		}
+	});
 
-	return $( document ).ready(function()
+	var instance = new App;
+
+	return DocReady(function()
 	{
-		facade.dispatch( Constants.STARTUP, {} );
+		instance.trigger( Constants.STARTUP );
 	});
 });

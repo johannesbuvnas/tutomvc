@@ -118,6 +118,12 @@ function( Base64, Backbone, _, Template, Input, Selector, MultiSelector, Proxy, 
 				type : "text",
 				dividerBefore : false,
 				dividerAfter : false
+			},
+			setMetaKey : function( metaBoxName, metaBoxCardinalityID )
+			{
+				return this.set({
+					name :  metaBoxName + "_" + metaBoxCardinalityID + "_" + this.get("metaFieldName")
+				});
 			}
 		}),
 		getInputInstance : function( model )

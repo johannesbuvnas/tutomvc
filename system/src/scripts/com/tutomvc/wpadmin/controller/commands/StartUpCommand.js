@@ -1,40 +1,50 @@
 define([
 	"jquery",
-	"com/tutomvc/core/controller/command/Command",
-	"com/tutomvc/wpadmin/view/MainViewComponent",
-	"com/tutomvc/wpadmin/view/MainMediator"
+	"com/tutomvc/wpadmin/view/meta/components/field/MetaField",
+	"com/tutomvc/wpadmin/view/meta/MetaBoxMediator",
+	"com/tutomvc/wpadmin/view/page/tutomvc/TutoMVCLogsMediator"
 ],
-function( $, Command, MainViewComponent, MainMediator )
+function( $,
+	MetaField,
+	MetaBoxMediator,
+	TutoMVCLogsMediator
+)
 {
-	function StartUpCommand()
+	"use strict";
+	return function()
 	{
-		/* VARS */
-		var _this = this;
+		var app = this;
 
-		/* METHODS */
-		var prepModels = function()
+		var prepModel = function()
 		{
 		};
 
-		var prepCommands = function()
+		var prepView = function()
+		{
+			app.$( ".SettingsField" ).each(function()
+			{
+				var metaField = new MetaField( "", $( this ) );
+				var description = metaField.$( ".description" );
+				$(this).append ("<p class='description'>" + description.html() + "</p>" );
+			});
+
+			new MetaBoxMediator();
+
+			if($( "#logsViewComponent" ).length)
+			{
+				new TutoMVCLogsMediator({
+					el : $( "#logsViewComponent" )
+				});
+			}
+		};
+
+		var prepController = function()
 		{
 
 		};
 
-		var prepViews = function()
-		{
-			_this.getFacade().view.registerMediator( $("body"), new MainMediator() );
-		};
-
-		this.execute = function( event )
-		{
-			prepModels();
-			prepCommands();
-			prepViews();
-		};
-
-		this.super();
-	}
-
-	return Command.superOf( StartUpCommand );
+		prepModel();
+		prepView();
+		prepController();
+	};
 });

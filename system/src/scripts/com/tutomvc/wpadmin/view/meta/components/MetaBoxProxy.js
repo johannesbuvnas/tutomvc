@@ -1,251 +1,162 @@
 define(
 [
-	"com/tutomvc/core/controller/event/EventDispatcher",
 	"jquery",
-	"com/tutomvc/wpadmin/view/meta/components/MetaBox",
-	"com/tutomvc/wpadmin/view/components/SortableComponent"
+	"underscore",
+	"backbone",
+	"com/tutomvc/wpadmin/view/meta/components/MetaBox"
 ],
-function( EventDispatcher, $, MetaBox, SortableComponent )
+function( $, _, Backbone, MetaBox )
 {
-	function MetaBoxProxy( element )
-	{
-		var _this = this;
-		
-		/* VARS */
-		var _attributes;
-		var _postID;
-		var _metaBoxName;
-		var _maxCardinality;
-		var _metaBoxNum = 0;
-		var _metaBoxID = 0;
-		var _map;
-		var _loading = false;
-
-		/* DISPLAY OBJECTS */
-		var _element = $( element );
-		var _proxyElement;
-		var _sortableComponent;
-		var _input;
-		var _addButton;
-		var _metaBoxDummyHTML;
-
-		var construct = function()
+	var MetaBoxProxy = Backbone.View.extend({
+		template : "",
+		initialize : function()
 		{
-			_this.super();
-			
-			_attributes = $.extend({}, {conditions:[]}, JSON.parse( decodeURIComponent( _element.find(".MetaBoxAttributes").html() ) ) );
+			var _this = this;
 
-			_map = {};
-			_postID = _element.attr( "data-post-id" );
-			_metaBoxName = _element.attr( "data-meta-box-name" );
-			_maxCardinality = parseInt( _element.attr( "data-max-cardinality" ) );
-
-			draw();
-		};
-
-		var draw = function()
-		{
-			// TODO: Show a dilaog until everything is loaded
-			// $("#post-lock-dialog").removeClass("hidden");
-			// $("#post-lock-dialog").addClass("saving");
-
-			_proxyElement = _element.find( ".MetaBoxProxy" );
-
-			_input = _element.find( "input#" + _metaBoxName );
-
-			_proxyElement.find(".MetaBox").each( function()
+			// Model
+			this.model = new MetaBoxProxy.Model( $.parseJSON( decodeURIComponent( this.$( ".MetaBoxAttributes" ).html() ) ) );
+			// View
+			this.template = this.$(".MetaBoxDummy").html();
+			this.$(".MetaBoxDummy").remove();
+			this.$( ".MetaBoxProxy" ).find( ".MetaBox" ).each( function()
 			{
-				addMetaBox( $( this ) );
+				_this.addMetaBox( $( this ) );
 			});
-
-			_addButton = _element.find( ".AddMetaBoxButton" );
-			_addButton.on( "click", onAddClick );
-
-			// _sortableComponent = new SortableComponent( _proxyElement, ".title" );
-
-			_metaBoxDummyHTML = _element.find(".MetaBoxDummy").html();
-			_element.find(".MetaBoxDummy").remove();
-
-			adjustUI();
-		};
-
-		var adjustUI = function()
+			// Controller
+		},
+		render : function()
 		{
 			var i = 0;
-			for(var key in _map)
+			for(var key in this.model.get("metaBoxMap"))
 			{
-				var metaBox = _map[ key ];
-				metaBox.setCardinalityID( i );
+				var metaBox = this.model.get("metaBoxMap")[ key ];
+				metaBox.model.set( {
+					cardinalityID : i 
+				});
 				i++;
 			}
 
-			_metaBoxNum = i;
+			this.model.set({
+				metaBoxNum : i
+			});
 
-			_input.val( _metaBoxNum );
+			this.$( "input#" + this.model.get("name") ).val( this.model.get("metaBoxNum") );
 
-			adjustAddButton();
-		};
-
-		var adjustAddButton = function()
+			if( this.hasReachedMax() ) this.$( ".AddMetaBoxButton" ).addClass( "HiddenElement" );
+			else this.$( ".AddMetaBoxButton" ).removeClass( "HiddenElement" );
+		},
+		show : function()
 		{
-			if(_addButton)
+			this.$el.removeClass("HiddenElement");
+			return this;
+		},
+		hide : function()
+		{
+			this.$el.addClass("HiddenElement");
+			return this;
+		},
+		change : function()
+		{
+			for(var key in this.model.get("metaBoxMap"))
 			{
-				if( hasReachedMax() ) _addButton.addClass( "HiddenElement" );
-				else _addButton.removeClass( "HiddenElement" );
-			}
-		};
-
-		var hasReachedMax = function()
-		{
-			return _metaBoxNum >= _maxCardinality && _maxCardinality >= 0;
-		};
-
-		/* ACTIONS */
-		this.change = function()
-		{
-			for(var key in _map)
-			{
-				var metaBox = _map[ key ];
+				var metaBox = this.model.get("metaBoxMap")[ key ];
 				metaBox.change();
 			}
-		};
 
-		var requestMetaBoxHTML = function()
+			return this;
+		},
+		addMetaBox : function( el, append )
 		{
-			// return onGetMetaBoxHTML( _metaBoxDummyHTML );
-
-			var data = 
-			{
-				action : "tutomvc/ajax/render/metabox",
-				nonce : TutoMVC.nonce,
-				postID : 0,
-				metaBoxName : _metaBoxName,
-				key : 0
-			};
-
-			// console.log(data);
-
-			$.ajax({
-				type: "post",
-				dataType: "html",
-				url: TutoMVC.ajaxURL,
-				data: data,
-				success: onGetMetaBoxHTML,
-				error: onAjaxError
+			var _this = this;
+			this.model.set({
+				metaBoxIndex : this.model.get("metaBoxIndex") + 1
 			});
-		};
 
-		var addMetaBox = function( metaBoxElement, append )
-		{
-			var id = getNewMetaBoxID();
-			var metaBox = new MetaBox( id, $( metaBoxElement ) );
-			metaBox.addEventListener( "remove", onRemoveMetaBox );
-			metaBox.addEventListener( "change", onMetaFieldChange );
+			var metaBox = new MetaBox( {
+				id : this.model.get("metaBoxIndex"),
+				el : el
+			} );
+			metaBox.on( "remove", function()
+				{
+					_this.removeMetaBox( this.id );
+				} );
+			metaBox.on( "change", _.bind( this.onMetaFieldChange, this ) );
 
-			_map[ id ] = metaBox;
+			this.model.get("metaBoxMap")[ metaBox.id ] = metaBox;
 
-			if( append )
-			{
-				_proxyElement.append( metaBox.getElement() );
-				//_sortableComponent.update();
-			}
+			if( append ) this.$( ".MetaBoxProxy" ).append( metaBox.$el );
 
-			adjustUI();
+			this.render();
 
 			return metaBox;
-		};
-
-		var removeMetaBox = function( id )
+		},
+		removeMetaBox : function( id )
 		{
-			var metaBox = _map[ id ];
+			var metaBox = this.model.get("metaBoxMap")[ id ];
 
 			if(metaBox)
 			{
-				metaBox.getElement().remove();
-				delete _map[ id ];
+				metaBox.remove();
+				delete this.model.get("metaBoxMap")[ id ];
 			}
 
-			adjustUI();
-		};
+			this.render();
 
-		this.metaBoxChange = function( metaBoxName, metaFieldName, value )
+			return this;
+		},
+		metaBoxChange : function( metaBoxName, metaFieldName, value )
 		{
 			// console.log("Appearently", metaBoxName + "_" + metaFieldName, "has changed to", value);
 
-			for(var key in _attributes.conditions)
+			for(var key in this.model.get("conditions"))
 			{
-				var condition = _attributes.conditions[key];
+				var condition = this.model.get("conditions")[key];
 				if(condition.metaBoxName == metaBoxName && condition.metaFieldName == metaFieldName)
 				{
 					if(condition.value == value)
 					{
-						if( condition.onElse ) _this[ condition.onMatch ]();
+						if( condition.onElse && typeof this[ condition.onMatch ] == "function" ) this[ condition.onMatch ]();
 					}
 					else
 					{
-						if( condition.onElse ) _this[ condition.onElse ]();
+						if( condition.onElse && typeof this[ condition.onElse ] == "function" ) this[ condition.onElse ]();
 					}
 				}
 			}
-		};
-
-		this.show = function()
+		},
+		hasReachedMax : function()
 		{
-			_element.removeClass( "HiddenElement" );
-		};
-		this.hide = function()
-		{
-			_element.addClass( "HiddenElement" );
-		};
-
-		/* SET AND GET */
-		var getNewMetaBoxID = function()
-		{
-			return _metaBoxID++;
-		};
-
-		this.getMetaBoxName = function()
-		{
-			return _metaBoxName;
-		};
-
-		/* EVENT HANDLERS */
-		var onAddClick = function(e)
+			return this.model.get("metaBoxNum") >= this.model.get("maxCardinality") && this.model.get("maxCardinality") >= 0;
+		},
+		// Events
+		events : {
+			"click .AddMetaBoxButton" : "onAddClick"
+		},
+		onAddClick : function(e)
 		{
 			e.preventDefault();
 
-			// requestMetaBoxHTML();
-			if(!hasReachedMax()) addMetaBox( $( _metaBoxDummyHTML ), true ).change();
-		};
-
-		var onGetMetaBoxHTML = function(e)
+			if(!this.hasReachedMax()) this.addMetaBox( $( this.template ).clone(), true ).change();
+		},
+		onMetaFieldChange : function( metaFieldModel )
 		{
-			addMetaBox( $( e ), true ).change();
-		};
+			this.metaBoxChange( this.model.get("name"), metaFieldModel.get("metaFieldName"), metaFieldModel.get("value") );
 
-		var onRemoveMetaBox = function(e)
-		{
-			var id = e.getBody().id;
+			this.trigger( "change", this.model.get("name"), metaFieldModel.get("metaFieldName"), metaFieldModel.get("value") );
+		}
+	},
+	{
+		Model : Backbone.Model.extend({
+			defaults : {
+				name : "",
+				conditions : undefined,
+				maxCardinality : -1,
+				metaBoxIndex : 0,
+				metaBoxNum : 0,
+				metaBoxMap : undefined
+			}
+		})
+	});
 
-			removeMetaBox( id );
-		};
-
-		var onAjaxError = function(e)
-		{
-			console.log(e);
-		};
-
-		var onMetaFieldChange = function(e)
-		{
-			_this.metaBoxChange( _metaBoxName, e.getBody().metaFieldName, e.getBody().value );
-
-			e.getBody().metaBoxName = _metaBoxName;
-			_this.dispatchEvent( e );
-		};
-
-
-		construct();
-	}
-
-	return MetaBoxProxy.extends( EventDispatcher );
+	return MetaBoxProxy;
 })

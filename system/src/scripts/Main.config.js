@@ -1,4 +1,5 @@
 require.config({
+	// urlArgs: "bust=" + (new Date()).getTime(),
 	baseUrl: TutoMVC.getURL( "system/src/scripts" ),
 	paths :	{
 		"jquery" : "libs/jquery/jquery",
@@ -8,7 +9,8 @@ require.config({
 		"underscore" : "com/tutomvc/modules/underscore",
 		"text" : "libs/requirejs-text/text",
 		"base64" : "com/tutomvc/modules/base64",
-		"tutomvc" : "libs/com.tutomvc.core",
+		"doc-ready/doc-ready" : "libs/doc-ready/doc-ready",
+		"eventie/eventie" : "libs/eventie/eventie",
 		"console" : "libs/console"
 	},
 	map : {
@@ -30,7 +32,7 @@ require.config({
 			deps : [ "underscore", "jquery" ]
 		},
 		"com/tutomvc/wpadmin/MainWPAdmin" : {
-			deps : [ "console", "backbone", "tutomvc" ]
+			deps : [ "console", "backbone" ]
 		}
 	}
 });

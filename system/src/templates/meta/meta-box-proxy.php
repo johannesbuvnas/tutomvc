@@ -2,16 +2,20 @@
 namespace tutomvc;
 wp_nonce_field( $metaBox->getName(), $metaBox->getName() . "_nonce" );
 
-$vo = array();
-$vo['conditions'] = array();
-foreach($metaBox->getConditions() as $metaCondition) $vo['conditions'][] = $metaCondition->toArray();
+// JS Backbone.Model
+$model = array();
+$model['conditions'] = array();
+$model['name'] = $metaBox->getName();
+$model['maxCardinality'] = $metaBox->getMaxCardinality();
+$model['metaBoxMap'] = (object)array();
+foreach($metaBox->getConditions() as $metaCondition) $model['conditions'][] = $metaCondition->toArray();
 ?>
 <div class="MetaBoxModel" data-post-id="<?php echo $postID; ?>" data-meta-box-name="<?php echo $metaBox->getName(); ?>" data-max-cardinality="<?php echo $metaBox->getMaxCardinality(); ?>">
 	<?php
 		echo '<input type="hidden" id="'.$metaBox->getName().'" name="'.$metaBox->getName().'" value="'.$metaBox->getCardinality( $postID ).'" />';
 	?>
 	<div class="JSON MetaBoxAttributes">
-		<?php echo json_encode( $vo, JSON_HEX_QUOT | JSON_HEX_TAG ); ?>
+		<?php echo json_encode( $model, JSON_HEX_QUOT | JSON_HEX_TAG ); ?>
 	</div>
 	<div class="MetaBoxProxy">
 		<?php

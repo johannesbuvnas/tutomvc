@@ -27,7 +27,7 @@ function(Backbone, _, Input, HTML)
 	var Selector = Input.extend({
 		tagName : "div",
 		attributes : {
-			class : "BBSelector Unselectable"
+			"class" : "BBSelector Unselectable"
 		},
 		template : _.template( HTML ),
 		initialize : function()

@@ -1,6 +1,6 @@
 ({
     baseUrl : "../src/scripts/",
-    paths :	{
+    paths : {
       "jquery" : "libs/jquery/jquery",
       "datetimepicker" : "libs/datetimepicker/jquery.datetimepicker",
       "jquery-mousewheel" : "libs/jquery-mousewheel/jquery.mousewheel",
@@ -8,7 +8,8 @@
       "underscore" : "com/tutomvc/modules/underscore",
       "text" : "libs/requirejs-text/text",
       "base64" : "com/tutomvc/modules/base64",
-      "tutomvc" : "libs/com.tutomvc.core",
+      "doc-ready/doc-ready" : "libs/doc-ready/doc-ready",
+      "eventie/eventie" : "libs/eventie/eventie",
       "console" : "libs/console"
     },
     map : {
@@ -30,17 +31,11 @@
         deps : [ "underscore", "jquery" ]
       },
       "com/tutomvc/wpadmin/MainWPAdmin" : {
-        deps : [ "console", "backbone", "tutomvc" ]
+        deps : [ "console", "backbone" ]
       }
     },
     include : [
     	"libs/requirejs/require",
-    	"jquery",
-    	"underscore",
-    	"backbone",
-    	"text",
-    	"base64",
-    	"tutomvc",
     	"com/tutomvc/wpadmin/MainWPAdmin"
     ],
     out : "../deploy/Main.pkgd.js",
