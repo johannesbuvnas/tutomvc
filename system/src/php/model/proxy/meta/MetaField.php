@@ -10,23 +10,29 @@ class MetaField extends ValueObject implements IMetaBoxField
 	const TYPE_ATTACHMENT = "attachment";
 	const TYPE_SELECTOR_SINGLE = "selector_single";
 	const TYPE_SELECTOR_MULTIPLE = "selector_multiple";
-	const TYPE_SELECTOR_SWITCH = "selector_switch";
+	// const TYPE_SELECTOR_SWITCH = "selector_switch";
 	const TYPE_SELECTOR_DATETIME = "selector_datetime";
 	const TYPE_LINK = "link";
+	const TYPE_TAXONOMY = "taxonomy";
 
 	// Settings
 	const SETTING_DIVIDER_BEFORE = "dividerBefore";
 	const SETTING_DIVIDER_AFTER = "dividerAfter";
-	const SETTING_TITLE = "title"; // DEPRECATED
-	const SETTING_OPTIONS = "options"; // Used by selector
-	const SETTING_MAX_CARDINALITY = "maxCardinality"; // Used bu attachment
-	const SETTING_FILTER = "filter"; // Used by attachment
-	const SETTING_BUTTON_TITLE = "buttonTitle"; // Used by attachment
 	const SETTING_DEFAULT_VALUE = "defaultValue";
-	const SETTING_READ_ONLY = "readOnly"; // Used by text, textarea
-	const SETTING_ROWS = "rows"; // Used by textarea
-	const SETTING_LABEL = "label"; // Used by selector
-	const SETTING_FORMAT = "format"; // Used by datetime selector
+
+	const SETTING_TITLE = "title"; // DEPRECATED
+	const SETTING_READ_ONLY = "readOnly"; // Used by TYPE_TEXT, TYPE_TEXTAREA
+	const SETTING_ROWS = "rows"; // Used by TYPE_TEXTAREA
+	
+	const SETTING_LABEL = "label"; // Used by TYPE_SELECTOR_SINGLE, TYPE_SELECTOR_MULTIPLE
+	const SETTING_FORMAT = "format"; // Used by TYPE_SELECTOR_DATETIME
+	const SETTING_OPTIONS = "options"; // Used by TYPE_SELECTOR_SINGLE, TYPE_SELECTOR_MULTIPLE
+	const SETTING_MAX_CARDINALITY = "maxCardinality"; // Used by TYPE_ATTACHMENT
+	const SETTING_FILTER = "filter"; // Used by TYPE_ATTACHMENT
+	const SETTING_BUTTON_TITLE = "buttonTitle"; // Used by TYPE_ATTACHMENT
+
+	const SETTING_TAXONOMY = "taxonomy"; // Used by TYPE_TAXONOMY
+	const SETTING_TAXONOMY_TERMS = "taxonomy_terms"; // Used by TYPE_TAXONOMY
 
 	/* VARS */
 	private $_title;
