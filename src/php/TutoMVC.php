@@ -11,7 +11,7 @@ require_once realpath( dirname( __FILE__ ) ) . '/utils/FileUtil.php';
 final class TutoMVC
 {
 	/* CONSTANTS */
-	const VERSION = "1.030";
+	const VERSION = "1.031";
 	const NAME = "tutomvc";
 	const NONCE_NAME = "tutomvc/nonce";
 

@@ -36,6 +36,11 @@ class GetMetaValueFilterCommand extends FilterCommand
 				if(is_string($metaValue)) $metaValue = json_decode($metaValue);
 
 			break;
+			case MetaField::TYPE_SELECTOR_MULTIPLE:
+
+				if(get_class( $metaField ) == "tutomvc\TaxonomyMetaField" || is_subclass_of( $metaField, "tutomvc\TaxonomyMetaField" )) $metaValue = $metaField->filterMetaValue( $metaValue );
+
+			break;
 		}
 
 		if( is_array($metaValue) && count($metaValue) == 1 && is_string( $metaValue[0] ) ) $metaValue = $metaValue[0];

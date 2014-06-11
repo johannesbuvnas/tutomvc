@@ -44,4 +44,33 @@ class TaxonomyMetaField extends MetaField
 
 		return parent::getSettings();
 	}
+
+	public function filterMetaValue( $metaValue )
+	{
+		if(!is_array($metaValue) || count($metaValue) == 0) return $metaValue;
+
+		$newMap = array();
+		foreach( $metaValue as $key => $value )
+		{
+			if(!filter_var( $value, FILTER_VALIDATE_INT ))
+			{
+				$term = wp_insert_term( $value, $this->getSetting( MetaField::SETTING_TAXONOMY ) );
+				if(!is_wp_error($term) && is_array($term))
+				{
+					$newMap[$key] = array_pop( $term );
+				}
+				else
+				{
+					if(array_key_exists( "term_exists", $term->error_data )) $newMap[$key] = $term->error_data['term_exists'];
+				}
+
+			}
+			else
+			{
+				$newMap[$key] = $value;
+			}
+		}
+
+		return $newMap;
+	}
 }
