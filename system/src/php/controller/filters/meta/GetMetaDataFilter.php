@@ -3,6 +3,9 @@ namespace tutomvc;
 
 class GetMetaDatFilter extends FilterCommand
 {
+
+	private static $_skip = FALSE;
+
 	function __construct()
 	{
 		parent::__construct( "get_post_metadata" );
@@ -11,12 +14,18 @@ class GetMetaDatFilter extends FilterCommand
 
 	function execute()
 	{		
+		if( self::$_skip ) return;
+
 		$postID = $this->getArg(1);
 		$metaKey = $this->getArg(2);
 		$isSingle = $this->getArg(3);
 		if(!$metaKey || !strlen($metaKey))
 		{
-			$meta = array();
+			// Retrieve default meta
+			self::$_skip = TRUE;
+			$meta = get_metadata( "post", $postID, $metaKey, $isSingle );
+			self::$_skip = FALSE;
+			
 			$postType = get_post_type( $postID );
 			foreach($this->getFacade()->model->getProxy( MetaBoxProxy::NAME )->getMap() as $metaBox)
 			{

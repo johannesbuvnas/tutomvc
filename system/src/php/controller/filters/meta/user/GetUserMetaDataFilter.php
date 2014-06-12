@@ -3,6 +3,8 @@ namespace tutomvc;
 
 class GetUserMetaDataFilter extends FilterCommand
 {
+	private static $_skip = FALSE;
+
 	function __construct()
 	{
 		parent::__construct( "get_user_metadata" );
@@ -11,12 +13,18 @@ class GetUserMetaDataFilter extends FilterCommand
 
 	function execute()
 	{		
+		if(self::$_skip) return;
+
 		$userID = $this->getArg(1);
 		$metaKey = $this->getArg(2);
 		$isSingle = $this->getArg(3);
 		if(!$metaKey || !strlen($metaKey))
 		{
-			$meta = array();
+			// Retrieve default meta
+			self::$_skip = TRUE;
+			$meta = get_metadata( "user", $userID, $metaKey, $isSingle );
+			self::$_skip = FALSE;
+
 			foreach($this->getFacade()->model->getProxy( UserMetaProxy::NAME )->getMap() as $metaBox)
 			{
 				$meta[ $metaBox->getName() ] = array_map( array($this, "convertMetaVOToValue"), $metaBox->getMetaBoxMap( $userID ) );
