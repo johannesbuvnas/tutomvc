@@ -47,6 +47,28 @@ class Facade
 		return $facade;
 	}
 
+	public function notify( $message, $type = Notification::TYPE_NOTICE )
+	{
+		$this->getSystem()->notificationCenter->add( $message, $type );
+
+		return $this;
+	}
+
+	public function log( $message )
+	{
+		$this->getSystem()->logCenter->add( $message );
+
+		return $this;
+	}
+
+	public function notifyAndLog( $message, $type = Notification::TYPE_NOTICE )
+	{
+		$this->notify( $message, $type );
+		$this->log( $type . " - " . $message );
+
+		return $this;
+	}
+
 	/* SET AND GET */
 	public static function getInstance( $key )
 	{
