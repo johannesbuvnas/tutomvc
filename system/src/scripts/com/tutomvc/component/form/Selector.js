@@ -10,7 +10,8 @@ function(Backbone, _, Input, HTML)
 	// Selector.Model
 	var Model = Input.Model.extend({
 		defaults :{
-			label : "Select"
+			label : "Select",
+			readOnly : false
 		},
 		initialize : function()
 		{
@@ -92,6 +93,8 @@ function(Backbone, _, Input, HTML)
 		},
 		onSelect : function(e)
 		{
+			if(this.model.get("readOnly")) return;
+			
 			var selectedModel = this.model.get("options").get( Backbone.$( e.currentTarget ).attr("data-cid") );
 
 			this.model.set({

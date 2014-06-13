@@ -88,7 +88,7 @@ class PostType extends ValueObject implements IPostType
 		{
 			foreach( $this->_columnsMap as $wpAdminPostTypeColumn )
 			{
-				if($wpAdminPostTypeColumn->getSortable())
+				if($wpAdminPostTypeColumn->getSortable() && $wpQuery->get( "orderby" ) == $wpAdminPostTypeColumn->getName())
 				{
 					$wpAdminPostTypeColumn->sort( $wpQuery );
 				}

@@ -12,7 +12,7 @@ var selectedInt = 0;
 			selectedInt++;
 		%>
 			<div class="Model Button" data-cid="<%= model.cid %>" data-selected="true">
-				<input type="hidden" name="<%= _this.model.get("name") %>[]" value="<%= model.get("value") %>" />
+				<textarea class="HiddenElement" name="<%= _this.model.get("name") %>[]"><%= model.get("value") %></textarea>
 				<div class="RemoveButton Button" data-cid="<%= model.cid %>" data-selected="true">
 					<div class="Symbol"></div>
 					<span class="Label">Remove</span>

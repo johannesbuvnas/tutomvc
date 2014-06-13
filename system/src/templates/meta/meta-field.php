@@ -33,7 +33,7 @@ $vo = is_array($metaVO->getSettings()) ? array_merge( $metaVO->getSettings(), $v
 		<?php
 			// Fallback solution if JavaScript failes
 			// These input values will get replaced by JavaScript
-			$rawValues = GetMetaDatFilter::getDBMetaValue( $metaVO->getPostID(), $metaVO->getName() );
+			$rawValues = $metaVO->getDBValue();
 
 			if(!is_array($rawValues)) $rawValues = array();
 
@@ -49,6 +49,6 @@ $vo = is_array($metaVO->getSettings()) ? array_merge( $metaVO->getSettings(), $v
 		?>
 	</div>
 	<textarea class="JSON">
-		<?php echo json_encode( $vo, JSON_HEX_QUOT | JSON_HEX_TAG ); ?>
+		<?php echo json_encode( $vo, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP ); ?>
 	</textarea>
 </div>

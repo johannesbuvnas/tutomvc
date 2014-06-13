@@ -24,4 +24,8 @@ class UserMetaVO extends MetaVO
 	{
 		return intval($this->getPostID()) ? get_user_meta( $this->getPostID(), $this->getName(), false ) : apply_filters( FilterCommand::META_VALUE, NULL, NULL, $this->getMetaField() );
 	}
+	public function getDBValue()
+	{
+		return GetMetaDatFilter::getDBUserMetaValue( $this->getPostID(), $this->getName() );
+	}
 }

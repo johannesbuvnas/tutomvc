@@ -23,6 +23,7 @@ final class SystemFacade extends Facade
 	public $settingsCenter;
 	public $logCenter;
 	public $notificationCenter;
+	public $taxonomyCenter;
 	public $repository;
 
 	function __construct()
@@ -42,6 +43,7 @@ final class SystemFacade extends Facade
 		$this->notificationCenter = $this->model->registerProxy( new NotificationProxy() );
 		$this->postTypeCenter = $this->model->registerProxy( new PostTypeProxy() );
 		$this->metaCenter = $this->model->registerProxy( new MetaBoxProxy() );
+		$this->taxonomyCenter = $this->model->registerProxy( new TaxonomyProxy() );
 		$this->userMetaCenter = $this->model->registerProxy( new UserMetaProxy() );
 		$this->menuCenter = $this->model->registerProxy( new MenuProxy() );
 		$this->adminMenuPageCenter = $this->model->registerProxy( new AdminMenuPageProxy() );

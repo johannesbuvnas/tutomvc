@@ -27,6 +27,12 @@ function( $,
 				var description = metaField.$( ".description" );
 				$(this).append ("<p class='description'>" + description.html() + "</p>" );
 			});
+			app.$( ".TaxonomyMetaField" ).each(function()
+			{
+				var metaField = new MetaField( "", $( this ) );
+				// var description = metaField.$( ".description" );
+				// $(this).append ("<p class='description'>" + description.html() + "</p>" );
+			});
 
 			new MetaBoxMediator();
 

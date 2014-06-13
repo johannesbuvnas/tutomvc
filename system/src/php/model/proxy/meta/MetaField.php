@@ -30,6 +30,7 @@ class MetaField extends ValueObject implements IMetaBoxField
 	const SETTING_MAX_CARDINALITY = "maxCardinality"; // Used by TYPE_ATTACHMENT
 	const SETTING_FILTER = "filter"; // Used by TYPE_ATTACHMENT
 	const SETTING_BUTTON_TITLE = "buttonTitle"; // Used by TYPE_ATTACHMENT
+	const SETTING_INPUT_ON_ENTER = "inputOnEnter"; // Used by TYPE_SELECTOR_MULTIPLE
 
 	const SETTING_TAXONOMY = "taxonomy"; // Used by TYPE_TAXONOMY
 	const SETTING_TAXONOMY_TERMS = "taxonomy_terms"; // Used by TYPE_TAXONOMY

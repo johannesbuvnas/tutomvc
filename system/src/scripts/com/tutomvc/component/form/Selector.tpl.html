@@ -1,7 +1,7 @@
 <% 
 var _this = this;
 %>
-<input type="hidden" name="<%= _this.model.get("name") %>" value="<%= _this.model.get("value") %>" />
+<textarea class="HiddenElement" name="<%= _this.model.get("name") %>"><%= model.get("value") %></textarea>
 <div class="Button">
 	<div class="Symbol"></div>
 	<span class="Label"><%= this.model.get('label') %></span>

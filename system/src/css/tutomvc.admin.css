@@ -8,9 +8,21 @@
 }
 
 #wp-tutomvc-editor-wrap,
-.SettingsField .MetaFieldHeader
+.SettingsField .MetaFieldHeader,
+.TaxonomyMetaField .MetaFieldHeader
 {
 	display: none;
+}
+
+.TaxonomyMetaField .MultiSelector .Model > .Symbol
+{
+	width: 16px;
+	height: 16px;
+	display: inline-block;
+	float: left;
+	margin-right: 10px;
+	position: relative;
+	background: transparent url(../images/symbol-tag.png) center center no-repeat;
 }
 
 /* .MetaBox */

@@ -110,7 +110,9 @@ function(
 			{
 				e.preventDefault();
 
-				if(this.model.get("inputSelectEnabled"))
+				if(this.model.get("readOnly")) return;
+
+				if(this.model.get("inputOnEnter"))
 				{
 					this.model.get("options").add({
 						name : this.$(".SelectedOptions > input.Filter").val(),
@@ -129,6 +131,8 @@ function(
 		},
 		onSelect : function(e)
 		{
+			if(this.model.get("readOnly")) return;
+
 			var selectedModel = this.model.get("options").get( Backbone.$( e.currentTarget ).attr("data-cid") );
 
 			if(selectedModel.get("selected")) selectedModel.set({selected:false});
@@ -150,7 +154,7 @@ function(
 	{
 		Model : Selector.Model.extend({
 			defaults : {
-				inputSelectEnabled : false
+				inputOnEnter : false
 			}
 		})
 	});
