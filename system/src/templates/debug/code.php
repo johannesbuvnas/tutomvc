@@ -1,8 +1,8 @@
 <?php
 namespace tutomvc;
 ?>
-<div class="Backtrace">
-	<div class="File">
+<div class="Backtrace <?php if( !$expanded ) echo "Collapsed"; ?>">
+	<div class="File Button">
 		<span><?php echo $title; ?></span>
 	</div>
 	<div class="Code">

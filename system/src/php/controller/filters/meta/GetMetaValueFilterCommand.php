@@ -8,7 +8,7 @@ class GetMetaValueFilterCommand extends FilterCommand
 	{
 		parent::__construct( FilterCommand::META_VALUE );
 		$this->acceptedArguments = 3;
-		$this->priority = 1;
+		$this->priority = 0;
 	}
 
 	function execute()

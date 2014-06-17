@@ -45,5 +45,13 @@ class SavePostCommand extends ActionCommand
 				}
 			}
 		}
+
+		foreach($this->getFacade()->postTypeCenter->getMap() as $customPostType)
+		{
+			if($customPostType->getName() == $postType)
+			{
+				$customPostType->save_post( $postID );
+			}
+		}
 	}
 }

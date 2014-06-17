@@ -14,7 +14,8 @@
 	display: none;
 }
 
-.TaxonomyMetaField .MultiSelector .Model > .Symbol
+.TaxonomyMetaField .MultiSelector .Model > .Symbol,
+.CustomTaxonomyMetaField .MultiSelector .Model > .Symbol
 {
 	width: 16px;
 	height: 16px;
@@ -191,12 +192,34 @@
 		margin-bottom: 10px;
 	}
 
+	.Debugger .Backtrace
+	{
+		margin: 5px 0px;
+	}
+
 	.Debugger .Backtrace .File
 	{
 		background: #f5f5f5;
 		color: #666;
 		font-size: 12px;
 		padding: 10px;
+	}
+
+	.Debugger .Backtrace .File span
+	{
+		padding-left: 15px;
+	}
+	.Debugger .Backtrace.Collapsed .File span
+	{
+		background: #f5f5f5 url(../images/symbol-add.png) left center no-repeat;
+	}
+	.Debugger .Backtrace .File span
+	{
+		background: #f5f5f5 url(../images/symbol-minus.png) left center no-repeat;
+	}
+	.Debugger .Backtrace.Collapsed .Code
+	{
+		display: none;
 	}
 
 	.Debugger code

@@ -23,9 +23,11 @@ namespace tutomvc;
 					<tr>
 						<td>
 							<?php
-								$metaFieldMediator->setMetaField( $metaBox->getField( $key ) );
+								$metaField = $metaBox->getField( $key );
+								$metaFieldMediator->setMetaField( $metaField );
 								$metaFieldMediator->parse( "metaVO", $metaVO );
 								$metaFieldMediator->parse( "key", $key );
+								if($metaField->getType() == MetaField::TYPE_SELECTOR_MULTIPLE && $metaField->getSetting( MetaField::SETTING_TAXONOMY )) $metaFieldMediator->parse( "elementClasses", array( "CustomTaxonomyMetaField" ) );
 								$metaFieldMediator->render();
 							?>
 						</td>

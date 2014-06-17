@@ -24,6 +24,7 @@
 	display: inline-block;
 	width: auto;
 	border: 0;
+	float: left;
 }
 .MultiSelector > .SelectedOptions .Model > .RemoveButton,
 .MultiSelector > .Options .Model > .AddButton

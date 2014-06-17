@@ -8,6 +8,7 @@ class CodeMediator extends Mediator
 	protected $_title = "";
 	protected $_lines = array();
 	protected $_highlightedLine = -1;
+	protected $_expanded = TRUE;
 
 	function __construct()
 	{
@@ -15,7 +16,7 @@ class CodeMediator extends Mediator
 	}
 
 	/* ACTIONS */
-	public function prepareFile( $file, $highlightedLine = -1 )
+	public function prepareFile( $file, $highlightedLine = -1, $expanded = TRUE )
 	{
 		if(is_file($file))
 		{
@@ -23,6 +24,7 @@ class CodeMediator extends Mediator
 			$this->setLines( file( $file ) );
 			$this->setHighlightedLine( $highlightedLine );
 		}
+		$this->setExpanded( $expanded );
 
 		return $this;
 	}
@@ -33,8 +35,20 @@ class CodeMediator extends Mediator
 		$this->parse( "title", $this->getTitle() );
 		$this->parse( "lines", $this->getLines() );
 		$this->parse( "highlightedLine", $this->getHighlightedLine() );
+		$this->parse( "expanded", $this->getExpanded() );
 
 		return parent::getContent();
+	}
+
+	function setExpanded( $value )
+	{
+		$this->_expanded = $value;
+
+		return $this;
+	}
+	function getExpanded()
+	{
+		return $this->_expanded;
 	}
 
 	function setTitle( $value )

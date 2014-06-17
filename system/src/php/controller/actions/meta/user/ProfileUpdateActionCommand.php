@@ -8,6 +8,7 @@ class ProfileUpdateActionCommand extends ActionCommand
 	public function __construct()
 	{
 		parent::__construct( self::NAME );
+		$this->priority = 0;	
 	}
 
 	function execute()

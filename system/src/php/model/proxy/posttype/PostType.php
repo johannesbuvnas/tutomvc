@@ -98,6 +98,27 @@ class PostType extends ValueObject implements IPostType
 		return $this->pre_get_posts( $wpQuery );
 	}
 
+	/** 
+	* Override.
+	*/
+	public function save_post( $postID )
+	{
+	}
+	/** 
+	* Override.
+	*/
+	public function post_updated( $postAfter, $postBefore )
+	{
+	}
+	/** 
+	* Override.
+	*/
+	public function pre_post_update( $postID )
+	{
+	}
+	/** 
+	* Override.
+	*/
 	public function pre_get_posts( $wpQuery )
 	{
 		return $wpQuery;

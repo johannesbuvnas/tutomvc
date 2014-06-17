@@ -10,6 +10,7 @@ class GetMetaDatFilter extends FilterCommand
 	{
 		parent::__construct( "get_post_metadata" );
 		$this->acceptedArguments = 4;
+		$this->priority = 0;
 	}
 
 	function execute()

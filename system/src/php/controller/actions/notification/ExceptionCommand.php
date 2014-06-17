@@ -16,7 +16,7 @@ class ExceptionCommand extends ActionCommand
 
 	public function onRegister()
 	{
-		$this->_mediator = $this->getFacade()->view->registerMediator( new CodeMediator() );
+		$this->getFacade()->view->registerMediator( new CodeMediator() );
 		$this->_mediator = $this->getFacade()->view->registerMediator( new ExceptionMediator() );
 	}
 
@@ -89,6 +89,38 @@ class ExceptionCommand extends ActionCommand
 
 		$this->_mediator->parse( "exception", $exception );
 		$this->_mediator->render();
+		?>
+		<script type="text/javascript">
+			var els = document.getElementsByClassName( "Backtrace" );
+			for(var i in els)
+			{
+				var element = els[i];
+				if(element && element.getElementsByClassName)
+				{
+					element.id = "backtrace" + i;
+					var header = element.getElementsByClassName( "File" );
+					if(header && header.length)
+					{
+						header = header[0];
+						header.setAttribute( "data-id", "backtrace" + i );
+						header.onclick = function(e)
+						{
+							var element = document.getElementById( this.getAttribute( "data-id" ) );
+							console.log(element.className.indexOf( "Collapsed" ));
+							if(element.className.indexOf( "Collapsed" ) > -1)
+							{
+								element.className = "Backtrace";
+							}
+							else
+							{
+								element.className = "Backtrace Collapsed";
+							}
+						};
+					}
+				}
+			}
+		</script>
+		<?php
 		exit;
 	}
 }

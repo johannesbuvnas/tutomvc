@@ -8,6 +8,8 @@ class PostTypeProxy extends Proxy
 	public function onRegister()
 	{
 		$this->getFacade()->controller->registerCommand( new PreGetPostsCommand() );
+		$this->getFacade()->controller->registerCommand( new PrePostUpdateCommand() );
+		$this->getFacade()->controller->registerCommand( new PostUpdatedCommand() );
 	}
 
 	public function add( $item, $key = NULL )
