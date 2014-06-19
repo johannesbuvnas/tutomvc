@@ -9,7 +9,7 @@ class WPAdminTaxonomyColumn extends ValueObject
 	}
 
 	/* METHODS */
-	public function render( $termID )
+	public function render( $taxonomy, $termID )
 	{
 	}
 }

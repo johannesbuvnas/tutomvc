@@ -82,7 +82,7 @@ class Taxonomy extends ValueObject
 	{
 		if(array_key_exists($columnName, $this->_columnsMap))
 		{
-			$this->_columnsMap[ $columnName ]->render( $termID );
+			$this->_columnsMap[ $columnName ]->render( $this->getName(), $termID );
 		}
 	}
 }

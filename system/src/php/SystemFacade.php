@@ -4,7 +4,7 @@ namespace tutomvc;
 final class SystemFacade extends Facade
 {
 	/* CONSTANTS */
-	const DEVELOPMENT_MODE = TRUE;
+	const DEVELOPMENT_MODE = FALSE;
 	const LOGS_DIRECTORY = "/logs/";
 
 	const STYLE_CSS = "tutomvc-css";
@@ -24,6 +24,7 @@ final class SystemFacade extends Facade
 	public $logCenter;
 	public $notificationCenter;
 	public $taxonomyCenter;
+	public $userColumnCenter;
 	public $repository;
 
 	function __construct()
@@ -50,6 +51,7 @@ final class SystemFacade extends Facade
 		$this->imageSizeCenter = $this->model->registerProxy( new ImageSizeProxy() );
 		$this->settingsCenter = $this->model->registerProxy( new SettingsProxy() );
 		$this->logCenter = $this->model->registerProxy( new LogProxy() );
+		$this->userColumnCenter = $this->model->registerProxy( new UserColumnProxy() );
 
 		if(self::DEVELOPMENT_MODE) $this->notificationCenter->add( "TutoMVC System: DEVELOPMENT MODE" );
 	}
