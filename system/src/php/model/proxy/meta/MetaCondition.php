@@ -24,10 +24,29 @@ class MetaCondition
 		$this->callbackOnElse = $callbackOnElse;
 	}
 
+	function getJavaScriptValidationMethod()
+	{
+		return "
+			function( metaBoxName, metaFieldName, value )
+			{
+				if(metaBoxName == '".$this->metaBoxName."' && metaFieldName == '".$this->metaFieldName."')
+				{
+					if( value == '".$this->value."' )
+					{
+						return true;
+					}
+				}
+
+				return false;
+			}
+		";
+	}
+
 	function toArray()
 	{
 		return array
 		(
+			"jsValidation" => trim(preg_replace('/[\s\t\n\r\s]+/', ' ', $this->getJavaScriptValidationMethod())),
 			"metaBoxName" => $this->metaBoxName,
 			"metaFieldName" => $this->metaFieldName,
 			"value" => $this->value,

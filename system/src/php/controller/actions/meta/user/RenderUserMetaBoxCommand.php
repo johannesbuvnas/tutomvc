@@ -30,14 +30,14 @@ class RenderUserMetaBoxCommand extends ActionCommand
 			$mediator =  $this->getMediator();
 			$mediator->setMetaBox( $userMetaBox );
 			$mediator->setPostID( $user->ID );
-			?>
-			<h3><?php echo $userMetaBox->getTitle(); ?></h3>
-			<div class="UserMeta">
-				<?php
-				$mediator->render();
-			?>
-			</div>
-			<?php
+			$content = '
+				<h3 id="user-meta-'.$userMetaBox->getName().'-title">'.$userMetaBox->getTitle().'</h3>
+				<div class="UserMeta">
+				'.$mediator->getContent().'
+				</div>
+			';
+
+			echo apply_filters( "tutomvc/render/user/metabox/" . $userMetaBox->getName(), $content );
 		}
 	}
 

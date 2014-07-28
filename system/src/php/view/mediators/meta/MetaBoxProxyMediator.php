@@ -20,14 +20,14 @@ class MetaBoxProxyMediator extends Mediator
 		$this->_metaBoxMediator = $this->getFacade()->view->hasMediator( MetaBoxMediator::NAME ) ? $this->getFacade()->view->getMediator( MetaBoxMediator::NAME ) : $this->getFacade()->view->registerMediator( new MetaBoxMediator() );
 	}
 
-	public function render()
+	public function getContent()
 	{
 		$this->parse( "metaBox", $this->_metaBox );
 		$this->parse( "postID", $this->_postID );
 		$this->_metaBoxMediator->setMetaBox( $this->getMetaBox() );
 		$this->parse( "metaBoxMediator", $this->_metaBoxMediator );
 
-		parent::render();
+		return parent::getContent();
 	}
 
 	/* SET AND GET */

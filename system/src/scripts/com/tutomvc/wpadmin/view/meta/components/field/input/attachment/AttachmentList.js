@@ -36,6 +36,7 @@ function( Backbone, Button, AttachmentItem, ArrangeableList, Input )
 			    button : { text : this.model.get("buttonTitle") },
 			    frame: 'select'
 			});
+
 			// Controller
 			this.listenTo( this.collection, "add", this.onAdd );
 			this.listenTo( this.collection, "change", this.render );

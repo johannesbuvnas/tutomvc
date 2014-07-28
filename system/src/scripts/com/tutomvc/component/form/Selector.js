@@ -78,12 +78,17 @@ function(Backbone, _, Input, HTML)
 		// Events
 		events : {
 			"click .Options > .Model" : "onSelect",
+			"click .Options > .Model > .Label a" : "onLinkClick",
 			"click" : "onClick",
 			"blur" : "hide"
 		},
+		onLinkClick : function(e)
+		{
+			e.linkClick = true;
+		},
 		onClick : function(e)
 		{
-			if(e)
+			if(e && !e.linkClick)
 			{
 				e.preventDefault();
 				e.stopPropagation();

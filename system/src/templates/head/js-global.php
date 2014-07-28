@@ -1,6 +1,7 @@
 <?php
 namespace tutomvc;
 $screen = get_current_screen();
+global $current_user;
 ?>
 <script type="text/javascript">
 	window.TutoMVC = {
@@ -19,6 +20,7 @@ $screen = get_current_screen();
 		version : "<?php echo TutoMVC::VERSION; ?>",
 		nonce : "<?php echo wp_create_nonce( TutoMVC::NONCE_NAME ); ?>",
 		ajaxURL : "<?php echo admin_url( 'admin-ajax.php' ); ?>",
-		currentScreenID : "<?php echo $screen->id; ?>"
+		currentScreenID : "<?php echo $screen->id; ?>",
+		currentUser : <?php echo json_encode( $current_user ); ?>
 	};
 </script>

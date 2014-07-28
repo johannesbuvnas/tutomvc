@@ -13,6 +13,8 @@ else
 	$value = $metaVO->getValue();
 }
 
+if(!is_array($elementClasses)) $elementClasses = array();
+
 if( is_string($value) ) $value = base64_encode( $value );
 
 $vo = array();
@@ -26,9 +28,11 @@ $vo['conditions'] = array();
 if(is_array($metaField->getConditions()) && count($metaField->getConditions())) foreach($metaField->getConditions() as $metaCondition) $vo['conditions'][] = $metaCondition->toArray();
 $vo['type'] = $metaVO->getType();
 $vo = is_array($metaVO->getSettings()) ? array_merge( $metaVO->getSettings(), $vo ) : $vo;
+$elementClasses[] = "meta-field-" . $metaField->getName();
+$elementClasses[] = "meta-type-" . $metaField->getType();
 ?>
 
-<div class="MetaField <?php echo isset( $elementClasses ) ? implode( " ", $elementClasses ) : ""; ?>">
+<div id="<?php echo $metaVO->getName(); ?>" class="MetaField <?php echo isset( $elementClasses ) ? implode( " ", $elementClasses ) : ""; ?>">
 	<div class="Input">
 		<?php
 			// Fallback solution if JavaScript failes

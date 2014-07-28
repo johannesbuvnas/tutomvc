@@ -88,16 +88,16 @@ function( Base64, Backbone, _, Template, Input, Selector, MultiSelector, Proxy, 
 			for(var key in this.model.get("conditions"))
 			{
 				var condition = this.model.get("conditions")[key];
-				if(condition.metaBoxName == metaBoxName && condition.metaFieldName == metaFieldName)
+
+				var test;
+				eval( "test = " + condition.jsValidation );
+				if( test( metaBoxName, metaFieldName, value ) )
 				{
-					if(condition.value == value)
-					{
-						if( condition.onElse ) this[ condition.onMatch ]();
-					}
-					else
-					{
-						if( condition.onElse ) this[ condition.onElse ]();
-					}
+					if( condition.onMatch ) this[ condition.onMatch ]();
+				}
+				else
+				{
+					if( condition.onElse ) this[ condition.onElse ]();
 				}
 			}
 		},

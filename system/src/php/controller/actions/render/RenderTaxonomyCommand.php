@@ -22,7 +22,6 @@ class RenderTaxonomyCommand extends ActionCommand
 			$options[ $term->name ] = $term->name;
 		}
 
-
 		$metaField = new MetaField(
 			"tax_input[" . $taxonomy->getName() . "]",
 			"",
@@ -30,7 +29,7 @@ class RenderTaxonomyCommand extends ActionCommand
 			MetaField::TYPE_SELECTOR_MULTIPLE,
 			array(
 				MetaField::SETTING_OPTIONS => $options,
-				MetaField::SETTING_INPUT_ON_ENTER => current_user_can( $tax->cap->manage_terms ),
+				MetaField::SETTING_INPUT_ON_ENTER => property_exists( $tax->cap, "create_terms" ) ? current_user_can( $tax->cap->create_terms ) : current_user_can( $tax->cap->manage_terms ),
 				MetaField::SETTING_READ_ONLY => !current_user_can( $tax->cap->assign_terms )
 			),
 			$conditions

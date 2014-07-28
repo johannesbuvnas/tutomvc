@@ -67,11 +67,11 @@ function(
 			{
 				this.model.get("options").forEach(function(model)
 					{
-						var index = model.get("name").toLowerCase().indexOf( value.toLowerCase() );
+						var innerHTML = model.get("name").replace(/(<([^>]+)>)/ig,"");
+						var index = innerHTML.toLowerCase().indexOf( value.toLowerCase() );
 						if ( index >= 0 )
 						{
-							var innerHTML = model.get("name");
-							var innerHTML = innerHTML.substring(0,index) + "<span class='Highlight'>" + innerHTML.substring(index,index+value.length) + "</span>" + innerHTML.substring(index + value.length);
+							innerHTML = innerHTML.substring(0,index) + "<span class='Highlight'>" + innerHTML.substring(index,index+value.length) + "</span>" + innerHTML.substring(index + value.length);
 							Backbone.$(".Options > .Model[data-cid="+model.cid+"]").removeClass("HiddenElement");
 							Backbone.$(".Options > .Model[data-cid="+model.cid+"] > .Label").html( innerHTML );
 						}
@@ -88,6 +88,7 @@ function(
 		events : {
 			"click .Options > .Model > .AddButton" : "onSelect",
 			"click .SelectedOptions > .Model > .RemoveButton" : "onSelect",
+			"click .SelectedOptions > .Model > .Label a" : "onLinkClick",
 			"keyup .SelectedOptions > input.Filter" : "onFilterKeyUp",
 			"keydown .SelectedOptions > input.Filter" : "onFilterKeyDown",
 			"focus .SelectedOptions > input.Filter" : "onFilterFocus",
@@ -95,7 +96,7 @@ function(
 		},
 		onClick : function(e)
 		{
-			if(e)
+			if(e && !e.linkClick)
 			{
 				e.preventDefault();
 				e.stopPropagation();
@@ -122,6 +123,8 @@ function(
 
 					this.$(".SelectedOptions > input.Filter").val("");
 					this.filter(null);
+
+					this.hide();
 				}
 			}
 		},

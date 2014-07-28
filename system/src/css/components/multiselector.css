@@ -5,6 +5,9 @@
 .MultiSelector > .SelectedOptions > .Filter
 {
 	margin: 5px;
+	display: inline-block;
+	width: 200px;
+	float: left;
 }
 .MultiSelector > .SelectedOptions > .Symbol
 {
@@ -53,13 +56,6 @@
 .MultiSelector > .Options .Model:hover > .Label
 {
 	color: #69D2E7;
-}
-
-
-.MultiSelector > .SelectedOptions .Filter
-{
-	display: inline-block;
-	width: 200px;
 }
 
 .MultiSelector > .Options
