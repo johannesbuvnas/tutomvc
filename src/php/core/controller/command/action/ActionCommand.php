@@ -24,6 +24,13 @@ class ActionCommand extends Command
 	public $priority = 10;
 	public $acceptedArguments = 1;
 
+	function __construct( $name = NULL, $priority = 10, $acceptedArguments = 1 )
+	{
+		parent::__construct( $name );
+		$this->priority = $priority;
+		$this->acceptedArguments = $acceptedArguments;
+	}
+
 
 	public function register( $name = NULL )
 	{

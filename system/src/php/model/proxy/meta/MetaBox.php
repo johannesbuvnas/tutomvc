@@ -42,6 +42,10 @@ class MetaBox extends ValueObject implements IMetaBox
 	}
 
 	/* ACTIONS */
+	public function filterWPAdminOutput( $output, $postID )
+	{
+		return $output;
+	}
 	public function addPostMeta( $postID, $key, $value )
 	{
 		return update_post_meta( $postID, $key, $value ) || add_post_meta( $postID, $key, $value, TRUE );

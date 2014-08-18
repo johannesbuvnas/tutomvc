@@ -34,6 +34,9 @@ function( $, _, Backbone, MetaBox )
 					cardinalityID : i 
 				});
 				i++;
+
+				if(i <= this.model.get("minCardinality")) metaBox.$( "> .title" ).css("display", "none");
+				else metaBox.$( "> .title" ).css("display", "block");
 			}
 
 			this.model.set({
@@ -111,15 +114,19 @@ function( $, _, Backbone, MetaBox )
 			for(var key in this.model.get("conditions"))
 			{
 				var condition = this.model.get("conditions")[key];
-				if(condition.metaBoxName == metaBoxName && condition.metaFieldName == metaFieldName)
+
+				var test;
+				eval( "test = " + condition.jsValidation );
+				var tested = test( metaBoxName, metaFieldName, value );
+				if( typeof tested !== "undefined" )
 				{
-					if(condition.value == value)
+					if( tested )
 					{
-						if( condition.onElse && typeof this[ condition.onMatch ] == "function" ) this[ condition.onMatch ]();
+						if( condition.onMatch ) this[ condition.onMatch ]();
 					}
 					else
 					{
-						if( condition.onElse && typeof this[ condition.onElse ] == "function" ) this[ condition.onElse ]();
+						if( condition.onElse ) this[ condition.onElse ]();
 					}
 				}
 			}
@@ -151,6 +158,7 @@ function( $, _, Backbone, MetaBox )
 				name : "",
 				conditions : undefined,
 				maxCardinality : -1,
+				minCardinality : 0,
 				metaBoxIndex : 0,
 				metaBoxNum : 0,
 				metaBoxMap : undefined

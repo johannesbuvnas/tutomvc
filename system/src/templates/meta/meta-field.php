@@ -13,7 +13,7 @@ else
 	$value = $metaVO->getValue();
 }
 
-if(!is_array($elementClasses)) $elementClasses = array();
+if(!isset($elementClasses) || !is_array($elementClasses)) $elementClasses = array();
 
 if( is_string($value) ) $value = base64_encode( $value );
 

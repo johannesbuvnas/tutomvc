@@ -27,7 +27,7 @@ class MetaBoxProxyMediator extends Mediator
 		$this->_metaBoxMediator->setMetaBox( $this->getMetaBox() );
 		$this->parse( "metaBoxMediator", $this->_metaBoxMediator );
 
-		return parent::getContent();
+		return $this->getMetaBox()->filterWPAdminOutput( parent::getContent(), $this->_postID );
 	}
 
 	/* SET AND GET */

@@ -7,6 +7,7 @@ $model = array();
 $model['conditions'] = array();
 $model['name'] = $metaBox->getName();
 $model['maxCardinality'] = $metaBox->getMaxCardinality();
+$model['minCardinality'] = $metaBox->getMinCardinality();
 $model['metaBoxMap'] = (object)array();
 foreach($metaBox->getConditions() as $metaCondition) $model['conditions'][] = $metaCondition->toArray();
 ?>

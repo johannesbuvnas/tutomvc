@@ -14,6 +14,7 @@ function(
 	)
 {
 	"use strict";
+	if(TutoMVC.isDevelopmentMode) console.log( "TutoMVC::DEVELOPMENT_MODE" );
 	var App = Backbone.View.extend({
 		el : "body",
 		initialize : function()

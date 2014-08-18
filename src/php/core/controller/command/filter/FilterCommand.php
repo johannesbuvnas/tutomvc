@@ -10,9 +10,10 @@ class FilterCommand extends Command
 	public $priority = 10;
 	public $acceptedArguments = 1;
 
-	function __construct( $name = NULL, $acceptedArguments = 1 )
+	function __construct( $name = NULL, $priority = 10, $acceptedArguments = 1 )
 	{
 		parent::__construct( $name );
+		$this->priority = $priority;
 		$this->acceptedArguments = $acceptedArguments;
 	}
 

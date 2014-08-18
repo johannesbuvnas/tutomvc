@@ -35,9 +35,13 @@ class MetaCondition
 					{
 						return true;
 					}
+					else
+					{
+						return false;
+					}
 				}
 
-				return false;
+				return undefined;
 			}
 		";
 	}

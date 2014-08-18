@@ -91,13 +91,17 @@ function( Base64, Backbone, _, Template, Input, Selector, MultiSelector, Proxy, 
 
 				var test;
 				eval( "test = " + condition.jsValidation );
-				if( test( metaBoxName, metaFieldName, value ) )
+				var tested = test( metaBoxName, metaFieldName, value );
+				if( typeof tested !== "undefined" )
 				{
-					if( condition.onMatch ) this[ condition.onMatch ]();
-				}
-				else
-				{
-					if( condition.onElse ) this[ condition.onElse ]();
+					if( tested )
+					{
+						if( condition.onMatch ) this[ condition.onMatch ]();
+					}
+					else
+					{
+						if( condition.onElse ) this[ condition.onElse ]();
+					}
 				}
 			}
 		},

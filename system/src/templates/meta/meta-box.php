@@ -2,16 +2,10 @@
 namespace tutomvc;
 ?>
 <div class="MetaBox Loading" data-meta-box-name="<?php echo $metaBox->getName(); ?>" data-cardinality-id="<?php echo $cardinalityID; ?>">
-	<?php
-		if( !$metaBox->isSingle() ):
-	?>
 	<div class="title">
 		<span class="Label">#<?php echo $cardinalityID + 1; ?></span>
 		<a href="#" class="RemoveMetaBoxButton">Remove</a>
 	</div>
-	<?php
-		endif;
-	?>
 
 	<div class="MetaBoxInner">
 		<table class="tutomvc">

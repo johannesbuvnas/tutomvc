@@ -1,5 +1,5 @@
 require.config({
-	urlArgs: "bust=" + (new Date()).getTime(),
+	urlArgs: TutoMVC.isDevelopmentMode ? "v=" + (new Date()).getTime() : "v=" + TutoMVC.version,
 	baseUrl: TutoMVC.getURL( "system/src/scripts" ),
 	paths :	{
 		"jquery" : "libs/jquery/jquery",
