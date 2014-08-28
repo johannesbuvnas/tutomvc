@@ -83,6 +83,8 @@ class ExceptionCommand extends ActionCommand
 
 	public function render( $exception )
 	{
+		if (ob_get_status()) ob_end_clean();
+
 		echo '<link rel="stylesheet" href="'.$this->getFacade()->getURL( "style.css" ).'">';
 		
 		$this->getFacade()->log( $exception->getMessage()." @ ".$exception->getFile() );

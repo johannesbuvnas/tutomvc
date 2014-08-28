@@ -68,16 +68,6 @@ class Taxonomy extends ValueObject
 		return $columns;
 	}
 
-	// public function manage_sortable_columns( $columns )
-	// {
-	// 	foreach($this->_columnsMap as $wpAdminPostTypeColumn)
-	// 	{
-	// 		if($wpAdminPostTypeColumn->getSortable()) $columns[ $wpAdminPostTypeColumn->getName() ] = $wpAdminPostTypeColumn->getName();
-	// 	}
-
-	// 	return $columns;
-	// }
-
 	final public function custom_column($out, $columnName, $termID)
 	{
 		if(array_key_exists($columnName, $this->_columnsMap))

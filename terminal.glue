@@ -1,0 +1,19 @@
+ █ [ /Users/johannesbuvnas/Development/Sites/se/pscom/www/wp-content/plugins/tutomvc ] composer install
+Loading composer repositories with package information
+Installing dependencies (including require-dev) from lock file
+Warning: The lock file is not up to date with the latest changes in composer.json. You may be getting outdated dependencies. Run update to update them.
+Nothing to install or update
+Generating autoload files
+
+█ [ /Users/johannesbuvnas/Development/Sites/se/pscom/www/wp-content/plugins/tutomvc ] composer install
+Loading composer repositories with package information
+Installing dependencies (including require-dev) from lock file
+Warning: The lock file is not up to date with the latest changes in composer.json. You may be getting outdated dependencies. Run update to update them.
+  - Installing monolog/monolog (1.2.1)
+    Loading from cache
+
+monolog/monolog suggests installing ext-amqp (Allow sending log messages to an AMQP server (1.0+ required))
+monolog/monolog suggests installing ext-mongo (Allow sending log messages to a MongoDB server)
+monolog/monolog suggests installing mlehner/gelf-php (Allow sending log messages to a GrayLog2 server)
+Generating autoload files
+

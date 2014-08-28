@@ -4,8 +4,8 @@ namespace tutomvc;
 
 // DEPENDENCIES
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-require_once realpath( dirname( __FILE__ ) ) . '/utils/ArrayUtil.php';
-require_once realpath( dirname( __FILE__ ) ) . '/utils/FileUtil.php';
+// require_once realpath( dirname( __FILE__ ) ) . '/utils/ArrayUtil.php';
+// require_once realpath( dirname( __FILE__ ) ) . '/utils/FileUtil.php';
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 final class TutoMVC
@@ -28,6 +28,7 @@ final class TutoMVC
 	private static $_url = "";
 	private static $_facadeMap = array();
 	private static $_priority = -1;
+	public static $loader;
 
 	/* ACTIONS */
 	/**
@@ -74,26 +75,17 @@ final class TutoMVC
 	*	@param string $facadeClassReference A reference to the class name which extends the Facade.
 	*	@return boolean
 	*/
-	public static function startup( $facadeClassReference, $templatesDir = "/templates/", $autoRequireAll = TRUE, $relativePath = "/src/php", $ignoredPaths = array() )
+	public static function startup( $facadeClassReference, $templatesDir = "/templates/" )
 	{
 		if(!self::$initiated)
 		{
 			die("ERROR! Cannot import application. Tuto Framework hasn't been initialized.");
 		}
 
-		// If this class already exists, don't do anything
-		if( class_exists( $facadeClassReference ) ) return FALSE;
-
 		// The file that called this function will set the root for this app
 		$backtrace = debug_backtrace();
 		$caller = $backtrace[0]['file'];
 		$appRoot = realpath( dirname( $caller ) );
-
-		// Require all PHP files from the app
-		if($autoRequireAll)
-		{
-			self::requireAll( $appRoot . "/" . $relativePath, $ignoredPaths );
-		}
 
 		// Construct and initalize the facade
 		$facade = new $facadeClassReference;
@@ -101,7 +93,7 @@ final class TutoMVC
 		$facade->vo = new FacadeVO( $appRoot );
 		$facade->vo->templatesDir = $templatesDir;
 		$facade->onRegister();
-		do_action( ActionCommand::FACADE_READY, $facade->getKey() );
+		do_action( ActionCommand::FACADE_READY, $facade );
 		return $facade;
 	}
 
@@ -110,6 +102,7 @@ final class TutoMVC
 	*/
 	public static function requireAll( $path, $ignoredPaths = array() )
 	{
+		return FALSE;
 		return FileUtil::import( $path, $ignoredPaths );
 	}
 

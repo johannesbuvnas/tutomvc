@@ -16,12 +16,15 @@ $facade = Facade::getInstance( Facade::KEY_SYSTEM );
 			$backtraced = -1;
 			foreach(debug_backtrace() as $backtrace)
 			{
-				if($backtrace['file'] == $exception->getFile() || $backtraced > -1) $backtraced++;
+				if(array_key_exists("file", $backtrace) && $backtrace['file'] == $exception->getFile() || $backtraced > -1) $backtraced++;
 				if($backtraced >= 1)
 				{
-					$codeMediator = $facade->view->getMediator( CodeMediator::NAME )
-						->prepareFile( $backtrace['file'], $backtrace['line'], FALSE )
-						->render();
+					if(array_key_exists("file", $backtrace) && array_key_exists("line", $backtrace))
+					{
+						$codeMediator = $facade->view->getMediator( CodeMediator::NAME )
+							->prepareFile( $backtrace['file'], $backtrace['line'], FALSE )
+							->render();
+					}
 				}
 			}
 		?>

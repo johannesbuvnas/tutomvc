@@ -31,8 +31,8 @@ class RenderTaxonomyCommand extends ActionCommand
 				MetaField::SETTING_OPTIONS => $options,
 				MetaField::SETTING_INPUT_ON_ENTER => property_exists( $tax->cap, "create_terms" ) ? current_user_can( $tax->cap->create_terms ) : current_user_can( $tax->cap->manage_terms ),
 				MetaField::SETTING_READ_ONLY => !current_user_can( $tax->cap->assign_terms )
-			),
-			$conditions
+			)
+			// $conditions
 		);
 
 		$metaFieldMediator = $this->getFacade()->view->hasMediator( MetaFieldMediator::NAME ) ? $this->getFacade()->view->getMediator( MetaFieldMediator::NAME ) : $this->getFacade()->view->registerMediator( new MetaFieldMediator() );

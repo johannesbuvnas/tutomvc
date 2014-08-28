@@ -3,6 +3,20 @@ namespace tutomvc;
 
 class WordPressUtil
 {
+	public static function getAllTerms( $post )
+	{
+		$terms = array();
+		$taxonomies = get_taxonomies( NULL, "objects" );
+		foreach($taxonomies as $taxonomyName => $taxonomy)
+		{
+			if(in_array($post->post_type, $taxonomy->object_type))
+			{
+				$terms = array_merge( $terms,  wp_get_post_terms( $post->ID, $taxonomyName ) );
+			}
+		}
+
+		return count($terms) ? $terms : NULL;
+	}
 	/** Check if is set and verify nonce ID. */
 	public static function verifyNonce( $nonceID, $name )
 	{

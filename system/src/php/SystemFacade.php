@@ -26,6 +26,7 @@ final class SystemFacade extends Facade
 	public $taxonomyCenter;
 	public $userColumnCenter;
 	public $repository;
+	public $log;
 
 	function __construct()
 	{
