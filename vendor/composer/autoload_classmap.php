@@ -125,4 +125,12 @@ return array(
     'tutomvc\\WPAdminTaxonomyColumn' => $baseDir . '/system/src/php/model/proxy/taxonomy/column/WPAdminTaxonomyColumn.php',
     'tutomvc\\WPUserColumn' => $baseDir . '/system/src/php/model/proxy/user/WPUserColumn.php',
     'tutomvc\\WordPressUtil' => $baseDir . '/src/php/utils/WordPressUtil.php',
+    'tutomvc\\modules\\termpage\\AdminInitCommand' => $baseDir . '/system/src/php/modules/termpage/controller/actions/AdminInitCommand.php',
+    'tutomvc\\modules\\termpage\\EditedTermAction' => $baseDir . '/system/src/php/modules/termpage/controller/actions/EditedTermAction.php',
+    'tutomvc\\modules\\termpage\\InitCommand' => $baseDir . '/system/src/php/modules/termpage/controller/actions/InitCommand.php',
+    'tutomvc\\modules\\termpage\\LoadPostCommand' => $baseDir . '/system/src/php/modules/termpage/controller/actions/LoadPostCommand.php',
+    'tutomvc\\modules\\termpage\\PreGetPostsAction' => $baseDir . '/system/src/php/modules/termpage/controller/actions/PreGetPostsAction.php',
+    'tutomvc\\modules\\termpage\\TaxonomyAddFormFieldsAction' => $baseDir . '/system/src/php/modules/termpage/controller/actions/TaxonomyAddFormFieldsAction.php',
+    'tutomvc\\modules\\termpage\\TermLinkFilter' => $baseDir . '/system/src/php/modules/termpage/controller/filters/TermLinkFilter.php',
+    'tutomvc\\modules\\termpage\\TermPageModule' => $baseDir . '/system/src/php/modules/termpage/TermPageModule.php',
 );

@@ -78,7 +78,18 @@ class Mediator extends CoreClass implements IMediator
 	}
 	public function getViewComponent()
 	{
-		return $this->getFacade()->getTemplateFileReference( $this->_viewComponent );
+		return $this->_viewComponent;
+	}
+	public function getViewComponentFilePath()
+	{
+		$filePath = $this->getFacade()->getTemplateFileReference( $this->getViewComponent() );
+		$pathinfo = pathinfo( $filePath );
+		if(!array_key_exists("extension", $pathinfo))
+		{
+			$filePath .= ".php";
+		}
+
+		return $filePath;
 	}
 
 	final public function getName()
@@ -108,17 +119,18 @@ class Mediator extends CoreClass implements IMediator
 			else return $this->_content;
 		}
 		
-		if($this->_dataProvider) extract( $this->_dataProvider, EXTR_SKIP);
+		if($this->_dataProvider) extract( $this->_dataProvider, EXTR_SKIP );
 		
-		ob_start();
-
-		if( is_file( $this->getViewComponent() ) )
+		
+		$file = $this->getViewComponentFilePath();
+		if( is_file( $file ) )
 		{
-			include $this->getViewComponent();
+			ob_start();
+			include $file;
 		}
 		else 
 		{
-			throw new \ErrorException( "CUSTOM ERROR: "." No such file - " . $this->getViewComponent(), 0, E_ERROR );
+			throw new \ErrorException( "CUSTOM ERROR: "." No such file - " . $file, 0, E_ERROR );
 		}
 
 		$output = ob_get_clean();
@@ -130,13 +142,6 @@ class Mediator extends CoreClass implements IMediator
 
 interface IMediator
 {
-	/* ACTIONS */
-	public function render();
-
 	/* METHODS */
 	public function parse( $variableName, $value );
-
-	/* SET AND GET */
-	public function setViewComponent( $name );
-	public function getViewComponent();
 }
