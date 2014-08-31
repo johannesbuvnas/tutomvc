@@ -44,6 +44,7 @@ class Facade
 		$this->_modulesMap[ $facade->getKey() ] = $facade;
 		$facade->vo = $this->vo;
 		$facade->onRegister();
+		
 		return $facade;
 	}
 

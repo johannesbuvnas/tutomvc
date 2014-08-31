@@ -3,7 +3,7 @@ namespace tutomvc;
 
 class TutoMVCGitContentMediator extends Mediator
 {
-  const NAME = "menu/settings/tutomvc/content/git.php";
+  const NAME = "menu/settings/tutomvc/content/git.add.php";
   const ACTION_DISPLAY_STATUS = "tutomvc/settings/git/display_status";
 
   function __construct()
@@ -13,7 +13,7 @@ class TutoMVCGitContentMediator extends Mediator
 
   function onRegister()
   {
-    $this->getFacade()->controller->registerCommand( new GitAddActionCommand() );
+    // $this->getFacade()->controller->registerCommand( new GitAddActionCommand() );
     $this->getFacade()->controller->registerCommand( new GitPullActionCommand() );
 
     add_action( "init", array( $this, "checkFormSubmission" ) );
@@ -23,13 +23,13 @@ class TutoMVCGitContentMediator extends Mediator
 
   function getContent()
   {
-    if(is_dir( FileUtil::filterFileReference( TutoMVC::getRoot()."/.git" ) ))
-    {
-      $this->setViewComponent( "menu/settings/tutomvc/content/git.pull.php" );
-    }
-    else
+    if(!is_dir( FileUtil::filterFileReference( TutoMVC::getRoot()."/.git" ) ))
     {
       $this->setViewComponent( "menu/settings/tutomvc/content/git.add.php" );
+    }
+    else if($this->getFacade()->repository->hasUnpulledCommits())
+    {
+      $this->setViewComponent( "menu/settings/tutomvc/content/git.pull.php" );
     }
 
     return parent::getContent();
@@ -46,25 +46,6 @@ class TutoMVCGitContentMediator extends Mediator
 
   function onDisplayStatus()
   {
-    if(is_dir( FileUtil::filterFileReference( TutoMVC::getRoot()."/.git" ) ))
-    {
-      shell_exec( "cd ".TutoMVC::getRoot()." && git fetch" );
-      $localVersion = shell_exec( "cd ".TutoMVC::getRoot()." && git log -n 1" );
-      $remoteVersion = shell_exec( "cd ".TutoMVC::getRoot()." && git log origin/master -n 1" );
-
-      if($localVersion != $remoteVersion)
-      {
-        $this->getFacade()->notificationCenter->add( "It seems that you have unpulled commits." );
-      }
-
-      $status = "<pre>STATUS\n\n".shell_exec( "cd ".TutoMVC::getRoot()." && git status" )."\n</pre>";
-      $status .= "<pre>LOCAL REVISION\n\n".$localVersion."\n</pre>";
-      $status .= "<pre>REMOTE REVISION\n\n".$remoteVersion."</pre>";
-      $this->getFacade()->notificationCenter->add( $status );
-    }
-    else
-    {
-      $this->getFacade()->notificationCenter->add( "No git repository is added / initiated." );
-    }
+    $this->getFacade()->notificationCenter->add( $this->getFacade()->repository->getStatus() );
   }
 }

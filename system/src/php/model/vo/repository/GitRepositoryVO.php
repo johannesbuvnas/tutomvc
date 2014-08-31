@@ -5,11 +5,13 @@ class GitRepositoryVO extends ValueObject
 {
 	protected $_localPath;
 	protected $_remotePath;
+	protected $_branch;
 
-	function __construct( $localPath, $remotePath )
+	function __construct( $localPath, $remotePath, $branch )
 	{
 		$this->_localPath = $localPath;
 		$this->_remotePath = $remotePath;
+		$this->_branch = $branch;
 	}
 
 	/* METHODS */
@@ -33,7 +35,7 @@ class GitRepositoryVO extends ValueObject
 	{
 		$result = "";
 		$result .= shell_exec( "cd ".$this->_localPath." && git reset --hard" );
-    	$result .= shell_exec( "cd ".$this->_localPath." && git pull origin master" );
+    	$result .= shell_exec( "cd ".$this->_localPath." && git pull origin {$this->_branch}" );
 
     	return $result;
 	}
@@ -46,7 +48,7 @@ class GitRepositoryVO extends ValueObject
 	public function getRemoteVersion()
 	{
 		shell_exec( "cd ".$this->_localPath." && git fetch" );
-		return shell_exec( "cd ".$this->_localPath." && git log origin/master -n 1" );
+		return shell_exec( "cd ".$this->_localPath." && git log origin/{$this->_branch} -n 1" );
 	}
 	public function getStatus()
 	{

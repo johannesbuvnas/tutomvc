@@ -10,7 +10,6 @@ class GitAddActionCommand extends ActionCommand
 
   function execute()
   {
-    $this->getFacade()->notificationCenter->add( shell_exec( "cd ".TutoMVC::getRoot()." && git init" ) );
-    $this->getFacade()->notificationCenter->add( shell_exec( "cd ".TutoMVC::getRoot()." && git remote add origin https://github.com/johannesbuvnas/com.tutomvc.wpplugin.git -f" ) );
+    $this->getFacade()->notificationCenter->add( $this->getFacade()->repository->init() );
   }
 }

@@ -10,9 +10,6 @@ class GitPullActionCommand extends ActionCommand
 
   function execute()
   {
-    shell_exec( "cd ".TutoMVC::getRoot()." && git reset --hard" );
-    shell_exec( "cd ".TutoMVC::getRoot()." && git pull origin master" );
-
-    $this->getFacade()->notificationCenter->add( "Pulled latest commits." );
+    $this->getFacade()->notificationCenter->add(  $this->getFacade()->repository->pull() );
   }
 }
