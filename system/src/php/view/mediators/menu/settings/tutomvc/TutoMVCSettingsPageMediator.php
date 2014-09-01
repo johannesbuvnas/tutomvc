@@ -12,7 +12,6 @@ class TutoMVCSettingsPageMediator extends AdminMenuPageMediator
 
 	public function onRegister()
 	{
-		$this->getFacade()->view->registerMediator( new TutoMVCGitContentMediator() );
 		$this->getFacade()->view->registerMediator( new TutoMVCLogsPageContentMediator() );
 	}
 

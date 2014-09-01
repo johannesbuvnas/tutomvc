@@ -13,11 +13,18 @@ class TutoMVCGitPage extends AdminMenuPage
 
   function getContentMediatorName()
   {
-    return TutoMVCGitContentMediator::NAME;
+    return "";
   }
 
   function onLoad()
   {
-    do_action( TutoMVCGitContentMediator::ACTION_DISPLAY_STATUS );
+    $systemFacade = \tutomvc\Facade::getInstance( \tutomvc\Facade::KEY_SYSTEM );
+    $systemFacade->notificationCenter->add( $systemFacade->repository->init() );
+    $mediator = $systemFacade->view->registerMediator( new GitPullFormMediator() );
+    if($systemFacade->repository->hasUnpulledCommits())
+    {
+      $systemFacade->notificationCenter->add( __( "You have unpulled commits.", "tutomvc" ) . $mediator->getContent() );
+    }
+    $systemFacade->notificationCenter->add( $systemFacade->repository->getStatus() );
   }
 }

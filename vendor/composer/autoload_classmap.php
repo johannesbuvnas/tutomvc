@@ -43,6 +43,7 @@ return array(
     'tutomvc\\GetUserMetaDataFilter' => $baseDir . '/system/src/php/controller/filters/meta/user/GetUserMetaDataFilter.php',
     'tutomvc\\GitAddActionCommand' => $baseDir . '/system/src/php/controller/actions/page/settings/GitAddActionCommand.php',
     'tutomvc\\GitPullActionCommand' => $baseDir . '/system/src/php/controller/actions/page/settings/GitPullActionCommand.php',
+    'tutomvc\\GitPullFormMediator' => $baseDir . '/system/src/php/view/mediators/menu/settings/tutomvc/content/GitPullFormMediator.php',
     'tutomvc\\GitRepositoryVO' => $baseDir . '/system/src/php/model/vo/repository/GitRepositoryVO.php',
     'tutomvc\\ICommand' => $baseDir . '/src/php/core/controller/command/Command.php',
     'tutomvc\\IMediator' => $baseDir . '/src/php/core/view/mediator/Mediator.php',
@@ -109,7 +110,6 @@ return array(
     'tutomvc\\TestMetaBox' => $baseDir . '/system/src/php/model/proxy/meta/TestMetaBox.php',
     'tutomvc\\TextAreaMetaField' => $baseDir . '/system/src/php/model/proxy/meta/fields/TextAreaMetaField.php',
     'tutomvc\\TutoMVC' => $baseDir . '/src/php/TutoMVC.php',
-    'tutomvc\\TutoMVCGitContentMediator' => $baseDir . '/system/src/php/view/mediators/menu/settings/tutomvc/content/TutoMVCGitContentMediator.php',
     'tutomvc\\TutoMVCGitPage' => $baseDir . '/system/src/php/model/proxy/pages/settings/logs/TutoMVCGitPage.php',
     'tutomvc\\TutoMVCLogsPage' => $baseDir . '/system/src/php/model/proxy/pages/settings/logs/TutoMVCLogsPage.php',
     'tutomvc\\TutoMVCLogsPageContentMediator' => $baseDir . '/system/src/php/view/mediators/menu/settings/tutomvc/content/TutoMVCLogsPageContentMediator.php',
@@ -149,6 +149,5 @@ return array(
     'tutomvc\\modules\\termpage\\PreGetPostsAction' => $baseDir . '/system/src/php/modules/termpage/controller/actions/PreGetPostsAction.php',
     'tutomvc\\modules\\termpage\\RegisteredTaxonomyAction' => $baseDir . '/system/src/php/modules/termpage/controller/actions/RegisteredTaxonomyAction.php',
     'tutomvc\\modules\\termpage\\TaxonomyAddFormFieldsAction' => $baseDir . '/system/src/php/modules/termpage/controller/actions/TaxonomyAddFormFieldsAction.php',
-    'tutomvc\\modules\\termpage\\TermLinkFilter' => $baseDir . '/system/src/php/modules/termpage/controller/filters/TermLinkFilter.php',
     'tutomvc\\modules\\termpage\\TermPageModule' => $baseDir . '/system/src/php/modules/termpage/TermPageModule.php',
 );
