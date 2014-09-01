@@ -11,12 +11,15 @@ namespace tutomvc;
 final class TutoMVC
 {
 	/* CONSTANTS */
-	const VERSION = "1.035";
+	const VERSION = "1.036";
 	const NAME = "tutomvc";
 	const NONCE_NAME = "tutomvc/nonce";
 
 	const SCRIPT_JS = "tutomvc-core-js";
 	const SCRIPT_JS_PATH = "deploy/com.tutomvc.core.js";
+
+	const GIT_REPOSITORY_URL = "https://github.com/johannesbuvnas/com.tutomvc.wpplugin.git";
+	const GIT_REPOSITORY_BRANCH = "v2";
 
 	/* STATIC VARS */
 	private static $initiated = FALSE;
@@ -63,7 +66,7 @@ final class TutoMVC
 		self::$initiated = true;
 
 		// Auto load the system app facade
-		require_once( self::$_root.'/system/bootstrap.php' );
+		TutoMVC::startup( "tutomvc\\SystemFacade", "src/templates/", self::getRoot( "system" ) );
 
 		do_action( ActionCommand::START_UP );
 
@@ -75,17 +78,20 @@ final class TutoMVC
 	*	@param string $facadeClassReference A reference to the class name which extends the Facade.
 	*	@return boolean
 	*/
-	public static function startup( $facadeClassReference, $templatesDir = "/templates/" )
+	public static function startup( $facadeClassReference, $templatesDir = "/templates/", $appRoot = NULL )
 	{
 		if(!self::$initiated)
 		{
 			die("ERROR! Cannot import application. Tuto Framework hasn't been initialized.");
 		}
 
-		// The file that called this function will set the root for this app
-		$backtrace = debug_backtrace();
-		$caller = $backtrace[0]['file'];
-		$appRoot = realpath( dirname( $caller ) );
+		if(!$appRoot)
+		{
+			// The file that called this function will set the root for this app
+			$backtrace = debug_backtrace();
+			$caller = $backtrace[0]['file'];
+			$appRoot = realpath( dirname( $caller ) );
+		}
 
 		// Construct and initalize the facade
 		$facade = new $facadeClassReference;
@@ -107,9 +113,9 @@ final class TutoMVC
 	}
 
 	/* SET AND GET */
-	public static function getRoot()
+	public static function getRoot( $relativePath = NULL )
 	{
-		return self::$_root;
+		return is_null( $relativePath ) ? self::$_root : self::$_root . FileUtil::filterFileReference( "/" . $relativePath );
 	}
 	public static function getDocumentRoot()
 	{
@@ -120,7 +126,7 @@ final class TutoMVC
 		return self::$_wpRelativeRoot;
 	}
 
-	public static function getURL(  $relativePath = NULL )
+	public static function getURL( $relativePath = NULL )
 	{
 		return is_null( $relativePath ) ? self::$_url : self::$_url . FileUtil::filterFileReference( "/" . $relativePath );
 	}

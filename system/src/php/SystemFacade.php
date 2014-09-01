@@ -11,8 +11,6 @@ final class SystemFacade extends Facade
 	const SCRIPT_JS = "tutomvc-js";
 	const SCRIPT_JS_REQUIRE = "tutomvc-require-js";
 
-	const REPOSITORY_URL = "https://github.com/johannesbuvnas/com.tutomvc.wpplugin.git";
-
 	public static $PRODUCTION_MODE = false;
 
 	/* PUBLIC VARS */
@@ -37,7 +35,7 @@ final class SystemFacade extends Facade
 
 	public function onRegister()
 	{
-		$this->repository = new GitRepositoryVO( $this->vo->getRoot(), self::REPOSITORY_URL, "v2" );
+		$this->repository = new GitRepositoryVO( TutoMVC::getRoot(), TutoMVC::GIT_REPOSITORY_URL, TutoMVC::GIT_REPOSITORY_BRANCH );
 
 		$this->prepModel();
 		$this->prepView();
