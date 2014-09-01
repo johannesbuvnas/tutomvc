@@ -107,5 +107,14 @@ class TermPageModule extends Facade
 	{
 		return $this->_supportedTaxonomies;
 	}
+
+	public static function getInstance()
+	{
+		if(Facade::getInstance( self::KEY )) return Facade::getInstance( self::KEY );
+
+		$module = new TermPageModule();
+		$systemFacade = Facade::getInstance( Facade::KEY_SYSTEM );
+		return $systemFacade->registerSubFacade( $module );
+	}
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////

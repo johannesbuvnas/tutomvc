@@ -1,12 +1,9 @@
-<?php
-namespace tutomvc\modules\analytics;
-use tutomvc\Facade;
+<?php namespace tutomvc\modules\privacy;
+use \tutomvc\Facade;
 
-class AnalyticsModule extends Facade
+class PrivacyModule extends Facade
 {
-	const KEY = "tutomvc/modules/analytics/facade";
-
-	const ACTION_RENDER = "tutomvc/modules/analytics/action/render";
+	const KEY = "tutomvc/modules/member/facade";
 
 	function __construct()
 	{
@@ -19,17 +16,11 @@ class AnalyticsModule extends Facade
 		$this->controller->registerCommand( new InitCommand() );
 	}
 
-	function render()
-	{
-		$this->view->getMediator( AnalyticsMediator::NAME )->render();
-		$this->view->getMediator( GTMMediator::NAME )->render();
-	}
-
 	public static function getInstance()
 	{
 		if(Facade::getInstance( self::KEY )) return Facade::getInstance( self::KEY );
 
-		$module = new AnalyticsModule();
+		$module = new PrivacyModule();
 		$systemFacade = Facade::getInstance( Facade::KEY_SYSTEM );
 		return $systemFacade->registerSubFacade( $module );
 	}

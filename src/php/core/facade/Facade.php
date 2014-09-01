@@ -79,7 +79,7 @@ class Facade
 		}
 		else
 		{
-			return new Facade( $key );
+			return NULL;
 		}
 	}
 	public function getSystem()

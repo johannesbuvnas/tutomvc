@@ -21,6 +21,7 @@ class PreGetPostsAction extends ActionCommand
 		global $wp_query;
 		// Forever loop fix
 		// Do not execute this action for copied wp queries
+		if(!is_main_query()) return;
 		if(array_key_exists(self::QUERY_VAR, $wpQuery->query_vars)) return;
 
 		if(is_tax() || get_query_var( "tag" ) || is_category())
@@ -44,14 +45,30 @@ class PreGetPostsAction extends ActionCommand
 				$term = get_term_by( $by, get_query_var( 'tag' ), "post_tag" );
 			}
 
-			$associatedPage = TermPageModule::getLandingPageForTerm( $term->term_taxonomy_id );
-
-			if($associatedPage)
+			if(!$term)
 			{
-				query_posts(array(
-					"page_id" => $associatedPage->ID,
-					self::QUERY_VAR => $wp_query->query_vars
-				));
+				foreach(get_taxonomies() as $taxonomy)
+				{
+					if(get_query_var( $taxonomy ))
+					{
+						$by = filter_var(get_query_var( $taxonomy ), FILTER_VALIDATE_INT) ? "id" : "slug";
+						$term = get_term_by( $by, get_query_var( $taxonomy ), $taxonomy );
+						break;
+					}
+				}
+			}
+
+			if($term)
+			{
+				$associatedPage = TermPageModule::getLandingPageForTerm( $term->term_taxonomy_id );
+
+				if($associatedPage)
+				{
+					query_posts(array(
+						"page_id" => $associatedPage->ID,
+						self::QUERY_VAR => $wp_query->query_vars
+					));
+				}
 			}
 		}
 		else if(is_page())

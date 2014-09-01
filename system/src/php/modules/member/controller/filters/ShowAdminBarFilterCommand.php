@@ -1,5 +1,5 @@
 <?php
-namespace tutomvc\modules\member;
+namespace tutomvc\modules\privacy;
 use \tutomvc\FilterCommand;
 
 class ShowAdminBarFilterCommand extends FilterCommand

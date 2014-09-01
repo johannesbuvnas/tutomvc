@@ -1,5 +1,5 @@
 <?php
-namespace tutomvc\modules\member;
+namespace tutomvc\modules\privacy;
 use \tutomvc\ActionCommand;
 
 class InitCommand extends ActionCommand

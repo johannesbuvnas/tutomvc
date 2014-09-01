@@ -12,11 +12,6 @@ class AdminInitCommand extends ActionCommand
 
 	function execute()
 	{
-		foreach($this->getFacade()->getTaxonomies() as $taxonomyName)
-		{
-			$this->getFacade()->controller->registerCommand( new TaxonomyAddFormFieldsAction( $taxonomyName ) );
-		}
-
 		$this->getFacade()->controller->registerCommand( new EditedTermAction() );
 		$this->getFacade()->controller->registerCommand( new LoadPostCommand() );
 	}
