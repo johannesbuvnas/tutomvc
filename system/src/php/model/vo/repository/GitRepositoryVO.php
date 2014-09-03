@@ -17,11 +17,11 @@ class GitRepositoryVO extends ValueObject
 	/* METHODS */
 	public function isInit()
 	{
-		return is_dir( $this->_localPath );
+		return is_dir( FileUtil::filterFileReference( $this->_localPath."/.git" ) );
 	}
 	public function init()
 	{
-		if(is_dir( FileUtil::filterFileReference( $this->_localPath."/.git" ) )) return TRUE;
+		if($this->isInit()) return TRUE;
 		
 		$result = "";
 		$result .= shell_exec( "cd ".$this->_localPath." && git init" );
