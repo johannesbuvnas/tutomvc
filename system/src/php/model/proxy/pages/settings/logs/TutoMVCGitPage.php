@@ -24,7 +24,6 @@ class TutoMVCGitPage extends AdminMenuPage
     if(!$systemFacade->repository->isInit())
     {
       $systemFacade->notificationCenter->add( $systemFacade->repository->init() );
-      $systemFacade->notificationCenter->add( $systemFacade->repository->checkout() );
     }
 
     if($systemFacade->repository->hasUnpulledCommits())

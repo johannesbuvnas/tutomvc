@@ -30,13 +30,6 @@ class GitRepositoryVO extends ValueObject
     	return $result;
 	}
 
-	public function checkout()
-	{
-		$result = "";
-		$result .= shell_exec( "cd ".$this->_localPath." && git checkout -b {$this->_branch} origin/{$this->_branch}" );
-		return $result;
-	}
-
 	public function hasUnpulledCommits()
 	{
 		return $this->getLocalVersion() != $this->getRemoteVersion();
