@@ -15,6 +15,10 @@ class GitRepositoryVO extends ValueObject
 	}
 
 	/* METHODS */
+	public function isInit()
+	{
+		return is_dir( $this->_localPath );
+	}
 	public function init()
 	{
 		if(is_dir( FileUtil::filterFileReference( $this->_localPath."/.git" ) )) return TRUE;
@@ -26,6 +30,11 @@ class GitRepositoryVO extends ValueObject
     	return $result;
 	}
 
+	public function checkout()
+	{
+		$result .= shell_exec( "cd ".$this->_localPath." && git checkout -b {$this->_branch} origin/{$this->_branch}" );
+	}
+
 	public function hasUnpulledCommits()
 	{
 		return $this->getLocalVersion() != $this->getRemoteVersion();
@@ -35,7 +44,7 @@ class GitRepositoryVO extends ValueObject
 	{
 		$result = "";
 		$result .= shell_exec( "cd ".$this->_localPath." && git reset --hard" );
-    	$result .= shell_exec( "cd ".$this->_localPath." && git pull origin {$this->_branch}" );
+    	$result .= shell_exec( "cd ".$this->_localPath." && git pull origin/{$this->_branch}" );
 
     	return $result;
 	}

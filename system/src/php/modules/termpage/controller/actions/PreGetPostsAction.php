@@ -62,7 +62,7 @@ class PreGetPostsAction extends ActionCommand
 			{
 				$associatedPage = TermPageModule::getLandingPageForTerm( $term->term_taxonomy_id );
 
-				if($associatedPage)
+				if($associatedPage && get_query_var("paged") < 2)
 				{
 					query_posts(array(
 						"page_id" => $associatedPage->ID,

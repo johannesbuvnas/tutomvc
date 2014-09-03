@@ -1,2 +1,4 @@
 /system/logs/*
 .DS_Store
+
+/terminal.glue
