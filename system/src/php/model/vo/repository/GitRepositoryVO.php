@@ -46,7 +46,7 @@ class GitRepositoryVO extends ValueObject
 	{
 		$result = "";
 		$result .= shell_exec( "cd ".$this->_localPath." && git reset --hard" );
-    	$result .= shell_exec( "cd ".$this->_localPath." && git pull origin/{$this->_branch}" );
+    	$result .= shell_exec( "cd ".$this->_localPath." && git pull origin {$this->_branch}" );
 
     	return $result;
 	}
