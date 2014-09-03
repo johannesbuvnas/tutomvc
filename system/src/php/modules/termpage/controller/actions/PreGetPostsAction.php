@@ -73,19 +73,12 @@ class PreGetPostsAction extends ActionCommand
 		}
 		else if(is_page())
 		{
-			$custom_wp_query = new \WP_Query($wp_query->query_vars);
-
-			if(count($custom_wp_query->posts))
+			$queried_object = get_queried_object();
+			$term = TermPageModule::getTermForLandingPage( $queried_object->ID );
+			if($term)
 			{
-				$post = array_pop($custom_wp_query->posts);
-
-				$term = TermPageModule::getTermForLandingPage( $post->ID );
-
-				if($term)
-				{
-					wp_redirect( get_term_link( $term ) );
-					exit;
-				}
+				wp_redirect( get_term_link( $term ) );
+				exit;
 			}
 		}
 	}
