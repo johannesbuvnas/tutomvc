@@ -19,7 +19,13 @@ class TutoMVCGitPage extends AdminMenuPage
   function onLoad()
   {
     $systemFacade = \tutomvc\Facade::getInstance( \tutomvc\Facade::KEY_SYSTEM );
-    $systemFacade->repository->init();
+
+    if(!$systemFacade->repository->isInit())
+    {
+      $systemFacade->notificationCenter->add( $systemFacade->repository->init() );
+      $systemFacade->notificationCenter->add( $systemFacade->repository->checkout() );
+    }
+    
     $mediator = $systemFacade->view->registerMediator( new GitPullFormMediator() );
     if($systemFacade->repository->hasUnpulledCommits())
     {
