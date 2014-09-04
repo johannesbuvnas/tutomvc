@@ -1,11 +1,11 @@
 #Tuto MVC
----
+
 
 "Tuto MVC" is a WordPress plugin for developers that helps you develop and customize your WordPress installation.
 
----
+
 ##Features
----
+
 
 - **PHP Exception Handler**
 
@@ -42,12 +42,12 @@ Use the taxonomy model to create custom taxonomies and add support for custom ta
 - **Admin Settings**
 - **Custom User Columns**
 
----
+
 ##Dependencies
----
+
 - PHP > 5.3
 
----
+
 ##Thanks to
----
+
 - http://backbonejs.org/
