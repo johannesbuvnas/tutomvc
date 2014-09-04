@@ -12,7 +12,7 @@ class TaxonomyAddFormFieldsAction extends ActionCommand
 
 	function execute( $term, $taxonomy )
 	{
-		$page = TermPageModule::getLandingPageForTerm( $term->term_id );
+		$page = TermPageModule::getLandingPageForTerm( $term->term_taxonomy_id );
 		$selected = $page ? $page->ID : 0;
 		?>
 			<table class="form-table">
