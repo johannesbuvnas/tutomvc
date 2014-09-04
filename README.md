@@ -25,7 +25,7 @@ $systemFacade->logCenter->add( "Save this to log file." );
 
 ###Meta Boxes
 
-<img src="http://tutomvc.com/wp-content/uploads/2014/09/Screen-Shot-2014-09-04-at-11.47.43.png" alt="WP Admin Notification" title="WP Admin Notification" />
+<img src="http://tutomvc.com/wp-content/uploads/2014/09/Screen-Shot-2014-09-04-at-12.27.20.png" alt="Meta Box" title="Meta Box" />
 
 Create custom meta fields for post types and users.
 
