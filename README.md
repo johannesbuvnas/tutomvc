@@ -41,7 +41,22 @@ Use the taxonomy model to create custom taxonomies and add support for custom ta
 - **Admin Menu Pages**
 - **Admin Settings**
 - **Custom User Columns**
+- **Privacy Module**
 
+Limit the access to your blog.
+
+- **Analytics Module**
+
+Add admin settings page to setup your Google Analytics- or Google Tag Manager account.
+Then to render:
+```
+do_action( \tutomvc\modules\analytics\AnalyticsModule::ACTION_RENDER );
+```
+
+- **Term Page Module**
+
+Do you want to customize the outputted content for a term page?
+This module adds the ability to setup a landing pages for terms.
 
 ##Dependencies
 
