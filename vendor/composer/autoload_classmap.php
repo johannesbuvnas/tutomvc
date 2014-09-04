@@ -144,6 +144,7 @@ return array(
     'tutomvc\\modules\\privacy\\WPCommand' => $baseDir . '/system/src/php/modules/member/controller/actions/WPCommand.php',
     'tutomvc\\modules\\termpage\\AdminInitCommand' => $baseDir . '/system/src/php/modules/termpage/controller/actions/AdminInitCommand.php',
     'tutomvc\\modules\\termpage\\EditedTermAction' => $baseDir . '/system/src/php/modules/termpage/controller/actions/EditedTermAction.php',
+    'tutomvc\\modules\\termpage\\GetPageLinkFilter' => $baseDir . '/system/src/php/modules/termpage/controller/filters/GetPageLinkFilter.php',
     'tutomvc\\modules\\termpage\\InitCommand' => $baseDir . '/system/src/php/modules/termpage/controller/actions/InitCommand.php',
     'tutomvc\\modules\\termpage\\LoadPostCommand' => $baseDir . '/system/src/php/modules/termpage/controller/actions/LoadPostCommand.php',
     'tutomvc\\modules\\termpage\\PreGetPostsAction' => $baseDir . '/system/src/php/modules/termpage/controller/actions/PreGetPostsAction.php',

@@ -21,6 +21,18 @@ class Taxonomy extends ValueObject
 		parent::__construct( $name, NULL );
 	}
 
+	public static function getTaxonomyRewriteSlug( $taxonomyName )
+	{
+		$taxonomy = get_taxonomy( $taxonomyName );
+		
+		if($taxonomy)
+		{
+			return $taxonomy->rewrite['slug'];
+		}
+
+		return NULL;
+	}
+
 	/* METHODS / ACTIONS */
 	public function addColumn( WPAdminTaxonomyColumn $column )
 	{

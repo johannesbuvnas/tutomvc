@@ -1,5 +1,6 @@
 <?php namespace tutomvc\modules\termpage;
 use \tutomvc\ActionCommand;
+use \tutomvc\Taxonomy;
 
 /**
 *	Prioritize pages rather than terms with exact same slug.
@@ -24,62 +25,67 @@ class PreGetPostsAction extends ActionCommand
 		if(!is_main_query()) return;
 		if(array_key_exists(self::QUERY_VAR, $wpQuery->query_vars)) return;
 
-		if(is_tax() || get_query_var( "tag" ) || is_category())
+		if(is_page())
 		{
-			if(is_tax())
-			{
-				$taxonomy = get_taxonomy( get_query_var( 'taxonomy' ) );
-				$by = filter_var(get_query_var( 'term' ), FILTER_VALIDATE_INT) ? "id" : "slug";
-				$term = get_term_by( $by, get_query_var( 'term' ), get_query_var( 'taxonomy' ) );
-			}
-			else if(is_category())
-			{
-				$taxonomy = get_taxonomy( "category" );
-				$by = filter_var(get_query_var( 'term' ), FILTER_VALIDATE_INT) ? "id" : "slug";
-				$term = get_term_by( $by, get_query_var( 'category_name' ), "category" );
-			}
-			else if(get_query_var( "tag" ))
-			{
-				$taxonomy = get_taxonomy( "post_tag" );
-				$by = filter_var(get_query_var( 'tag' ), FILTER_VALIDATE_INT) ? "id" : "slug";
-				$term = get_term_by( $by, get_query_var( 'tag' ), "post_tag" );
-			}
+			$this->isPage( get_page( get_query_var("page_id") ) );
+		}
 
-			if(!$term)
+		foreach(get_taxonomies() as $taxonomyName)
+		{
+			$taxonomyObject = get_taxonomy( $taxonomyName );
+			if(get_query_var( $taxonomyObject->query_var ))
 			{
-				foreach(get_taxonomies() as $taxonomy)
+				$by = filter_var(get_query_var( $taxonomyObject->query_var ), FILTER_VALIDATE_INT) ? "id" : "slug";
+				$term = get_term_by( $by, get_query_var( $taxonomyObject->query_var ), $taxonomyName );
+
+				if(!$term)
 				{
-					if(get_query_var( $taxonomy ))
+					// Maybe this is not a term, but a page with the same slug structure as a taxonomy
+					$page = get_page_by_path( Taxonomy::getTaxonomyRewriteSlug( $taxonomyName ) . "/" . get_query_var( $taxonomyObject->query_var ) );
+					if($page)
 					{
-						$by = filter_var(get_query_var( $taxonomy ), FILTER_VALIDATE_INT) ? "id" : "slug";
-						$term = get_term_by( $by, get_query_var( $taxonomy ), $taxonomy );
-						break;
+						query_posts(array(
+							"page_id" => $page->ID
+						));
+						return;
 					}
 				}
-			}
-
-			if($term)
-			{
-				$associatedPage = TermPageModule::getLandingPageForTerm( $term->term_taxonomy_id );
-
-				if($associatedPage && get_query_var("paged") < 2)
-				{
-					query_posts(array(
-						"page_id" => $associatedPage->ID,
-						self::QUERY_VAR => $wp_query->query_vars
-					));
-				}
+				break;
 			}
 		}
-		else if(is_page())
+
+		if(isset($term))
 		{
-			$queried_object = get_queried_object();
-			$term = TermPageModule::getTermForLandingPage( $queried_object->ID );
-			if($term)
-			{
-				wp_redirect( get_term_link( $term ) );
-				exit;
-			}
+			$this->isTerm( $term );
+		}
+	}
+
+	public function isTerm( $term )
+	{
+		if(!$term) return;
+		global $wp_query;
+
+		$associatedPage = TermPageModule::getLandingPageForTerm( $term->term_taxonomy_id );
+
+		if($associatedPage && get_query_var("paged") < 2)
+		{
+			query_posts(array(
+				"page_id" => $associatedPage->ID,
+				self::QUERY_VAR => $wp_query->query_vars
+			));
+		}
+	}
+
+	public function isPage( $page )
+	{
+		if(!$page) return;
+
+		$term = TermPageModule::getTermForLandingPage( $page->ID );
+
+		if($term)
+		{
+			wp_redirect( get_term_link( $term ) );
+			exit;
 		}
 	}
 }

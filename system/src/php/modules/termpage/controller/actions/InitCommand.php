@@ -18,5 +18,6 @@ class InitCommand extends ActionCommand
 			$this->getFacade()->controller->registerCommand( new TaxonomyAddFormFieldsAction( $taxonomyName ) );
 		}
 		$this->getFacade()->controller->registerCommand( new RegisteredTaxonomyAction() );
+		$this->getFacade()->controller->registerCommand( new GetPageLinkFilter() );
 	}
 }
