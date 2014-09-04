@@ -33,6 +33,7 @@ Create custom meta fields for post types and users.
 namespace myapp;
 use \tutomvc\MetaBox;
 use \tutomvc\MetaField;
+use \tutomvc\AttachmentMetaField;
 use \tutomvc\SingleSelectorMetaField;
 
 class HeroBannerMetaBox extends MetaBox
@@ -56,28 +57,26 @@ class HeroBannerMetaBox extends MetaBox
 			MetaBox::PRIORITY_HIGH
 		);
 
-		$this->addField( new MetaField(
-			self::IMAGES,
-			__( "Images", "myapp" ),
-			"",
-			MetaField::TYPE_ATTACHMENT,
-			array(
-				MetaField::SETTING_MAX_CARDINALITY => -1,
-				MetaField::SETTING_FILTER => array( "image" )
-			)
+		$this->addField( new AttachmentMetaField(
+			self::IMAGES, // Name
+			__( "Images", "myapp" ), // Title
+			"", // Description,
+			-1, // Max cardinality (none)
+			array( "image" ), // Filter file types (only images),
+			"Select" // Button title
 		) );
 
 		$this->addField( new SingleSelectorMetaField(
-			self::TEMPLATE,
-			__( "Template", "myapp" ),
-			"",
-			array(
+			self::TEMPLATE, // Name
+			__( "Template", "myapp" ), // Title
+			"", // Description
+			array( // Options
 				self::TEMPLATE_WIDE => __( "Wide 2:1 (with controls)", "myapp" ),
 				self::TEMPLATE_STRAIGHT_COVER => __( "Straight & Cover", "myapp" ),
 				self::TEMPLATE_STRAIGHT_FULL => __( "Straight & Full", "myapp" ),
 				self::TEMPLATE_STRAIGHT_FIT => __( "Straight & Fit", "myapp" )
 			),
-			self::TEMPLATE_WIDE
+			self::TEMPLATE_WIDE // Default value
 		) );
 	}
 }
@@ -102,7 +101,7 @@ if(!AppFacade::isProduction()) $systemFacade->notificationCenter->add( "This is 
 
 Use the post type model to create custom post types and add support for custom table culomns.
 
-###Custom Taxonomies**
+###Custom Taxonomies
 
 Use the taxonomy model to create custom taxonomies and add support for custom table culomns.
 
@@ -122,7 +121,7 @@ do_action( \tutomvc\modules\analytics\AnalyticsModule::ACTION_RENDER );
 ###Term Page Module
 
 Do you want to customize the outputted content for a term page?
-This module adds the ability to setup a landing pages for terms.
+This module adds the ability to setup landing pages for terms.
 
 ### More Features
 
