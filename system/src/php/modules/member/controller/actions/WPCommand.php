@@ -35,6 +35,9 @@ class WPCommand extends ActionCommand
 			}
 
 			if(!PrivacyMetaBox::isUserAllowed()) $this->redirect();
+
+			// If wp_query return empty result because of the PreGetPostsAction -> redirect
+			if(is_null($post) && get_query_var( PreGetPostsAction::QUERY_VAR )) $this->redirect();
 		}
 	}
 

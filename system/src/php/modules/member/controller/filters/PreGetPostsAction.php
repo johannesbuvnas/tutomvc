@@ -5,6 +5,9 @@ use \tutomvc\ActionCommand;
 class PreGetPostsAction extends ActionCommand
 {
 	const NAME = "pre_get_posts";
+	const QUERY_VAR = "tutomvc_modules_privacy";
+
+	public static $prohibitExecution = FALSE;
 
 	function __construct()
 	{
@@ -18,21 +21,27 @@ class PreGetPostsAction extends ActionCommand
 
 		// Forever loop fix
 		// Do not execute this action for copied wp queries
-		if(array_key_exists("is_copy_wp_query", $wpQuery->query_vars)) return;
+		if(self::$prohibitExecution) return;
 
 
+		// Run the query_vars in a new wp_query and loop the post results, remove the blocked posts from the query
 		$vars = array_merge( $wpQuery->query_vars, array(
-			"is_copy_wp_query" => TRUE, // Anti loop fix
 			"nopaging" => TRUE // Pagination fix
 		) );
+		self::$prohibitExecution = TRUE;
 		$copyWpQuery = new \WP_Query( $vars );
+		self::$prohibitExecution = FALSE;
+
 		$blockedPosts = array();
-		if(count($copyWpQuery->posts) <= 1) return; // Let the WPCommand do the rest
 		foreach($copyWpQuery->posts as $post)
 		{
 			if(!PrivacyMetaBox::isUserAllowed( NULL, $post->ID )) $blockedPosts[] = $post->ID;
 		}
 
-		if(count($blockedPosts)) $wpQuery->set( "post__not_in", array_merge( $wpQuery->get( "post__not_in" ), $blockedPosts ) );
+		if(count($blockedPosts))
+		{
+			$wpQuery->set( self::QUERY_VAR, TRUE );
+			$wpQuery->set( "post__not_in", array_merge( $wpQuery->get( "post__not_in" ), $blockedPosts ) );
+		}
 	}
 }
