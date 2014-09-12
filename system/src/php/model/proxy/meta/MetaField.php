@@ -25,7 +25,7 @@ class MetaField extends ValueObject implements IMetaBoxField
 	const SETTING_ROWS = "rows"; // Used by TYPE_TEXTAREA
 	
 	const SETTING_LABEL = "label"; // Used by TYPE_SELECTOR_SINGLE, TYPE_SELECTOR_MULTIPLE
-	const SETTING_FORMAT = "format"; // Used by TYPE_SELECTOR_DATETIME
+	const SETTING_CUSTOM_ATTR = "custom_attr"; // Used by TYPE_SELECTOR_DATETIME
 	const SETTING_OPTIONS = "options"; // Used by TYPE_SELECTOR_SINGLE, TYPE_SELECTOR_MULTIPLE
 	const SETTING_MAX_CARDINALITY = "maxCardinality"; // Used by TYPE_ATTACHMENT
 	const SETTING_FILTER = "filter"; // Used by TYPE_ATTACHMENT

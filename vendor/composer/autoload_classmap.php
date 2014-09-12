@@ -27,6 +27,7 @@ return array(
     'tutomvc\\Command' => $baseDir . '/src/php/core/controller/command/Command.php',
     'tutomvc\\Controller' => $baseDir . '/src/php/core/controller/Controller.php',
     'tutomvc\\CoreClass' => $baseDir . '/src/php/core/CoreClass.php',
+    'tutomvc\\DateTimeMetaField' => $baseDir . '/system/src/php/model/proxy/meta/fields/DateTimeMetaField.php',
     'tutomvc\\ExceptionCommand' => $baseDir . '/system/src/php/controller/actions/notification/ExceptionCommand.php',
     'tutomvc\\ExceptionMediator' => $baseDir . '/system/src/php/view/mediators/util/debug/exception/ExceptionMediator.php',
     'tutomvc\\Facade' => $baseDir . '/src/php/core/facade/Facade.php',

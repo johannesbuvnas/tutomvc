@@ -210,10 +210,14 @@ function( Base64, Backbone, _, Template, Input, Selector, MultiSelector, Proxy, 
 							type : "text"
 						}
 					});
-					component.$el.datetimepicker({
-						format : 'Y-m-d H:i',
-						value : model.get("value")
-					});
+					var val = model.get("value");
+					if(!val || !val.length) val = "";
+					var attrs = {
+						value : val,
+						format : 'Y-m-d H:i'
+					};
+					attrs = _.extend( attrs, model.get("custom_attr") );
+					component.$el.datetimepicker( attrs );
 
 				break;
 				default:
