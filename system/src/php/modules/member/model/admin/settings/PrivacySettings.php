@@ -1,7 +1,7 @@
 <?php
 namespace tutomvc\modules\privacy;
+use tutomvc\MetaField;
 use \tutomvc\Settings;
-use \tutomvc\SettingsField;
 
 class PrivacySettings extends Settings
 {
@@ -19,16 +19,16 @@ class PrivacySettings extends Settings
 			""
 		);
 
-		$this->addSettingsField( new SettingsField( 
+		$this->addField( new MetaField( 
 			self::IS_PROTECTED,
 			__( "Restrict Blog", "tutomvc" ), __( "Restrict this website to specific user roles.", "tutomvc" ),
-			SettingsField::TYPE_SELECTOR_SINGLE,
+			MetaField::TYPE_SELECTOR_SINGLE,
 			array(
-				SettingsField::SETTING_OPTIONS => array(
+				MetaField::SETTING_OPTIONS => array(
 					"true" => __( "Yes" ),
 					"false" => __( "No" )
 				),
-				SettingsField::SETTING_DEFAULT_VALUE => "false"
+				MetaField::SETTING_DEFAULT_VALUE => "false"
 			)
 		) );
 
@@ -41,25 +41,25 @@ class PrivacySettings extends Settings
 			$allowedUserTypes[$role] = $value['name'];
 		}
 
-		$this->addSettingsField( new SettingsField( 
+		$this->addField( new MetaField( 
 			self::ALLOWED_USER_TYPES,
 			__( "Allowed User Roles", "tutomvc" ), "",
-			SettingsField::TYPE_SELECTOR_MULTIPLE,
+			MetaField::TYPE_SELECTOR_MULTIPLE,
 			array(
-				SettingsField::SETTING_OPTIONS => $allowedUserTypes,
-				SettingsField::SETTING_DEFAULT_VALUE => self::ALLOWED_USER_TYPES_ALL,
-				SettingsField::SETTING_LABEL => __( "Select User Roles", "tutomvc" )
+				MetaField::SETTING_OPTIONS => $allowedUserTypes,
+				MetaField::SETTING_DEFAULT_VALUE => self::ALLOWED_USER_TYPES_ALL,
+				MetaField::SETTING_LABEL => __( "Select User Roles", "tutomvc" )
 			)
 		) );
 
-		$this->addSettingsField( new SettingsField( 
+		$this->addField( new MetaField( 
 			self::WP_ADMIN_ALLOWED_USER_TYPES,
 			__( "Restrict WP Admin Area", "tutomvc" ), "",
-			SettingsField::TYPE_SELECTOR_MULTIPLE,
+			MetaField::TYPE_SELECTOR_MULTIPLE,
 			array(
-				SettingsField::SETTING_OPTIONS => $allowedUserTypes,
-				SettingsField::SETTING_DEFAULT_VALUE => self::ALLOWED_USER_TYPES_ALL,
-				SettingsField::SETTING_LABEL => __( "Select User Roles", "tutomvc" )
+				MetaField::SETTING_OPTIONS => $allowedUserTypes,
+				MetaField::SETTING_DEFAULT_VALUE => self::ALLOWED_USER_TYPES_ALL,
+				MetaField::SETTING_LABEL => __( "Select User Roles", "tutomvc" )
 			)
 		) );
 	}

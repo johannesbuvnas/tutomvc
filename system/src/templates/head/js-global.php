@@ -24,6 +24,7 @@ global $post;
 		ajaxURL : "<?php echo admin_url( 'admin-ajax.php' ); ?>",
 		currentScreenID : "<?php echo $screen->id; ?>",
 		currentUser : <?php echo json_encode( $current_user ); ?>,
-		post : <?php echo json_encode( $post ); ?>
+		post : <?php echo json_encode( $post ); ?>,
+		metaFieldGoogleMapsAPIKey : "<?php echo MetaField::$GOOGLE_MAPS_API_KEY; ?>"
 	};
 </script>

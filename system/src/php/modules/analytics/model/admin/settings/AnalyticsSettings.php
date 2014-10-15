@@ -1,7 +1,7 @@
 <?php
 namespace tutomvc\modules\analytics;
 use \tutomvc\Settings;
-use \tutomvc\SettingsField;
+use \tutomvc\MetaField;
 
 class AnalyticsSettings extends Settings
 {
@@ -17,16 +17,16 @@ class AnalyticsSettings extends Settings
 			""
 		);
 
-		$this->addSettingsField( new SettingsField( 
+		$this->addField( new MetaField(
 			self::ACCOUNT_ID,
 			__( "Google Analytics Account ID" ), "",
-			SettingsField::TYPE_TEXT
+			MetaField::TYPE_TEXT
 		) );
 
-		$this->addSettingsField( new SettingsField( 
+		$this->addField( new MetaField(
 			self::GTM_ACCOUNT_ID,
 			__( "Google Tag Manager Account ID" ), "",
-			SettingsField::TYPE_TEXT
+			MetaField::TYPE_TEXT
 		) );
 	}
 }

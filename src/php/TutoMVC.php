@@ -11,7 +11,7 @@ namespace tutomvc;
 final class TutoMVC
 {
 	/* CONSTANTS */
-	const VERSION = "1.037";
+	const VERSION = "1.038";
 	const NAME = "tutomvc";
 	const NONCE_NAME = "tutomvc/nonce";
 

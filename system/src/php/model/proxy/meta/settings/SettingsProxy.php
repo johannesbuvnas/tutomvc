@@ -9,6 +9,7 @@ class SettingsProxy extends Proxy
 	{
 		// Controller
 		$this->getFacade()->controller->registerCommand( new RenderSettingsFieldCommand() );
+		$this->getFacade()->controller->registerCommand( new WhitelistOptionsFilter() );
 	}
 
 	/* ACTIONS */
@@ -16,7 +17,7 @@ class SettingsProxy extends Proxy
 	{
 		foreach($item->getFields() as $sectionField)
 		{
-			add_option( $sectionField->getName(), apply_filters( FilterCommand::META_VALUE, NULL, NULL, $sectionField ), "", $sectionField->getAutoload() ? "yes" : "no" );
+			add_option( $sectionField->getName(), apply_filters( FilterCommand::META_VALUE, NULL, NULL, $sectionField ), "", $sectionField->getSetting( MetaField::SETTING_AUTOLOAD ) ? "yes" : "no" );
 			$this->getFacade()->controller->registerCommand( new GetOptionFilterCommand( $sectionField->getName() ) );
 		}
 		return parent::add( $item, $key );
@@ -30,18 +31,11 @@ class SettingsProxy extends Proxy
 
 		foreach($item->getFields() as $sectionField)
 		{
-			add_settings_field( $sectionField->getName(), $sectionField->getTitle(), array( $this, "renderSectionField" ), $item->getMenuSlug(), $item->getName(), array( "field" => $sectionField ) );
+			add_settings_field( $sectionField->getName(), $sectionField->getTitle(), array( $this, "_onRenderSectionField" ), $item->getMenuSlug(), $item->getName(), array( "field" => $sectionField ) );
 			register_setting( $item->getName(), $sectionField->getName() );
 		}
 	}
 	
-	public function renderSectionField( $args )
-	{
-		do_action( ActionCommand::PREPARE_META_FIELD );
-
-		do_action( ActionCommand::RENDER_SETTINGS_FIELD, $args['field'] );
-	}
-
 	/* METHODS */
 	public function getSectionFieldByOptionName( $optionName )
 	{
@@ -54,5 +48,10 @@ class SettingsProxy extends Proxy
 		return NULL;
 	}
 	/* EVENTS */
+	public function _onRenderSectionField( $args )
+	{
+		do_action( ActionCommand::PREPARE_META_FIELD );
 
+		do_action( ActionCommand::RENDER_SETTINGS_FIELD, $args['field'] );
+	}
 }

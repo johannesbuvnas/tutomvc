@@ -10,6 +10,7 @@ class MetaField extends ValueObject implements IMetaBoxField
 	const TYPE_ATTACHMENT = "attachment";
 	const TYPE_SELECTOR_SINGLE = "selector_single";
 	const TYPE_SELECTOR_MULTIPLE = "selector_multiple";
+	const TYPE_SELECTOR_GOOGLE_MAPS = "selector_google_maps";
 	// const TYPE_SELECTOR_SWITCH = "selector_switch";
 	const TYPE_SELECTOR_DATETIME = "selector_datetime";
 	const TYPE_LINK = "link";
@@ -23,7 +24,7 @@ class MetaField extends ValueObject implements IMetaBoxField
 	const SETTING_TITLE = "title"; // DEPRECATED
 	const SETTING_READ_ONLY = "readOnly"; // Used by TYPE_TEXT, TYPE_TEXTAREA
 	const SETTING_ROWS = "rows"; // Used by TYPE_TEXTAREA
-	
+
 	const SETTING_LABEL = "label"; // Used by TYPE_SELECTOR_SINGLE, TYPE_SELECTOR_MULTIPLE
 	const SETTING_CUSTOM_ATTR = "custom_attr"; // Used by TYPE_SELECTOR_DATETIME
 	const SETTING_OPTIONS = "options"; // Used by TYPE_SELECTOR_SINGLE, TYPE_SELECTOR_MULTIPLE
@@ -35,6 +36,11 @@ class MetaField extends ValueObject implements IMetaBoxField
 	const SETTING_TAXONOMY = "taxonomy"; // Used by TYPE_TAXONOMY
 	const SETTING_TAXONOMY_TERMS = "taxonomy_terms"; // Used by TYPE_TAXONOMY
 
+	// Used by WordPress Options / Settings
+	const SETTING_AUTOLOAD = "_autoload";
+	const SETTING_RENDERED = "_rendered";
+	const SETTING_PAGE = "_page";
+
 	/* VARS */
 	private $_title;
 	private $_description;
@@ -42,15 +48,16 @@ class MetaField extends ValueObject implements IMetaBoxField
 	private $_settings;
 	private $_conditions;
 
-	public function __construct( 
-		$name, 
-		$title = "", 
-		$description = "", 
-		$type = MetaField::TYPE_TEXT, 
-		$settings = array(), 
+	public static $GOOGLE_MAPS_API_KEY = "AIzaSyChbznATeCoZ-7lYLoJZvVvXxEHhh6rIF4";
+
+	public function __construct(
+		$name,
+		$title = "",
+		$description = "",
+		$type = MetaField::TYPE_TEXT,
+		$settings = array(),
 		$conditions = array()
-	)
-	{
+	) {
 		$this->setTitle( $title );
 		$this->setDescription( $description );
 		$this->setName( $name );
@@ -62,7 +69,7 @@ class MetaField extends ValueObject implements IMetaBoxField
 	/* METHODS */
 	public function addCondition( MetaCondition $condition )
 	{
-		$this->_conditions[] = $condition;
+		$this->_conditions[ ] = $condition;
 	}
 
 	/* SET AND GET */
@@ -70,6 +77,7 @@ class MetaField extends ValueObject implements IMetaBoxField
 	{
 		$this->_title = $title;
 	}
+
 	public function getTitle()
 	{
 		return $this->_title;
@@ -79,6 +87,7 @@ class MetaField extends ValueObject implements IMetaBoxField
 	{
 		$this->_description = $description;
 	}
+
 	public function getDescription()
 	{
 		return $this->_description;
@@ -88,6 +97,7 @@ class MetaField extends ValueObject implements IMetaBoxField
 	{
 		$this->_type = $type;
 	}
+
 	public function getType()
 	{
 		return $this->_type;
@@ -97,30 +107,41 @@ class MetaField extends ValueObject implements IMetaBoxField
 	{
 		$this->_settings = $settings;
 	}
+
 	public function getSettings()
 	{
 		return $this->_settings;
 	}
+
 	public function setSetting( $name, $value )
 	{
 		$this->_settings[ $name ] = $value;
 
 		return $this;
 	}
+
 	public function getSetting( $settingName )
 	{
-		if( $this->hasSetting($settingName) ) return $this->_settings[$settingName];
-		else return NULL;
+		if ( $this->hasSetting( $settingName ) )
+		{
+			return $this->_settings[ $settingName ];
+		}
+		else
+		{
+			return NULL;
+		}
 	}
+
 	public function hasSetting( $settingName )
 	{
-		return is_array($this->_settings) ? array_key_exists($settingName, $this->_settings) : FALSE;
+		return is_array( $this->_settings ) ? array_key_exists( $settingName, $this->_settings ) : FALSE;
 	}
 
 	public function setConditions( $conditions )
 	{
 		$this->_conditions = $conditions;
 	}
+
 	public function getConditions()
 	{
 		return $this->_conditions;
@@ -131,7 +152,7 @@ interface IMetaBoxField
 {
 	/* CONSTANTS */
 	const CARDINALITY_SINGLE = 1;
-	const CARDINALITY_UNLIMITED = -1;
+	const CARDINALITY_UNLIMITED = - 1;
 
 	/* ACTIONS */
 
@@ -139,13 +160,22 @@ interface IMetaBoxField
 
 	/* SET AND GET */
 	public function setTitle( $title );
+
 	public function getTitle();
+
 	public function setDescription( $description );
+
 	public function getDescription();
+
 	public function setType( $type );
+
 	public function getType();
+
 	public function setSettings( $settings );
+
 	public function getSettings();
+
 	public function setConditions( $conditions );
+
 	public function getConditions();
 }

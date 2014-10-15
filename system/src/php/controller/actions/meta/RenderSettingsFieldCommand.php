@@ -12,7 +12,7 @@ class RenderSettingsFieldCommand extends ActionCommand
 	{
 		$field = $this->getArg(0);
 
-		if(!$field->getRendered())
+		if(!$field->getSetting( MetaField::SETTING_RENDERED ))
 		{
 			$metaFieldMediator = $this->getFacade()->view->hasMediator( MetaFieldMediator::NAME ) ? $this->getFacade()->view->getMediator( MetaFieldMediator::NAME ) : $this->getFacade()->view->registerMediator( new MetaFieldMediator() );
 			$metaFieldMediator->setMetaField( $field );
@@ -21,7 +21,7 @@ class RenderSettingsFieldCommand extends ActionCommand
 			$metaFieldMediator->parse( "elementClasses", array( "SettingsField" ) );
 			$metaFieldMediator->render();
 
-			$field->setRendered( TRUE );
+			$field->setSetting( MetaField::SETTING_RENDERED, TRUE );
 		}
 	}
 }

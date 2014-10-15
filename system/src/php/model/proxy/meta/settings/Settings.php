@@ -28,8 +28,9 @@ class Settings extends MetaBox
 	}
 
 	/* METHODS */
-	public function addSettingsField( SettingsField $field )
+	public function addField( MetaField $field )
 	{
+		$field->setSetting( MetaField::SETTING_AUTOLOAD, TRUE );
 		return parent::addField( $field );
 	}
 	

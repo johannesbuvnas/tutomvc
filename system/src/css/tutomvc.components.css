@@ -2,6 +2,7 @@
 @import "components/selector.css";
 @import "components/tagselector.css";
 @import "components/multiselector.css";
+@import "components/GoogleMaps.css";
 
 .clearfix:after {
 	content: ".";
