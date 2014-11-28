@@ -1,27 +1,29 @@
 {
     "name": "tutomvc/wplugin",
     "description": "The WordPress MVC Framework",
-    "keywords": ["WordPress", "MVC", "Framework"],
+    "keywords": [
+        "WordPress",
+        "MVC",
+        "Framework"
+    ],
     "homepage": "http://tutomvc.com",
     "type": "library",
     "license": "MIT",
-    "authors": [{
-        "name": "Johannes Buvnäs",
-        "email": "johannes.buvnas@gmail.com",
-        "homepage": "http://johannes.buvnas.com"
-    }],
+    "authors": [
+        {
+            "name": "Johannes Buvnäs",
+            "email": "johannes.buvnas@gmail.com",
+            "homepage": "http://johannes.buvnas.com"
+        }
+    ],
     "require": {
         "php": ">=5.3.0"
     },
-    "require-dev": {
-    },
-    "suggest": {
-    },
+    "require-dev": {},
+    "suggest": {},
     "autoload": {
-        "classmap": ["src/php/", "system/src/php/"]
+        "classmap": [ "src/php/" ]
     },
-    "provide": {
-    },
-    "extra": {
-    }
+    "provide": {},
+    "extra": {}
 }

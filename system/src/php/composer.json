@@ -1,6 +1,0 @@
-{
-  "name": "tutomvc/wpplugin",
-  "require": {
-      "ornicar/php-git-repo": "1.3"
-  }
-}

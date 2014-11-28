@@ -137,3 +137,4 @@ This module adds the ability to setup landing pages for terms.
 ##Thanks to
 
 - http://backbonejs.org/
+- Datetimepicker

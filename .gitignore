@@ -1,4 +1,6 @@
-/system/logs/*
+/logs/*
+/bin
 .DS_Store
 
 /terminal.glue
+/.idea/

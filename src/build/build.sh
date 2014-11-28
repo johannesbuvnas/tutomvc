@@ -1,1 +1,0 @@
-r.js -o com.tutomvc.core-build.profile.js

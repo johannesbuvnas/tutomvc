@@ -36,6 +36,6 @@ class FacadeVO extends ValueObject
 
 	public function getWPRoot()
 	{
-		return TutoMVC::getWPRoot();
+		return TutoMVC::getWPRelativeRoot();
 	}
 }
