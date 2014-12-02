@@ -14,7 +14,6 @@
 	class GitWebhookMetaBox extends \tutomvc\MetaBox
 	{
 		const NAME                = "git_webhook_settings";
-		const GIT_REPOSITORY      = "git_repository";
 		const GIT_REPOSITORY_PATH = "git_repository_path";
 		const SERVER              = "server";
 		const SERVER_PATH         = "server_path";

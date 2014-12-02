@@ -5,12 +5,11 @@ clear
 if [ $# -lt 5 ]
 	then
 	echo "ERROR: Bad usage."
-	echo "Usage: $0 clone-to-path git-ssh-url branch ssh-key ssh-key-passphrase"
+	echo "Usage: `basename $0` clone-to-path git-ssh-url branch ssh-key ssh-key-passphrase"
 	exit 1
 elif [ -z $1 ] || [ -z $2 ] || [ -z $3 ] || [ -z $4 ] || [ -z $5 ]
 	then
 	echo "ERROR: Some parameter is NULL."
-	echo "Usage: $0 clone-to-path git-ssh-url branch ssh-key ssh-key-passphrase"
 	exit 1
 fi
 

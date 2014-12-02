@@ -27,37 +27,37 @@
 			{
 				$options = array();
 				$wpQuery = get_posts( array(
-					"post_type"    => ServerPostType::NAME,
-					"post_status"  => "publish",
-					"nopaging"     => TRUE,
-//					"meta_key"     => GitModule::POST_META_STATUS,
-//					"meta_value"   => array(GitModule::POST_META_STATUS_VALUE_OK, GitModule::POST_META_STATUS_VALUE_ERROR),
-//					"meta_compare" => "IN"
+					"post_type"   => ServerPostType::NAME,
+					"post_status" => "publish",
+					"nopaging"    => TRUE,
+					//					"meta_key"     => GitModule::POST_META_STATUS,
+					//					"meta_value"   => array(GitModule::POST_META_STATUS_VALUE_OK, GitModule::POST_META_STATUS_VALUE_ERROR),
+					//					"meta_compare" => "IN"
 				) );
 
 				foreach ( $wpQuery as $post )
 				{
 					$html         = "<div class='" . ServerPostType::NAME . "'>";
-					$customStatus = get_post_meta( $post->ID, GitModule::POST_META_STATUS, TRUE );
+					$customStatus = get_post_meta( $post->ID, StatusMetaField::NAME, TRUE );
+					$html .= $post->post_title;
 					switch ( $customStatus )
 					{
-						case GitModule::POST_META_STATUS_VALUE_OK:
+						case StatusMetaField::OK:
 
-							$html .= "[ <strong style='color:green;'>" . $customStatus . "</strong> ] ";
+							$html .= " [ <strong style='color:green;'>" . strtoupper( $customStatus ) . "</strong> ] ";
 
 							break;
-						case GitModule::POST_META_STATUS_VALUE_ERROR:
+						case StatusMetaField::ERROR:
 
-							$html .= "[ <strong style='color:red;'>" . $customStatus . "</strong> ] ";
+							$html .= " [ <strong style='color:red;'>" . strtoupper( $customStatus ) . "</strong> ] ";
 
 							break;
 						default:
 
-							$html .= "[ <strong style='color:red;'>" . __( "Unknown", TutoMVC::NAME ) . "</strong> ] ";
+							$html .= " [ <strong style='color:red;'>" . __( "Unknown", TutoMVC::NAME ) . "</strong> ] ";
 
 							break;
 					}
-					$html .= $post->post_title;
 					$html .= "</div>";
 					$options[ $post->ID ] = $html;
 				}

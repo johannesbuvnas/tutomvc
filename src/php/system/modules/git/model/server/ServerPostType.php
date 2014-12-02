@@ -68,7 +68,7 @@
 		/* HOOKS */
 		public function filter_post_updated_messages_error_on_publish( $messages )
 		{
-			$messages[ self::NAME ][ 6 ] = __( "Settings saved with errors.", TutoMVC::NAME );
+			$messages[ self::NAME ][ 6 ] = $messages[ self::NAME ][ 1 ] = __( "Settings saved with errors.", TutoMVC::NAME );
 			do_action( Notification::ACTION_ADD_NOTIFICATION, __( "Couldn't connect to server, try edit settings and update.", TutoMVC::NAME ), Notification::TYPE_ERROR );
 
 			return $messages;
@@ -78,7 +78,7 @@
 		{
 			if ( isset($_GET[ 'post' ]) )
 			{
-				if ( get_post_meta( $_GET[ 'post' ], GitModule::POST_META_STATUS, TRUE ) == GitModule::POST_META_STATUS_VALUE_ERROR )
+				if ( get_post_meta( $_GET[ 'post' ], StatusMetaField::NAME, TRUE ) == StatusMetaField::ERROR )
 				{
 					add_filter( "post_updated_messages", array(
 						$this,
@@ -96,11 +96,11 @@
 			$password = get_post_meta( $postID, ServerMetaBox::constructMetaKey( ServerMetaBox::NAME, ServerMetaBox::PASSWORD ), TRUE );
 			if ( !apply_filters( ServerProxy::FILTER_TEST, $address, $port, $username, $password ) )
 			{
-				update_post_meta( $postID, GitModule::POST_META_STATUS, GitModule::POST_META_STATUS_VALUE_ERROR );
+				update_post_meta( $postID, StatusMetaField::NAME, StatusMetaField::ERROR );
 			}
 			else
 			{
-				update_post_meta( $postID, GitModule::POST_META_STATUS, GitModule::POST_META_STATUS_VALUE_OK );
+				update_post_meta( $postID, StatusMetaField::NAME, StatusMetaField::OK );
 			}
 
 		}

@@ -5,68 +5,46 @@ clear
 if [ $# -lt 5 ]
 	then
 	echo "ERROR: Bad usage."
-	echo "Usage: $0 clone-to-path git-ssh-url branch ssh-key ssh-key-passphrase"
+	echo "Usage: `basename $0` clone-to-path git-ssh-url branch ssh-key ssh-key-passphrase object-id"
 	exit 1
-elif [ -z $1 ] || [ -z $2 ] || [ -z $3 ] || [ -z $4 ] || [ -z $5 ]
+elif [ -z $1 ] || [ -z $2 ] || [ -z $3 ] || [ -z $4 ] || [ -z $5 ] || [ -z $6 ]
 	then
 	echo "ERROR: Some parameter is NULL."
-	echo "Usage: $0 clone-to-path git-ssh-url branch ssh-key ssh-key-passphrase"
 	exit 1
 fi
+
+# SETUP VARIABLES
+shellDir=`dirname $0`
+configFile="$shellDir/config.sh"
+source $configFile
+shellSSHAdd="$shellDir/ssh-add.sh"
+
+# Start agent
+ssh-agent bash
+# Delete keys
+ssh-add -D
+# Add key
+chmod +x $shellSSHAdd
+$shellSSHAdd $4 $5
+
+result=$?
+
+if [ $result -ne 0 ]
+then
+    echo "Failed to add SSH key.";
+    exit 1
+fi
+
 
 if [ ! -d $1 ]
 	then
 	mkdir $1
 fi
 
-cd $1
-
-# Start agent
-ssh-agent bash
-# Delete keys
-ssh-add -D
-expect << EOF
-	set timeout 1
-#	log_user 0
-
-	spawn ssh-add $4
-	expect "Enter passphrase" {
-		send "$5\r"
-		expect {
-			eof {
-				exit 0
-			}
-			"Bad passphrase" {
-				exit 2
-			}
-			timeout {
-				exit 1
-			}
-		}
-	}
-	exit 1
-EOF
-
-result=$?
-
-case $result in
-	0)
-		echo "Successfully added ssh-key.";;
-	2)
-	    echo "ERROR: ssh-add";
-		echo "Bad key passphrase.$result";
-		exit $result;;
-	*)
-	    echo "ERROR: ssh-add";
-		echo "Failed.";
-		exit $result;;
-esac
-
 expect << EOF
 	set timeout 1
 	# log_user 0
-
-	spawn git clone -b $3 $2 ./
+	spawn git clone -b $3 $2 $1
 	expect {
 		timeout {
 			exp_continue
@@ -87,6 +65,8 @@ expect << EOF
 EOF
 
 result=$?
+
+curl --data "action=$postAction&objectID=$6&exitCode=$result" $siteURL
 
 case $result in
 	0)

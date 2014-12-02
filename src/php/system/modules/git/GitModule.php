@@ -13,10 +13,6 @@
 	class GitModule
 	{
 		const FACADE_KEY                   = "tutomvc/modules/git/facade";
-		const POST_META_STATUS             = "custom_status";
-		const POST_META_STATUS_VALUE_OK    = "OK";
-		const POST_META_STATUS_VALUE_ERROR = "ERROR";
-		const POST_META_STATUS_PROCESSING  = "PROCESSING";
 
 		public static function getInstance()
 		{

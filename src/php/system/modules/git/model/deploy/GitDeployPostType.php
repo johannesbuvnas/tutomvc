@@ -60,6 +60,9 @@
 			);
 
 			parent::__construct( self::NAME, $args );
+
+			$this->addColumn( new StatusColumn() );
+			$this->addColumn( new GitDeployStageColumn() );
 		}
 
 		function wp_filter_default_title( $title, $post )

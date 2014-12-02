@@ -8,8 +8,6 @@
 
 	namespace tutomvc\modules\git;
 
-	use tutomvc\AdminNoticesCommand;
-	use tutomvc\MetaBox;
 	use tutomvc\Notification;
 	use tutomvc\PostType;
 	use tutomvc\TutoMVC;
@@ -68,21 +66,43 @@
 		}
 
 		/* HOOKS */
+		public function filter_post_updated_messages_error_on_publish( $messages )
+		{
+			$messages[ self::NAME ][ 6 ] = $messages[ self::NAME ][ 1 ] = __( "Settings saved with errors.", TutoMVC::NAME );
+			do_action( Notification::ACTION_ADD_NOTIFICATION, __( "Couldn't connect to git repository, try edit settings and update.", TutoMVC::NAME ), Notification::TYPE_ERROR );
+
+			return $messages;
+		}
+
+		public function action_load_post()
+		{
+			if ( isset($_GET[ 'post' ]) )
+			{
+				if ( get_post_meta( $_GET[ 'post' ], StatusMetaField::NAME, TRUE ) == StatusMetaField::ERROR )
+				{
+					add_filter( "post_updated_messages", array(
+						$this,
+						"filter_post_updated_messages_error_on_publish"
+					) );
+				}
+			}
+		}
 		public function wp_action_wp_insert_post( $postID, $post, $update )
 		{
-			$repositoryPath          = GitRepositoryProxy::locateRepository( $postID );
+			$repositoryPath          = apply_filters( GitRepositoryProxy::FILTER_LOCATE_REPOSITORY, $postID );
 			$gitSSH                  = get_post_meta( $postID, GitRepositoryMetaBox::constructMetaKey( GitRepositoryMetaBox::NAME, GitRepositoryMetaBox::ADDRESS ), TRUE );
 			$branch                  = get_post_meta( $postID, GitRepositoryMetaBox::constructMetaKey( GitRepositoryMetaBox::NAME, GitRepositoryMetaBox::BRANCH ), TRUE );
 			$keyObjectID             = intval( get_post_meta( $postID, GitRepositoryMetaBox::constructMetaKey( GitRepositoryMetaBox::NAME, GitKeyPostType::NAME ), TRUE ) );
 			$sshPrivateKey           = GitKeyProxy::locatePrivateSSHKey( $keyObjectID );
 			$sshPrivateKeyPassphrase = get_post_meta( $keyObjectID, GitKeyMetaBox::constructMetaKey( GitKeyMetaBox::NAME, GitKeyMetaBox::PASSPHRASE ), TRUE );
-			if ( apply_filters( GitRepositoryProxy::FILTER_TEST, $repositoryPath, $gitSSH, $branch, $sshPrivateKey, $sshPrivateKeyPassphrase ) )
+			$test                    = apply_filters( GitRepositoryProxy::FILTER_TEST, $repositoryPath, $gitSSH, $branch, $sshPrivateKey, $sshPrivateKeyPassphrase );
+			if ( $test )
 			{
-				update_post_meta( $postID, GitModule::POST_META_STATUS, GitModule::POST_META_STATUS_VALUE_OK );
+				update_post_meta( $postID, StatusMetaField::NAME, StatusMetaField::OK );
 			}
 			else
 			{
-				update_post_meta( $postID, GitModule::POST_META_STATUS, GitModule::POST_META_STATUS_VALUE_ERROR );
+				update_post_meta( $postID, StatusMetaField::NAME, StatusMetaField::ERROR );
 			}
 		}
 	}

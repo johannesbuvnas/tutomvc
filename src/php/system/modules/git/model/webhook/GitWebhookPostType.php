@@ -72,6 +72,9 @@
 			global $post;
 			if ( $post->post_type == self::NAME )
 			{
+				/**
+				 * TODO: Only deploy if secret is provided.
+				 */
 				do_action( GitWebhookProxy::ACTION_DEPLOY, $post->ID );
 				exit;
 			}

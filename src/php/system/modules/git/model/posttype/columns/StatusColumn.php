@@ -22,18 +22,21 @@
 
 		public function render( $postID )
 		{
-			$status = get_post_meta( $postID, GitModule::POST_META_STATUS, TRUE );
+			$status = get_post_meta( $postID, StatusMetaField::NAME, TRUE );
 			switch ( $status )
 			{
-				case GitModule::POST_META_STATUS_VALUE_ERROR:
+				case StatusMetaField::ERROR:
 
-					echo "<strong style='color:red;'>$status</strong>";
+					echo "<strong style='color:red;'>" . strtoupper( $status ) . "</strong>";
 
 					break;
-				case GitModule::POST_META_STATUS_VALUE_OK:
+				case StatusMetaField::OK:
 
-					echo "<strong style='color:green;'>$status</strong>";
+					echo "<strong style='color:green;'>" . strtoupper( $status ) . "</strong>";
 
+					break;
+				default:
+					echo "<strong>" . strtoupper( $status ) . "</strong>";
 					break;
 			}
 		}

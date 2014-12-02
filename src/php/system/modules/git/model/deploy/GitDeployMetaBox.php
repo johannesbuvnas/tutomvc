@@ -12,6 +12,7 @@
 	use tutomvc\MetaCondition;
 	use tutomvc\MetaField;
 	use tutomvc\SingleSelectorMetaField;
+	use tutomvc\TextAreaMetaField;
 	use tutomvc\TutoMVC;
 
 	class GitDeployMetaBox extends MetaBox
@@ -22,6 +23,7 @@
 		const COMMENT             = "comment";
 		const NOTIFY              = "notify";
 		const DEPLOY_FROM_SCRATCH = "deploy_from_scratch";
+		const FILE_LIST           = "file_list";
 
 		function __construct()
 		{
@@ -41,5 +43,6 @@
 				"true"  => __( "Yes" ),
 				"false" => __( "No" )
 			), "true" ) );
+			$this->addField( new TextAreaMetaField( self::FILE_LIST, __( "List of files to upload", TutoMVC::NAME ), "", 15, TRUE ) );
 		}
 	}

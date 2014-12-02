@@ -9,12 +9,15 @@
 	namespace tutomvc\modules\git;
 
 	use tutomvc\Proxy;
+	use tutomvc\TutoMVC;
 
 	class GitRepositoryProxy extends Proxy
 	{
-		const NAME              = __CLASS__;
-		const FORMAT_CLONE_PATH = 'bin/git/repositories/object_id_%1$s';
-		const FILTER_TEST       = "model/proxy/GitRepositoryProxy/test";
+		const NAME                     = __CLASS__;
+		const FORMAT_CLONE_PATH        = 'bin/git/repositories/object_id_%1$s/clone';
+		const FILTER_TEST              = "gitmodule/model/GitRepositoryProxy/test";
+		const FILTER_LOCATE_REPOSITORY = "gitmodule/model/GitRepositoryProxy/locateRepository";
+		const FILTER_KEY_ID            = "gitmodule/model/GitRepositoryProxy/getKeyID";
 
 		function __construct()
 		{
@@ -24,6 +27,8 @@
 		function onRegister()
 		{
 			add_filter( self::FILTER_TEST, array($this, "test"), 0, 5 );
+			add_filter( self::FILTER_LOCATE_REPOSITORY, array($this, "locateRepository"), 0, 1 );
+			add_filter( self::FILTER_KEY_ID, array($this, "getKeyID"), 0, 1 );
 		}
 
 		public function test( $repositoryPath, $gitSSH, $branch, $sshPrivateKeyPath, $sshPrivateKeyPassphrase )
@@ -38,8 +43,13 @@
 			return $returnVar > 0 ? FALSE : TRUE;
 		}
 
-		public static function locateRepository( $objectID )
+		public function locateRepository( $objectID )
 		{
-			return sprintf( self::FORMAT_CLONE_PATH, $objectID );
+			return $this->getSystem()->getVO()->getRoot( sprintf( self::FORMAT_CLONE_PATH, $objectID ) );
+		}
+
+		public function getKeyID( $repositoryID )
+		{
+			return get_post_meta( $repositoryID, GitRepositoryMetaBox::constructMetaKey( GitRepositoryMetaBox::NAME, GitKeyPostType::NAME ), TRUE );
 		}
 	}
