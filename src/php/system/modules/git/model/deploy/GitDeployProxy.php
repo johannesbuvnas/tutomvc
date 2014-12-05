@@ -14,9 +14,10 @@
 	class GitDeployProxy extends Proxy
 	{
 
-		const NAME        = __CLASS__;
-		const ACTION_ADD  = "gitmodule/model/GitDeployProxy/add";
-		const POST_ACTION = "gitmodule/model/GitDeployProxy/post";
+		const NAME                 = __CLASS__;
+		const ACTION_ADD           = "gitmodule/model/GitDeployProxy/add";
+		const POST_ACTION          = "gitmodule/model/GitDeployProxy/post_action";
+		const POST_ACTION_TRANSFER = "gitmodule/model/GitDeployProxy/post_action_transfer";
 
 		function __construct()
 		{
@@ -33,7 +34,12 @@
 				{
 					case self::POST_ACTION:
 
-						$this->onPostAction();
+						$this->onPost();
+
+						break;
+					case self::POST_ACTION_TRANSFER:
+
+						$this->onPostTransfer();
 
 						break;
 				}
@@ -81,11 +87,14 @@
 
 		protected function deploy( $deploymentID )
 		{
+			error_reporting( E_ERROR );
 			// PROCESS
 			// Step #1: Change status to PROCESSING.
 			/////////////////////////////////////////////////////////////////////////////////////////////////////////
 			if ( get_post_meta( $deploymentID, StatusMetaField::NAME, TRUE ) == StatusMetaField::ERROR ) return FALSE;
-			else update_post_meta( $deploymentID, StatusMetaField::NAME, StatusMetaField::PROCESSING );
+
+			update_post_meta( $deploymentID, StatusMetaField::NAME, StatusMetaField::PROCESSING );
+//			update_post_meta( $deploymentID, DeploymentStageMetaField::NAME, DeploymentStageMetaField::CLONING );
 
 			$currentDeploymentStage = get_post_meta( $deploymentID, DeploymentStageMetaField::NAME, TRUE );
 			switch ( $currentDeploymentStage )
@@ -100,20 +109,18 @@
 					// If no comment is submitted, set it now to the latest commit message
 					$revision       = $this->getRevision( $deploymentID );
 					$comment        = $this->getComment( $deploymentID );
-					$repositoryPath = apply_filters( GitRepositoryProxy::FILTER_LOCATE_REPOSITORY, $this->getRepositoryID( $deploymentID ) );
+					$repositoryPath = apply_filters( GitRepositoryProxy::FILTER_LOCATE_REPOSITORY_CLONE, $this->getRepositoryID( $deploymentID ) );
 
 					if ( empty($revision) )
 					{
-						$output = array();
-						exec( "cd $repositoryPath && git log --pretty=format:'%H' -n 1", $output, $returnVar );
-						$revision = implode( "", $output );
+						exec( "cd $repositoryPath && git log --pretty=format:'%H' -n 1", $revision, $returnVar );
+						$revision = implode( "", $revision );
 						update_post_meta( $deploymentID, GitDeployMetaBox::constructMetaKey( GitDeployMetaBox::NAME, GitDeployMetaBox::REVISION ), $revision );
 					}
 					if ( empty($comment) )
 					{
-						$output = array();
-						exec( "cd $repositoryPath && git log $revision --pretty=format:'%s' -n 1", $output, $returnVar );
-						$comment = implode( "", $output );
+						exec( "cd $repositoryPath && git log $revision --pretty=format:'%s' -n 1", $comment, $returnVar );
+						$comment = implode( "", $comment );
 						update_post_meta( $deploymentID, GitDeployMetaBox::constructMetaKey( GitDeployMetaBox::NAME, GitDeployMetaBox::COMMENT ), $comment );
 					}
 
@@ -136,8 +143,8 @@
 
 					// Step #6: Update webhook revision.
 					/////////////////////////////////////////////////////////////////////////////////////////////////////////
-					$revision  = get_post_meta( $deploymentID, GitDeployMetaBox::constructMetaKey( GitDeployMetaBox::NAME, GitDeployMetaBox::REVISION ), TRUE );
-					$webhookID = get_post_meta( $deploymentID, GitDeployMetaBox::constructMetaKey( GitDeployMetaBox::NAME, GitDeployMetaBox::GIT_WEBHOOK ), TRUE );
+					$revision  = $this->getRevision( $deploymentID );
+					$webhookID = $this->getWebhookID( $deploymentID );
 					update_post_meta( $webhookID, GitWebhookMetaBox::constructMetaKey( GitWebhookMetaBox::NAME, GitWebhookMetaBox::REVISION ), $revision );
 					/////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -183,9 +190,26 @@
 			return intval( get_post_meta( $this->getWebhookID( $deploymentID ), GitWebhookMetaBox::constructMetaKey( GitWebhookMetaBox::NAME, GitRepositoryPostType::NAME ), TRUE ) );
 		}
 
+		public function getServerID( $deploymentID )
+		{
+			return intval( get_post_meta( $this->getWebhookID( $deploymentID ), GitWebhookMetaBox::constructMetaKey( GitWebhookMetaBox::NAME, ServerPostType::NAME ), TRUE ) );
+		}
+
+		public function appendTransferListItem( $deploymentID, $itemArray )
+		{
+			$metaKey      = GitDeployMetaBox::constructMetaKey( GitDeployMetaBox::NAME, GitDeployMetaBox::TRANSFER_LIST );
+			$transferList = get_post_meta( $deploymentID, $metaKey, TRUE );
+			if ( empty($transferList) ) return update_post_meta( $deploymentID, $metaKey, json_encode( $itemArray ) );
+			else return update_post_meta( $deploymentID, $metaKey, $transferList . json_encode( $itemArray ) );
+		}
+
 		protected function cleanUp( $deploymentID )
 		{
+			$repositoryID   = $this->getRepositoryID( $deploymentID );
+			$repositoryPath = apply_filters( GitRepositoryProxy::FILTER_LOCATE_REPOSITORY, $repositoryID );
+			exec( "rm -rf $repositoryPath", $output, $returnVar );
 
+			return $returnVar == 0 ? TRUE : FALSE;
 		}
 
 		protected function notify( $deploymentID )
@@ -196,7 +220,7 @@
 		protected function gitClone( $deploymentID )
 		{
 			$repositoryID   = $this->getRepositoryID( $deploymentID );
-			$repositoryPath = apply_filters( GitRepositoryProxy::FILTER_LOCATE_REPOSITORY, $repositoryID );
+			$repositoryPath = apply_filters( GitRepositoryProxy::FILTER_LOCATE_REPOSITORY_CLONE, $repositoryID );
 			$gitSSHURL      = get_post_meta( $repositoryID, GitRepositoryMetaBox::constructMetaKey( GitRepositoryMetaBox::NAME, GitRepositoryMetaBox::ADDRESS ), TRUE );
 			$branch         = get_post_meta( $repositoryID, GitRepositoryMetaBox::constructMetaKey( GitRepositoryMetaBox::NAME, GitRepositoryMetaBox::BRANCH ), TRUE );
 			$keyID          = apply_filters( GitRepositoryProxy::FILTER_KEY_ID, $repositoryID );
@@ -213,27 +237,41 @@
 
 		protected function upload( $deploymentID )
 		{
-			$webhookID         = $this->getWebhookID( $deploymentID );
-			$repositoryID      = $this->getRepositoryID( $deploymentID );
-			$repositoryPath    = apply_filters( GitRepositoryProxy::FILTER_LOCATE_REPOSITORY, $repositoryID );
-			$revision          = apply_filters( GitWebhookProxy::FILTER_REVISION, $webhookID );
-			$fromPath          = get_post_meta( $webhookID, GitWebhookMetaBox::constructMetaKey( GitWebhookMetaBox::NAME, GitWebhookMetaBox::GIT_REPOSITORY_PATH ), TRUE );
-			if(empty($fromPath)) $fromPath = "./";
+			$webhookID      = $this->getWebhookID( $deploymentID );
+			$repositoryID   = $this->getRepositoryID( $deploymentID );
+			$repositoryPath = apply_filters( GitRepositoryProxy::FILTER_LOCATE_REPOSITORY_CLONE, $repositoryID );
+			$revision       = apply_filters( GitWebhookProxy::FILTER_REVISION, $webhookID );
+			$fromPath       = get_post_meta( $webhookID, GitWebhookMetaBox::constructMetaKey( GitWebhookMetaBox::NAME, GitWebhookMetaBox::GIT_REPOSITORY_PATH ), TRUE );
+			if ( empty($fromPath) ) $fromPath = "./";
 			$deployFromScratch = get_post_meta( $deploymentID, GitDeployMetaBox::constructMetaKey( GitDeployMetaBox::NAME, GitDeployMetaBox::DEPLOY_FROM_SCRATCH ), TRUE );
+			$serverID          = $this->getServerID( $deploymentID );
+			$serverAddress     = get_post_meta( $serverID, ServerMetaBox::constructMetaKey( ServerMetaBox::NAME, ServerMetaBox::ADDRESS ) );
+			$serverPort        = get_post_meta( $serverID, ServerMetaBox::constructMetaKey( ServerMetaBox::NAME, ServerMetaBox::PORT ) );
+			$serverUsername    = get_post_meta( $serverID, ServerMetaBox::constructMetaKey( ServerMetaBox::NAME, ServerMetaBox::USERNAME ) );
+			$serverPassword    = get_post_meta( $serverID, ServerMetaBox::constructMetaKey( ServerMetaBox::NAME, ServerMetaBox::PASSWORD ) );
+			$serverPath        = get_post_meta( $webhookID, GitWebhookMetaBox::constructMetaKey( GitWebhookMetaBox::NAME, GitWebhookMetaBox::SERVER_PATH ), TRUE );
 //			$output = array(
 //				$repositoryPath,
-//			    $revision,
-//			    $fromPath,
-//			    $deployFromScratch
+//				$revision,
+//				$fromPath,
+//				$deployFromScratch,
+//			    $serverAddress,
+//			    $serverPort,
+//			    $serverUsername,
+//			    $serverPassword,
+//			    $serverPath
 //			);
+//			var_dump($output);
+//			exit;
 			exec( "chmod +x " . $this->getSystem()->getVO()->getRoot( "src/shell/git-deploy.sh" ) );
-			exec( $this->getSystem()->getVO()->getRoot( "src/shell/git-deploy.sh" ) . " $repositoryPath $revision $fromPath $deployFromScratch", $output, $returnVar );
-
-			update_post_meta( $deploymentID, GitDeployMetaBox::constructMetaKey( GitDeployMetaBox::NAME, GitDeployMetaBox::FILE_LIST ), implode( "\n", $output ) );
+			exec( $this->getSystem()->getVO()->getRoot( "src/shell/git-deploy.sh" ) . " $repositoryPath $revision $fromPath $deployFromScratch $serverAddress $serverPort $serverUsername $serverPassword $serverPath $deploymentID > /dev/null & echo $!", $pid, $returnVar );
+			update_post_meta( $deploymentID, PIDMetaField::NAME, $pid );
+//			exec( $this->getSystem()->getVO()->getRoot( "src/shell/git-deploy.sh" ) . " $repositoryPath $revision $fromPath $deployFromScratch $serverAddress $serverPort $serverUsername $serverPassword $serverPath $deploymentID", $output, $returnVar );
+//			echo implode( "\n", $output );
 		}
 
 		/* POST ACTION HOOKS */
-		protected function onPostAction()
+		protected function onPost()
 		{
 			error_reporting( E_ERROR );
 
@@ -254,6 +292,50 @@
 					update_post_meta( $deploymentID, StatusMetaField::NAME, StatusMetaField::ERROR );
 
 					$this->cleanUp( $deploymentID );
+
+					break;
+			}
+
+			exit;
+		}
+
+		protected function onPostTransfer()
+		{
+			error_reporting( E_ERROR );
+
+			$deploymentID     = intval( $_POST[ 'objectID' ] );
+			$transferFile     = $_POST[ 'transferFile' ];
+			$transferAction   = $_POST[ 'transferAction' ];
+			$transferFileSize = $_POST[ 'transferFileSize' ];
+			$transferExitCode = $_POST[ 'transferExitCode' ];
+			$transferQueueID  = $_POST[ 'transferQueueID' ];
+			$transferTotals   = $_POST[ 'transferTotals' ];
+
+			$progression      = $transferQueueID / $transferTotals;
+			$transferListItem = array(
+				"file"     => urldecode( $transferFile ),
+				"action"   => $transferAction,
+				"fileSize" => $transferFileSize,
+				"exitCode" => $transferExitCode
+			);
+
+			update_post_meta( $deploymentID, GitDeployMetaBox::constructMetaKey( GitDeployMetaBox::NAME, GitDeployMetaBox::PROGRESSION ), $progression );
+
+			switch ( intval( $transferExitCode ) )
+			{
+				case 0:
+
+					// Transfer action succeeded
+					$this->appendTransferListItem( $deploymentID, $transferListItem );
+
+					break;
+				default:
+
+					// Transfer action failed
+					if ( $transferAction == "upload" )
+					{
+						$this->appendTransferListItem( $deploymentID, $transferListItem );
+					}
 
 					break;
 			}

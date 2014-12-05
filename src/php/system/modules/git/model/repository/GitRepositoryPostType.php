@@ -89,7 +89,7 @@
 		}
 		public function wp_action_wp_insert_post( $postID, $post, $update )
 		{
-			$repositoryPath          = apply_filters( GitRepositoryProxy::FILTER_LOCATE_REPOSITORY, $postID );
+			$repositoryPath          = apply_filters( GitRepositoryProxy::FILTER_LOCATE_REPOSITORY_CLONE, $postID );
 			$gitSSH                  = get_post_meta( $postID, GitRepositoryMetaBox::constructMetaKey( GitRepositoryMetaBox::NAME, GitRepositoryMetaBox::ADDRESS ), TRUE );
 			$branch                  = get_post_meta( $postID, GitRepositoryMetaBox::constructMetaKey( GitRepositoryMetaBox::NAME, GitRepositoryMetaBox::BRANCH ), TRUE );
 			$keyObjectID             = intval( get_post_meta( $postID, GitRepositoryMetaBox::constructMetaKey( GitRepositoryMetaBox::NAME, GitKeyPostType::NAME ), TRUE ) );

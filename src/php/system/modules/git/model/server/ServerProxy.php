@@ -32,6 +32,6 @@
 
 //			var_dump( $output, $returnVar );
 
-			return in_array( "150 Accepted data connection", $output );
+			return $returnVar == 0 ? TRUE : FALSE;
 		}
 	}

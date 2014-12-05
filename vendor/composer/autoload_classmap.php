@@ -161,6 +161,7 @@ return array(
     'tutomvc\\modules\\git\\GitWebhookProxy' => $baseDir . '/src/php/system/modules/git/model/webhook/GitWebhookProxy.php',
     'tutomvc\\modules\\git\\InitAction' => $baseDir . '/src/php/system/modules/git/controller/InitAction.php',
     'tutomvc\\modules\\git\\PIDMetaField' => $baseDir . '/src/php/system/modules/git/model/posttype/meta/fields/PIDMetaField.php',
+    'tutomvc\\modules\\git\\ProgressionColumn' => $baseDir . '/src/php/system/modules/git/model/posttype/columns/ProgressionColumn.php',
     'tutomvc\\modules\\git\\RevisionColumn' => $baseDir . '/src/php/system/modules/git/model/posttype/columns/RevisionColumn.php',
     'tutomvc\\modules\\git\\SSHUtil' => $baseDir . '/src/php/system/modules/git/util/SSHUtil.php',
     'tutomvc\\modules\\git\\ServerMetaBox' => $baseDir . '/src/php/system/modules/git/model/server/ServerMetaBox.php',

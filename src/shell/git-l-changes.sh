@@ -56,8 +56,10 @@ do
     if [ "$commit" = $latestCommit ]
     then
         git diff-tree --no-commit-id --name-only -r $commit $3
+        git diff-tree --no-commit-id --name-only -r $commit $3
         break
     else
+        git diff-tree --no-commit-id --name-only -r $commit $3
         git diff-tree --no-commit-id --name-only -r $commit $3
     fi
 done

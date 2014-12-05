@@ -15,7 +15,6 @@
 	{
 		const NAME                = "git_webhook_settings";
 		const GIT_REPOSITORY_PATH = "git_repository_path";
-		const SERVER              = "server";
 		const SERVER_PATH         = "server_path";
 		const REVISION            = "revision";
 

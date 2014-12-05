@@ -13,11 +13,13 @@
 
 	class GitRepositoryProxy extends Proxy
 	{
-		const NAME                     = __CLASS__;
-		const FORMAT_CLONE_PATH        = 'bin/git/repositories/object_id_%1$s/clone';
-		const FILTER_TEST              = "gitmodule/model/GitRepositoryProxy/test";
-		const FILTER_LOCATE_REPOSITORY = "gitmodule/model/GitRepositoryProxy/locateRepository";
-		const FILTER_KEY_ID            = "gitmodule/model/GitRepositoryProxy/getKeyID";
+		const NAME                           = __CLASS__;
+		const FORMAT_HOST_PATH               = 'bin/git/repositories/object_id_%1$s';
+		const FORMAT_CLONE_PATH              = 'bin/git/repositories/object_id_%1$s/clone';
+		const FILTER_TEST                    = "gitmodule/model/GitRepositoryProxy/test";
+		const FILTER_LOCATE_REPOSITORY       = "gitmodule/model/GitRepositoryProxy/locateRepository";
+		const FILTER_LOCATE_REPOSITORY_CLONE = "gitmodule/model/GitRepositoryProxy/locateRepositoryClone";
+		const FILTER_KEY_ID                  = "gitmodule/model/GitRepositoryProxy/getKeyID";
 
 		function __construct()
 		{
@@ -28,6 +30,7 @@
 		{
 			add_filter( self::FILTER_TEST, array($this, "test"), 0, 5 );
 			add_filter( self::FILTER_LOCATE_REPOSITORY, array($this, "locateRepository"), 0, 1 );
+			add_filter( self::FILTER_LOCATE_REPOSITORY_CLONE, array($this, "locateRepositoryClone"), 0, 1 );
 			add_filter( self::FILTER_KEY_ID, array($this, "getKeyID"), 0, 1 );
 		}
 
@@ -43,9 +46,14 @@
 			return $returnVar > 0 ? FALSE : TRUE;
 		}
 
-		public function locateRepository( $objectID )
+		public function locateRepositoryClone( $objectID )
 		{
 			return $this->getSystem()->getVO()->getRoot( sprintf( self::FORMAT_CLONE_PATH, $objectID ) );
+		}
+
+		public function locateRepository( $objectID )
+		{
+			return $this->getSystem()->getVO()->getRoot( sprintf( self::FORMAT_HOST_PATH, $objectID ) );
 		}
 
 		public function getKeyID( $repositoryID )

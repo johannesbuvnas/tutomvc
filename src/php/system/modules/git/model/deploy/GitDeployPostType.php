@@ -63,6 +63,7 @@
 
 			$this->addColumn( new StatusColumn() );
 			$this->addColumn( new GitDeployStageColumn() );
+			$this->addColumn( new ProgressionColumn() );
 		}
 
 		function wp_filter_default_title( $title, $post )

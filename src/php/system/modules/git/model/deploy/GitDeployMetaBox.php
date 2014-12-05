@@ -23,7 +23,8 @@
 		const COMMENT             = "comment";
 		const NOTIFY              = "notify";
 		const DEPLOY_FROM_SCRATCH = "deploy_from_scratch";
-		const FILE_LIST           = "file_list";
+		const TRANSFER_LIST           = "file_list";
+		const PROGRESSION         = "progression";
 
 		function __construct()
 		{
@@ -43,6 +44,9 @@
 				"true"  => __( "Yes" ),
 				"false" => __( "No" )
 			), "true" ) );
-			$this->addField( new TextAreaMetaField( self::FILE_LIST, __( "List of files to upload", TutoMVC::NAME ), "", 15, TRUE ) );
+			$this->addField( new TextAreaMetaField( self::TRANSFER_LIST, __( "List of transfers", TutoMVC::NAME ), "", 15, TRUE ) );
+			$this->addField( new MetaField( self::PROGRESSION, __( "Progression", TutoMVC::NAME ) ) )
+			     ->setSetting( MetaField::SETTING_READ_ONLY, TRUE )
+			     ->setSetting( MetaField::SETTING_DEFAULT_VALUE, "0" );
 		}
 	}
