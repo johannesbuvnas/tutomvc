@@ -43,7 +43,9 @@ else
     if [ "$latestCommit" != "$search" ]
     then
         echo "Commit $latestCommit doesn't exists"
-        exit 1
+        echo "Swapping to the latest commit instead"
+#        exit 1
+        latestCommit=$(git log --pretty=format:'%H' -n 1)
     fi
 fi
 

@@ -13,10 +13,11 @@
 
 	class GitWebhookMetaBox extends \tutomvc\MetaBox
 	{
-		const NAME                = "git_webhook_settings";
-		const GIT_REPOSITORY_PATH = "git_repository_path";
-		const SERVER_PATH         = "server_path";
-		const REVISION            = "revision";
+		const NAME                   = "git_webhook_settings";
+		const GIT_REPOSITORY_PATH    = "git_repository_path";
+		const SERVER_PATH            = "server_path";
+		const REVISION               = "revision";
+		const REVISION_DEFAULT_VALUE = "-";
 
 		function __construct()
 		{
@@ -28,7 +29,7 @@
 			$this->addField( new MetaField( self::GIT_REPOSITORY_PATH, __( "Repository path", TutoMVC::NAME ), __( "Deploy only files from this path on the repository.", TutoMVC::NAME ) ) );
 			$this->addField( new ServerMetaField() );
 			$this->addField( new MetaField( self::SERVER_PATH, __( "Server path", TutoMVC::NAME ) ) );
-			$this->addField( new MetaField( self::REVISION, __( "Revision", TutoMVC::NAME ) ) )
-			     ->setSetting( MetaField::SETTING_DIVIDER_BEFORE, TRUE );
+			$this->addField( new MetaField( self::REVISION, __( "Current revision on server", TutoMVC::NAME ), __( "If blank, the first deployment will deploy from scratch." ) ) )
+			     ->setSetting( MetaField::SETTING_DEFAULT_VALUE, self::REVISION_DEFAULT_VALUE );
 		}
 	}

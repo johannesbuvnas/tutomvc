@@ -22,7 +22,7 @@ chmod +x $shellFTPCommand
 
 expect << EOF
     set timeout 1
-    spawn $shellFTPCommand $1 $2 $3 $4 "delete $5\nmkdir test/shitty"
+    spawn $shellFTPCommand $1 $2 $3 $4 "delete $5"
     expect {
         "221-Goodbye." {
             exit 1

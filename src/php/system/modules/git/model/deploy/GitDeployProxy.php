@@ -241,7 +241,7 @@
 			$repositoryID   = $this->getRepositoryID( $deploymentID );
 			$repositoryPath = apply_filters( GitRepositoryProxy::FILTER_LOCATE_REPOSITORY_CLONE, $repositoryID );
 			$revision       = apply_filters( GitWebhookProxy::FILTER_REVISION, $webhookID );
-			$fromPath       = get_post_meta( $webhookID, GitWebhookMetaBox::constructMetaKey( GitWebhookMetaBox::NAME, GitWebhookMetaBox::GIT_REPOSITORY_PATH ), TRUE );
+			$fromPath = get_post_meta( $webhookID, GitWebhookMetaBox::constructMetaKey( GitWebhookMetaBox::NAME, GitWebhookMetaBox::GIT_REPOSITORY_PATH ), TRUE );
 			if ( empty($fromPath) ) $fromPath = "./";
 			$deployFromScratch = get_post_meta( $deploymentID, GitDeployMetaBox::constructMetaKey( GitDeployMetaBox::NAME, GitDeployMetaBox::DEPLOY_FROM_SCRATCH ), TRUE );
 			$serverID          = $this->getServerID( $deploymentID );
@@ -264,7 +264,8 @@
 //			var_dump($output);
 //			exit;
 			exec( "chmod +x " . $this->getSystem()->getVO()->getRoot( "src/shell/git-deploy.sh" ) );
-			exec( $this->getSystem()->getVO()->getRoot( "src/shell/git-deploy.sh" ) . " $repositoryPath $revision $fromPath $deployFromScratch $serverAddress $serverPort $serverUsername $serverPassword $serverPath $deploymentID > /dev/null & echo $!", $pid, $returnVar );
+//			exec( $this->getSystem()->getVO()->getRoot( "src/shell/git-deploy.sh" ) . " $repositoryPath $revision $fromPath $deployFromScratch $serverAddress $serverPort $serverUsername $serverPassword $serverPath $deploymentID > /dev/null & echo $!", $pid, $returnVar );
+			exec( $this->getSystem()->getVO()->getRoot( "src/shell/git-deploy.sh" ) . " $repositoryPath $revision $fromPath $deployFromScratch $serverAddress $serverPort $serverUsername $serverPassword $serverPath $deploymentID > $repositoryPath/../output & echo $!", $pid, $returnVar );
 			update_post_meta( $deploymentID, PIDMetaField::NAME, $pid );
 //			exec( $this->getSystem()->getVO()->getRoot( "src/shell/git-deploy.sh" ) . " $repositoryPath $revision $fromPath $deployFromScratch $serverAddress $serverPort $serverUsername $serverPassword $serverPath $deploymentID", $output, $returnVar );
 //			echo implode( "\n", $output );

@@ -41,13 +41,14 @@
 			}
 			/////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-			$deployPostID = wp_insert_post( array(
+			$deployPostID           = wp_insert_post( array(
 				"post_type"   => GitDeployPostType::NAME,
 				"post_status" => "publish",
 				"post_title"  => "Deployed via webhook"
 			) );
+			$currentWebhookRevision = $this->getRevision( $objectID );
 			update_post_meta( $deployPostID, GitDeployMetaBox::constructMetaKey( GitDeployMetaBox::NAME, GitDeployMetaBox::GIT_WEBHOOK ), $objectID );
-			update_post_meta( $deployPostID, GitDeployMetaBox::constructMetaKey( GitDeployMetaBox::NAME, GitDeployMetaBox::REVISION ), $this->getRevision( $objectID ) );
+			if ( empty($currentWebhookRevision) || $currentWebhookRevision == GitWebhookMetaBox::REVISION_DEFAULT_VALUE ) update_post_meta( $deployPostID, GitDeployMetaBox::constructMetaKey( GitDeployMetaBox::NAME, GitDeployMetaBox::DEPLOY_FROM_SCRATCH ), "true" );
 
 			do_action( GitDeployProxy::ACTION_ADD, $deployPostID );
 		}

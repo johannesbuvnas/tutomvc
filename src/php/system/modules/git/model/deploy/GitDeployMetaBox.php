@@ -23,7 +23,7 @@
 		const COMMENT             = "comment";
 		const NOTIFY              = "notify";
 		const DEPLOY_FROM_SCRATCH = "deploy_from_scratch";
-		const TRANSFER_LIST           = "file_list";
+		const TRANSFER_LIST       = "file_list";
 		const PROGRESSION         = "progression";
 
 		function __construct()
