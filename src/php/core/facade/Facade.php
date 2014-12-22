@@ -102,6 +102,11 @@ class Facade
 		return $this->vo->getURL( $relativePath );
 	}
 
+	public function getRoot( $relativePath = null )
+	{
+		return $this->vo->getRoot( $relativePath );
+	}
+
 	/**
 	*	Get template file path.
 	*/
@@ -110,6 +115,9 @@ class Facade
 		return $this->vo->getTemplateFileReference( $relativePath );
 	}
 
+	/**
+	 * @return FacadeVO
+	 */
 	public function getVO()
 	{
 		return $this->vo;

@@ -1,8 +1,6 @@
 <?php
 	namespace tutomvc;
 
-	use tutomvc\modules\git\GitModule;
-
 	final class SystemFacade extends Facade
 	{
 		/* CONSTANTS */
@@ -38,8 +36,6 @@
 		public function onRegister()
 		{
 			$this->repository = new GitRepositoryVO( TutoMVC::getRoot(), TutoMVC::GIT_REPOSITORY_URL, TutoMVC::GIT_REPOSITORY_BRANCH );
-
-			GitModule::getInstance();
 
 			$this->prepModel();
 			$this->prepView();
