@@ -70,20 +70,11 @@ define( [
                 },
                 change: function ()
                 {
-                    // if(this.model.get("type") == "selector_single") this.model.set({value:this.input.getValue()})
-
-                    // var event = new Event( "change", { metaFieldName : this.model.get("metaFieldName"), value : this.model.get("value") } );
                     this.trigger( "change", this.model );
                 },
-
                 // EVENTS
                 events: {
                     "click label": "onClick"
-                },
-                // TODO: Remove this later
-                onKeyChange: function ()
-                {
-                    // if(this.model.get("type") == "selector_single") this.input.setName( this.model.get("name") );
                 },
                 metaBoxChange: function ( metaBoxName, metaFieldName, value )
                 {

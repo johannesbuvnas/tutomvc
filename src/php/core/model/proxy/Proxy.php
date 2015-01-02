@@ -52,6 +52,11 @@ class Proxy extends CoreClass
 		return array_key_exists( $key, $this->_map );
 	}
 
+	/**
+	 * @param $key
+	 *
+	 * @return MetaBox
+	 */
 	public function get( $key )
 	{
 		return $this->has( $key ) ? $this->_map[ $key ] : NULL;

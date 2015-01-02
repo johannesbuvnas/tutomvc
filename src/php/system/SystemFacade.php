@@ -1,6 +1,20 @@
 <?php
 	namespace tutomvc;
 
+	/**
+	 * Class SystemFacade
+	 * @package tutomvc
+	 * @property PostTypeProxy postTypeCenter
+	 * @property MetaBoxProxy metaCenter
+	 * @property UserMetaProxy userMetaCenter
+	 * @property AdminMenuPageProxy adminMenuPageCenter
+	 * @property ImageSizeProxy imageSizeCenter
+	 * @property SettingsProxy settingsCenter
+	 * @property LogProxy logCenter
+	 * @property NotificationProxy notificationCenter
+	 * @property TaxonomyProxy taxonomyCenter
+	 * @property UserColumnProxy userColumnCenter
+	 */
 	final class SystemFacade extends Facade
 	{
 		/* CONSTANTS */
@@ -56,7 +70,8 @@
 			$this->logCenter           = $this->model->registerProxy( new LogProxy() );
 			$this->userColumnCenter    = $this->model->registerProxy( new UserColumnProxy() );
 
-			if ( self::DEVELOPMENT_MODE ) {
+			if ( self::DEVELOPMENT_MODE )
+			{
 				$this->notificationCenter->add( "<strong>TutoMVC</strong> <code>DEVELOPMENT_MODE: ON</code>", "error" );
 			}
 		}

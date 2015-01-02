@@ -39,6 +39,11 @@ class Facade
 		return $this->_initialized;
 	}
 
+	/**
+	 * @param Facade $facade
+	 *
+	 * @return mixed
+	 */
 	final public function registerSubFacade( $facade )
 	{
 		$this->_modulesMap[ $facade->getKey() ] = $facade;
