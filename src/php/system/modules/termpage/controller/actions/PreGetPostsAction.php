@@ -25,9 +25,9 @@ class PreGetPostsAction extends ActionCommand
 		if(!is_main_query()) return;
 		if(array_key_exists(self::QUERY_VAR, $wpQuery->query_vars)) return;
 
-		if(is_page())
+		if ( is_page() )
 		{
-			$this->isPage( get_page( get_query_var("page_id") ) );
+			$this->isPage( get_page( get_query_var( "page_id" ) ) );
 		}
 
 		foreach(get_taxonomies() as $taxonomyName)
@@ -37,6 +37,17 @@ class PreGetPostsAction extends ActionCommand
 			{
 				$by = filter_var(get_query_var( $taxonomyObject->query_var ), FILTER_VALIDATE_INT) ? "id" : "slug";
 				$term = get_term_by( $by, get_query_var( $taxonomyObject->query_var ), $taxonomyName );
+
+//				if($term)
+//				{
+//					$page = TermPageModule::getLandingPageForTerm( $term->term_taxonomy_id );
+//					if($page)
+//					{
+//						return query_posts(array(
+//							"page_id" => $page->ID
+//						));
+//					}
+//				}
 
 				if(!$term)
 				{
