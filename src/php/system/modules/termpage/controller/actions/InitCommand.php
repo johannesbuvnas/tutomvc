@@ -12,12 +12,13 @@ class InitCommand extends ActionCommand
 
 	function execute()
 	{
-		$this->getFacade()->controller->registerCommand( new PreGetPostsAction() );
+//		$this->getFacade()->controller->registerCommand( new PreGetPostsAction() );
 		foreach(get_taxonomies() as $taxonomyName)
 		{
 			$this->getFacade()->controller->registerCommand( new TaxonomyAddFormFieldsAction( $taxonomyName ) );
 		}
 		$this->getFacade()->controller->registerCommand( new RegisteredTaxonomyAction() );
-		$this->getFacade()->controller->registerCommand( new GetPageLinkFilter() );
+//		$this->getFacade()->controller->registerCommand( new GetPageLinkFilter() );
+		$this->getFacade()->controller->registerCommand( new GetTermLinkFilter() );
 	}
 }

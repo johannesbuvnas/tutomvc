@@ -151,6 +151,7 @@ return array(
     'tutomvc\\modules\\termpage\\AdminInitCommand' => $baseDir . '/src/php/system/modules/termpage/controller/actions/AdminInitCommand.php',
     'tutomvc\\modules\\termpage\\EditedTermAction' => $baseDir . '/src/php/system/modules/termpage/controller/actions/EditedTermAction.php',
     'tutomvc\\modules\\termpage\\GetPageLinkFilter' => $baseDir . '/src/php/system/modules/termpage/controller/filters/GetPageLinkFilter.php',
+    'tutomvc\\modules\\termpage\\GetTermLinkFilter' => $baseDir . '/src/php/system/modules/termpage/controller/filters/GetTermLinkFilter.php',
     'tutomvc\\modules\\termpage\\InitCommand' => $baseDir . '/src/php/system/modules/termpage/controller/actions/InitCommand.php',
     'tutomvc\\modules\\termpage\\LoadPostCommand' => $baseDir . '/src/php/system/modules/termpage/controller/actions/LoadPostCommand.php',
     'tutomvc\\modules\\termpage\\PreGetPostsAction' => $baseDir . '/src/php/system/modules/termpage/controller/actions/PreGetPostsAction.php',
