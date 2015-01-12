@@ -23,6 +23,7 @@ class PreGetPostsAction extends ActionCommand
 		// Forever loop fix
 		// Do not execute this action for copied wp queries
 		if(!is_main_query()) return;
+		if(is_admin()) return;
 		if(array_key_exists(self::QUERY_VAR, $wpQuery->query_vars)) return;
 
 		if ( is_page() )
