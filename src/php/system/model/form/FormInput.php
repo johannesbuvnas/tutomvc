@@ -52,10 +52,10 @@
 
 		public function getDescriptionElement()
 		{
-			return '<p class="description">' . $this->getTitle() . '</p>';
+			return '<span class="help-block">' . $this->getDescription() . '</span>';
 		}
 
-		public function getInputElement()
+		public function getFormElement()
 		{
 			return '';
 		}

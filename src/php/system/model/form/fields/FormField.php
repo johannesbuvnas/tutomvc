@@ -10,8 +10,14 @@
 
 	class FormField extends FormInput
 	{
-		private $_defaultValue  = NULL;
+		private $_defaultValue = NULL;
 
+		function __construct( $name, $title, $description = NULL )
+		{
+			$this->setName( $name );
+			$this->setTitle( $name );
+			$this->setDescription( $name );
+		}
 
 		/**
 		 * @return null
