@@ -1,132 +1,147 @@
 <?php
-	namespace tutomvc;
+namespace tutomvc;
 
-	class Mediator extends CoreClass implements IMediator
+class Mediator extends CoreClass implements IMediator
+{
+	/* VARS */
+	public $hookRender;
+	protected $_viewComponent;
+	protected $_dataProvider = array();
+	protected $_content = "";
+
+
+	function __construct( $viewComponent )
 	{
-		/* VARS */
-		public    $hookRender;
-		protected $_viewComponent;
-		protected $_dataProvider = array();
-		protected $_content      = "";
+		$this->setViewComponent( $viewComponent );
+	}
 
-		function __construct( $viewComponent )
+	/* ACTIONS */
+	/**
+	*	Render content.
+	*/
+	public function render()
+	{
+		$params = func_num_args() > 0 ? func_get_arg( 0 ) : NULL;
+		if(is_array($params)) $this->_dataProvider = is_array( $this->_dataProvider ) ? array_merge( $params, $this->_dataProvider ) : $params;
+
+		$output = $this->getContent();
+		
+		if(empty( $output ))
 		{
-			$this->setViewComponent( $viewComponent );
+			throw new \ErrorException( get_called_class() . ": Nothing to render", 0, E_ERROR );
+		}
+		else
+		{
+			echo $output;
+		}
+	}
+
+	public function flush()
+	{
+		unset($this->_dataProvider);
+		$this->_dataProvider = array();
+	}
+	
+	/* METHODS */
+	/**
+	*	Called when registered, before render is called.
+	*/
+	public function onRegister()
+	{
+	}
+
+	/* SET AND GET */
+	/**
+	*	Parse a variable to template.
+	*/
+	public function parse( $variableName, $value = NULL )
+	{
+		if(is_array($variableName))
+		{
+			foreach( $variableName as $key => $value ) $this->parse( $key, $value );
+		}
+		else
+		{
+			$this->_dataProvider[ $variableName ] = $value;
 		}
 
-		/* ACTIONS */
-		/**
-		 * @param array $dataProvider
-		 *
-		 * @return $this
-		 * @throws \ErrorException
-		 */
-		public function render( $dataProvider = NULL )
+		return $this;
+	}
+	public function retrieve( $variableName )
+	{
+		return array_key_exists($variableName, $this->_dataProvider) ? $this->_dataProvider[ $variableName ] : NULL;
+	}
+
+	public function setViewComponent( $viewComponent )
+	{
+		$this->_viewComponent = $viewComponent;
+	}
+	public function getViewComponent()
+	{
+		return $this->_viewComponent;
+	}
+	public function getViewComponentFilePath()
+	{
+		$filePath = $this->getFacade()->getTemplateFileReference( $this->getViewComponent() );
+		$pathinfo = pathinfo( $filePath );
+		if(!array_key_exists("extension", $pathinfo))
 		{
-			if ( is_array( $dataProvider ) ) $this->_dataProvider = $dataProvider;
-			if ( is_array( $this->_dataProvider ) ) extract( $this->_dataProvider, EXTR_SKIP );
-
-			if ( strlen( $this->_content ) )
-			{
-				echo $this->_content;
-
-				return $this;
-			}
-
-			$file = $this->getViewComponentFilePath();
-			if ( is_file( $file ) )
-			{
-				include $file;
-			}
-			else
-			{
-				throw new \ErrorException( "MEDIATOR: " . " View component not found - " . $file, 0, E_ERROR );
-			}
-
-			return $this;
+			$filePath .= ".php";
 		}
 
-		public function flush()
-		{
-			unset($this->_dataProvider);
-			$this->_dataProvider = array();
+		return $filePath;
+	}
+
+	final public function getName()
+	{
+		return $this->_viewComponent;
+	}
+
+	/**
+	*	Set content manually.
+	*/
+	public function setContent($content)
+	{
+		$this->_content = $content;
+	}
+
+	/**
+	*	@return string Content.
+	*/
+	public function getContent()
+	{
+		$params = func_num_args() > 0 ? func_get_arg( 0 ) : NULL;
+		if(is_array($params)) $this->_dataProvider = is_array( $this->_dataProvider ) ? array_merge( $params, $this->_dataProvider ) : $params;
+
+		if(!isset($this->_viewComponent) || empty($this->_viewComponent))
+		{	
+			if(!isset($this->_content) || !strlen($this->_content)) return "";
+			else return $this->_content;
 		}
-
-		/* METHODS */
-		/**
-		 *    Called when registered, before render is called.
-		 */
-		public function onRegister()
-		{
-		}
-
-		/* SET AND GET */
-		/**
-		 *    Parse a variable to template.
-		 */
-		public function parse( $variableName, $value = NULL )
-		{
-			if ( is_array( $variableName ) )
-			{
-				foreach ( $variableName as $key => $value )
-				{
-					$this->parse( $key, $value );
-				}
-			}
-			else
-			{
-				$this->_dataProvider[ $variableName ] = $value;
-			}
-
-			return $this;
-		}
-
-		public function retrieve( $variableName )
-		{
-			return array_key_exists( $variableName, $this->_dataProvider ) ? $this->_dataProvider[ $variableName ] : NULL;
-		}
-
-		public function setViewComponent( $viewComponent )
-		{
-			$this->_viewComponent = $viewComponent;
-		}
-
-		public function getViewComponent()
-		{
-			return $this->_viewComponent;
-		}
-
-		public function getViewComponentFilePath()
-		{
-			$filePath = $this->getFacade()->getTemplateFileReference( $this->getViewComponent() );
-			$pathinfo = pathinfo( $filePath );
-			if ( !array_key_exists( "extension", $pathinfo ) )
-			{
-				$filePath .= ".php";
-			}
-
-			return $filePath;
-		}
-
-		final public function getName()
-		{
-			return $this->_viewComponent;
-		}
-
-		/**
-		 * @return string Content.
-		 */
-		public function getContent()
+		
+		if($this->_dataProvider) extract( $this->_dataProvider, EXTR_SKIP );
+		
+		
+		$file = $this->getViewComponentFilePath();
+		if( is_file( $file ) )
 		{
 			ob_start();
-			$this->render();
-
-			return ob_get_clean();
+			include $file;
 		}
-	}
+		else 
+		{
+			throw new \ErrorException( "CUSTOM ERROR: "." No such file - " . $file, 0, E_ERROR );
+		}
 
-	interface IMediator
-	{
-		/* METHODS */
-		public function parse( $variableName, $value );
+		$output = ob_get_clean();
+		
+		if($output == null) return "\n";
+		else return $output;
 	}
+}
+
+interface IMediator
+{
+	/* METHODS */
+	public function parse( $variableName, $value );
+}
