@@ -8,7 +8,7 @@
 
 	namespace tutomvc;
 
-	class FormInput extends ValueObject
+	class Form extends ValueObject
 	{
 		private $_title;
 		private $_description;

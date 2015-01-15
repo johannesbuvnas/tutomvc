@@ -3,16 +3,16 @@ namespace tutomvc;
 
 class AdminMenuPageMediator extends Mediator
 {
-	protected $_adminMenuPage;
-
 
 	/* SET AND GET */
 	function setAdminMenuPage( AdminMenuPage $adminMenuPage )
 	{
-		$this->_adminMenuPage = $adminMenuPage;
+		$this->parse( "adminMenuPage", $adminMenuPage );
+
+		return $this;
 	}
 	function getAdminMenuPage()
 	{
-		return $this->_adminMenuPage;
+		return $this->retrieve( "adminMenuPage" );
 	}
 }

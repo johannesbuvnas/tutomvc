@@ -3,12 +3,12 @@
 	 * Created by PhpStorm.
 	 * User: johannesbuvnas
 	 * Date: 13/01/15
-	 * Time: 15:24
+	 * Time: 10:02
 	 */
 
 	namespace tutomvc;
 
-	class InputFormField extends FormField
+	class FormInput extends Form
 	{
 		const TYPE_TEXT     = "text";
 		const TYPE_PASSWORD = "password";
@@ -17,9 +17,11 @@
 		protected $_readOnly;
 		protected $_placeholder;
 
-		function __construct( $name, $title, $description = NULL, $type = InputFormField::TYPE_TEXT, $readonly = FALSE, $placeholder = "" )
+		function __construct( $name, $title, $description = NULL, $type = FormInput::TYPE_TEXT, $readonly = FALSE, $placeholder = "" )
 		{
-			parent::__construct( $name, $title, $description );
+			$this->setName( $name );
+			$this->setTitle( $title );
+			$this->setDescription( $description );
 			$this->setType( $type );
 			$this->setReadOnly( $readonly );
 			$this->setPlaceholder( $placeholder );
@@ -33,15 +35,28 @@
 				"value"       => $this->getValue(),
 				"type"        => $this->getType(),
 				"placeholder" => $this->getPlaceholder(),
-				"name"        => $this->getName()
+				"name"        => $this->getName(),
+				"id"          => $this->getName(),
+				"class"       => "form-control"
 			);
 			if ( $this->isReadOnly() ) $attr[ "readonly" ] = "true";
 
+			$attributes = "";
+			foreach ( $attr as $key => $value )
+			{
+				$attributes .= ' ' . $key . '="' . $value . '"';
+			}
+
 			$output .= '
-					<input ' . implode( " ", $attr ) . ' />
+					<input ' . $attributes . ' />
 				';
 
 			return $output;
+		}
+
+		public function filterValue( $value )
+		{
+			return $value;
 		}
 
 		/**

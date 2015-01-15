@@ -1,25 +1,25 @@
 <?php
-namespace tutomvc;
+	namespace tutomvc;
 
-class TutoMVCSettingsPageMediator extends AdminMenuPageMediator
-{
-	const NAME = "menu/settings/tutomvc/wrapper.php";
-
-	function __construct()
+	class TutoMVCSettingsPageMediator extends AdminMenuPageMediator
 	{
-		parent::__construct( self::NAME );
-	}
+		const NAME = "menu/settings/tutomvc/wrapper.php";
 
-	public function onRegister()
-	{
-		$this->getFacade()->view->registerMediator( new TutoMVCLogsPageContentMediator() );
-	}
+		function __construct()
+		{
+			parent::__construct( self::NAME );
+		}
 
-	function getContent()
-	{
-		$this->parse( "currentPage", $this->getAdminMenuPage() );
-		$this->parse( "contentMediator", $this->getFacade()->view->getMediator( $this->getAdminMenuPage()->getContentMediatorName() ) );
+		public function onRegister()
+		{
+			$this->getFacade()->view->registerMediator( new TutoMVCLogsPageContentMediator() );
+		}
 
-		return parent::getContent();
+		function render()
+		{
+			$this->parse( "currentPage", $this->getAdminMenuPage() );
+			$this->parse( "contentMediator", $this->getFacade()->view->getMediator( $this->getAdminMenuPage()->getContentMediatorName() ) );
+
+			return parent::render();
+		}
 	}
-}

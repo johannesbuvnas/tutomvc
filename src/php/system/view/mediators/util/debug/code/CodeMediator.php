@@ -30,14 +30,14 @@ class CodeMediator extends Mediator
 	}
 
 	/* SET AND GET */
-	function getContent()
+	function render()
 	{
 		$this->parse( "title", $this->getTitle() );
 		$this->parse( "lines", $this->getLines() );
 		$this->parse( "highlightedLine", $this->getHighlightedLine() );
 		$this->parse( "expanded", $this->getExpanded() );
 
-		return parent::getContent();
+		return parent::render();
 	}
 
 	function setExpanded( $value )

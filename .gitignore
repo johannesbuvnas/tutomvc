@@ -4,3 +4,7 @@
 
 /terminal.glue
 /.idea/
+
+/node_modules/
+
+/libs/

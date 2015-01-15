@@ -1,0 +1,11 @@
+{
+    "name": "tutomvc",
+    "version": "1.0.0",
+    "devDependencies": {
+        "grunt" : "~0.4.5",
+        "grunt-contrib-less" : "~0.11.4",
+        "grunt-requirejs" : "~0.4.2",
+        "grunt-banner": "~0.2.3",
+        "grunt-contrib-watch": "~0.6.1"
+    }
+}

@@ -8,7 +8,7 @@
 
 	namespace tutomvc;
 
-	class FormFieldGroup extends FormInput
+	class FormGroup extends Form
 	{
 		private $_fieldMap = array();
 
@@ -20,38 +20,41 @@
 		function getFormElement()
 		{
 			$output = '<div class="form-group">';
-			foreach($this->getFields() as $formField)
+			foreach ( $this->getInputs() as $formInput )
 			{
-				$output .= '<div class="form-group">';
+//				$output .= '<div class="form-group">';
 //				$output .= '<header>';
-				$output .= $formField->getLabelElement();
+				$output .= $formInput->getLabelElement();
+//				$output .= $formInput->getDescriptionElement();
 //				$output .= '</header>';
-				$output .= $formField->getFormElement();
-				$output .= $formField->getDescriptionElement();
-				$output .= '</div>';
+				$output .= $formInput->getFormElement();
+				$output .= $formInput->getDescriptionElement();
+//				$output .= '</div>';
 			}
 			$output .= '</div>';
+
+			return $output;
 		}
 
-		public function addField( FormField $formField )
+		public function addInput( FormInput $formField )
 		{
 			$this->_fieldMap[ $formField->getName() ] = $formField;
 
 			return $formField;
 		}
 
-		public function hasField( $name )
+		public function hasInput( $name )
 		{
-			return array_key_exists( $name, $this->_fieldMap );
+			return $this->getInputByName( $name ) ? $this->getInputByName( $name ) : FALSE;
 		}
 
 		/* SET AND GET */
-		public function getFields()
+		public function getInputs()
 		{
 			return $this->_fieldMap;
 		}
 
-		public function getField( $name )
+		public function getInputByName( $name )
 		{
 			if ( array_key_exists( $name, $this->_fieldMap ) )
 			{

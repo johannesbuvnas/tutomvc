@@ -1,0 +1,12 @@
+{
+    "name" : "Tuto MVC WordPress Plugin",
+    "version" : "1.0",
+    "dependencies" : {
+        "requirejs" : "latest",
+        "requirejs-text" : "latest",
+        "jquery" : "1.10.2",
+        "underscore" : "latest",
+        "backbone" : "latest",
+        "bootstrap" : "latest"
+    }
+}

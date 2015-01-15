@@ -52,7 +52,14 @@
 			return apply_filters( self::FILTER_VALIDATE_WP_ADMIN_OUTPUT, TRUE, $postID );
 		}
 
-		public function filterWPAdminOutput( $output, $postID )
+		/**
+		 * DEPRECATED
+		 * @param $output
+		 * @param $postID
+		 *
+		 * @return mixed
+		 */
+		final public function filterWPAdminOutput( $output, $postID )
 		{
 			return apply_filters( self::FILTER_WP_ADMIN_OUTPUT, $output, $postID );
 		}

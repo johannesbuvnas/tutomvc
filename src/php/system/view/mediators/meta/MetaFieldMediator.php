@@ -14,19 +14,15 @@ class MetaFieldMediator extends Mediator
 		parent::__construct( self::NAME );
 	}
 
-	function getContent()
-	{
-		$content = parent::getContent();
-		$this->flush();
-
-		return $content;
-	}
-
 	function render()
 	{
 		$this->parse( "metaField", $this->_metaField );
 
 		parent::render();
+
+		$this->flush();
+
+		return $this;
 	}
 
 	/* SET AND GET */

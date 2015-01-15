@@ -8,7 +8,7 @@
 
 	namespace tutomvc;
 
-	class TestFieldGroup extends FormFieldGroup
+	class TestGroup extends FormGroup
 	{
 		const NAME      = "test_section";
 		const SOME_TEXT = "some_text";
@@ -17,6 +17,7 @@
 		{
 			parent::__construct( self::NAME );
 
-			$this->addField( new InputFormField( self::SOME_TEXT, "Some text" ) );
+			$this->addInput( new FormInput( self::SOME_TEXT, "Some text", "The description", FormInput::TYPE_TEXT, FALSE, "The placeholder" ) )
+			     ->setValue( "Hej" );
 		}
 	}

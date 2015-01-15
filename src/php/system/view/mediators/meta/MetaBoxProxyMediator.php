@@ -1,51 +1,52 @@
 <?php
-namespace tutomvc;
+	namespace tutomvc;
 
-class MetaBoxProxyMediator extends Mediator
-{
-	const NAME = "meta/meta-box-proxy.php";
-
-	private $_metaBox;
-	private $_metaBoxMediator;
-	private $_postID;
-
-
-	function __construct()
+	class MetaBoxProxyMediator extends Mediator
 	{
-		parent::__construct( self::NAME );
-	}
+		const NAME = "meta/meta-box-proxy.php";
 
-	function onRegister()
-	{
-		$this->_metaBoxMediator = $this->getFacade()->view->hasMediator( MetaBoxMediator::NAME ) ? $this->getFacade()->view->getMediator( MetaBoxMediator::NAME ) : $this->getFacade()->view->registerMediator( new MetaBoxMediator() );
-	}
+		private $_metaBox;
+		private $_metaBoxMediator;
+		private $_postID;
 
-	public function getContent()
-	{
-		$this->parse( "metaBox", $this->_metaBox );
-		$this->parse( "postID", $this->_postID );
-		$this->_metaBoxMediator->setMetaBox( $this->getMetaBox() );
-		$this->parse( "metaBoxMediator", $this->_metaBoxMediator );
+		function __construct()
+		{
+			parent::__construct( self::NAME );
+		}
 
-		return $this->getMetaBox()->filterWPAdminOutput( parent::getContent(), $this->_postID );
-	}
+		function onRegister()
+		{
+			$this->_metaBoxMediator = $this->getFacade()->view->hasMediator( MetaBoxMediator::NAME ) ? $this->getFacade()->view->getMediator( MetaBoxMediator::NAME ) : $this->getFacade()->view->registerMediator( new MetaBoxMediator() );
+		}
 
-	/* SET AND GET */
-	public function setMetaBox( MetaBox $metaBox )
-	{
-		$this->_metaBox = $metaBox;
-	}
-	public function getMetaBox()
-	{
-		return $this->_metaBox;
-	}
+		public function render()
+		{
+			$this->parse( "metaBox", $this->_metaBox );
+			$this->parse( "postID", $this->_postID );
+			$this->_metaBoxMediator->setMetaBox( $this->getMetaBox() );
+			$this->parse( "metaBoxMediator", $this->_metaBoxMediator );
 
-	public function setPostID( $postID )
-	{
-		$this->_postID = $postID;
+			return parent::render();
+		}
+
+		/* SET AND GET */
+		public function setMetaBox( MetaBox $metaBox )
+		{
+			$this->_metaBox = $metaBox;
+		}
+
+		public function getMetaBox()
+		{
+			return $this->_metaBox;
+		}
+
+		public function setPostID( $postID )
+		{
+			$this->_postID = $postID;
+		}
+
+		public function getPostID()
+		{
+			return $this->_postID;
+		}
 	}
-	public function getPostID()
-	{
-		return $this->_postID;
-	}
-}

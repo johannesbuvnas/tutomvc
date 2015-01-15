@@ -10,11 +10,4 @@ class AdminMenuSettingsPageMediator extends AdminMenuPageMediator
 	{
 		parent::__construct( self::NAME );
 	}
-
-	function getContent()
-	{
-		$this->parse( "adminMenuPage", $this->getAdminMenuPage() );
-
-		return parent::getContent();
-	}
 }

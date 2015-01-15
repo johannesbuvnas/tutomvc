@@ -27,12 +27,16 @@ class AdminEnqueueScriptsCommand extends ActionCommand
 			'tiny_mce',
 			'jquery-ui-dialog',
 			TutoMVC::NAME,
-			SystemFacade::SCRIPT_JS
+			SystemFacade::SCRIPT_JS,
+			"tutomvc-backbone"
 		));
     
 		wp_enqueue_style ( array( 
 			'wp-jquery-ui-dialog',
 			SystemFacade::STYLE_CSS
 		) );
+
+		wp_enqueue_style( "tutomvc-bootstrap", $this->getSystem()->getURL( "dist/css/style.css" ), NULL, TutoMVC::VERSION );
+
 	}
 }

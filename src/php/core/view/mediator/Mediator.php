@@ -23,15 +23,17 @@
 		 */
 		public function render( $dataProvider = NULL )
 		{
-			if ( is_array( $dataProvider ) ) $this->_dataProvider = $dataProvider;
-			if ( is_array( $this->_dataProvider ) ) extract( $this->_dataProvider, EXTR_SKIP );
+			if ( is_array( $dataProvider ) ) $this->_dataProvider = is_array( $this->_dataProvider ) ? array_merge( $dataProvider, $this->_dataProvider ) : $dataProvider;
 
-			if ( strlen( $this->_content ) )
+			if ( !isset($this->_viewComponent) || empty($this->_viewComponent) )
 			{
+				if ( !isset($this->_content) || !strlen( $this->_content ) ) echo "";
 				echo $this->_content;
 
 				return $this;
 			}
+
+			if ( is_array( $this->_dataProvider ) ) extract( $this->_dataProvider, EXTR_SKIP );
 
 			$file = $this->getViewComponentFilePath();
 			if ( is_file( $file ) )
@@ -116,7 +118,7 @@
 		/**
 		 * @return string Content.
 		 */
-		public function getContent()
+		final public function getContent()
 		{
 			ob_start();
 			$this->render();
