@@ -16,7 +16,7 @@
 
 		function __construct()
 		{
-			parent::__construct( self::NAME, "Test form group" );
+			parent::__construct( self::NAME, "Test form group", "Just testing this." );
 
 			$this->addInput( new FormInput( self::SOME_TEXT, "Some text", "The description", FormInput::TYPE_TEXT, FALSE, "The placeholder" ) )
 			     ->setValue( "Hej" );
