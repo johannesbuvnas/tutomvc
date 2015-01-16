@@ -1,7 +1,7 @@
 define( [
-        "jquery"
+        "bootstrap-select"
     ],
-    function ( $ )
+    function ( BootstrapSelect )
     {
         "use strict";
         return jQuery.noConflict();

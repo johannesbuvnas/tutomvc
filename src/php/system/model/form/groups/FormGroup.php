@@ -12,9 +12,11 @@
 	{
 		private $_fieldMap = array();
 
-		function __construct( $name )
+		function __construct( $name, $title = NULL, $description = NULL )
 		{
 			parent::__construct( $name, NULL );
+			$this->setTitle( $title );
+			$this->setDescription( $description );
 		}
 
 		function getFormElement()
@@ -22,14 +24,14 @@
 			$output = '<div class="form-group">';
 			foreach ( $this->getInputs() as $formInput )
 			{
-//				$output .= '<div class="form-group">';
+				$output .= '<div class="form-group">';
 //				$output .= '<header>';
 				$output .= $formInput->getLabelElement();
 //				$output .= $formInput->getDescriptionElement();
 //				$output .= '</header>';
 				$output .= $formInput->getFormElement();
 				$output .= $formInput->getDescriptionElement();
-//				$output .= '</div>';
+				$output .= '</div>';
 			}
 			$output .= '</div>';
 

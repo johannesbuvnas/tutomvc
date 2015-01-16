@@ -4,7 +4,8 @@ require.config( {
     paths: {
         "requirejs": "../../libs/scripts/requirejs/require",
         "text": "../../libs/scripts/requirejs-text/text",
-        "bootstrap": "../../libs/scripts/bootstrap/dist/js/bootstrap"
+        "bootstrap": "../../libs/scripts/bootstrap/dist/js/bootstrap",
+        "bootstrap-select": "../../libs/scripts/bootstrap-select/dist/js/bootstrap-select"
     },
     shim: {
         backbone: {
@@ -16,6 +17,11 @@ require.config( {
         "Main": {
             deps: [
                 "backbone"
+            ]
+        },
+        "modules/jQuery": {
+            deps: [
+                "jquery"
             ]
         }
     },

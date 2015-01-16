@@ -28,7 +28,8 @@ module.exports = function ( grunt )
                     paths: {
                         "requirejs": "../../libs/scripts/requirejs/require",
                         "text": "../../libs/scripts/requirejs-text/text",
-                        "bootstrap": "../../libs/scripts/bootstrap/dist/js/bootstrap"
+                        "bootstrap": "../../libs/scripts/bootstrap/dist/js/bootstrap",
+                        "bootstrap-select": "../../libs/scripts/bootstrap-select/dist/js/bootstrap-select"
                     },
                     shim: {
                         backbone: {
@@ -40,6 +41,11 @@ module.exports = function ( grunt )
                         "Main": {
                             deps: [
                                 "backbone"
+                            ]
+                        },
+                        "modules/jQuery": {
+                            deps: [
+                                "jquery"
                             ]
                         }
                     },
@@ -64,7 +70,7 @@ module.exports = function ( grunt )
                         "requirejs",
                         "Main.config"
                     ],
-                    optimize : "none",
+                    optimize: "none",
                     "out": "dist/js/script.min.js"
                 }
             },

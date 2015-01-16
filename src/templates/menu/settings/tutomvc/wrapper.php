@@ -24,11 +24,45 @@
 	</h2>
 	<?php
 		if ( !is_null( $contentMediator ) ) $contentMediator->render();
+		if ( is_array( $_POST ) && count( $_POST ) ) var_dump( $_POST );
+		$formGroup = new TestFormGroup();
 	?>
-	<form class="col-xs-6">
+	<form method="post" class="col-xs-6">
+		<ul class="list-group metabox-list-group" data-max-cardinality="-1" data-min-cardinality="0">
+			<li class="list-group-item disabled">
+				<h6>
+					<select class="selectpicker" data-width="auto">
+						<option selected>#1</option>
+						<option>#2</option>
+					</select>
+					<a class="btn btn-xs btn-danger pull-right" href="#"><span class="glyphicon glyphicon-remove"></span></a>
+				</h6>
+			</li>
+			<li class="list-group-item metabox-item">
+				<?php
+					echo $formGroup->getFormElement();
+				?>
+			</li>
+			<li class="list-group-item disabled">
+				<h6>
+					<select class="selectpicker" data-width="auto">
+						<option>#1</option>
+						<option selected>#2</option>
+					</select>
+					<a class="btn btn-xs btn-danger pull-right" href="#"><span class="glyphicon glyphicon-remove"></span></a>
+				</h6>
+			</li>
+			<li class="list-group-item">
+				<?php
+					echo $formGroup->getFormElement();
+				?>
+			</li>
+			<li class="list-group-item disabled" style="text-align: center">
+				<a class="btn btn-primary" href="#"><span class="glyphicon glyphicon-plus"></span></a>
+			</li>
+		</ul>
 		<?php
-			$formGroup = new TestGroup();
-			echo $formGroup->getFormElement();
+			submit_button( "Submit" );
 		?>
 	</form>
 </div>

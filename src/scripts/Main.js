@@ -10,6 +10,11 @@ define(
             initialize: function ()
             {
                 console.log( "Hello new Tuto MVC" );
+                //View
+                this.$( "select.multiselect" ).each( function ()
+                {
+                    var $el = Backbone.$( this );
+                } );
             }
         } );
 
