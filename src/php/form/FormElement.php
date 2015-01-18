@@ -16,6 +16,7 @@
 		protected $_rules  = array();
 		protected $_single = TRUE;
 		protected $_index  = NULL;
+		protected $_defaultValue;
 
 		public function addRule( Rule $rule )
 		{
@@ -52,12 +53,12 @@
 			return $this->_rules;
 		}
 
-		public function getLabelElement()
+		public function getHeaderElement()
 		{
 			return '<label for="' . $this->getID() . '">' . $this->getLabel() . '</label>';
 		}
 
-		public function getDescriptionElement()
+		public function getFooterElement()
 		{
 			return '<span class="help-block">' . $this->getDescription() . '</span>';
 		}
@@ -119,6 +120,31 @@
 		public function setID( $id )
 		{
 			$this->_id = $id;
+
+			return $this;
+		}
+
+		/**
+		 * @return mixed
+		 */
+		public function getDefaultValue()
+		{
+			return $this->_defaultValue;
+		}
+
+		public function getValue()
+		{
+			$value = parent::getValue();
+
+			return empty($value) ? $this->getDefaultValue() : $value;
+		}
+
+		/**
+		 * @param mixed $defaultValue
+		 */
+		public function setDefaultValue( $defaultValue )
+		{
+			$this->_defaultValue = $defaultValue;
 
 			return $this;
 		}

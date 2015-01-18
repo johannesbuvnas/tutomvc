@@ -83,7 +83,7 @@ define( [
                     index: 0,
                     total: 1,
                     formElementHTML: "",
-                    view: undefined,
+                    //view: undefined,
                     deleteOption: true,
                     navEnabled: true
                 },

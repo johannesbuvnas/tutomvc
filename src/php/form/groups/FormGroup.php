@@ -33,6 +33,11 @@
 			';
 		}
 
+		public function getFooterElement()
+		{
+			return '<hr/>';
+		}
+
 		function getFormElement()
 		{
 			$output = '<div class="form-group" id="' . $this->getID() . '">';
@@ -41,28 +46,12 @@
 			{
 				$originalName = $formElement->getName();
 				$formElement->setID( $this->constructInputID( $originalName ) );
-				if ( is_a( $formElement, "\\tutomvc\\FormGroup" ) )
-				{
-					$output .= '<div class="form-group">';
-					/** @var FormGroup $formElement */
-					$output .= $formElement->getHeaderElement();
-				}
-				else
-				{
-					$output .= '<div class="form-group form-group-input">';
-					$output .= $formElement->getLabelElement();
-				}
+				$output .= '<div class="form-group form-group-input">';
+				$output .= $formElement->getHeaderElement();
 				$formElement->setName( $this->constructFormElementChildName( $originalName ) );
 				$output .= $formElement->getFormElement();
 				$formElement->setName( $originalName );
-				if ( is_a( $formElement, "\\tutomvc\\FormGroup" ) )
-				{
-					$output .= "<hr/>";
-				}
-				else
-				{
-					$output .= $formElement->getDescriptionElement();
-				}
+				$output .= $formElement->getFooterElement();
 				$output .= '</div>';
 			}
 			$output .= '</div>';
@@ -147,7 +136,7 @@
 				}
 			}
 
-			return parent::setValue( $value );
+			return $this;
 		}
 
 		/**

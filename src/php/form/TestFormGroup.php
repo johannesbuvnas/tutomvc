@@ -8,18 +8,18 @@
 
 	namespace tutomvc;
 
-	class TestFormGroup extends ObjectMetaBox
+	class TestFormGroup extends ReproducibleFormGroup
 	{
-		const NAME          = "form_group";
-		const SOME_TEXT     = "some_text";
-		const SOME_SELECTOR = "some_selector";
+		const INPUT_GROUP        = "emails";
+		const INPUT_GROUP_DOMAIN = "domain";
+		const INPUT_GROUP_NAME   = "name";
+		const NAME               = "form_group";
+		const SOME_TEXT          = "some_text";
+		const SOME_SELECTOR      = "some_selector";
 
 		function __construct()
 		{
-			parent::__construct( self::NAME, "Test form group", "Just testing this." );
-//			$this->setSingle( FALSE );
-//			$this->setMin( 1 );
-			$this->setMax( 1 );
+			parent::__construct( self::NAME, "Test form group", "Just testing this.", 1, 1 );
 
 			$this->addFormElement( new DefaultFormGroup() );
 
@@ -32,5 +32,13 @@
 			     ->addOption( "Finland", "fi", "Länder" )
 			     ->addOption( "Ryssland", "ru", "Länder" )
 			     ->addOption( "Danmark", "dk", "Länder" );
+
+			/** @var FormInputGroup $inputGroup */
+			$inputGroup = $this->addFormElement( new FormInputGroup( self::INPUT_GROUP, "Input group", "Default input groups" ) );
+			$inputGroup->addFormElement( new FormInput( self::INPUT_GROUP_NAME, NULL ) )
+			           ->setPlaceholder( "Name" );
+			$inputGroup->addFormElement( new FormInputAddon( "@" ) );
+			$inputGroup->addFormElement( new FormInput( self::INPUT_GROUP_DOMAIN, NULL ) )
+			           ->setPlaceholder( "Domain" );
 		}
 	}

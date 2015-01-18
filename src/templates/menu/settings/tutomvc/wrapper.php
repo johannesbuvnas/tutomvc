@@ -43,7 +43,11 @@
 //			}
 //			ksort( $formGroupData );
 //			$formGroupData = array_combine( range( 0, count( $formGroupData ) - 1 ), array_values( $formGroupData ) );
-			$formGroupData = $_POST[ $formGroup->getName() ];
+			if(array_key_exists($formGroup->getName(), $_POST ))
+			{
+				$formGroupData = $_POST[ $formGroup->getName() ];
+				$formGroup->setValue( $formGroupData );
+			}
 		}
 	?>
 	<form method="post">
@@ -51,7 +55,7 @@
 			<div class="col-xs-5">
 
 				<?php
-					echo $formGroup->getWPFormElement( $formGroupData );
+					echo $formGroup->getFormElement();
 				?>
 
 			</div>
@@ -59,8 +63,8 @@
 			<pre>
 			<?php if ( !empty($_POST) )
 			{
-				print_r( $formGroupData );
-//				print_r( $_POST );
+				print_r( $formGroup->getValue() );
+				print_r( $_POST );
 			} ?>
 				</pre>
 				<?php

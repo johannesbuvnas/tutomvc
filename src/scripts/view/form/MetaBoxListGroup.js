@@ -64,8 +64,7 @@ define( [
 
                 this.$el.css( "height", "auto" );
 
-                console.log( "MetaBoxListGroup::addOption", this.model.get( "addOption" ) );
-                if ( !this.model.get( "addOption" ) )
+                if ( !this.model.get( "addOption" ) || this.collection.length == 0 )
                 {
                     this.$( ".metabox-list-group-top-nav" ).addClass( "hidden" );
                 }
