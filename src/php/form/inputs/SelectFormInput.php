@@ -10,24 +10,21 @@
 
 	class SelectFormInput extends FormInput
 	{
-		const TYPE_DEFAULT  = "type_default";
-		const TYPE_MULTIPLE = "type_multiple";
-
 		protected $_filterEnabled = FALSE;
 		protected $_tagEnabled    = FALSE;
 
 		protected $_options = array();
 
-		function __construct( $name, $title, $description = NULL, $type = SelectFormInput::TYPE_DEFAULT, $readonly = FALSE, $placeholder = "" )
+		function __construct( $name, $title, $description = NULL, $single = TRUE, $readonly = FALSE, $placeholder = "" )
 		{
-			parent::__construct( $name, $title, $description, $type, $readonly, $placeholder );
+			parent::__construct( $name, $title, $description, NULL, $readonly, $placeholder, $single );
 		}
 
 		public function addOption( $name, $value, $groupLabel = NULL )
 		{
 			if ( is_string( $groupLabel ) )
 			{
-				if ( !array_key_exists( $groupLabel, $this->_options ) || !is_array( $this->_options[ $groupLabel ] ) ) $this->_options[ $groupLabel ] = [];
+				if ( !array_key_exists( $groupLabel, $this->_options ) || !is_array( $this->_options[ $groupLabel ] ) ) $this->_options[ $groupLabel ] = array();
 				$this->_options[ $groupLabel ][ $value ] = $name;
 			}
 			else
@@ -48,16 +45,16 @@
 			$output = "";
 
 			$attr = array(
-				"name"      => $this->getName() . "[]",
-				"id"        => $this->getName(),
+				"name"      => $this->getElementName(),
+				"id"        => $this->getID(),
 				"class"     => "form-control selectpicker",
 				"data-size" => "auto"
 			);
 			if ( $this->isReadOnly() ) $attr[ "disabled" ] = "true";
-			if ( !empty($this->getPlaceholder()) ) $attr[ "title" ] = $this->getPlaceholder();
-			if ( $this->getType() == self::TYPE_MULTIPLE )
+			if ( strlen( $this->getPlaceholder() ) ) $attr[ "title" ] = $this->getPlaceholder();
+			if ( !$this->isSingle() )
 			{
-				$attr[ "multiple" ]         = "true";
+				$attr[ "multiple" ] = "true";
 			}
 			if ( $this->isFilterEnabled() ) $attr[ "data-live-search" ] = "true";
 			if ( $this->isTagEnabled() )
@@ -104,7 +101,7 @@
 
 		protected function getOptionElement( $name, $value )
 		{
-			return $this->getValue() == $value ? '<option value="' . $value . '" selected>' . $name . '</option>' : '<option value="' . $value . '">' . $name . '</option>';
+			return $this->hasValue( $value ) ? '<option value="' . $value . '" selected>' . $name . '</option>' : '<option value="' . $value . '">' . $name . '</option>';
 		}
 
 		/**
@@ -141,5 +138,31 @@
 			$this->_tagEnabled = $tagEnabled;
 
 			return $this;
+		}
+
+		/**
+		 * @param array|null $value
+		 */
+		public function setValue( $value )
+		{
+			if ( !is_array( $value ) && !is_null( $value ) )
+			{
+				throw new \ErrorException( "Expect array or null.", 0, E_ERROR );
+			}
+
+			return parent::setValue( $value );
+		}
+
+		/**
+		 * @return array|null
+		 */
+		public function getValue()
+		{
+			return parent::getValue();
+		}
+
+		public function hasValue( $value )
+		{
+			return is_array( $this->_value ) ? in_array( $value, $this->_value ) : FALSE;
 		}
 	}

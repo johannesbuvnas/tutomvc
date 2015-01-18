@@ -8,7 +8,7 @@
 
 	namespace tutomvc;
 
-	class FormInput extends Form
+	class FormInput extends FormElement
 	{
 		const TYPE_TEXT     = "text";
 		const TYPE_PASSWORD = "password";
@@ -17,14 +17,15 @@
 		protected $_readOnly;
 		protected $_placeholder;
 
-		function __construct( $name, $title, $description = NULL, $type = FormInput::TYPE_TEXT, $readonly = FALSE, $placeholder = "" )
+		function __construct( $name, $title, $description = NULL, $type = FormInput::TYPE_TEXT, $readonly = FALSE, $placeholder = "", $single = TRUE )
 		{
 			$this->setName( $name );
-			$this->setTitle( $title );
+			$this->setLabel( $title );
 			$this->setDescription( $description );
 			$this->setType( $type );
 			$this->setReadOnly( $readonly );
 			$this->setPlaceholder( $placeholder );
+			$this->setSingle( $single );
 		}
 
 		function getFormElement()
@@ -35,8 +36,8 @@
 				"value"       => $this->getValue(),
 				"type"        => $this->getType(),
 				"placeholder" => $this->getPlaceholder(),
-				"name"        => $this->getName(),
-				"id"          => $this->getName(),
+				"name"        => $this->getElementName(),
+				"id"          => $this->getID(),
 				"class"       => "form-control"
 			);
 			if ( $this->isReadOnly() ) $attr[ "readonly" ] = "true";
@@ -54,9 +55,23 @@
 			return $output;
 		}
 
+		/**
+		 * @param $value
+		 *
+		 * @return mixed
+		 */
 		public function filterValue( $value )
 		{
 			return $value;
+		}
+
+		/**
+		 * The name-attribute.
+		 * @return string
+		 */
+		public function getElementName()
+		{
+			return $this->isSingle() ? $this->getName() : $this->getName() . "[" . $this->getIndex() . "]";
 		}
 
 		/**

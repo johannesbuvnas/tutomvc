@@ -1,9 +1,10 @@
 define(
     [
         "backbone",
-        "bootstrap"
+        "bootstrap",
+        "view/form/MetaBoxListGroup"
     ],
-    function ( Backbone, bootstrap )
+    function ( Backbone, bootstrap, MetaBoxListGroup )
     {
         var Main = Backbone.View.extend( {
             el: "body",
@@ -11,10 +12,7 @@ define(
             {
                 console.log( "Hello new Tuto MVC" );
                 //View
-                this.$( "select.multiselect" ).each( function ()
-                {
-                    var $el = Backbone.$( this );
-                } );
+                MetaBoxListGroup.autoInstance( this.$el );
             }
         } );
 

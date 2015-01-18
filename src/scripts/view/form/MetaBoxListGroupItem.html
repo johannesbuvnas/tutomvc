@@ -1,0 +1,33 @@
+
+<% if(navEnabled) { %>
+<li class="list-group-item metabox-list-group-item-header disabled">
+    <select class="selectpicker metabox-list-group-item-select-index" data-width="auto" style="display: none;">
+        <%
+        var i = 0;
+        while(i < total)
+        {
+        if(i == index)
+        {
+        %>
+        <option selected value="<%=i%>">#<%=i+1%></option>
+        <%
+        }
+        else
+        {
+        %>
+        <option value="<%=i%>">#<%=i+1%></option>
+        <%
+        }
+        i++;
+        }
+        %>
+    </select>
+    <% if(deleteOption) { %>
+    <button class="btn btn-sm btn-remove btn-danger pull-right">
+        <span class="glyphicon glyphicon-remove"></span>
+    </button>
+    <% } %>
+</li>
+<% } %>
+<li class="list-group-item metabox-list-group-item-body">
+</li>

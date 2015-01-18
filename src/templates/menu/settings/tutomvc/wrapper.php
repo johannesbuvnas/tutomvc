@@ -24,53 +24,50 @@
 	</h2>
 	<?php
 		if ( !is_null( $contentMediator ) ) $contentMediator->render();
-		if ( is_array( $_POST ) && count( $_POST ) ) var_dump( $_POST );
-		$formGroup = new TestFormGroup();
+		$formGroup     = new TestFormGroup();
+		$formGroupData = array();
+
+		// save_post action
+		if ( is_array( $_POST ) && count( $_POST ) )
+		{
+//			foreach ( $_POST[ TestFormGroup::NAME ] as $data )
+//			{
+//				$index = intval( $data[ "#" ] );
+//				unset($data[ "#" ]);
+//				while( array_key_exists( $index, $formGroupData ) )
+//				{
+//					// If index already exists, up it
+//					$index ++;
+//				}
+//				$formGroupData[ $index ] = $data;
+//			}
+//			ksort( $formGroupData );
+//			$formGroupData = array_combine( range( 0, count( $formGroupData ) - 1 ), array_values( $formGroupData ) );
+			$formGroupData = $_POST[ $formGroup->getName() ];
+		}
 	?>
-	<form method="post" class="col-xs-6">
-		<ul class="list-group metabox-list-group" data-max-cardinality="-1" data-min-cardinality="0">
-			<li class="list-group-item">
-				<h3>
-					<?php
-						echo $formGroup->getTitle();
-					?>
-					<small class="help-block">
-						<?php
-							echo $formGroup->getDescription();
-						?>
-					</small>
-				</h3>
-			</li>
-			<li class="list-group-item disabled">
-				<select class="selectpicker" data-width="auto">
-					<option selected>#1</option>
-					<option>#2</option>
-				</select>
-				<a class="btn btn-sm btn-danger pull-right" href="#"><span class="glyphicon glyphicon-remove"></span></a>
-			</li>
-			<li class="list-group-item metabox-item">
+	<form method="post">
+		<div class="row">
+			<div class="col-xs-5">
+
 				<?php
-					echo $formGroup->getFormElement();
+					echo $formGroup->getWPFormElement( $formGroupData );
 				?>
-			</li>
-			<li class="list-group-item disabled">
-				<select class="selectpicker" data-width="auto">
-					<option>#1</option>
-					<option selected>#2</option>
-				</select>
-				<a class="btn btn-sm btn-danger pull-right" href="#"><span class="glyphicon glyphicon-remove"></span></a>
-			</li>
-			<li class="list-group-item">
+
+			</div>
+			<div class="col-xs-6">
+			<pre>
+			<?php if ( !empty($_POST) )
+			{
+				print_r( $formGroupData );
+//				print_r( $_POST );
+			} ?>
+				</pre>
 				<?php
-					echo $formGroup->getFormElement();
+					submit_button( "Submit" );
 				?>
-			</li>
-			<li class="list-group-item" style="text-align: center">
-				<a class="btn btn-primary" href="#"><span class="glyphicon glyphicon-plus"></span></a>
-			</li>
-		</ul>
-		<?php
-			submit_button( "Submit" );
-		?>
+			</div>
+		</div>
 	</form>
+
 </div>
