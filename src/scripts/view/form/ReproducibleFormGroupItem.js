@@ -4,19 +4,20 @@
 define( [
         "backbone",
         "underscore",
-        "text!view/form/MetaBoxListGroupItem.html",
-        "view/form/inputs/Input"
+        "text!view/form/ReproducibleFormGroupItem.html",
+        "view/form/inputs/FormInput"
     ],
-    function ( Backbone, _, MetaBoxListGroupItemHTML, Input )
+    function ( Backbone, _, ReproducibleFormGroupItemHTML, FormInput )
     {
-        var MetaBoxListGroupItem = Backbone.View.extend( {
+        var ReproducibleFormGroupItem = Backbone.View.extend( {
             model: undefined,
             tagName: "li",
             attributes: {
-                "class": "list-group-item metabox-list-group-item"
+                "class": "list-group-item reproducible-form-group-item"
             },
-            template: _.template( MetaBoxListGroupItemHTML ),
+            template: _.template( ReproducibleFormGroupItemHTML ),
             $formEl: undefined,
+            _hasInitiatedFormInput: false,
             initialize: function ()
             {
                 var _this = this;
@@ -27,12 +28,11 @@ define( [
                 this.$formEl = Backbone.$( this.model.get( "formElementHTML" ) );
                 this.$formEl.find( '[name^="' + this.model.get( "name" ) + '"]' ).each( function ()
                 {
-                    var name = _this.model.fetchFormInputName( Backbone.$( this ).attr( "name" ) );
-                    var afterName = _this.model.fetchFormInputAfterName( Backbone.$( this ).attr( "name" ) );
+                    var name = _this.model.fetchFormFormInputName( Backbone.$( this ).attr( "name" ) );
+                    var afterName = _this.model.fetchFormFormInputAfterName( Backbone.$( this ).attr( "name" ) );
                     Backbone.$( this ).data( "name", name );
                     Backbone.$( this ).data( "after-name", afterName );
                 } );
-                Input.autoInstance( this.$formEl );
                 //Controller
             },
             render: function ()
@@ -41,12 +41,14 @@ define( [
 
                 this.$formEl.detach();
                 this.$el.html( this.template( this.model.toJSON() ) );
-                Input.autoInstance( this.$( ".metabox-list-group-item-header" ) );
-                this.$( ".metabox-list-group-item-body" ).append( this.$formEl );
+                FormInput.autoInstance( this.$( ".reproducible-form-group-item-header" ) );
+                this.$( ".reproducible-form-group-item-body" ).append( this.$formEl );
+
+                // TODO: This is fucking up WPEditor
                 this.$formEl.find( '[name^="' + this.model.get( "name" ) + '"]' ).each( function ()
                 {
-                    var name = _this.model.constructInputName( Backbone.$( this ).data( "name" ), Backbone.$( this ).data( "after-name" ) );
-                    var id = _this.model.constructInputID( name );
+                    var name = _this.model.constructFormInputName( Backbone.$( this ).data( "name" ), Backbone.$( this ).data( "after-name" ) );
+                    var id = _this.model.constructFormInputID( name );
 
                     Backbone.$( this ).attr( "name", name )
                         .attr( "id", id );
@@ -56,16 +58,22 @@ define( [
                         Backbone.$( this ).attr( "for", id );
                     } );
                 } );
+
+                if(!this._hasInitiatedFormInput)
+                {
+                    this._hasInitiatedFormInput = true;
+                    FormInput.autoInstance( this.$formEl );
+                }
                 return this;
             },
             remove: function ()
             {
-                console.log( "MetaBoxListGroupItem::remove" );
+                console.log( "ReproducibleFormGroupItem::remove" );
                 this.trigger( "remove", this );
             },
             events: {
                 "click .btn-remove": "onRemove",
-                "change select.metabox-list-group-item-select-index": "onChangeIndex"
+                "change select.reproducible-form-group-item-select-index": "onChangeIndex"
             },
             onRemove: function ( e )
             {
@@ -74,7 +82,7 @@ define( [
             },
             onChangeIndex: function ( e )
             {
-                this.model.set( { index: this.$( "select.metabox-list-group-item-select-index" ).val() } );
+                this.model.set( { index: this.$( "select.reproducible-form-group-item-select-index" ).val() } );
             }
         }, {
             Model: Backbone.Model.extend( {
@@ -87,18 +95,18 @@ define( [
                     deleteOption: true,
                     navEnabled: true
                 },
-                constructInputID: function ( name )
+                constructFormInputID: function ( name )
                 {
                     name = name.replace( /\[\]/gi, "" );
                     name = name.replace( /\]/gi, "" );
                     name = name.replace( /\[/gi, "_" );
                     return name;
                 },
-                constructInputName: function ( originalName, afterName )
+                constructFormInputName: function ( originalName, afterName )
                 {
                     return this.get( "name" ) + "[" + this.get( "index" ) + "][" + originalName + "]" + afterName;
                 },
-                fetchFormInputName: function ( str )
+                fetchFormFormInputName: function ( str )
                 {
                     var re = new RegExp( this.get( "name" ) + "\\[(.*?)\\]" );
                     var matches = re.exec( str );
@@ -106,9 +114,9 @@ define( [
 
                     return match;
                 },
-                fetchFormInputAfterName: function ( str )
+                fetchFormFormInputAfterName: function ( str )
                 {
-                    var match = this.fetchFormInputName( str );
+                    var match = this.fetchFormFormInputName( str );
                     var afterMatch = str.substr( str.indexOf( "[" + match + "]" ) + match.length + 2 );
 
                     return afterMatch;
@@ -116,5 +124,5 @@ define( [
             } )
         } );
 
-        return MetaBoxListGroupItem;
+        return ReproducibleFormGroupItem;
     } );

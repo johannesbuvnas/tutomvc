@@ -2,9 +2,9 @@ define(
     [
         "backbone",
         "bootstrap",
-        "view/form/MetaBoxListGroup"
+        "view/form/ReproducibleFormGroup"
     ],
-    function ( Backbone, bootstrap, MetaBoxListGroup )
+    function ( Backbone, bootstrap, ReproducibleFormGroup )
     {
         var Main = Backbone.View.extend( {
             el: "body",
@@ -12,7 +12,7 @@ define(
             {
                 console.log( "Hello new Tuto MVC" );
                 //View
-                MetaBoxListGroup.autoInstance( this.$el );
+                ReproducibleFormGroup.autoInstance( this.$el );
             }
         } );
 

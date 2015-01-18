@@ -2,13 +2,14 @@
  * Created by johannesbuvnas on 17/01/15.
  */
 define( [
-    "backbone"
-], function ( Backbone )
+    "backbone",
+    "view/form/inputs/WPEditor"
+], function ( Backbone, WPEditor )
 {
-    var Input = Backbone.View.extend( {
+    var FormFormInput = Backbone.View.extend( {
         initialize: function ()
         {
-            console.log( "FormInput::initialize" );
+            console.log( "FormFormInput::initialize" );
         }
     }, {
         autoInstance: function ( $el )
@@ -18,8 +19,10 @@ define( [
             {
                 Backbone.$( this ).selectpicker();
             } );
+            // WP Editor
+            WPEditor.autoInstance( $el );
         }
     } );
 
-    return Input;
+    return FormFormInput;
 } );

@@ -27,6 +27,7 @@ class TutoMVCSettingsPage extends AdminMenuPage
 
 	function onLoad()
 	{
+		do_action( ActionCommand::PREPARE_META_FIELD );
 		$screen = get_current_screen();
 		if($screen->id == $this->getName())
 		{

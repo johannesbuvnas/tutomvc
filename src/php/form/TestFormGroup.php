@@ -16,10 +16,11 @@
 		const NAME               = "form_group";
 		const SOME_TEXT          = "some_text";
 		const SOME_SELECTOR      = "some_selector";
+		const WP_EDITOR      = "wp_editor";
 
 		function __construct()
 		{
-			parent::__construct( self::NAME, "Test form group", "Just testing this.", 1, 1 );
+			parent::__construct( self::NAME, "Test form group", "Just testing this.", 1, -1 );
 
 			$this->addFormElement( new DefaultFormGroup() );
 
@@ -40,5 +41,8 @@
 			$inputGroup->addFormElement( new FormInputAddon( "@" ) );
 			$inputGroup->addFormElement( new FormInput( self::INPUT_GROUP_DOMAIN, NULL ) )
 			           ->setPlaceholder( "Domain" );
+
+			$this->addFormElement( new WPEditorFormInput( self::WP_EDITOR, "Some WP Editor", "Edit some stuff", FALSE, FALSE, "Placeholder" ) )
+				->setDefaultValue('<p class="VA">hej</p>');
 		}
 	}

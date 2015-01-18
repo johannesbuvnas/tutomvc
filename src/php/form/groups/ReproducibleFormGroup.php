@@ -48,7 +48,7 @@
 //			if ( $this->getMax() > 0 && $this->count() > $this->getMax() ) $count = $this->getMax();
 //			if ( $count < $this->getMin() ) $count = $this->getMin();
 			$output = "";
-			$output = '<ul class="list-group metabox-list-group" data-max="' . $this->getMax() . '" data-min="' . $this->getMin() . '">';
+			$output = '<ul class="list-group reproducible-form-group">';
 			$output .= $this->getHeaderElement();
 			$outputFallback = "";
 			$outputFallback .= '<div class="hidden no-js-fallback">';
@@ -74,10 +74,10 @@
 			}
 			$outputFallback .= '</div>';
 			if ( $this->getIncludeFallback() ) $output .= $outputFallback;
-			$output .= '<textarea class="hidden model">' . json_encode( $model ) . '</textarea>';
-			$output .= '<textarea class="hidden collection">' . json_encode( $collection ) . '</textarea>';
+			$output .= '<textarea class="hidden model">' . json_encode( $model, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP  ) . '</textarea>';
+			$output .= '<textarea class="hidden collection">' . json_encode( $collection, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP  ) . '</textarea>';
 			parent::setValue( NULL );
-			$output .= '<textarea class="hidden collection-dummy-model">' . json_encode( $collectionModelDummy ) . '</textarea>';
+			$output .= '<textarea class="hidden collection-dummy-model">' . json_encode( $collectionModelDummy, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP  ) . '</textarea>';
 
 			$output .= '</ul>';
 

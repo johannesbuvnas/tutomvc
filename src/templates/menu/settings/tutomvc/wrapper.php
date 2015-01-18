@@ -43,10 +43,13 @@
 //			}
 //			ksort( $formGroupData );
 //			$formGroupData = array_combine( range( 0, count( $formGroupData ) - 1 ), array_values( $formGroupData ) );
-			if(array_key_exists($formGroup->getName(), $_POST ))
+			if ( array_key_exists( $formGroup->getName(), $_POST ) )
 			{
 				$formGroupData = $_POST[ $formGroup->getName() ];
+				$formGroupData = array_map( 'stripslashes_deep', $formGroupData );
 				$formGroup->setValue( $formGroupData );
+//				var_dump( $formGroupData );
+//				exit;
 			}
 		}
 	?>

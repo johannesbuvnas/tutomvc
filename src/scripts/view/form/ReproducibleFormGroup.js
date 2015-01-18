@@ -4,27 +4,26 @@
 define( [
         "backbone",
         "underscore",
-        "text!view/form/MetaBoxListGroup.html",
-        "view/form/MetaBoxListGroupItem",
-        "view/form/inputs/Input"
+        "text!view/form/ReproducibleFormGroup.html",
+        "view/form/ReproducibleFormGroupItem"
     ],
-    function ( Backbone, _, MetaBoxListGroupHTML, MetaBoxListGroupItem, Input )
+    function ( Backbone, _, ReproducibleFormGroupHTML, ReproducibleFormGroupItem )
     {
-        var MetaBoxListGroup = Backbone.View.extend( {
+        var ReproducibleFormGroup = Backbone.View.extend( {
             tagName: "ul",
             attributes: {
-                "class": "list-group metabox-list-group"
+                "class": "list-group reproducible-form-group"
             },
             model: undefined,
             collection: undefined,
             _dummy: undefined,
-            template: _.template( MetaBoxListGroupHTML ),
+            template: _.template( ReproducibleFormGroupHTML ),
             initialize: function ()
             {
-                console.log( "MetaBoxListGroup::initialize" );
+                console.log( "ReproducibleFormGroup::initialize" );
                 //Model
-                this.model = new MetaBoxListGroup.Model( Backbone.$.parseJSON( this.$( "textarea.model" ).val() ) );
-                this.collection = new MetaBoxListGroup.Collection( Backbone.$.parseJSON( this.$( "textarea.collection" ).val() ) );
+                this.model = new ReproducibleFormGroup.Model( Backbone.$.parseJSON( this.$( "textarea.model" ).val() ) );
+                this.collection = new ReproducibleFormGroup.Collection( Backbone.$.parseJSON( this.$( "textarea.collection" ).val() ) );
                 this._dummy = Backbone.$.parseJSON( this.$( "textarea.collection-dummy-model" ).val() );
                 //View
                 this.render();
@@ -33,7 +32,7 @@ define( [
             },
             render: function ()
             {
-                console.log( "MetaBoxListGroup::render" );
+                console.log( "ReproducibleFormGroup::render" );
                 var height = this.$el.outerHeight();
                 this.$el.css( "height", height );
                 var _this = this;
@@ -42,7 +41,7 @@ define( [
                 {
                     if ( !model.get( "view" ) )
                     {
-                        model.set( "view", _this._getInstanceOfMetaBoxListGroupItem( model ) );
+                        model.set( "view", _this._getInstanceOfReproducibleFormGroupItem( model ) );
                     }
                     model.get( "view" ).$el.detach();
                     model.set( {
@@ -59,21 +58,21 @@ define( [
                 this.collection.each( function ( model )
                 {
                     model.get( "view" ).render();
-                    _this.$( ".metabox-list-group-footer" ).before( model.get( "view" ).$el );
+                    _this.$( ".reproducible-form-group-footer" ).before( model.get( "view" ).$el );
                 } );
 
                 this.$el.css( "height", "auto" );
 
                 if ( !this.model.get( "addOption" ) || this.collection.length == 0 )
                 {
-                    this.$( ".metabox-list-group-top-nav" ).addClass( "hidden" );
+                    this.$( ".reproducible-form-group-top-nav" ).addClass( "hidden" );
                 }
 
                 return this;
             },
-            _getInstanceOfMetaBoxListGroupItem: function ( model )
+            _getInstanceOfReproducibleFormGroupItem: function ( model )
             {
-                var item = new MetaBoxListGroupItem( {
+                var item = new ReproducibleFormGroupItem( {
                     model: model
                 } );
                 this.listenTo( item, "remove", this.onRemoveItem );
@@ -92,8 +91,8 @@ define( [
             },
             add: function ( before )
             {
-                console.log( "MetaBoxListGroup::add", before );
-                var model = new MetaBoxListGroupItem.Model( this._dummy );
+                console.log( "ReproducibleFormGroup::add", before );
+                var model = new ReproducibleFormGroupItem.Model( this._dummy );
                 model.set( {
                     index: this.collection.length,
                     total: this.collection.length + 1
@@ -117,7 +116,7 @@ define( [
             {
                 e.preventDefault();
                 var $el = Backbone.$( e.currentTarget );
-                this.add( $el.parents( ".metabox-list-group-top-nav" ).length );
+                this.add( $el.parents( ".reproducible-form-group-top-nav" ).length );
             },
             onChangeIndex: function ( model, newIndex )
             {
@@ -145,19 +144,19 @@ define( [
                 }
             } ),
             Collection: Backbone.Collection.extend( {
-                model: MetaBoxListGroupItem.Model
+                model: ReproducibleFormGroupItem.Model
             } ),
             autoInstance: function ( $el )
             {
-                $el.find( ".metabox-list-group" ).each( function ()
+                $el.find( ".reproducible-form-group" ).each( function ()
                 {
-                    $metaboxListGroup = Backbone.$( this );
-                    new MetaBoxListGroup( {
-                        el: $metaboxListGroup
+                    $ReproducibleFormGroup = Backbone.$( this );
+                    new ReproducibleFormGroup( {
+                        el: $ReproducibleFormGroup
                     } );
                 } );
             }
         } );
 
-        return MetaBoxListGroup;
+        return ReproducibleFormGroup;
     } );
