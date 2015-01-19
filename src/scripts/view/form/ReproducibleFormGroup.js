@@ -59,6 +59,7 @@ define( [
                 {
                     model.get( "view" ).render();
                     _this.$( ".reproducible-form-group-footer" ).before( model.get( "view" ).$el );
+                    model.get( "view" ).$formEl.trigger("reattach");
                 } );
 
                 this.$el.css( "height", "auto" );

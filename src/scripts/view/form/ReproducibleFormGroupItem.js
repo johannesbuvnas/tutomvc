@@ -26,6 +26,7 @@ define( [
                 this.model.set( "view", this );
                 //View
                 this.$formEl = Backbone.$( this.model.get( "formElementHTML" ) );
+                this.$formEl.addClass( "form-group-detachable" );
                 this.$formEl.find( '[name^="' + this.model.get( "name" ) + '"]' ).each( function ()
                 {
                     var name = _this.model.fetchFormFormInputName( Backbone.$( this ).attr( "name" ) );
@@ -38,28 +39,29 @@ define( [
             render: function ()
             {
                 var _this = this;
+                var $input;
 
+                this.$formEl.trigger( "predetach" );
                 this.$formEl.detach();
-                this.$el.html( this.template( this.model.toJSON() ) );
-                FormInput.autoInstance( this.$( ".reproducible-form-group-item-header" ) );
-                this.$( ".reproducible-form-group-item-body" ).append( this.$formEl );
 
                 // TODO: This is fucking up WPEditor
                 this.$formEl.find( '[name^="' + this.model.get( "name" ) + '"]' ).each( function ()
                 {
-                    var name = _this.model.constructFormInputName( Backbone.$( this ).data( "name" ), Backbone.$( this ).data( "after-name" ) );
+                    $input = Backbone.$( this );
+                    var name = _this.model.constructFormInputName( $input.data( "name" ), $input.data( "after-name" ) );
                     var id = _this.model.constructFormInputID( name );
 
-                    Backbone.$( this ).attr( "name", name )
+                    $input.attr( "name", name )
                         .attr( "id", id );
 
-                    Backbone.$( this ).parent( ".form-group-input" ).find( "label" ).each( function ()
-                    {
-                        Backbone.$( this ).attr( "for", id );
-                    } );
+                    $input.parent( ".form-group-input" ).find( "label" ).attr( "for", id );
                 } );
 
-                if(!this._hasInitiatedFormInput)
+                this.$el.html( this.template( this.model.toJSON() ) );
+                FormInput.autoInstance( this.$( ".reproducible-form-group-item-header" ) );
+                this.$( ".reproducible-form-group-item-body" ).append( this.$formEl );
+
+                if ( !this._hasInitiatedFormInput )
                 {
                     this._hasInitiatedFormInput = true;
                     FormInput.autoInstance( this.$formEl );

@@ -10,7 +10,7 @@
 
 		public function execute()
 		{
-			$content = array_key_exists( "content", $_REQUEST ) ? $_REQUEST[ 'content' ] : "";
+			$content = array_key_exists( "content", $_REQUEST ) ? stripslashes( $_REQUEST[ 'content' ] ) : "";
 
 			if ( array_key_exists( "userID", $_REQUEST ) && intval( $_REQUEST[ 'userID' ] ) )
 			{
