@@ -10,6 +10,8 @@
 
 	class PostMetaBox extends ReproducibleFormGroup
 	{
+		private $_metaKeysMap;
+
 		/**
 		 * Filter the sanitization of a specific meta key of a specific meta type.
 		 *
@@ -55,8 +57,90 @@
 		{
 			// Loop through a map of possible meta keys
 
-
-
 			return $null;
+		}
+
+		public function toMetaKeyVO( $postArray, $at = 0 )
+		{
+			$vo = $this->mapMetaKeysFromArray( $postArray, $this->getName() . "[$at]" );
+
+			return $vo;
+		}
+
+		/**
+		 * @return mixed
+		 */
+		public function getMetaKeysMap()
+		{
+			if ( !is_array( $this->_metaKeysMap ) )
+			{
+				$this->_metaKeysMap = $this->mapMetaKeysFromFormGroup( $this );
+			}
+
+			return $this->_metaKeysMap;
+		}
+
+		/**
+		 * @param FormGroup $formGroup
+		 */
+		private function mapMetaKeysFromFormGroup( $formGroup, $begin = "" )
+		{
+			$metaKeys = array();
+			/** @var FormElement $formElement */
+			foreach ( $formGroup->getFormElements() as $formElement )
+			{
+				if ( is_a( $formElement, "\\tutomvc\\FormGroup" ) )
+				{
+					foreach ( $this->mapMetaKeysFromFormGroup( $formElement ) as $deepKey => $deepValue )
+					{
+						$metaKeys[$formElement->getName()][ $begin . "[" . $formElement->getName() . "]" . $deepKey . "" ] = "";
+					}
+				}
+				else
+				{
+					$name = $formElement->getName();
+					if ( !empty($name) )
+					{
+						$metaKeys[ $begin . "[$name]" ] = "";
+					}
+				}
+			}
+
+			return $metaKeys;
+		}
+
+		/**
+		 * @param array $formGroup
+		 */
+		private function mapMetaKeysFromArray( $array, $begin = "" )
+		{
+			$metaKeys = array();
+			/** @var FormElement $formElement */
+			foreach ( $array as $key => $value )
+			{
+				if ( is_array( $value ) )
+				{
+					foreach ( $this->mapMetaKeysFromArray( $value ) as $deepKey => $deepValue )
+					{
+						$metaKeys[ $begin . "[" . $key . "]" . $deepKey . "" ] = $deepValue;
+					}
+				}
+				else
+				{
+					if ( !empty($key) || is_numeric( filter_var( $key, FILTER_VALIDATE_INT ) ) )
+					{
+						if ( !is_numeric( filter_var( $key, FILTER_VALIDATE_INT ) ) )
+						{
+							$metaKeys[ $begin . "[$key]" ] = $value;
+						}
+						else
+						{
+							$metaKeys[ $begin ][ ] = $value;
+						}
+					}
+				}
+			}
+
+			return $metaKeys;
 		}
 	}

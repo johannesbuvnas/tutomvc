@@ -24,6 +24,7 @@
 	</h2>
 	<?php
 		if ( !is_null( $contentMediator ) ) $contentMediator->render();
+		/** @var PostMetaBox $formGroup */
 		$formGroup     = new TestFormGroup();
 		$formGroupData = array();
 
@@ -64,11 +65,15 @@
 			</div>
 			<div class="col-xs-6">
 			<pre>
-			<?php if ( !empty($_POST) )
-			{
-				print_r( $formGroup->getValue() );
-				print_r( $_POST );
-			} ?>
+			<?php
+				print_r( $formGroup->getMetaKeysMap() );
+				if ( !empty($_POST) )
+				{
+//					print_r( $formGroup->getValue() );
+//					print_r( $_POST );
+					print_r( $formGroup->toMetaKeyVO( array_pop( $formGroup->getValue() ) ) );
+				}
+			?>
 				</pre>
 				<?php
 					submit_button( "Submit" );

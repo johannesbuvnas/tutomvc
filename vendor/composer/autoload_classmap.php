@@ -86,6 +86,7 @@ return array(
     'tutomvc\\NotificationMediator' => $baseDir . '/src/php/system/view/mediators/util/notification/NotificationMediator.php',
     'tutomvc\\NotificationProxy' => $baseDir . '/src/php/system/model/proxy/util/notification/NotificationProxy.php',
     'tutomvc\\OptionVO' => $baseDir . '/src/php/system/model/proxy/meta/settings/OptionVO.php',
+    'tutomvc\\PostMetaBox' => $baseDir . '/src/php/form/groups/PostMetaBox.php',
     'tutomvc\\PostType' => $baseDir . '/src/php/system/model/proxy/posttype/PostType.php',
     'tutomvc\\PostTypeProxy' => $baseDir . '/src/php/system/model/proxy/posttype/PostTypeProxy.php',
     'tutomvc\\PostUpdatedCommand' => $baseDir . '/src/php/system/controller/actions/post/PostUpdatedCommand.php',

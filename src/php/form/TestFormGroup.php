@@ -8,7 +8,7 @@
 
 	namespace tutomvc;
 
-	class TestFormGroup extends ReproducibleFormGroup
+	class TestFormGroup extends PostMetaBox
 	{
 		const INPUT_GROUP        = "emails";
 		const INPUT_GROUP_DOMAIN = "domain";
