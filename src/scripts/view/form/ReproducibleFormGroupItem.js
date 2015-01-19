@@ -70,7 +70,6 @@ define( [
             },
             remove: function ()
             {
-                console.log( "ReproducibleFormGroupItem::remove" );
                 this.trigger( "remove", this );
             },
             events: {

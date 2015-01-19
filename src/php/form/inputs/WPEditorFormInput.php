@@ -18,7 +18,7 @@
 				"placeholder" => $this->getPlaceholder(),
 				"name"        => $this->getElementName(),
 				"id"          => $this->getID(),
-				"class"       => "form-control tutomvc-wp-editor hidden"
+				"class"       => "form-control tutomvc-wp-editor"
 			);
 			if ( $this->isReadOnly() ) $attr[ "readonly" ] = "true";
 

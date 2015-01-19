@@ -2,9 +2,10 @@ define(
     [
         "backbone",
         "bootstrap",
-        "view/form/ReproducibleFormGroup"
+        "view/form/ReproducibleFormGroup",
+        "view/form/inputs/FormInput"
     ],
-    function ( Backbone, bootstrap, ReproducibleFormGroup )
+    function ( Backbone, bootstrap, ReproducibleFormGroup, FormInput )
     {
         var Main = Backbone.View.extend( {
             el: "body",
@@ -12,7 +13,12 @@ define(
             {
                 console.log( "Hello new Tuto MVC" );
                 //View
-                ReproducibleFormGroup.autoInstance( this.$el );
+                var _this = this;
+                Backbone.$( document ).ready( function ()
+                {
+                    FormInput.autoInstance( _this.$el );
+                    ReproducibleFormGroup.autoInstance( _this.$el );
+                } );
             }
         } );
 

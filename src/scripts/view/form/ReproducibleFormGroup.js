@@ -20,7 +20,6 @@ define( [
             template: _.template( ReproducibleFormGroupHTML ),
             initialize: function ()
             {
-                console.log( "ReproducibleFormGroup::initialize" );
                 //Model
                 this.model = new ReproducibleFormGroup.Model( Backbone.$.parseJSON( this.$( "textarea.model" ).val() ) );
                 this.collection = new ReproducibleFormGroup.Collection( Backbone.$.parseJSON( this.$( "textarea.collection" ).val() ) );
@@ -32,7 +31,6 @@ define( [
             },
             render: function ()
             {
-                console.log( "ReproducibleFormGroup::render" );
                 var height = this.$el.outerHeight();
                 this.$el.css( "height", height );
                 var _this = this;
@@ -57,9 +55,9 @@ define( [
 
                 this.collection.each( function ( model )
                 {
-                    model.get( "view" ).render();
                     _this.$( ".reproducible-form-group-footer" ).before( model.get( "view" ).$el );
-                    model.get( "view" ).$formEl.trigger("reattach");
+                    model.get( "view" ).render();
+                    model.get( "view" ).$formEl.trigger( "reattach" );
                 } );
 
                 this.$el.css( "height", "auto" );
@@ -92,7 +90,6 @@ define( [
             },
             add: function ( before )
             {
-                console.log( "ReproducibleFormGroup::add", before );
                 var model = new ReproducibleFormGroupItem.Model( this._dummy );
                 model.set( {
                     index: this.collection.length,
