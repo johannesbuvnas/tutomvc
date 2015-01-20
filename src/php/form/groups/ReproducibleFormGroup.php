@@ -252,7 +252,7 @@
 
 		public function getValueAt( $index = 0 )
 		{
-			return is_array( $this->getValue() ) && array_key_exists( 0, $this->getValue() ) ? $this->getValue()[ $index ] : NULL;
+			return is_array( $this->getValue() ) && array_key_exists( $index, $this->getValue() ) ? $this->getValue()[ $index ] : NULL;
 		}
 
 	}

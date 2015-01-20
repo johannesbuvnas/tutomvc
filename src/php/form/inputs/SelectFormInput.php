@@ -145,6 +145,7 @@
 		 */
 		public function setValue( $value )
 		{
+			if ( is_string( $value ) ) $value = array($value);
 			if ( !is_array( $value ) && !is_null( $value ) )
 			{
 				throw new \ErrorException( "Expect array or null.", 0, E_ERROR );

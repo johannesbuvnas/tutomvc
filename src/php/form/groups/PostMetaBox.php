@@ -12,6 +12,173 @@
 	{
 		private $_metaKeysMap;
 
+		final public static function constructPrimaryMetaKey( $postMetaBoxName, $index )
+		{
+			return $postMetaBoxName . "[$index]";
+		}
+
+		final public static function testMetaKey( $postMetaBoxName, $metaKey )
+		{
+			preg_match( self::getMetaKeyTestRegex( $postMetaBoxName ), $metaKey, $matches );
+
+			return $matches;
+		}
+
+		final public static function testMetaKeyGroupName( $postMetaBoxName, $metaKey )
+		{
+			preg_match( self::getMetaKeyGroupNameRegex( $postMetaBoxName ), $metaKey, $matches );
+
+			return $matches;
+		}
+
+		final public static function filterMetaKeyGroupName( $postMetaBoxName, $metaKey )
+		{
+			$matches = self::testMetaKeyGroupName( $postMetaBoxName, $metaKey );
+
+			if ( is_array( $matches ) && count( $matches ) == 2 ) return $matches[ 1 ];
+
+			return NULL;
+		}
+
+		final public function filterMetaKey( $metaKey )
+		{
+			$matches = self::testMetaKey( $this->getName(), $metaKey );
+
+			if ( count( $matches ) == 4 )
+			{
+				$primaryMetaKey   = $matches[ 1 ];
+				$index            = intval( $matches[ 2 ] );
+				$secondaryMetaKey = $matches[ 3 ];
+
+				$secondaryMetaKeyMatches = array();
+				$secondaryMetaKeyRegex   = str_replace( "[", "\[", $secondaryMetaKey );
+				$secondaryMetaKeyRegex   = str_replace( "]", "\]", $secondaryMetaKeyRegex );
+				$secondaryMetaKeyRegex   = "/$secondaryMetaKeyRegex/";
+				foreach ( $this->getMetaKeysMap() as $key => $value )
+				{
+					preg_match( $secondaryMetaKeyRegex, $value, $matches );
+					if ( count( $matches ) )
+					{
+						$secondaryMetaKeyMatches[ $value ] = $primaryMetaKey . "[$index]" . $value;
+					}
+				}
+
+				if ( count( $secondaryMetaKeyMatches ) && count( $secondaryMetaKeyMatches ) > 1 )
+				{
+					// We have multiple matches, this is a FormGroup
+					// We need to construct a empty meta value map
+					$formElement = $this->getFormElementByName( self::filterMetaKeyGroupName( $this->getName(), $metaKey ) );
+
+					return $formElement ? self::createMetaValueMap( $formElement, self::constructPrimaryMetaKey( $primaryMetaKey, $index ), 0 ) : NULL;
+				}
+				else if ( count( $secondaryMetaKeyMatches ) )
+				{
+					return $metaKey;
+				}
+			}
+
+			return FALSE;
+		}
+
+		/**
+		 * @param FormGroup $formGroup
+		 * @param string $primaryKey
+		 *
+		 * @return array
+		 */
+		private function createMetaKeyMap( $formGroup, $primaryKey = "" )
+		{
+			$metaKeyMap = array();
+			/** @var FormElement $formElement */
+			foreach ( $formGroup->getFormElements() as $formElement )
+			{
+				$name = $formElement->getName();
+				if ( strlen( $name ) ) $metaKeyMap[ ] = $primaryKey . "[" . $name . "]";
+
+				if ( is_a( $formElement, "\\tutomvc\\FormGroup" ) )
+				{
+					/** @var FormGroup $formElement */
+					$metaKeyMap = array_merge( $metaKeyMap, $this->createMetaKeyMap( $formElement, $primaryKey . "[" . $formElement->getName() . "]" ) );
+				}
+			}
+
+			return $metaKeyMap;
+		}
+
+		/**
+		 * @param FormElement $formElement
+		 */
+		final public static function createMetaValueMap( $formElement, $primaryKey = "", $level = 1 )
+		{
+			$metaValueMap = array();
+			if ( is_a( $formElement, "\\tutomvc\\FormGroup" ) )
+			{
+				$subMetaValueMap = array();
+				/** @var FormGroup $formElement */
+				/** @var FormElement $subFormElement */
+				foreach ( $formElement->getFormElements() as $subFormElement )
+				{
+					$subMetaValueMap = array_merge( $subMetaValueMap, self::createMetaValueMap( $subFormElement, $primaryKey . "[" . $subFormElement->getName() . "]", $level + 1 ) );
+				}
+				if ( $level == 0 ) $metaValueMap = $subMetaValueMap;
+				else $metaValueMap[ $formElement->getName() ] = $subMetaValueMap;
+			}
+			else
+			{
+				$name = $formElement->getName();
+				if ( strlen( $name ) ) $metaValueMap[ $name ] = $primaryKey;
+			}
+
+			return $metaValueMap;
+		}
+
+		/* SET AND GET */
+		final public static function getMetaKeyTestRegex( $postMetaBoxName )
+		{
+			return "/(" . $postMetaBoxName . ")\[([0-9]+)\](.*)/ix";
+		}
+
+		final public static function getMetaKeyGroupNameRegex( $postMetaBoxName )
+		{
+			return "/" . $postMetaBoxName . "\[[0-9]+\]\[(.*)\]/ix";
+		}
+
+		public function getValueAsFlatMetaKeyMap()
+		{
+			$metaKeyMap = array();
+			foreach ( $this->getValue() as $key => $value )
+			{
+				$metaKeyMap[ ] = $this->getValueAsFlatMetaKeyMapAt( $key );
+			}
+
+			return $metaKeyMap;
+		}
+
+		public function getValueAsFlatMetaKeyMapAt( $index = 0 )
+		{
+			if ( $this->getValueAt( $index ) )
+			{
+				FormGroup::setValue( $this->getValueAt( $index ) );
+
+				return $this->createMetaKeyMap( $this, $this->getName() . "[$index]" );
+			}
+
+			return NULL;
+		}
+
+		/**
+		 * @return mixed
+		 */
+		public function getMetaKeysMap()
+		{
+			if ( !is_array( $this->_metaKeysMap ) )
+			{
+				$this->_metaKeysMap = $this->createMetaKeyMap( $this );
+			}
+
+			return $this->_metaKeysMap;
+		}
+
 		/**
 		 * Filter the sanitization of a specific meta key of a specific meta type.
 		 *
@@ -58,89 +225,5 @@
 			// Loop through a map of possible meta keys
 
 			return $null;
-		}
-
-		public function toMetaKeyVO( $postArray, $at = 0 )
-		{
-			$vo = $this->mapMetaKeysFromArray( $postArray, $this->getName() . "[$at]" );
-
-			return $vo;
-		}
-
-		/**
-		 * @return mixed
-		 */
-		public function getMetaKeysMap()
-		{
-			if ( !is_array( $this->_metaKeysMap ) )
-			{
-				$this->_metaKeysMap = $this->mapMetaKeysFromFormGroup( $this );
-			}
-
-			return $this->_metaKeysMap;
-		}
-
-		/**
-		 * @param FormGroup $formGroup
-		 */
-		private function mapMetaKeysFromFormGroup( $formGroup, $begin = "" )
-		{
-			$metaKeys = array();
-			/** @var FormElement $formElement */
-			foreach ( $formGroup->getFormElements() as $formElement )
-			{
-				if ( is_a( $formElement, "\\tutomvc\\FormGroup" ) )
-				{
-					foreach ( $this->mapMetaKeysFromFormGroup( $formElement ) as $deepKey => $deepValue )
-					{
-						$metaKeys[$formElement->getName()][ $begin . "[" . $formElement->getName() . "]" . $deepKey . "" ] = "";
-					}
-				}
-				else
-				{
-					$name = $formElement->getName();
-					if ( !empty($name) )
-					{
-						$metaKeys[ $begin . "[$name]" ] = "";
-					}
-				}
-			}
-
-			return $metaKeys;
-		}
-
-		/**
-		 * @param array $formGroup
-		 */
-		private function mapMetaKeysFromArray( $array, $begin = "" )
-		{
-			$metaKeys = array();
-			/** @var FormElement $formElement */
-			foreach ( $array as $key => $value )
-			{
-				if ( is_array( $value ) )
-				{
-					foreach ( $this->mapMetaKeysFromArray( $value ) as $deepKey => $deepValue )
-					{
-						$metaKeys[ $begin . "[" . $key . "]" . $deepKey . "" ] = $deepValue;
-					}
-				}
-				else
-				{
-					if ( !empty($key) || is_numeric( filter_var( $key, FILTER_VALIDATE_INT ) ) )
-					{
-						if ( !is_numeric( filter_var( $key, FILTER_VALIDATE_INT ) ) )
-						{
-							$metaKeys[ $begin . "[$key]" ] = $value;
-						}
-						else
-						{
-							$metaKeys[ $begin ][ ] = $value;
-						}
-					}
-				}
-			}
-
-			return $metaKeys;
 		}
 	}

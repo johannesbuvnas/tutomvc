@@ -1,57 +1,62 @@
 <?php
-namespace tutomvc;
+	namespace tutomvc;
 
-class SavePostCommand extends ActionCommand
-{
-	const NAME = "save_post";
-
-	public function __construct( $postType = NULL )
+	class SavePostCommand extends ActionCommand
 	{
-		parent::__construct( self::constructHookName( $postType ) );
-	}
+		const NAME = "save_post";
 
-	public static function constructHookName( $postType = NULL )
-	{
-		$hook = self::NAME;
-		if($postType != "post" && $postType != "page" && $postType != "attachment" && !is_null($postType)) $hook = $hook . "_" . $postType;
-		else if($postType == "attachment") $hook = "edit_attachment";
-
-		return $hook;
-	}
-
-	function execute()
-	{
-		$postID = $this->getArg( 0 );
-		$postType = get_post_type( $postID );
-
-		foreach($this->getFacade()->metaCenter->getMap() as $metaBox)
+		public function __construct( $postType = NULL )
 		{
-			if($metaBox->hasPostType( $postType ))
-			{
-				if( WordPressUtil::verifyNonce( $metaBox->getName() . "_nonce", $metaBox->getName() ) )
-				{
-					$metaBox->clearMetaFields( $postID );
-					$metaBox->addPostMeta( $postID, $metaBox->getName(), $_POST[ $metaBox->getName() ] );
-					
-					$map = $metaBox->getMetaBoxMap( $postID );
+			parent::__construct( self::constructHookName( $postType ) );
+		}
 
-					foreach( $map as $metaBoxMap )
+		public static function constructHookName( $postType = NULL )
+		{
+			$hook = self::NAME;
+			if ( $postType != "post" && $postType != "page" && $postType != "attachment" && !is_null( $postType ) ) $hook = $hook . "_" . $postType;
+			else if ( $postType == "attachment" ) $hook = "edit_attachment";
+
+			return $hook;
+		}
+
+		function execute()
+		{
+			$postID   = $this->getArg( 0 );
+			$postType = get_post_type( $postID );
+
+			foreach ( $this->getFacade()->metaCenter->getMap() as $metaBox )
+			{
+				if ( $metaBox->hasPostType( $postType ) )
+				{
+					if ( WordPressUtil::verifyNonce( $metaBox->getName() . "_nonce", $metaBox->getName() ) )
 					{
-						foreach( $metaBoxMap as $metaVO )
+						$metaBox->clearMetaFields( $postID );
+						/** @var MetaBox $metaBox */
+						$metaBox->addPostMeta( $postID, $metaBox->getName(), $_POST[ $metaBox->getName() ] );
+
+						$map = $metaBox->getMetaBoxMap( $postID );
+
+						foreach ( $map as $metaBoxMap )
 						{
-							if( array_key_exists( $metaVO->getName(), $_POST ) ) $metaVO->setValue( $_POST[ $metaVO->getName() ] );
+							foreach ( $metaBoxMap as $metaVO )
+							{
+								if ( array_key_exists( $metaVO->getName(), $_POST ) )
+								{
+									/** @var MetaVO $metaVO */
+									$metaVO->setValue( $_POST[ $metaVO->getName() ] );
+								}
+							}
 						}
 					}
 				}
 			}
-		}
 
-		foreach($this->getFacade()->postTypeCenter->getMap() as $customPostType)
-		{
-			if($customPostType->getName() == $postType)
+			foreach ( $this->getFacade()->postTypeCenter->getMap() as $customPostType )
 			{
-				$customPostType->save_post( $postID );
+				if ( $customPostType->getName() == $postType )
+				{
+					$customPostType->save_post( $postID );
+				}
 			}
 		}
 	}
-}
