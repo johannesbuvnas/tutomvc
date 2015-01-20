@@ -18,7 +18,8 @@
 				"placeholder" => $this->getPlaceholder(),
 				"name"        => $this->getElementName(),
 				"id"          => $this->getID(),
-				"class"       => "form-control"
+				"class"       => "form-control",
+				"autocomplete" => "off"
 			);
 			if ( $this->isReadOnly() ) $attr[ "readonly" ] = "true";
 

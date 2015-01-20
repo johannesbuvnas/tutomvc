@@ -54,12 +54,13 @@
 			}
 		}
 	?>
-	<form method="post">
+	<form method="post" name="my_form">
 		<div class="row">
 			<div class="col-xs-5">
 
 				<?php
-					$formGroup->setValue( array(PostMetaBox::createMetaValueMap( $formGroup, PostMetaBox::constructPrimaryMetaKey( $formGroup->getName(), 0 ), 0 )) );
+					//					$formGroup->setIndex( 50 );
+					//					$formGroup->setValue( array($formGroup->getValueMap()) );
 					echo $formGroup->getFormElement();
 				?>
 
@@ -67,21 +68,12 @@
 			<div class="col-xs-6">
 			<pre>
 			<?php
-				//				print_r( serialize( array("hej", "hejsan") ) );
-				//				print_r( $formGroup->getMetaKeysMap() );
 				echo "<br/>";
-								print_r( $formGroup->filterMetaKey( "form_group[0][default]" ) );
-				echo "<br/>";
-								print_r( $formGroup->filterMetaKey( "form_group[0][default][input_group][name]" ) );
-//				print_r( array(PostMetaBox::createMetaValueMap( $formGroup, "", 0 )) );
-				echo "<br/>";
-				print_r( $formGroup->getMetaKeysMap() );
 //				print_r( $formGroup->getValue() );
-				if ( !empty($_POST) )
+				//				if ( !empty($_POST) )
 				{
 
-//					print_r( $formGroup->getValueAsFlatMetaKeyMap() );
-//					print_r( $_POST );
+					print_r( $_POST );
 //					print_r( $formGroup->toMetaKeyVO( array_pop( $formGroup->getValue() ) ) );
 				}
 			?>

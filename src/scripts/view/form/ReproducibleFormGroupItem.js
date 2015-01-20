@@ -30,6 +30,7 @@ define( [
                 this.$formEl.find( '[name^="' + this.model.get( "name" ) + '"]' ).each( function ()
                 {
                     var name = _this.model.fetchFormFormInputName( Backbone.$( this ).attr( "name" ) );
+                    console.log( name );
                     var afterName = _this.model.fetchFormFormInputAfterName( Backbone.$( this ).attr( "name" ) );
                     Backbone.$( this ).data( "name", name );
                     Backbone.$( this ).data( "after-name", afterName );
@@ -44,7 +45,7 @@ define( [
                 this.$formEl.trigger( "predetach" );
                 this.$formEl.detach();
 
-                // TODO: This is fucking up WPEditor
+
                 this.$formEl.find( '[name^="' + this.model.get( "name" ) + '"]' ).each( function ()
                 {
                     $input = Backbone.$( this );
@@ -58,13 +59,13 @@ define( [
                 } );
 
                 this.$el.html( this.template( this.model.toJSON() ) );
-                FormInput.autoInstance( this.$( ".reproducible-form-group-item-header" ) );
+                //FormInput.autoInstance( this.$( ".reproducible-form-group-item-header" ) );
                 this.$( ".reproducible-form-group-item-body" ).append( this.$formEl );
 
                 if ( !this._hasInitiatedFormInput )
                 {
                     this._hasInitiatedFormInput = true;
-                    FormInput.autoInstance( this.$formEl );
+                    //FormInput.autoInstance( this.$formEl );
                 }
                 return this;
             },
@@ -74,7 +75,14 @@ define( [
             },
             events: {
                 "click .btn-remove": "onRemove",
-                "change select.reproducible-form-group-item-select-index": "onChangeIndex"
+                "change select.reproducible-form-group-item-select-index": "onChangeIndex",
+                "change .form-control": "onChangeValue"
+            },
+            onChangeValue: function ( e )
+            {
+                this.model.set( {
+                    value: Backbone.$( e.currentTarget ).val()
+                } );
             },
             onRemove: function ( e )
             {
@@ -92,9 +100,11 @@ define( [
                     index: 0,
                     total: 1,
                     formElementHTML: "",
+                    value: undefined,
                     //view: undefined,
                     deleteOption: true,
-                    navEnabled: true
+                    navEnabled: true,
+                    hasTriggered: false
                 },
                 constructFormInputID: function ( name )
                 {
@@ -109,7 +119,7 @@ define( [
                 },
                 fetchFormFormInputName: function ( str )
                 {
-                    var re = new RegExp( this.get( "name" ) + "\\[(.*?)\\]" );
+                    var re = new RegExp( this.get( "name" ) + "\\[[0-9]+\\]\\[(.*?)\\]" );
                     var matches = re.exec( str );
                     var match = matches[ matches.length - 1 ];
 

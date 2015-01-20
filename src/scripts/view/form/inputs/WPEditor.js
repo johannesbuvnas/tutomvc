@@ -85,8 +85,9 @@ define( [
                             content: this.$el.val()
                         } )
                     } );
+                    this.onFocus();
                     //Controller
-                    this.$el.closest( ".form-group-detachable" ).on( "predetach", _.bind( this.onPredetach, this ) );
+                    this.$el.closest( ".form-group-etaetachable" ).on( "predetach", _.bind( this.onPredetach, this ) );
                     this.listenTo( this.wpEditor, "blur", this.onEditorBlur );
                 },
                 render: function ()
@@ -118,6 +119,8 @@ define( [
                 {
                     WPEditor.setActiveWPEditor( null );
                     this.$el.val( this.wpEditor.tinymce.getContent( { format: 'raw' } ) );
+                    console.log(this.$el.val());
+                    this.$el.trigger("change");
                 }
             },
             {

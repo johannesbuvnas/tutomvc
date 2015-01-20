@@ -6,14 +6,15 @@ define( [
     "view/form/inputs/WPEditor"
 ], function ( Backbone, WPEditor )
 {
-    var FormFormInput = Backbone.View.extend( {
+    var FormInput = Backbone.View.extend( {
         initialize: function ()
         {
-            console.log( "FormFormInput::initialize" );
+            console.log( "FormInput::initialize" );
         }
     }, {
         autoInstance: function ( $el )
         {
+            console.log( "FormInput::autoInstace" );
             // Selectpicker
             $el.find( "select.selectpicker" ).each( function ()
             {
@@ -24,5 +25,5 @@ define( [
         }
     } );
 
-    return FormFormInput;
+    return FormInput;
 } );

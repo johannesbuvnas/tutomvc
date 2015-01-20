@@ -31,11 +31,11 @@
 			/** @var FormElement $formElement */
 			foreach ( $this->getFormElements() as $formElement )
 			{
-				$originalName = $formElement->getName();
-				$formElement->setID( $this->constructInputID( $originalName ) );
-				$formElement->setName( $this->constructFormElementChildName( $originalName ) );
+				$formElement->setParentName( $this->getNameAsParent() );
+//				$formElement->setID( $this->constructInputID( $originalName ) );
+//				$formElement->setName( $this->constructFormElementChildName( $originalName ) );
 				$output .= $formElement->getFormElement();
-				$formElement->setName( $originalName );
+//				$formElement->setName( $originalName );
 			}
 			$output .= '</div>';
 

@@ -21,6 +21,7 @@
 			$this->setMin( $min );
 			$this->setMax( $max );
 			$this->setIncludeFallback( $includeFallback );
+			$this->setIndex( 0 );
 		}
 
 		public function count()
@@ -74,10 +75,10 @@
 			}
 			$outputFallback .= '</div>';
 			if ( $this->getIncludeFallback() ) $output .= $outputFallback;
-			$output .= '<textarea class="hidden model">' . json_encode( $model, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP  ) . '</textarea>';
-			$output .= '<textarea class="hidden collection">' . json_encode( $collection, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP  ) . '</textarea>';
+			$output .= '<textarea class="hidden model">' . json_encode( $model, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP ) . '</textarea>';
+			$output .= '<textarea class="hidden collection">' . json_encode( $collection, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP ) . '</textarea>';
 			parent::setValue( NULL );
-			$output .= '<textarea class="hidden collection-dummy-model">' . json_encode( $collectionModelDummy, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP  ) . '</textarea>';
+			$output .= '<textarea class="hidden collection-dummy-model">' . json_encode( $collectionModelDummy, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP ) . '</textarea>';
 
 			$output .= '</ul>';
 
@@ -204,11 +205,7 @@
 
 			if ( is_null( $value ) )
 			{
-				/** @var FormElement $formElement */
-				foreach ( $this->getFormElements() as $formElement )
-				{
-					$formElement->setValue( NULL );
-				}
+				parent::setValue( NULL );
 			}
 
 			$this->_value = $value;
@@ -250,9 +247,41 @@
 			return $this->_value;
 		}
 
+		/**
+		 * @return array
+		 */
+		public function getFlatValue()
+		{
+			$flatValue    = array();
+			$currentValue = $this->getValue();
+			/** @var FormElement $formElement */
+			foreach ( $currentValue as $key => $value )
+			{
+				$this->setIndex( $key );
+				parent::setValue( $value );
+				$flatValue[ $key ] = parent::getFlatValue();
+			}
+
+			return $flatValue;
+		}
+
 		public function getValueAt( $index = 0 )
 		{
 			return is_array( $this->getValue() ) && array_key_exists( $index, $this->getValue() ) ? $this->getValue()[ $index ] : NULL;
 		}
 
+		public function setIndex( $index )
+		{
+			parent::setIndex( $index );
+			$this->fixChildNames();
+
+			return $this;
+		}
+
+		public function getNameAsParent()
+		{
+			$name = $this->hasParent() ? "[" . $this->getName() . "]" : $this->getName();
+
+			return $this->_parentName . $name . "[" . $this->getIndex() . "]";
+		}
 	}

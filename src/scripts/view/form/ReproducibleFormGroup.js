@@ -55,9 +55,16 @@ define( [
 
                 this.collection.each( function ( model )
                 {
-                    _this.$( ".reproducible-form-group-footer" ).before( model.get( "view" ).$el );
                     model.get( "view" ).render();
-                    model.get( "view" ).$formEl.trigger( "reattach" );
+                    //model.get( "view" ).$formEl.trigger( "reattach" );
+                    _this.$( ".reproducible-form-group-footer" ).before( model.get( "view" ).$el );
+                    if ( !model.get( "hasTriggered" ) )
+                    {
+                        model.get( "view" ).$el.trigger( "added.reproducible-form-group-item" );
+                        model.set( {
+                            hasTriggered: true
+                        } );
+                    }
                 } );
 
                 this.$el.css( "height", "auto" );

@@ -19,7 +19,7 @@
 
 		function __construct( $name, $title, $description = NULL, $type = FormInput::TYPE_TEXT, $readonly = FALSE, $placeholder = "", $single = TRUE )
 		{
-			$this->setName( $name );
+			parent::__construct( $name );
 			$this->setLabel( $title );
 			$this->setDescription( $description );
 			$this->setType( $type );
@@ -38,7 +38,8 @@
 				"placeholder" => $this->getPlaceholder(),
 				"name"        => $this->getElementName(),
 				"id"          => $this->getID(),
-				"class"       => "form-control"
+				"class"       => "form-control form-input-element",
+			    "autocomplete" => "off"
 			);
 			if ( $this->isReadOnly() ) $attr[ "readonly" ] = "true";
 
@@ -63,15 +64,6 @@
 		public function filterValue( $value )
 		{
 			return $value;
-		}
-
-		/**
-		 * The name-attribute.
-		 * @return string
-		 */
-		public function getElementName()
-		{
-			return $this->isSingle() ? $this->getName() : $this->getName() . "[" . $this->getIndex() . "]";
 		}
 
 		/**

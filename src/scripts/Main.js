@@ -16,9 +16,20 @@ define(
                 var _this = this;
                 Backbone.$( document ).ready( function ()
                 {
-                    FormInput.autoInstance( _this.$el );
+                    //FormInput.autoInstance( _this.$el );
                     ReproducibleFormGroup.autoInstance( _this.$el );
                 } );
+            },
+            events: {
+                "added.reproducible-form-group-item": "onRenderedForm"
+            },
+            onRenderedForm: function ( e )
+            {
+                console.log( "Rendered form" );
+
+                console.log( e.target );
+
+                FormInput.autoInstance( Backbone.$( e.target ) );
             }
         } );
 

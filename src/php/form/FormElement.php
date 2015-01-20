@@ -10,6 +10,9 @@
 
 	class FormElement extends ValueObject
 	{
+		const REGEX_SANITIZE_NAME = "/[^A-Za-z0-9-]+/";
+		const REGEX_ELEMENT_NAME  = "/(.*)\[([0-9]+)\](.*)/ix";
+		const REGEX_GROUP_NAME    = "/\[([^\]]*)\]/ix";
 		protected $_label;
 		protected $_id;
 		protected $_description;
@@ -17,6 +20,39 @@
 		protected $_single = TRUE;
 		protected $_index  = NULL;
 		protected $_defaultValue;
+		protected $_parentName;
+		protected $_sanitizedName;
+
+		public function __construct( $name )
+		{
+			parent::setName( self::sanitizeName( $name ) );
+
+			if ( $name != $this->getName() )
+			{
+				throw new \UnexpectedValueException( "Name was sanitized since it contained illegal characters." );
+			}
+		}
+
+		final public static function sanitizeName( $name )
+		{
+			return preg_replace( self::REGEX_SANITIZE_NAME, '_', $name );
+		}
+
+		final public static function matchElementName( $elementName )
+		{
+			preg_match( self::REGEX_ELEMENT_NAME, $elementName, $matches );
+
+			return $matches;
+		}
+
+		final public static function extractGroupNames( $elementName )
+		{
+			preg_match_all( "/\[([^\]]*)\]/ix", $elementName, $matches );
+
+			if ( count( $matches ) == 2 && !empty($matches[ 1 ]) ) return $matches[ 1 ];
+
+			return NULL;
+		}
 
 		public function addRule( Rule $rule )
 		{
@@ -106,6 +142,11 @@
 			return $this;
 		}
 
+		public function setName( $name )
+		{
+			throw new \ErrorException( "Name can only be set from constructor.", 0, E_ERROR );
+		}
+
 		/**
 		 * @return string
 		 */
@@ -124,12 +165,9 @@
 			return $this;
 		}
 
-		/**
-		 * @return mixed
-		 */
-		public function getDefaultValue()
+		public function getValueMap()
 		{
-			return $this->_defaultValue;
+			return $this->getElementName();
 		}
 
 		public function getValue()
@@ -140,6 +178,14 @@
 		}
 
 		/**
+		 * @return mixed
+		 */
+		public function getDefaultValue()
+		{
+			return $this->_defaultValue;
+		}
+
+		/**
 		 * @param mixed $defaultValue
 		 */
 		public function setDefaultValue( $defaultValue )
@@ -147,5 +193,36 @@
 			$this->_defaultValue = $defaultValue;
 
 			return $this;
+		}
+
+		/**
+		 * @return boolean
+		 */
+		public function hasParent()
+		{
+			return !empty($this->_parentName);
+		}
+
+		/**
+		 * @param string $parentName
+		 */
+		public function setParentName( $parentName )
+		{
+			$this->_parentName = $parentName;
+
+			return $this;
+		}
+
+		/**
+		 * The name-attribute.
+		 * @return string
+		 */
+		public function getElementName()
+		{
+			$name = $this->getName();
+			if ( !strlen( $name ) ) return NULL;
+			if ( $this->hasParent() ) $name = $this->_parentName . "[" . $name . "]";
+
+			return $this->isSingle() ? $name : $name . "[" . $this->getIndex() . "]";
 		}
 	}
