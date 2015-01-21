@@ -247,6 +247,30 @@
 			return $this->_value;
 		}
 
+		public function getValueMapAt( $index = NULL )
+		{
+			if ( empty($index) && filter_var($index, FILTER_VALIDATE_INT) === FALSE )
+			{
+				$valueMap = array();
+				$value    = $this->getValue();
+
+				foreach ( $value as $key => $singleValue )
+				{
+					parent::setValue( $singleValue );
+					$valueMap[ ] = parent::getValueMapAt( $key );
+				}
+
+				// Restore value
+				$this->setValue( $value );
+
+				return $valueMap;
+			}
+			else
+			{
+				return parent::getValueMapAt( $index );
+			}
+		}
+
 		/**
 		 * @return array
 		 */
@@ -273,7 +297,6 @@
 		public function setIndex( $index )
 		{
 			parent::setIndex( $index );
-			$this->fixChildNames();
 
 			return $this;
 		}

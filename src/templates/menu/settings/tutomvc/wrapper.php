@@ -53,6 +53,10 @@
 //				exit;
 			}
 		}
+		else
+		{
+			$formGroup->setValue( array($formGroup->getValueMapAt( 0 )) );
+		}
 	?>
 	<form method="post" name="my_form">
 		<div class="row">
@@ -60,27 +64,30 @@
 
 				<?php
 					//					$formGroup->setIndex( 50 );
-					//					$formGroup->setValue( array($formGroup->getValueMap()) );
 					echo $formGroup->getFormElement();
 				?>
 
 			</div>
 			<div class="col-xs-6">
+				<?php submit_button( "Submit", array("button", "primary", "button-large") ); ?>
 			<pre>
 			<?php
-				echo "<br/>";
-//				print_r( $formGroup->getValue() );
+				echo "]<br/><p><strong>FLAT VALUE:</strong></p>";
+				print_r( $formGroup->getFlatValue() );
+				echo "]<br/><p><strong>GET VALUE MAP BY: form_group[0][default]</strong></p>";
+				print_r( $formGroup->getValueMapByElementName( "form_group[0][default]" ) );
+				echo "]<br/><p><strong>GET VALUE MAP BY: form_group[10]</strong></p>";
+				print_r( $formGroup->getValueMapByElementName( "form_group[10]" ) );
+				echo "]<br/><p><strong>GET VALUE MAP BY: form_group</strong></p>";
+				print_r( $formGroup->getValueMapByElementName( "form_group" ) );
 				//				if ( !empty($_POST) )
 				{
 
-					print_r( $_POST );
+//					print_r( $_POST );
 //					print_r( $formGroup->toMetaKeyVO( array_pop( $formGroup->getValue() ) ) );
 				}
 			?>
 				</pre>
-				<?php
-					submit_button( "Submit" );
-				?>
 			</div>
 		</div>
 	</form>

@@ -152,22 +152,7 @@
 		 */
 		public function getID()
 		{
-			return $this->_id;
-		}
-
-		/**
-		 * @param string $id
-		 */
-		public function setID( $id )
-		{
-			$this->_id = $id;
-
-			return $this;
-		}
-
-		public function getValueMap()
-		{
-			return $this->getElementName();
+			return FormElement::sanitizeName( $this->getElementName( $this->getParentName() ) );
 		}
 
 		public function getValue()
@@ -211,6 +196,11 @@
 			$this->_parentName = $parentName;
 
 			return $this;
+		}
+
+		public function getParentName()
+		{
+			return $this->_parentName;
 		}
 
 		/**

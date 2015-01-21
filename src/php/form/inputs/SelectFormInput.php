@@ -159,6 +159,8 @@
 		 */
 		public function getValue()
 		{
+			if($this->isSingle() && is_array(parent::getValue())) return array_pop(parent::getValue());
+
 			return parent::getValue();
 		}
 

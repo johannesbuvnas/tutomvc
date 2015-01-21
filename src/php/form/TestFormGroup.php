@@ -20,14 +20,14 @@
 
 		function __construct()
 		{
-			parent::__construct( self::NAME, "Test form group", "Just testing this.", 1, -1 );
+			parent::__construct( self::NAME, "Test form group", "Just testing this.", 0, -1 );
 
 			$this->addFormElement( new DefaultFormGroup() );
 
 			$this->addFormElement( new FormInput( self::SOME_TEXT, "Some text", "The description", FormInput::TYPE_TEXT, FALSE, "The placeholder" ) )
 			     ->setValue( "Hej" );
 
-			$this->addFormElement( new SelectFormInput( self::SOME_SELECTOR, "Some selector", "Select some stuff", FALSE, FALSE, "Placeholder" ) )
+			$this->addFormElement( new SelectFormInput( self::SOME_SELECTOR, "Some selector", "Select some stuff", FALSE, FALSE,  "Placeholder" ) )
 			     ->addOption( "Sverige", "sv", "Länder" )
 			     ->addOption( "Norge", "no", "Länder" )
 			     ->addOption( "Finland", "fi", "Länder" )
