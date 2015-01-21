@@ -99,6 +99,14 @@
 			';
 		}
 
+		public function getFormElementByElementName( $elementName )
+		{
+			$index = FormElement::extractAncestorIndex( $elementName );
+			$this->setIndex( $index );
+
+			return parent::getFormElementByElementName( $elementName );
+		}
+
 		/**
 		 * @param string $metaBoxName
 		 * @param string $inputName
@@ -249,7 +257,7 @@
 
 		public function getValueMapAt( $index = NULL )
 		{
-			if ( empty($index) && filter_var($index, FILTER_VALIDATE_INT) === FALSE )
+			if ( empty($index) && filter_var( $index, FILTER_VALIDATE_INT ) === FALSE )
 			{
 				$valueMap = array();
 				$value    = $this->getValue();

@@ -111,9 +111,13 @@
 						{
 							return $formElement->getValueMapAt( $index );
 						}
-						else
+						else if ( is_a( $formElement, "\\tutomvc\\FormElement" ) )
 						{
 							return $formElement->getElementName();
+						}
+						else
+						{
+//							return $children;
 						}
 					}
 					else
@@ -214,7 +218,7 @@
 				else
 				{
 					$formElement->setParentName( $this->getNameAsParent() );
-					$value[ $formElement->getElementName() ] = $formElement->getValue();
+					if ( strlen( $formElement->getElementName() ) ) $value[ $formElement->getElementName() ] = $formElement->getValue();
 				}
 			}
 

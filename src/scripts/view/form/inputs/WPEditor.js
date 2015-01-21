@@ -85,9 +85,9 @@ define( [
                             content: this.$el.val()
                         } )
                     } );
-                    this.onFocus();
+                    //this.onFocus();
                     //Controller
-                    this.$el.closest( ".form-group-etaetachable" ).on( "predetach", _.bind( this.onPredetach, this ) );
+                    //this.$el.closest( ".form-group-etaetachable" ).on( "predetach", _.bind( this.onPredetach, this ) );
                     this.listenTo( this.wpEditor, "blur", this.onEditorBlur );
                 },
                 render: function ()
@@ -107,7 +107,7 @@ define( [
                         this.$el.addClass( "hidden" );
                         this.render();
                         if ( this.wpEditor.tinymce ) this.wpEditor.tinymce.focus();
-                        this.$el.closest( ".form-group-detachable" ).on( "reattach", _.bind( this.render, this ) );
+                        //this.$el.closest( ".form-group-detachable" ).on( "reattach", _.bind( this.render, this ) );
                     }
                 },
                 onPredetach: function ( e )
@@ -117,10 +117,11 @@ define( [
                 },
                 onEditorBlur: function ( e )
                 {
+                    console.log( "WPEditorTextarea::onEditorBlur" );
                     WPEditor.setActiveWPEditor( null );
                     this.$el.val( this.wpEditor.tinymce.getContent( { format: 'raw' } ) );
-                    console.log(this.$el.val());
-                    this.$el.trigger("change");
+                    console.log( this.$el.val() );
+                    this.$el.trigger( "change" );
                 }
             },
             {

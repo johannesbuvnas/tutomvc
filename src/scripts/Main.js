@@ -14,10 +14,11 @@ define(
                 console.log( "Hello new Tuto MVC" );
                 //View
                 var _this = this;
-                Backbone.$( document ).ready( function ()
+                // Controller
+                Backbone.$( window ).on( "load", function ()
                 {
-                    //FormInput.autoInstance( _this.$el );
                     ReproducibleFormGroup.autoInstance( _this.$el );
+                    //FormInput.autoInstance( _this.$el );
                 } );
             },
             events: {
@@ -25,7 +26,7 @@ define(
             },
             onRenderedForm: function ( e )
             {
-                console.log( "Rendered form" );
+                console.log( "Main::onRenderedForm" );
 
                 console.log( e.target );
 

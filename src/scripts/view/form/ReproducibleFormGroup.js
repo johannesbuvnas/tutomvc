@@ -21,11 +21,12 @@ define( [
             initialize: function ()
             {
                 //Model
-                this.model = new ReproducibleFormGroup.Model( Backbone.$.parseJSON( this.$( "textarea.model" ).val() ) );
                 this.collection = new ReproducibleFormGroup.Collection( Backbone.$.parseJSON( this.$( "textarea.collection" ).val() ) );
+                this.model = new ReproducibleFormGroup.Model( Backbone.$.parseJSON( this.$( "textarea.model" ).val() ) );
+                this.model.set( { addOption: !this._hasReachedMax( this.collection.length ) }, { silent: true } );
                 this._dummy = Backbone.$.parseJSON( this.$( "textarea.collection-dummy-model" ).val() );
                 //View
-                this.render();
+                this.$el.html( this.template( this.model.toJSON() ) );
                 //Controller
                 this.listenTo( this.collection, "change:index", this.onChangeIndex );
             },
@@ -40,8 +41,9 @@ define( [
                     if ( !model.get( "view" ) )
                     {
                         model.set( "view", _this._getInstanceOfReproducibleFormGroupItem( model ) );
+                        _this.$( ".reproducible-form-group-footer" ).before( model.get( "view" ).$el );
                     }
-                    model.get( "view" ).$el.detach();
+                    //model.get( "view" ).$el.detach();
                     model.set( {
                         index: index,
                         total: _this.collection.length,
@@ -50,16 +52,16 @@ define( [
                     index++;
                 } );
 
-                this.model.set( { addOption: !this._hasReachedMax( this.collection.length ) }, { silent: true } );
-                this.$el.html( this.template( this.model.toJSON() ) );
+                //this.model.set( { addOption: !this._hasReachedMax( this.collection.length ) }, { silent: true } );
+                //this.$el.html( this.template( this.model.toJSON() ) );
 
                 this.collection.each( function ( model )
                 {
-                    model.get( "view" ).render();
                     //model.get( "view" ).$formEl.trigger( "reattach" );
-                    _this.$( ".reproducible-form-group-footer" ).before( model.get( "view" ).$el );
+
                     if ( !model.get( "hasTriggered" ) )
                     {
+                        model.get( "view" ).render();
                         model.get( "view" ).$el.trigger( "added.reproducible-form-group-item" );
                         model.set( {
                             hasTriggered: true
@@ -133,6 +135,7 @@ define( [
             {
                 if ( this._isDeletable( this.collection.length - 1 ) )
                 {
+                    item.$el.remove();
                     this.collection.remove( item.model );
                     this.render();
                 }
@@ -156,9 +159,10 @@ define( [
                 $el.find( ".reproducible-form-group" ).each( function ()
                 {
                     $ReproducibleFormGroup = Backbone.$( this );
-                    new ReproducibleFormGroup( {
+                    var reproducibleFormGroup = new ReproducibleFormGroup( {
                         el: $ReproducibleFormGroup
                     } );
+                    reproducibleFormGroup.render();
                 } );
             }
         } );

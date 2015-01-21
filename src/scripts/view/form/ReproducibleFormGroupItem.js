@@ -25,16 +25,17 @@ define( [
                 //Model
                 this.model.set( "view", this );
                 //View
+                this.$el.html( this.template( this.model.toJSON() ) );
                 this.$formEl = Backbone.$( this.model.get( "formElementHTML" ) );
                 this.$formEl.addClass( "form-group-detachable" );
                 this.$formEl.find( '[name^="' + this.model.get( "name" ) + '"]' ).each( function ()
                 {
                     var name = _this.model.fetchFormFormInputName( Backbone.$( this ).attr( "name" ) );
-                    console.log( name );
                     var afterName = _this.model.fetchFormFormInputAfterName( Backbone.$( this ).attr( "name" ) );
                     Backbone.$( this ).data( "name", name );
                     Backbone.$( this ).data( "after-name", afterName );
                 } );
+                this.$( ".reproducible-form-group-item-body" ).append( this.$formEl );
                 //Controller
             },
             render: function ()
@@ -42,8 +43,8 @@ define( [
                 var _this = this;
                 var $input;
 
-                this.$formEl.trigger( "predetach" );
-                this.$formEl.detach();
+                //this.$formEl.trigger( "predetach" );
+                //this.$formEl.detach();
 
 
                 this.$formEl.find( '[name^="' + this.model.get( "name" ) + '"]' ).each( function ()
@@ -58,15 +59,15 @@ define( [
                     $input.parent( ".form-group-input" ).find( "label" ).attr( "for", id );
                 } );
 
-                this.$el.html( this.template( this.model.toJSON() ) );
+                //this.$el.html( this.template( this.model.toJSON() ) );
                 //FormInput.autoInstance( this.$( ".reproducible-form-group-item-header" ) );
-                this.$( ".reproducible-form-group-item-body" ).append( this.$formEl );
+                //this.$( ".reproducible-form-group-item-body" ).append( this.$formEl );
 
-                if ( !this._hasInitiatedFormInput )
-                {
-                    this._hasInitiatedFormInput = true;
+                //if ( !this._hasInitiatedFormInput )
+                //{
+                    //this._hasInitiatedFormInput = true;
                     //FormInput.autoInstance( this.$formEl );
-                }
+                //}
                 return this;
             },
             remove: function ()

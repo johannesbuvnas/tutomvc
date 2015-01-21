@@ -45,6 +45,24 @@
 			return $matches;
 		}
 
+		final public static function extractAncestorName($elementName)
+		{
+			$matches = FormElement::matchElementName( $elementName );
+
+			if ( count( $matches ) ) return $matches[ 1 ];
+
+			return NULL;
+		}
+
+		final public static function extractAncestorIndex($elementName)
+		{
+			$matches = FormElement::matchElementName( $elementName );
+
+			if ( count( $matches ) >= 3 ) return $matches[ 2 ];
+
+			return NULL;
+		}
+
 		final public static function extractGroupNames( $elementName )
 		{
 			preg_match_all( "/\[([^\]]*)\]/ix", $elementName, $matches );
