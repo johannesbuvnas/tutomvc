@@ -20,7 +20,7 @@
 
 		function __construct()
 		{
-			parent::__construct( self::NAME, "Test form group", "Just testing this.", 0, - 1 );
+			parent::__construct( self::NAME, "Example of clonable form group", "What the title says.", 0, - 1 );
 
 			$this->addFormElement( new ExampleFormGroup() );
 			$this->addFormElement( new ExampleSelectorFormGroup() );

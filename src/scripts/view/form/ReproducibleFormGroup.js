@@ -4,7 +4,7 @@
 define( [
         "backbone",
         "underscore",
-        "text!view/form/ClonableFormGroup.html",
+        "text!view/form/ReproducibleFormGroup.html",
         "view/form/ReproducibleFormGroupItem"
     ],
     function ( Backbone, _, ReproducibleFormGroupHTML, ReproducibleFormGroupItem )
@@ -58,10 +58,10 @@ define( [
                 this.collection.each( function ( model )
                 {
                     //model.get( "view" ).$formEl.trigger( "reattach" );
+                    model.get( "view" ).render();
 
                     if ( !model.get( "hasTriggered" ) )
                     {
-                        model.get( "view" ).render();
                         model.get( "view" ).$el.trigger( "added.reproducible-form-group-item" );
                         model.set( {
                             hasTriggered: true
@@ -127,6 +127,7 @@ define( [
             },
             onChangeIndex: function ( model, newIndex )
             {
+                console.log( "CHANGE INDEX:" + newIndex );
                 this.collection.remove( model );
                 this.collection.add( model, { at: newIndex } );
                 this.render();
