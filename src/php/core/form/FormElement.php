@@ -8,9 +8,15 @@
 
 	namespace tutomvc;
 
+	/**
+	 * Class FormElement
+	 * The base element of a Form.
+	 * @package tutomvc
+	 */
 	class FormElement extends ValueObject
 	{
-		const REGEX_SANITIZE_NAME = "/[^A-Za-z0-9-]+/";
+		const REGEX_SANITIZE_ID   = "/[^A-Za-z0-9-]+/";
+		const REGEX_SANITIZE_NAME = "/[^\[\]A-Za-z0-9-]+/";
 		const REGEX_ELEMENT_NAME  = "/(.*)\[([0-9]+)\](.*)/ix";
 		const REGEX_GROUP_NAME    = "/\[([^\]]*)\]/ix";
 		protected $_label;
@@ -25,17 +31,17 @@
 
 		public function __construct( $name )
 		{
-			parent::setName( self::sanitizeName( $name ) );
-
-			if ( $name != $this->getName() )
-			{
-				throw new \UnexpectedValueException( "Name was sanitized since it contained illegal characters." );
-			}
+			parent::setName( self::sanitizeID( $name ) );
 		}
 
-		final public static function sanitizeName( $name )
+		final public static function sanitizeID( $name )
 		{
-			return preg_replace( self::REGEX_SANITIZE_NAME, '_', $name );
+			return preg_replace( self::REGEX_SANITIZE_ID, '_', $name );
+		}
+
+		final public static function sanitizeName( $elementName )
+		{
+			return preg_replace( self::REGEX_SANITIZE_NAME, "_", $elementName );
 		}
 
 		final public static function matchElementName( $elementName )
@@ -45,7 +51,7 @@
 			return $matches;
 		}
 
-		final public static function extractAncestorName($elementName)
+		final public static function extractAncestorName( $elementName )
 		{
 			$matches = FormElement::matchElementName( $elementName );
 
@@ -54,7 +60,7 @@
 			return NULL;
 		}
 
-		final public static function extractAncestorIndex($elementName)
+		final public static function extractAncestorIndex( $elementName )
 		{
 			$matches = FormElement::matchElementName( $elementName );
 
@@ -170,7 +176,7 @@
 		 */
 		public function getID()
 		{
-			return FormElement::sanitizeName( $this->getElementName( $this->getParentName() ) );
+			return FormElement::sanitizeID( $this->getElementName( $this->getParentName() ) );
 		}
 
 		public function getValue()

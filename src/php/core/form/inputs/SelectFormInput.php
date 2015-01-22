@@ -13,24 +13,27 @@
 		protected $_filterEnabled = FALSE;
 		protected $_tagEnabled    = FALSE;
 
-		protected $_options = array();
+		protected $_options        = array();
+		protected $_optionTitleMap = array();
 
 		function __construct( $name, $title, $description = NULL, $single = TRUE, $readonly = FALSE, $placeholder = "" )
 		{
 			parent::__construct( $name, $title, $description, NULL, $readonly, $placeholder, $single );
 		}
 
-		public function addOption( $name, $value, $groupLabel = NULL )
+		public function addOption( $label, $value, $groupLabel = NULL, $title = NULL )
 		{
 			if ( is_string( $groupLabel ) )
 			{
 				if ( !array_key_exists( $groupLabel, $this->_options ) || !is_array( $this->_options[ $groupLabel ] ) ) $this->_options[ $groupLabel ] = array();
-				$this->_options[ $groupLabel ][ $value ] = $name;
+				$this->_options[ $groupLabel ][ $value ] = $label;
 			}
 			else
 			{
-				$this->_options[ $value ] = $name;
+				$this->_options[ $value ] = $label;
 			}
+
+			$this->_optionTitleMap[ $value ] = !empty($title) ? $title : $label;
 
 			return $this;
 		}
@@ -47,7 +50,7 @@
 			$attr = array(
 				"name"      => $this->getElementName(),
 				"id"        => $this->getID(),
-				"class"     => "form-control selectpicker",
+				"class"     => "form-control",
 				"data-size" => "auto"
 			);
 			if ( $this->isReadOnly() ) $attr[ "disabled" ] = "true";
@@ -64,24 +67,24 @@
 			}
 
 			$attributes = "";
-			foreach ( $attr as $key => $value )
+			foreach ( $attr as $key => $label )
 			{
-				$attributes .= ' ' . $key . '="' . $value . '"';
+				$attributes .= ' ' . $key . '="' . $label . '"';
 			}
 
 			$output .= '
 					<select ' . $attributes . '>
 				';
-			foreach ( $this->getOptions() as $key => $value )
+			foreach ( $this->getOptions() as $key => $label )
 			{
-				if ( is_array( $value ) )
+				if ( is_array( $label ) )
 				{
 					$output .= '
 					<optgroup label="' . $key . '">
 					';
-					foreach ( $value as $groupOptionValue => $groupOptionName )
+					foreach ( $label as $groupOptionValue => $groupOptionLabel )
 					{
-						$output .= $this->getOptionElement( $groupOptionName, $groupOptionValue );
+						$output .= $this->getOptionElement( $groupOptionLabel, $groupOptionValue );
 					}
 					$output .= '
 					</optgroup>
@@ -89,7 +92,7 @@
 				}
 				else
 				{
-					$output .= $this->getOptionElement( $value, $key );
+					$output .= $this->getOptionElement( $label, $key );
 				}
 			}
 			$output .= '
@@ -99,9 +102,9 @@
 			return $output;
 		}
 
-		protected function getOptionElement( $name, $value )
+		protected function getOptionElement( $label, $value )
 		{
-			return $this->hasValue( $value ) ? '<option value="' . $value . '" selected>' . $name . '</option>' : '<option value="' . $value . '">' . $name . '</option>';
+			return $this->hasValue( $value ) ? '<option title="' . $this->_optionTitleMap[ $value ] . '" value="' . $value . '" selected>' . $label . '</option>' : '<option title="' . $this->_optionTitleMap[ $value ] . '" value="' . $value . '">' . $label . '</option>';
 		}
 
 		/**
@@ -140,6 +143,17 @@
 			return $this;
 		}
 
+		public function setDefaultValue( $value )
+		{
+			if ( is_string( $value ) ) $value = array($value);
+			if ( !is_array( $value ) && !is_null( $value ) )
+			{
+				throw new \ErrorException( "Expect array or null.", 0, E_ERROR );
+			}
+
+			return parent::setDefaultValue( $value );
+		}
+
 		/**
 		 * @param array|null $value
 		 */
@@ -159,13 +173,15 @@
 		 */
 		public function getValue()
 		{
-			if($this->isSingle() && is_array(parent::getValue())) return array_pop(parent::getValue());
+			if ( $this->isSingle() && is_array( parent::getValue() ) ) return array_pop( parent::getValue() );
 
 			return parent::getValue();
 		}
 
 		public function hasValue( $value )
 		{
-			return is_array( $this->_value ) ? in_array( $value, $this->_value ) : FALSE;
+			if ( is_string( $this->getValue() ) && $this->getValue() == $value ) return TRUE;
+
+			return is_array( $this->getValue() ) ? in_array( $value, $this->getValue() ) : FALSE;
 		}
 	}

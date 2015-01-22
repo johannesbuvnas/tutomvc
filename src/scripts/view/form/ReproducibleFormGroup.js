@@ -4,7 +4,7 @@
 define( [
         "backbone",
         "underscore",
-        "text!view/form/ReproducibleFormGroup.html",
+        "text!view/form/ClonableFormGroup.html",
         "view/form/ReproducibleFormGroupItem"
     ],
     function ( Backbone, _, ReproducibleFormGroupHTML, ReproducibleFormGroupItem )

@@ -71,7 +71,7 @@
 		 */
 		public function setValue( $value )
 		{
-			parent::setValue( $value );
+			return parent::setValue( $value );
 		}
 
 		/**
@@ -88,6 +88,8 @@
 		public function setType( $type )
 		{
 			$this->_type = $type;
+
+			return $this;
 		}
 
 		/**
@@ -104,6 +106,8 @@
 		public function setReadOnly( $readOnly )
 		{
 			$this->_readOnly = $readOnly;
+
+			return $this;
 		}
 
 		/**
@@ -120,5 +124,7 @@
 		public function setPlaceholder( $placeholder )
 		{
 			$this->_placeholder = $placeholder;
+
+			return $this;
 		}
 	}

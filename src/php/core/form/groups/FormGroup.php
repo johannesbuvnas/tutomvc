@@ -8,6 +8,11 @@
 
 	namespace tutomvc;
 
+	/**
+	 * Class FormGroup
+	 * A group of FormElements
+	 * @package tutomvc
+	 */
 	class FormGroup extends FormElement
 	{
 		private $_fieldMap = array();
@@ -82,6 +87,7 @@
 		 */
 		public function getFormElementByName( $name )
 		{
+			$name = FormElement::sanitizeID( $name );
 			if ( array_key_exists( $name, $this->_fieldMap ) )
 			{
 				return $this->_fieldMap[ $name ];
@@ -94,6 +100,7 @@
 
 		public function getValueMapByElementName( $elementName )
 		{
+			$elementName = FormElement::sanitizeName( $elementName );
 			$matches = FormElement::matchElementName( $elementName );
 
 			if ( count( $matches ) == 4 )

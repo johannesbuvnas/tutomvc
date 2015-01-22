@@ -25,13 +25,13 @@
 	<?php
 		if ( !is_null( $contentMediator ) ) $contentMediator->render();
 		/** @var PostMetaBox $formGroup */
-		$formGroup     = new TestFormGroup();
+		$formGroup     = new ExampleClonableFormGroup();
 		$formGroupData = array();
 
 		// save_post action
 		if ( is_array( $_POST ) && count( $_POST ) )
 		{
-//			foreach ( $_POST[ TestFormGroup::NAME ] as $data )
+//			foreach ( $_POST[ ExampleClonableFormGroup::NAME ] as $data )
 //			{
 //				$index = intval( $data[ "#" ] );
 //				unset($data[ "#" ]);
@@ -55,7 +55,7 @@
 		}
 		else
 		{
-			$formGroup->setValue( array($formGroup->getValueMapAt( 0 )) );
+			$formGroup->setValue( $formGroup->getValueMapAt() );
 		}
 	?>
 	<form method="post" name="my_form">
@@ -72,10 +72,12 @@
 				<?php submit_button( "Submit", array("button", "primary", "button-large") ); ?>
 			<pre>
 			<?php
+				echo "]<br/><p><strong>GET VALUE MAP AT: NULL</strong></p>";
+				print_r( $formGroup->getValueMapAt() );
 				echo "]<br/><p><strong>FLAT VALUE:</strong></p>";
 				print_r( $formGroup->getFlatValue() );
-				echo "]<br/><p><strong>GET VALUE MAP BY: form_group[0][default]</strong></p>";
-				print_r( $formGroup->getValueMapByElementName( "form_group[0][default]" ) );
+				echo "]<br/><p><strong>GET VALUE MAP BY: form_gr()oup[0][default]</strong></p>";
+				print_r( $formGroup->getValueMapByElementName( "form_gr()oup[0][default]" ) );
 				echo "]<br/><p><strong>GET VALUE MAP BY: form_group[10]</strong></p>";
 				print_r( $formGroup->getValueMapByElementName( "form_group[10]" ) );
 				echo "]<br/><p><strong>GET VALUE MAP BY: form_group</strong></p>";

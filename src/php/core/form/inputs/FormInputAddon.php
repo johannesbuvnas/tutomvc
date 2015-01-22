@@ -22,4 +22,9 @@
 			<div class="input-group-addon">' . $this->getLabel() . '</div>
 			';
 		}
+
+		public function getName()
+		{
+			return $this->getLabel();
+		}
 	}

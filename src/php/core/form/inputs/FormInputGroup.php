@@ -14,6 +14,7 @@
 		 * @param FormElement|FormInputAddon $formElement
 		 *
 		 * @throws \ErrorException
+		 * @return FormElement
 		 */
 		public function addFormElement( $formElement )
 		{

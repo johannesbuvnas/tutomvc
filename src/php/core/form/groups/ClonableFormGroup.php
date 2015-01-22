@@ -8,13 +8,26 @@
 
 	namespace tutomvc;
 
-	class ReproducibleFormGroup extends FormGroup
+	/**
+	 * Class ClonableFormGroup
+	 * A clonable FormGroup.
+	 * @package tutomvc
+	 */
+	class ClonableFormGroup extends FormGroup
 	{
 		protected $_max             = 1;
 		protected $_min             = 1;
 		protected $_includeFallback = TRUE;
 		private   $_isSingle        = TRUE;
 
+		/**
+		 * @param $name
+		 * @param null $title
+		 * @param null $description
+		 * @param int $min Minimum clones
+		 * @param int $max Maximum clones
+		 * @param bool $includeFallback
+		 */
 		function __construct( $name, $title = NULL, $description = NULL, $min = 1, $max = 1, $includeFallback = TRUE )
 		{
 			parent::__construct( $name, $title, $description );

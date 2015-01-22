@@ -8,7 +8,7 @@
 
 	namespace tutomvc;
 
-	class PostMetaBox extends ReproducibleFormGroup
+	class PostMetaBox extends ClonableFormGroup
 	{
 		private $_metaKeysMap;
 

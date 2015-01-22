@@ -2,7 +2,7 @@ define(
     [
         "backbone",
         "bootstrap",
-        "view/form/ReproducibleFormGroup",
+        "view/form/ClonableFormGroup",
         "view/form/inputs/FormInput"
     ],
     function ( Backbone, bootstrap, ReproducibleFormGroup, FormInput )
