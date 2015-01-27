@@ -58,33 +58,14 @@
 				"total"           => 0,
 				"formElementHTML" => parent::getFormElement()
 			);
-//			$count                = $this->count();
-//			if ( $this->getMax() > 0 && $this->count() > $this->getMax() ) $count = $this->getMax();
-//			if ( $count < $this->getMin() ) $count = $this->getMin();
-			$output = "";
-			$output = '<ul class="list-group reproducible-form-group">';
+			$output               = '<ul class="list-group reproducible-form-group">';
 			$output .= $this->getHeaderElement();
 			$outputFallback = "";
 			$outputFallback .= '<div class="hidden no-js-fallback">';
 			for ( $i = 0; $i < $this->count(); $i ++ )
 			{
-				parent::setValue( NULL );
-				if ( $i < $this->count() )
-				{
-					parent::setValue( $this->getValueAt( $i ) );
-				}
-				$collection[ ] = array(
-					"name"            => $this->getName(),
-					//					"index" => $i,
-					//					"total" => $count,
-					"formElementHTML" => parent::getFormElement()
-				);
-
-				$this->setIndex( $i );
-				// Hack to fix child names for the fallback output
-				$this->_isSingle = FALSE;
-				$outputFallback .= parent::getFormElement();
-				$this->_isSingle = TRUE;
+				parent::setValue( $this->getValueAt( $i ) );
+				$outputFallback .= $this->getSingleFormElement($i);
 			}
 			$outputFallback .= '</div>';
 			if ( $this->getIncludeFallback() ) $output .= $outputFallback;
@@ -98,9 +79,20 @@
 			return $output;
 		}
 
+		protected function getSingleFormElement($index = 0)
+		{
+			$this->setIndex( $index );
+			// Hack to fix child names
+			$this->_isSingle = FALSE;
+			$output = parent::getFormElement();
+			$this->_isSingle = TRUE;
+
+			return $output;
+		}
+
 		public function getHeaderElement()
 		{
-			return '
+			$output = '
 					<li class="list-group-item">
 						<h3>
 							' . $this->getLabel() . '
@@ -110,6 +102,8 @@
 						</h3>
 					</li>
 			';
+
+			return $output;
 		}
 
 		public function getFormElementByElementName( $elementName )
@@ -143,16 +137,6 @@
 		public function setSingle( $value )
 		{
 			throw new \ErrorException( "This method cannot be called, it will always be set to true.", 0, E_ERROR );
-		}
-
-		/**
-		 * Will always return true. Use
-		 * @return bool
-		 * @see getMin() getMax()
-		 */
-		public function isSingle()
-		{
-			return $this->_isSingle;
 		}
 
 		/**
