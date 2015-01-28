@@ -15,6 +15,9 @@
 	 */
 	class ClonableFormGroup extends FormGroup
 	{
+		const BUTTON_NAME_ADD_BEFORE = "_tutomvc_clonable_form_group_add_before";
+		const BUTTON_NAME_ADD_AFTER  = "_tutomvc_clonable_form_group_add_after";
+		const INPUT_INDEX_SELECTOR   = "_tutomvc_index_selector";
 		protected $_max             = 1;
 		protected $_min             = 1;
 		protected $_includeFallback = TRUE;
@@ -28,12 +31,11 @@
 		 * @param int $max Maximum clones
 		 * @param bool $includeFallback
 		 */
-		function __construct( $name, $title = NULL, $description = NULL, $min = 1, $max = 1, $includeFallback = TRUE )
+		function __construct( $name, $title = NULL, $description = NULL, $min = 1, $max = 1 )
 		{
 			parent::__construct( $name, $title, $description );
 			$this->setMin( $min );
 			$this->setMax( $max );
-			$this->setIncludeFallback( $includeFallback );
 			$this->setIndex( 0 );
 		}
 
@@ -58,34 +60,49 @@
 				"total"           => 0,
 				"formElementHTML" => parent::getFormElement()
 			);
-			$output               = '<ul class="list-group reproducible-form-group">';
+			$output               = '<ul class="list-group clonable-form-group">';
 			$output .= $this->getHeaderElement();
-			$outputFallback = "";
-			$outputFallback .= '<div class="hidden no-js-fallback">';
 			for ( $i = 0; $i < $this->count(); $i ++ )
 			{
 				parent::setValue( $this->getValueAt( $i ) );
-				$outputFallback .= $this->getSingleFormElement($i);
+				$output .= $this->getSingleFormElement( $i );
 			}
-			$outputFallback .= '</div>';
-			if ( $this->getIncludeFallback() ) $output .= $outputFallback;
-			$output .= '<textarea class="hidden model">' . json_encode( $model, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP ) . '</textarea>';
-			$output .= '<textarea class="hidden collection">' . json_encode( $collection, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP ) . '</textarea>';
-			parent::setValue( NULL );
-			$output .= '<textarea class="hidden collection-dummy-model">' . json_encode( $collectionModelDummy, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP ) . '</textarea>';
-
+			if ( !$this->hasReachedMax() ) $output .= $this->getFooterElement();
 			$output .= '</ul>';
 
 			return $output;
 		}
 
-		protected function getSingleFormElement($index = 0)
+		protected function getSingleFormElement( $index = 0 )
 		{
 			$this->setIndex( $index );
 			// Hack to fix child names
 			$this->_isSingle = FALSE;
-			$output = parent::getFormElement();
+			$output          = '
+			<div class="list-group-item">
+				<li class="list-group-item clonable-form-group-item-header disabled">
+					'.$this->getSingleFormElementIndexSelector($index).'
+				</li>
+				<li class="list-group-item clonable-form-group-item-body">
+					' . parent::getFormElement() . '
+				</li>
+			</div>
+			';
 			$this->_isSingle = TRUE;
+
+			return $output;
+		}
+
+		protected function getSingleFormElementIndexSelector( $index )
+		{
+			$output = '<select class="form-control" name="'.self::INPUT_INDEX_SELECTOR.'_'.$index.'">';
+			for($i = 0; $i < $this->count(); $i++)
+			{
+				if($i == $index) $output .= '<option selected value="'.$i.'">#'.($i+1).'</option>';
+				else $output .= '<option value="'.$i.'">#'.($i+1).'</option>';
+			}
+			$output .= '</select>';
+//			$output .= '<button class="btn btn-sm btn-default"><span class="glyphicon glyphicon-pencil"></span></button>';
 
 			return $output;
 		}
@@ -102,6 +119,31 @@
 						</h3>
 					</li>
 			';
+			if ( !$this->hasReachedMax() ) $output .= $this->getTopNavElement();
+
+			return $output;
+		}
+
+		protected function getTopNavElement()
+		{
+			$output = '
+					<li class="list-group-item clonable-form-group-top-nav" style="text-align: center">
+					    <button name="' . self::BUTTON_NAME_ADD_BEFORE . '" class="btn btn-primary btn-add">
+					        <span class="glyphicon glyphicon-plus"></span>
+					    </button>
+					</li>';
+
+			return $output;
+		}
+
+		public function getFooterElement()
+		{
+			$output = '
+					<li class="list-group-item clonable-form-group-footer" style="text-align: center">
+					    <button name="' . self::BUTTON_NAME_ADD_AFTER . '" class="btn btn-primary btn-add">
+					        <span class="glyphicon glyphicon-plus"></span>
+					    </button>
+					</li>';
 
 			return $output;
 		}
@@ -112,6 +154,11 @@
 			$this->setIndex( $index );
 
 			return parent::getFormElementByElementName( $elementName );
+		}
+
+		public function hasReachedMax()
+		{
+			return $this->count() >= $this->getMax() && $this->getMax() >= 0;
 		}
 
 		/**
@@ -183,22 +230,6 @@
 			$this->_min = $min;
 
 			return $this;
-		}
-
-		/**
-		 * @return boolean
-		 */
-		public function getIncludeFallback()
-		{
-			return $this->_includeFallback;
-		}
-
-		/**
-		 * @param boolean $outputFallback
-		 */
-		public function setIncludeFallback( $outputFallback )
-		{
-			$this->_includeFallback = $outputFallback;
 		}
 
 		public function setValue( $value )
