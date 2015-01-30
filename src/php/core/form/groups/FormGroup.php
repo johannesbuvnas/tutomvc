@@ -50,8 +50,10 @@
 			foreach ( $this->getFormElements() as $formElement )
 			{
 				$formElement->setParentName( $this->getNameAsParent() );
-				$output .= '<div class="form-group form-group-input">';
+				if ( is_string( $formElement->getErrorMessage() ) ) $output .= '<div class="form-group has-error form-group-input">';
+				else $output .= '<div class="form-group form-group-input">';
 				$output .= $formElement->getHeaderElement();
+				$output .= $formElement->getErrorMessageElement();
 				$output .= $formElement->getFormElement();
 				$output .= $formElement->getFooterElement();
 				$output .= '</div>';
@@ -59,6 +61,38 @@
 			$output .= '</div>';
 
 			return $output;
+		}
+
+		public function validate()
+		{
+			parent::validate();
+
+			/** @var FormElement $formElement */
+			foreach ( $this->getFormElements() as $formElement )
+			{
+				$formElement->validate();
+			}
+
+			return $this;
+		}
+
+		/**
+		 * Returns array of errors if errors exists.
+		 * If no errors exists, it returns NULL.
+		 * @return array|null
+		 */
+		public function getErrors()
+		{
+			$this->validate();
+			$errors = array();
+			/** @var FormElement $formElement */
+			foreach ( $this->getFormElements() as $formElement )
+			{
+				if ( is_string( $formElement->getErrorMessage() ) ) $errors[ $formElement->getName() ] = $formElement->getErrorMessage();
+			}
+
+			if ( count( $errors ) ) return $errors;
+			else return NULL;
 		}
 
 		/**
@@ -101,7 +135,7 @@
 		public function getValueMapByElementName( $elementName )
 		{
 			$elementName = FormElement::sanitizeName( $elementName );
-			$matches = FormElement::matchElementName( $elementName );
+			$matches     = FormElement::matchElementName( $elementName );
 
 			if ( count( $matches ) == 4 )
 			{
@@ -197,16 +231,17 @@
 		/**
 		 * @return array|null
 		 */
-		public function getValue()
+		public function getValue( $call_user_func = NULL )
 		{
 			$value = array();
 			/** @var FormElement $formElement */
 			foreach ( $this->getFormElements() as $formElement )
 			{
-				$value[ $formElement->getName() ] = $formElement->getValue();
+				$value[ $formElement->getName() ] = $formElement->getValue( $call_user_func );
 			}
 
-			return $value;
+			if ( !is_null( $call_user_func ) ) return call_user_func_array( $call_user_func, array(&$this, $value) );
+			else return $value;
 		}
 
 		/**

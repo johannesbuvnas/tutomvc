@@ -12,10 +12,17 @@
 	{
 		const TYPE_TEXT     = "text";
 		const TYPE_PASSWORD = "password";
+		const TYPE_HIDDEN   = "hidden";
+		const TYPE_DATE     = "date";
+		const TYPE_DATETIME = "datetime";
+		const TYPE_NUMBER   = "number";
+		const TYPE_FILE     = "file";
 
 		protected $_type;
 		protected $_readOnly;
 		protected $_placeholder;
+		protected $_accept;
+		protected $_autocomplete = FALSE;
 
 		function __construct( $name, $title, $description = NULL, $type = FormInput::TYPE_TEXT, $readonly = FALSE, $placeholder = "", $single = TRUE )
 		{
@@ -33,13 +40,14 @@
 			$output = "";
 
 			$attr = array(
-				"value"       => $this->getValue(),
-				"type"        => $this->getType(),
-				"placeholder" => $this->getPlaceholder(),
-				"name"        => $this->getElementName(),
-				"id"          => $this->getID(),
-				"class"       => "form-control form-input-element",
-			    "autocomplete" => "off"
+				"value"        => $this->getValue(),
+				"type"         => $this->getType(),
+				"placeholder"  => $this->getPlaceholder(),
+				"name"         => $this->getElementName(),
+				"id"           => $this->getID(),
+				"class"        => "form-control form-input-element",
+				"autocomplete" => $this->getAutocomplete() ? "on" : "off",
+				"accept"       => $this->getAccept(),
 			);
 			if ( $this->isReadOnly() ) $attr[ "readonly" ] = "true";
 
@@ -54,6 +62,16 @@
 				';
 
 			return $output;
+		}
+
+		public function getHeaderElement()
+		{
+			return $this->getType() == self::TYPE_HIDDEN ? '' : '<label class="control-label" for="' . $this->getID() . '">' . $this->getLabel() . '</label>';
+		}
+
+		public function getFooterElement()
+		{
+			return $this->getType() == self::TYPE_HIDDEN ? '' : '<span class="help-block">' . $this->getDescription() . '</span>';
 		}
 
 		/**
@@ -124,6 +142,42 @@
 		public function setPlaceholder( $placeholder )
 		{
 			$this->_placeholder = $placeholder;
+
+			return $this;
+		}
+
+		/**
+		 * @return mixed
+		 */
+		public function getAccept()
+		{
+			return $this->_accept;
+		}
+
+		/**
+		 * @param mixed $accept
+		 */
+		public function setAccept( $accept )
+		{
+			$this->_accept = $accept;
+
+			return $this;
+		}
+
+		/**
+		 * @return bool
+		 */
+		public function getAutocomplete()
+		{
+			return $this->_autocomplete;
+		}
+
+		/**
+		 * @param bool $autocomplete
+		 */
+		public function setAutocomplete( $autocomplete )
+		{
+			$this->_autocomplete = $autocomplete;
 
 			return $this;
 		}

@@ -45,7 +45,7 @@
 
 		public function getHeaderElement()
 		{
-			return '<label>' . $this->getLabel() . '</label>';
+			return '<label class="control-label">' . $this->getLabel() . '</label>';
 		}
 
 		public function getFooterElement()

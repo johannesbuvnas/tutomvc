@@ -10,6 +10,14 @@
 
 	class TextAreaFormInput extends FormInput
 	{
+		protected $_rows = 5;
+
+		public function __construct( $name, $title, $description = NULL, $readonly = FALSE, $placeholder = "", $rows = 5 )
+		{
+			parent::__construct( $name, $title, $description, NULL, $readonly, $placeholder, TRUE );
+			$this->setRows( $rows );
+		}
+
 		function getFormElement()
 		{
 			$output = "";
@@ -19,7 +27,7 @@
 				"name"        => $this->getElementName(),
 				"id"          => $this->getID(),
 				"class"       => "form-control",
-				"autocomplete" => "off"
+				"rows"        => $this->getRows()
 			);
 			if ( $this->isReadOnly() ) $attr[ "readonly" ] = "true";
 
@@ -29,12 +37,24 @@
 				$attributes .= ' ' . $key . '="' . $value . '"';
 			}
 
-			$output .= '
-					<textarea ' . $attributes . '>
-					' . $this->getValue() . '
-					</textarea>
-				';
+			$output .= '<textarea ' . $attributes . '>' . $this->getValue() . '</textarea>';
 
 			return $output;
+		}
+
+		/**
+		 * @return int
+		 */
+		public function getRows()
+		{
+			return $this->_rows;
+		}
+
+		/**
+		 * @param int $rows
+		 */
+		public function setRows( $rows )
+		{
+			$this->_rows = $rows;
 		}
 	}

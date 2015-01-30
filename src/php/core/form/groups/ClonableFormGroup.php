@@ -81,7 +81,7 @@
 			$output          = '
 			<div class="list-group-item">
 				<li class="list-group-item clonable-form-group-item-header disabled">
-					'.$this->getSingleFormElementIndexSelector($index).'
+					' . $this->getSingleFormElementIndexSelector( $index ) . '
 				</li>
 				<li class="list-group-item clonable-form-group-item-body">
 					' . parent::getFormElement() . '
@@ -95,13 +95,14 @@
 
 		protected function getSingleFormElementIndexSelector( $index )
 		{
-			$output = '<select class="form-control" name="'.self::INPUT_INDEX_SELECTOR.'_'.$index.'">';
-			for($i = 0; $i < $this->count(); $i++)
+			$output = '<select class="form-control" name="' . self::INPUT_INDEX_SELECTOR . '_' . $index . '">';
+			for ( $i = 0; $i < $this->count(); $i ++ )
 			{
-				if($i == $index) $output .= '<option selected value="'.$i.'">#'.($i+1).'</option>';
-				else $output .= '<option value="'.$i.'">#'.($i+1).'</option>';
+				if ( $i == $index ) $output .= '<option selected value="' . $i . '">#' . ($i + 1) . '</option>';
+				else $output .= '<option value="' . $i . '">#' . ($i + 1) . '</option>';
 			}
 			$output .= '</select>';
+
 //			$output .= '<button class="btn btn-sm btn-default"><span class="glyphicon glyphicon-pencil"></span></button>';
 
 			return $output;
@@ -249,7 +250,7 @@
 			return $this;
 		}
 
-		public function getValue()
+		public function getValue( $call_user_func = NULL )
 		{
 			$value = empty($this->_value) ? $this->getDefaultValue() : $this->_value;
 
@@ -278,7 +279,21 @@
 				$value = array_slice( $value, 0, $this->getMax() );
 			}
 
-			$this->_value = $value;
+			$dp = array();
+			if ( is_array( $value ) && count( $value ) )
+			{
+				foreach ( $value as $index => $valueClone )
+				{
+					parent::setValue( $valueClone );
+					$dp[ ] = parent::getValue( $call_user_func );
+				}
+			}
+
+			if ( !is_null( $call_user_func ) ) $this->_value = call_user_func_array( $call_user_func, array(
+				&$this,
+				$dp
+			) );
+			else $this->_value = $dp;
 
 			return $this->_value;
 		}

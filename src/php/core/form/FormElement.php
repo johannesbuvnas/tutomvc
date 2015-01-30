@@ -13,12 +13,13 @@
 	 * The base element of a Form.
 	 * @package tutomvc
 	 */
-	class FormElement extends ValueObject
+	class FormElement extends NameObject
 	{
 		const REGEX_SANITIZE_ID   = "/[^A-Za-z0-9-]+/";
 		const REGEX_SANITIZE_NAME = "/[^\[\]A-Za-z0-9-]+/";
 		const REGEX_ELEMENT_NAME  = "/(.*)\[([0-9]+)\](.*)/ix";
 		const REGEX_GROUP_NAME    = "/\[([^\]]*)\]/ix";
+		protected $_value;
 		protected $_label;
 		protected $_id;
 		protected $_description;
@@ -28,6 +29,8 @@
 		protected $_defaultValue;
 		protected $_parentName;
 		protected $_sanitizedName;
+		protected $_validationMethod;
+		protected $_errorMessage;
 
 		public function __construct( $name )
 		{
@@ -78,6 +81,31 @@
 			return NULL;
 		}
 
+		/**
+		 * Possibility to validate the value of the FormElement through call_user_func_array.
+		 * The callable function parsed should return TRUE or a string with a error message on failure.
+		 *
+		 * @param null $call_user_func
+		 *
+		 * @return bool|mixed
+		 */
+		public function validate()
+		{
+			if ( !is_null( $this->getValidationMethod() ) )
+			{
+				$filter = call_user_func_array( $this->getValidationMethod(), array(
+					&$this,
+					$this->getValue()
+				) );
+				if ( is_string( $filter ) )
+				{
+					$this->setErrorMessage( $filter );
+				}
+			}
+
+			return $this;
+		}
+
 		public function addRule( Rule $rule )
 		{
 			$this->_rules[ ] = $rule;
@@ -115,12 +143,22 @@
 
 		public function getHeaderElement()
 		{
-			return '<label for="' . $this->getID() . '">' . $this->getLabel() . '</label>';
+			return '<label class="control-label" for="' . $this->getID() . '">' . $this->getLabel() . '</label>';
 		}
 
 		public function getFooterElement()
 		{
 			return '<span class="help-block">' . $this->getDescription() . '</span>';
+		}
+
+		public function getErrorMessageElement()
+		{
+			if ( is_string( $this->getErrorMessage() ) )
+			{
+				return '<div class="alert alert-danger" role="alert">' . $this->getErrorMessage() . '</div>';
+			}
+
+			return '';
 		}
 
 		public function getFormElement()
@@ -179,11 +217,19 @@
 			return FormElement::sanitizeID( $this->getElementName( $this->getParentName() ) );
 		}
 
-		public function getValue()
+		public function setValue( $value )
 		{
-			$value = parent::getValue();
+			$this->_value = $value;
 
-			return empty($value) ? $this->getDefaultValue() : $value;
+			return $this;
+		}
+
+		public function getValue( $call_user_func = NULL )
+		{
+			$value = empty($this->_value) ? $this->getDefaultValue() : $this->_value;
+
+			if ( !is_null( $call_user_func ) ) return call_user_func_array( $call_user_func, array(&$this, $value) );
+			else return $value;
 		}
 
 		/**
@@ -238,5 +284,44 @@
 			if ( $this->hasParent() ) $name = $this->_parentName . "[" . $name . "]";
 
 			return $this->isSingle() ? $name : $name . "[" . $this->getIndex() . "]";
+		}
+
+		/**
+		 * @return mixed
+		 */
+		public function getValidationMethod()
+		{
+			return $this->_validationMethod;
+		}
+
+		/**
+		 * Possibility to validate the value of the FormElement through call_user_func_array.
+		 * The callable function should return TRUE or a string with a error message on failure.
+		 *
+		 * @param mixed $validationMethod
+		 */
+		public function setValidationMethod( $validationMethod )
+		{
+			$this->_validationMethod = $validationMethod;
+
+			return $this;
+		}
+
+		/**
+		 * @return mixed
+		 */
+		public function getErrorMessage()
+		{
+			return $this->_errorMessage;
+		}
+
+		/**
+		 * @param mixed $errorMessage
+		 */
+		public function setErrorMessage( $errorMessage )
+		{
+			$this->_errorMessage = $errorMessage;
+
+			return $this;
 		}
 	}
