@@ -44,6 +44,49 @@
 			return is_array( $this->getValue() ) ? count( $this->getValue() ) : 0;
 		}
 
+		public function getValueMapByElementName( $elementName )
+		{
+			$elementName = FormElement::sanitizeName( $elementName );
+			$matches     = FormElement::matchElementName( $elementName );
+
+			if ( count( $matches ) == 4 )
+			{
+				$ancestor = $matches[ 1 ];
+				if ( $ancestor == $this->getElementName() )
+				{
+					$index    = intval( $matches[ 2 ] );
+					$rest     = $matches[ 3 ];
+					$children = FormElement::extractGroupNames( $rest );
+					if ( is_array( $children ) && count( $children ) )
+					{
+						$formElement = $this->getFormElementByElementName( $elementName );
+						if ( is_a( $formElement, "\\tutomvc\\FormGroup" ) )
+						{
+							return $formElement->getValueMapAt( $index );
+						}
+						else if ( is_a( $formElement, "\\tutomvc\\FormElement" ) )
+						{
+							return $formElement->getElementName();
+						}
+						else
+						{
+//							return $children;
+						}
+					}
+					else
+					{
+						return $this->getValueMapAt( $index );
+					}
+				}
+			}
+			else if ( $elementName == $this->getElementName() )
+			{
+				return $this->getValueMapAt( NULL );
+			}
+
+			return FALSE;
+		}
+
 		final public function getFormElement()
 		{
 			$collection = array();

@@ -49,7 +49,6 @@
 			/** @var FormElement $formElement */
 			foreach ( $this->getFormElements() as $formElement )
 			{
-				$formElement->setParentName( $this->getNameAsParent() );
 				if ( is_string( $formElement->getErrorMessage() ) ) $output .= '<div class="form-group has-error form-group-input">';
 				else $output .= '<div class="form-group form-group-input">';
 				$output .= $formElement->getHeaderElement();
@@ -135,41 +134,38 @@
 		public function getValueMapByElementName( $elementName )
 		{
 			$elementName = FormElement::sanitizeName( $elementName );
-			$matches     = FormElement::matchElementName( $elementName );
+			$matches     = FormElement::extractNames( $elementName );
 
-			if ( count( $matches ) == 4 )
+			if ( count( $matches ) )
 			{
-				$ancestor = $matches[ 1 ];
-				if ( $ancestor == $this->getElementName() )
+				$i = 0;
+				foreach ( $matches as $elementName )
 				{
-					$index    = intval( $matches[ 2 ] );
-					$rest     = $matches[ 3 ];
-					$children = FormElement::extractGroupNames( $rest );
-					if ( is_array( $children ) && count( $children ) )
+					$i ++;
+
+					if ( $i == 1 && count( $matches ) == 1 && $elementName == $this->getElementName() ) return $this->getValueMapAt( NULL );
+
+					/** @var FormElement $formElement */
+					$formElement = $this->getFormElementByName( $elementName );
+					if ( is_a( $formElement, "\\tutomvc\\FormGroup" ) )
 					{
-						$formElement = $this->getFormElementByElementName( $elementName );
-						if ( is_a( $formElement, "\\tutomvc\\FormGroup" ) )
+						/** @var FormGroup $formElement */
+						if ( $i == count( $matches ) )
 						{
-							return $formElement->getValueMapAt( $index );
-						}
-						else if ( is_a( $formElement, "\\tutomvc\\FormElement" ) )
-						{
-							return $formElement->getElementName();
+							return $formElement->getValueMapAt();
 						}
 						else
 						{
-//							return $children;
+							$namesLeft = array_slice( $matches, $i );
+
+							return $formElement->getValueMapByElementName( implode( "|", $namesLeft ) );
 						}
 					}
-					else
+					else if ( is_a( $formElement, "\\tutomvc\\FormElement" ) )
 					{
-						return $this->getValueMapAt( $index );
+						if ( $i == count( $matches ) ) return $formElement->getElementName();
 					}
 				}
-			}
-			else if ( $elementName == $this->getElementName() )
-			{
-				return $this->getValueMapAt( NULL );
 			}
 
 			return FALSE;
@@ -180,14 +176,30 @@
 			/** @var FormElement $formElement */
 			foreach ( $this->getFormElements() as $formElement )
 			{
-				$formElement->setParentName( $this->getNameAsParent() );
-
 				if ( $formElement->getElementName() == $elementName ) return $formElement;
 
 				if ( is_a( $formElement, "\\tutomvc\\FormGroup" ) )
 				{
 					/** @var FormGroup $formElement */
 					$search = $formElement->getFormElementByElementName( $elementName );
+					if ( $search ) return $search;
+				}
+			}
+
+			return NULL;
+		}
+
+		public function getFormElementByElementID( $elementID )
+		{
+			/** @var FormElement $formElement */
+			foreach ( $this->getFormElements() as $formElement )
+			{
+				if ( $formElement->getID() == $elementID ) return $formElement;
+
+				if ( is_a( $formElement, "\\tutomvc\\FormGroup" ) )
+				{
+					/** @var FormGroup $formElement */
+					$search = $formElement->getFormElementByElementID( $elementID );
 					if ( $search ) return $search;
 				}
 			}
@@ -247,7 +259,7 @@
 		/**
 		 * @return array
 		 */
-		public function getFlatValue()
+		public function getFlatValue( $call_user_func = NULL )
 		{
 			$value = array();
 			/** @var FormElement $formElement */
@@ -255,11 +267,11 @@
 			{
 				if ( is_a( $formElement, "\\tutomvc\\FormGroup" ) )
 				{
-					$value = array_merge( $value, $formElement->getFlatValue() );
+					/** @var FormGroup $formElement */
+					$value = array_merge( $value, $formElement->getFlatValue( $call_user_func ) );
 				}
 				else
 				{
-					$formElement->setParentName( $this->getNameAsParent() );
 					if ( strlen( $formElement->getElementName() ) ) $value[ $formElement->getElementName() ] = $formElement->getValue();
 				}
 			}
@@ -277,8 +289,6 @@
 			/** @var FormElement $formElement */
 			foreach ( $this->getFormElements() as $formElement )
 			{
-				$formElement->setParentName( $this->getNameAsParent() );
-
 				if ( strlen( $formElement->getName() ) )
 				{
 					if ( is_a( $formElement, "\\tutomvc\\FormGroup" ) )
@@ -303,5 +313,21 @@
 			$name = $this->hasParent() ? "[" . $this->getName() . "]" : $this->getName();
 
 			return $this->_parentName . $name;
+		}
+
+		/**
+		 * @param string $parentName
+		 */
+		public function setParentName( $parentName )
+		{
+			parent::setParentName( $parentName );
+
+			/** @var FormElement $formElement */
+			foreach ( $this->getFormElements() as $formElement )
+			{
+				$formElement->setParentName( $this->getNameAsParent() );
+			}
+
+			return $this;
 		}
 	}

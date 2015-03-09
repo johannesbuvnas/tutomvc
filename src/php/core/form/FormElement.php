@@ -19,6 +19,7 @@
 		const REGEX_SANITIZE_NAME = "/[^\[\]A-Za-z0-9-]+/";
 		const REGEX_ELEMENT_NAME  = "/(.*)\[([0-9]+)\](.*)/ix";
 		const REGEX_GROUP_NAME    = "/\[([^\]]*)\]/ix";
+		protected $_name;
 		protected $_value;
 		protected $_label;
 		protected $_id;
@@ -34,7 +35,7 @@
 
 		public function __construct( $name )
 		{
-			parent::setName( self::sanitizeID( $name ) );
+			$this->_name = self::sanitizeID( $name );
 		}
 
 		final public static function sanitizeID( $name )
@@ -52,6 +53,15 @@
 			preg_match( self::REGEX_ELEMENT_NAME, $elementName, $matches );
 
 			return $matches;
+		}
+
+		final public static function extractNames( $elementName )
+		{
+			preg_match_all( "/([A-Za-z0-9-]+)/ix", $elementName, $matches );
+
+			if ( count( $matches ) == 2 && !empty($matches[ 1 ]) ) return $matches[ 1 ];
+
+			return NULL;
 		}
 
 		final public static function extractAncestorName( $elementName )
@@ -214,7 +224,7 @@
 		 */
 		public function getID()
 		{
-			return FormElement::sanitizeID( $this->getElementName( $this->getParentName() ) );
+			return FormElement::sanitizeID( $this->getElementName() );
 		}
 
 		public function setValue( $value )
@@ -226,7 +236,7 @@
 
 		public function getValue( $call_user_func = NULL )
 		{
-			$value = empty($this->_value) ? $this->getDefaultValue() : $this->_value;
+			$value = is_null( $this->_value ) ? $this->getDefaultValue() : $this->_value;
 
 			if ( !is_null( $call_user_func ) ) return call_user_func_array( $call_user_func, array(&$this, $value) );
 			else return $value;
@@ -323,5 +333,13 @@
 			$this->_errorMessage = $errorMessage;
 
 			return $this;
+		}
+
+		/**
+		 * @return mixed
+		 */
+		public function getName()
+		{
+			return $this->_name;
 		}
 	}

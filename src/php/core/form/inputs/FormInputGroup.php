@@ -32,11 +32,7 @@
 			/** @var FormElement $formElement */
 			foreach ( $this->getFormElements() as $formElement )
 			{
-				$formElement->setParentName( $this->getNameAsParent() );
-//				$formElement->setID( $this->constructInputID( $originalName ) );
-//				$formElement->setName( $this->constructFormElementChildName( $originalName ) );
 				$output .= $formElement->getFormElement();
-//				$formElement->setName( $originalName );
 			}
 			$output .= '</div>';
 
