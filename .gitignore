@@ -1,6 +1,6 @@
 /logs/*
 /bin
 .DS_Store
-
 /terminal.glue
 /.idea/
+node_modules
