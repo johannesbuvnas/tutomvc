@@ -17,12 +17,25 @@ define( [
                     // Prep model
                     var filteredValue = this.model.get( "value" );
 
+                    console.log( filteredValue );
+
                     switch ( typeof filteredValue )
                     {
                         case "string":
 
                             var selectedOption = this.model.get( "options" ).findWhere( { value: this.model.get( "value" ) } );
-                            if ( selectedOption ) selectedOption.set( { selected: true } );
+                            if ( selectedOption )
+                            {
+                                selectedOption.set( { selected: true } );
+                            }
+                            else if ( this.model.get( "inputOnEnter" ) )
+                            {
+                                this.model.get( "options" ).add( {
+                                    name: filteredValue,
+                                    value: filteredValue,
+                                    selected: true
+                                } );
+                            }
 
                             break;
                         default:
