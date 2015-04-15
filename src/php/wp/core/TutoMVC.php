@@ -99,7 +99,7 @@
 			self::$_facadeMap[ $facade->getKey() ] = $facade;
 			$facade->vo                            = new FacadeVO( $appRoot );
 			$facade->vo->templatesDir              = $templatesDir;
-			$facade->onRegister();
+			if($facade->getKey() == Facade::KEY_SYSTEM) $facade->onRegister();
 			do_action( ActionCommand::FACADE_READY, $facade );
 
 			return $facade;
