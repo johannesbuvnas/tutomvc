@@ -1,8 +1,0 @@
-<?php defined('ABSPATH') or die('No direct script access.'); ?>
-2014-11-24 09:35:23 UTC ::: CUSTOM ERROR:  No such file - /Users/johannesbuvnas/Development/Sites/com/tutomvc/www/_wp/wp-content/plugins/tutomvc/src/php/core/src/templates/head/js-global.php @ /Users/johannesbuvnas/Development/Sites/com/tutomvc/www/_wp/wp-content/plugins/tutomvc/src/php/core/view/mediator/Mediator.php
-2014-11-24 09:35:23 UTC ::: FATAL ERROR: Uncaught exception 'ErrorException' with message 'CUSTOM ERROR:  No such file - /Users/johannesbuvnas/Development/Sites/com/tutomvc/www/_wp/wp-content/plugins/tutomvc/src/php/core/src/templates/debug/exception.php' in /Users/johannesbuvnas/Development/Sites/com/tutomvc/www/_wp/wp-content/plugins/tutomvc/src/php/core/view/mediator/Mediator.php:133
-Stack trace:
-#0 /Users/johannesbuvnas/Development/Sites/com/tutomvc/www/_wp/wp-content/plugins/tutomvc/src/php/core/view/mediator/Mediator.php(27): tutomvc\Mediator->getContent()
-#1 /Users/johannesbuvnas/Development/Sites/com/tutomvc/www/_wp/wp-content/plugins/tutomvc/src/php/system/controller/actions/notification/ExceptionCommand.php(93): tutomvc\Mediator->render()
-#2 /Users/johannesbuvnas/Development/Sites/com/tutomvc/www/_wp/wp-content/plugins/tutomvc/src/php/system/controller/actions/notification/ExceptionCommand.php(35): tutomvc\ExceptionCommand->render(Object(ErrorException))
-#3 [internal function]: tutomvc\ExceptionCommand->executeException(Object(ErrorExcepti @ /Users/johannesbuvnas/Development/Sites/com/tutomvc/www/_wp/wp-content/plugins/tutomvc/src/php/core/view/mediator/Mediator.php
