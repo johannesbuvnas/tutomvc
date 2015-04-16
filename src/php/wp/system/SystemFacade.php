@@ -1,6 +1,8 @@
 <?php
 	namespace tutomvc;
 
+	use tutomvc\wp\metabox\ExampleMetaBox;
+	use tutomvc\wp\metabox\MetaBoxModule;
 	use tutomvc\wp\metabox\MetaBoxModuleFacade;
 
 	/**
@@ -52,7 +54,7 @@
 		public function onRegister()
 		{
 //			$this->repository = new GitRepositoryVO( TutoMVC::getRoot(), TutoMVC::GIT_REPOSITORY_URL, TutoMVC::GIT_REPOSITORY_BRANCH );
-			$this->registerSubFacade( new MetaBoxModuleFacade() );
+			MetaBoxModule::add( new ExampleMetaBox() );
 
 			return;
 			$this->prepModel();

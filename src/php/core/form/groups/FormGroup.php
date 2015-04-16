@@ -28,12 +28,12 @@
 		{
 			return '
 					<header>
-						<h3>
+						<h2>
 							' . $this->getLabel() . '
 							<small class="help-block">
 								' . $this->getDescription() . '
 							</small>
-						</h3>
+						</h2>
 					</header>
 			';
 		}

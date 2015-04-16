@@ -172,4 +172,13 @@ return array(
     'tutomvc\\modules\\termpage\\RegisteredTaxonomyAction' => $baseDir . '/src/php/wp/system/modules/termpage/controller/actions/RegisteredTaxonomyAction.php',
     'tutomvc\\modules\\termpage\\TaxonomyAddFormFieldsAction' => $baseDir . '/src/php/wp/system/modules/termpage/controller/actions/TaxonomyAddFormFieldsAction.php',
     'tutomvc\\modules\\termpage\\TermPageModule' => $baseDir . '/src/php/wp/system/modules/termpage/TermPageModule.php',
+    'tutomvc\\wp\\metabox\\AddMetaBoxesAction' => $baseDir . '/src/php/wp/modules/metabox/controller/AddMetaBoxesAction.php',
+    'tutomvc\\wp\\metabox\\ExampleMetaBox' => $baseDir . '/src/php/wp/modules/metabox/model/ExampleMetaBox.php',
+    'tutomvc\\wp\\metabox\\MetaBox' => $baseDir . '/src/php/wp/modules/metabox/model/MetaBox.php',
+    'tutomvc\\wp\\metabox\\MetaBoxModule' => $baseDir . '/src/php/wp/modules/metabox/MetaBoxModule.php',
+    'tutomvc\\wp\\metabox\\MetaBoxModuleFacade' => $baseDir . '/src/php/wp/modules/metabox/MetaBoxModuleFacade.php',
+    'tutomvc\\wp\\metabox\\MetaBoxProxy' => $baseDir . '/src/php/wp/modules/metabox/model/MetaBoxProxy.php',
+    'tutomvc\\wp\\metabox\\SavePostAction' => $baseDir . '/src/php/wp/modules/metabox/controller/SavePostAction.php',
+    'tutomvc\\wp\\posttype\\PostTypeModule' => $baseDir . '/src/php/wp/modules/posttype/PostTypeModule.php',
+    'tutomvc\\wp\\posttype\\PostTypeModuleFacade' => $baseDir . '/src/php/wp/modules/posttype/PostTypeModuleFacade.php',
 );

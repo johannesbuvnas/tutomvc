@@ -11,13 +11,17 @@
 	/**
 	 * Class ClonableFormGroup
 	 * A clonable FormGroup.
+	 * TODO: Make the form completely independent of JS. Add buttons before and after, delete buttons and index-selectors should be part of the total form.
+	 * TODO: Create an autoparse function that respects the add-, delete-, and index buttons.
+	 * TODO: Add buttons should be able to add more than one at a time?
 	 * @package tutomvc
 	 */
 	class ClonableFormGroup extends FormGroup
 	{
 		const BUTTON_NAME_ADD_BEFORE = "_tutomvc_clonable_form_group_add_before";
 		const BUTTON_NAME_ADD_AFTER  = "_tutomvc_clonable_form_group_add_after";
-		const INPUT_INDEX_SELECTOR   = "_tutomvc_index_selector";
+		const BUTTON_NAME_DELETE     = "_tutomvc_clonable_form_group_delete";
+		const INPUT_INDEX_SELECTOR   = "_tutomvc_clonable_form_group_index_selector";
 		protected $_max             = 1;
 		protected $_min             = 1;
 		protected $_includeFallback = TRUE;
@@ -154,13 +158,13 @@
 		public function getHeaderElement()
 		{
 			$output = '
-					<li class="list-group-item">
-						<h3>
+					<li class="list-group-item disabled">
+						<h2>
 							' . $this->getLabel() . '
 							<small class="help-block">
 								' . $this->getDescription() . '
 							</small>
-						</h3>
+						</h2>
 					</li>
 			';
 			if ( !$this->hasReachedMax() ) $output .= $this->getTopNavElement();
@@ -172,7 +176,7 @@
 		{
 			$output = '
 					<li class="list-group-item clonable-form-group-top-nav" style="text-align: center">
-					    <button name="' . self::BUTTON_NAME_ADD_BEFORE . '" class="btn btn-primary btn-add">
+					    <button name="' . self::BUTTON_NAME_ADD_BEFORE . '" class="btn btn-default btn-add" title="' . __( "Clone 1 before", TutoMVC::NAME ) . '">
 					        <span class="glyphicon glyphicon-plus"></span>
 					    </button>
 					</li>';
@@ -184,7 +188,7 @@
 		{
 			$output = '
 					<li class="list-group-item clonable-form-group-footer" style="text-align: center">
-					    <button name="' . self::BUTTON_NAME_ADD_AFTER . '" class="btn btn-primary btn-add">
+					    <button name="' . self::BUTTON_NAME_ADD_AFTER . '" class="btn btn-default btn-add" title="' . __( "Clone 1 after", TutoMVC::NAME ) . '">
 					        <span class="glyphicon glyphicon-plus"></span>
 					    </button>
 					</li>';

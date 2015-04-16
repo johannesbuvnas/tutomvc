@@ -22,7 +22,7 @@
 		const PRIORITY_LOW     = "low";
 
 		/* VARS */
-		protected $_screens;
+		protected $_postTypes;
 		protected $_context;
 		protected $_priority;
 
@@ -30,7 +30,7 @@
 		 * @param string $name
 		 * @param string $title
 		 * @param string $description
-		 * @param string|array $screens
+		 * @param string|array $postTypes
 		 * @param int $min
 		 * @param int $max
 		 * @param string $context
@@ -38,12 +38,12 @@
 		 *
 		 * @throws \ErrorException
 		 */
-		function __construct( $name, $title, $description, $screens, $min = 0, $max = - 1, $context = MetaBox::CONTEXT_NORMAL, $priority = MetaBox::PRIORITY_DEFAULT )
+		function __construct( $name, $title, $description, $postTypes, $min = 0, $max = - 1, $context = MetaBox::CONTEXT_NORMAL, $priority = MetaBox::PRIORITY_DEFAULT )
 		{
 			parent::__construct( $name, $title, $description, $min, $max );
 
-			$this->_screens = is_string( $screens ) ? array($screens) : $screens;
-			if ( !is_array( $this->_screens ) ) throw new \ErrorException( 'MetaBox: $screens isnt array' );
+			$this->_postTypes = is_string( $postTypes ) ? array($postTypes) : $postTypes;
+			if ( !is_array( $this->_postTypes ) ) throw new \ErrorException( 'MetaBox: $postTypes isnt array|string' );
 			$this->setContext( $context );
 			$this->setPriority( $priority );
 		}
@@ -51,8 +51,6 @@
 		/* PUBLIC METHODS */
 		public function render( $post, $metabox )
 		{
-			var_dump( $post );
-
 			echo $this->getFormElement();
 
 			return $this;
@@ -62,9 +60,9 @@
 		/**
 		 * @return array
 		 */
-		public function getScreens()
+		public function getPostTypes()
 		{
-			return $this->_screens;
+			return $this->_postTypes;
 		}
 
 		/**

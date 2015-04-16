@@ -28,6 +28,11 @@
 		}
 
 		/* PUBLIC METHODS */
+		/**
+		 * @param Proxy $proxy
+		 *
+		 * @return Proxy
+		 */
 		public function registerProxy( $proxy )
 		{
 			$proxy->initializeFacadeKey( $this->_facadeKey );

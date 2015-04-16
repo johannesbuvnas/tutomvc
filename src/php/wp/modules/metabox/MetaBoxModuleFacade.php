@@ -4,9 +4,13 @@
 	 * User: johannesbuvnas
 	 * Date: 14/04/15
 	 * Time: 13:37
+	 * TODO: Create jQuery plugin WPEditor
+	 * TODO: Create jQuery plugin WPAttachment
 	 */
 
 	namespace tutomvc\wp\metabox;
+
+	use tutomvc\TutoMVC;
 
 	class MetaBoxModuleFacade extends \tutomvc\Facade
 	{
@@ -21,7 +25,10 @@
 		{
 			// Model
 			$this->model->registerProxy( new MetaBoxProxy() );
+			if ( is_admin() ) wp_enqueue_style( "tutomvc-bootstrap", $this->getSystem()->getURL( "dist/css/style.css" ), NULL, TutoMVC::VERSION );
 			// Controller
 			$this->controller->registerCommand( new AddMetaBoxesAction() );
+			$this->controller->registerCommand( new SavePostAction() );
+			// TODO: Enqueue scripts that is needed for this module
 		}
 	}

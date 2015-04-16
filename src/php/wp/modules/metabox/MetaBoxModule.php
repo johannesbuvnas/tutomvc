@@ -17,7 +17,7 @@
 		 */
 		public static function getInstance()
 		{
-			return Facade::getInstance( MetaBoxModuleFacade::KEY ) ? Facade::getInstance( MetaBoxModuleFacade::KEY ) : new MetaBoxModuleFacade();
+			return Facade::getInstance( MetaBoxModuleFacade::KEY ) ? Facade::getInstance( MetaBoxModuleFacade::KEY ) : Facade::getInstance( Facade::KEY_SYSTEM )->registerSubFacade( new MetaBoxModuleFacade() );
 		}
 
 		/**

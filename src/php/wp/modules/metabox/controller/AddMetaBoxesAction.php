@@ -23,14 +23,14 @@
 		{
 			$screen = $this->getArg( 0 );
 			/** @var MetaBox $metaBox */
-			foreach ( $this->getFacade()->model->getProxy( MetaBoxProxy::NAME ) as $metaBox )
+			foreach ( $this->getFacade()->model->getProxy( MetaBoxProxy::NAME )->getMap() as $metaBox )
 			{
-				if ( in_array( $screen, $metaBox->getScreens() ) )
+				if ( in_array( $screen, $metaBox->getPostTypes() ) )
 				{
 					add_meta_box(
 						$metaBox->getElementName(),
 						$metaBox->getLabel(),
-						array($metaBox, "getFormElement"),
+						array($metaBox, "render"),
 						$screen,
 						$metaBox->getContext(),
 						$metaBox->getPriority()
