@@ -15,6 +15,7 @@
 	 */
 	class FormElement extends NameObject
 	{
+		const REGEX_NAME = "/([A-Za-z0-9-_]+)/ix";
 		const REGEX_SANITIZE_ID   = "/[^A-Za-z0-9-]+/";
 		const REGEX_SANITIZE_NAME = "/[^\[\]A-Za-z0-9-]+/";
 		const REGEX_ELEMENT_NAME  = "/(.*)\[([0-9]+)\](.*)/ix";
@@ -57,7 +58,7 @@
 
 		final public static function extractNames( $elementName )
 		{
-			preg_match_all( "/([A-Za-z0-9-]+)/ix", $elementName, $matches );
+			preg_match_all( self::REGEX_NAME, $elementName, $matches );
 
 			if ( count( $matches ) == 2 && !empty($matches[ 1 ]) ) return $matches[ 1 ];
 
