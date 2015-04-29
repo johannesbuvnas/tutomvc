@@ -30,6 +30,7 @@
 				"rows"        => $this->getRows()
 			);
 			if ( $this->isReadOnly() ) $attr[ "readonly" ] = "true";
+			if ( $this->getType() == self::TYPE_HIDDEN ) $attr[ 'class' ] .= " hidden";
 
 			$attributes = "";
 			foreach ( $attr as $key => $value )
