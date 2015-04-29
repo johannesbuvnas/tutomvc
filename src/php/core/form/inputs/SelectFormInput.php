@@ -50,7 +50,7 @@
 			$attr = array(
 				"name"      => $this->getElementName(),
 				"id"        => $this->getID(),
-				"class"     => "form-control",
+				"class"     => "form-control selectpicker",
 				"data-size" => "auto"
 			);
 			if ( $this->isReadOnly() ) $attr[ "disabled" ] = "true";
