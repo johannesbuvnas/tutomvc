@@ -87,7 +87,15 @@
 			/** @var FormElement $formElement */
 			foreach ( $this->getFormElements() as $formElement )
 			{
-				if ( is_string( $formElement->getErrorMessage() ) ) $errors[ $formElement->getName() ] = $formElement->getErrorMessage();
+				if(is_a($formElement, "\\tutomvc\\FormGroup"))
+				{
+					/** @var FormGroup $formElement */
+					if(!is_null($formElement->getErrors())) $errors[ $formElement->getName() ] = $formElement->getErrors();
+				}
+				else
+				{
+					if ( is_string( $formElement->getErrorMessage() ) ) $errors[ $formElement->getName() ] = $formElement->getErrorMessage();
+				}
 			}
 
 			if ( count( $errors ) ) return $errors;
