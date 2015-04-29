@@ -169,13 +169,17 @@
 		}
 
 		/**
+		 * @param null|callback $call_user_func
+		 *
 		 * @return array|null
 		 */
-		public function getValue()
+		public function getValue( $call_user_func = NULL )
 		{
-			if ( $this->isSingle() && is_array( parent::getValue() ) ) return array_pop( parent::getValue() );
+			if ( $this->isSingle() && is_array( parent::getValue() ) ) $value = array_pop( parent::getValue() );
+			else $value = parent::getValue();
 
-			return parent::getValue();
+			if ( !is_null( $call_user_func ) ) return call_user_func_array( $call_user_func, array(&$this, $value) );
+			else return $value;
 		}
 
 		public function hasValue( $value )
