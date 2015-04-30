@@ -152,16 +152,25 @@
 			return $this->_rules;
 		}
 
+		/**
+		 * @return string The <header/> element.
+		 */
 		public function getHeaderElement()
 		{
 			return '<label class="control-label" for="' . $this->getID() . '">' . $this->getLabel() . '</label>';
 		}
 
+		/**
+		 * @return string The <footer/> element.
+		 */
 		public function getFooterElement()
 		{
 			return '<span class="help-block">' . $this->getDescription() . '</span>';
 		}
 
+		/**
+		 * @return string The <div class="alert"/> element.
+		 */
 		public function getErrorMessageElement()
 		{
 			if ( is_string( $this->getErrorMessage() ) )
@@ -172,6 +181,9 @@
 			return '';
 		}
 
+		/**
+		 * @return string The <input/> element.
+		 */
 		public function getFormElement()
 		{
 			return '';

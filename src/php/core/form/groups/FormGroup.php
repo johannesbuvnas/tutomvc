@@ -24,6 +24,48 @@
 			$this->setDescription( $description );
 		}
 
+		/**
+		 * @param FormElement $formElement
+		 *
+		 * @return FormElement
+		 */
+		public function addFormElement( FormElement $formElement )
+		{
+			$this->_fieldMap[ $formElement->getName() ] = $formElement;
+			$formElement->setParentName( $this->getNameAsParent() );
+
+			return $formElement;
+		}
+
+		/**
+		 * Try to find a FormElement by a certain name, first in this current FormGroup, and then in children. Returns the first match.
+		 *
+		 * @param $name
+		 *
+		 * @return null|FormElement|FormGroup
+		 */
+		public function findFormElementByName( $name )
+		{
+			$formElement = $this->getFormElementByName( $name );
+
+			/** @var \tutomvc\FormElement $formElement */
+			if ( $formElement ) return $formElement;
+
+			foreach ( $this->getFormElements() as $formElement )
+			{
+				if ( is_a( $formElement, "\\tutomvc\\FormGroup" ) )
+				{
+					/** @var \tutomvc\FormGroup $formElement */
+					/** @var \tutomvc\FormElement $subFormElement */
+					$subFormElement = $formElement->findFormElementByName( $name );
+					if ( $subFormElement ) return $subFormElement;
+				}
+			}
+
+			return NULL;
+		}
+
+		/* SET AND GET */
 		public function getHeaderElement()
 		{
 			return '
@@ -87,10 +129,10 @@
 			/** @var FormElement $formElement */
 			foreach ( $this->getFormElements() as $formElement )
 			{
-				if(is_a($formElement, "\\tutomvc\\FormGroup"))
+				if ( is_a( $formElement, "\\tutomvc\\FormGroup" ) )
 				{
 					/** @var FormGroup $formElement */
-					if(!is_null($formElement->getErrors())) $errors[ $formElement->getName() ] = $formElement->getErrors();
+					if ( !is_null( $formElement->getErrors() ) ) $errors[ $formElement->getName() ] = $formElement->getErrors();
 				}
 				else
 				{
@@ -102,20 +144,6 @@
 			else return NULL;
 		}
 
-		/**
-		 * @param FormElement $formElement
-		 *
-		 * @return FormElement
-		 */
-		public function addFormElement( FormElement $formElement )
-		{
-			$this->_fieldMap[ $formElement->getName() ] = $formElement;
-			$formElement->setParentName( $this->getNameAsParent() );
-
-			return $formElement;
-		}
-
-		/* SET AND GET */
 		public function getFormElements()
 		{
 			return $this->_fieldMap;
@@ -217,6 +245,8 @@
 
 		/**
 		 * @param array|null $value
+		 *
+		 * @return $this
 		 */
 		public function setValue( $value )
 		{
@@ -325,6 +355,8 @@
 
 		/**
 		 * @param string $parentName
+		 *
+		 * @return $this
 		 */
 		public function setParentName( $parentName )
 		{

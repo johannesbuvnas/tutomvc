@@ -26,6 +26,9 @@
 			return parent::addFormElement( $formElement );
 		}
 
+		/**
+		 * @return string The <input/> element
+		 */
 		function getFormElement()
 		{
 			$output = '<div class="input-group">';
