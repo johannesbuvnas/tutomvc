@@ -10,9 +10,6 @@
 
 	class SelectFormInput extends FormInput
 	{
-		protected $_filterEnabled = FALSE;
-		protected $_tagEnabled    = FALSE;
-
 		protected $_options        = array();
 		protected $_optionTitleMap = array();
 
@@ -48,10 +45,9 @@
 			$output = "";
 
 			$attr = array(
-				"name"      => $this->getElementName(),
-				"id"        => $this->getID(),
-				"class"     => "form-control selectpicker",
-				"data-size" => "auto"
+				"name"  => $this->getElementName(),
+				"id"    => $this->getID(),
+				"class" => "form-control"
 			);
 			if ( $this->isReadOnly() ) $attr[ "disabled" ] = "true";
 			if ( strlen( $this->getPlaceholder() ) ) $attr[ "title" ] = $this->getPlaceholder();
@@ -59,13 +55,6 @@
 			{
 				$attr[ "multiple" ] = "true";
 			}
-			if ( $this->isFilterEnabled() ) $attr[ "data-live-search" ] = "true";
-			if ( $this->isTagEnabled() )
-			{
-				$attr[ "data-live-search" ] = "true";
-				$attr[ "data-tag-enabled" ] = "true";
-			}
-
 			$attributes = "";
 			foreach ( $attr as $key => $label )
 			{
@@ -104,43 +93,7 @@
 
 		protected function getOptionElement( $label, $value )
 		{
-			return $this->hasValue( $value ) ? '<option title="' . $this->_optionTitleMap[ $value ] . '" value="' . $value . '" selected>' . $label . '</option>' : '<option title="' . $this->_optionTitleMap[ $value ] . '" value="' . $value . '">' . $label . '</option>';
-		}
-
-		/**
-		 * @return boolean
-		 */
-		public function isFilterEnabled()
-		{
-			return $this->_filterEnabled;
-		}
-
-		/**
-		 * @param boolean $_filterEnabled
-		 */
-		public function setFilterEnabled( $_filterEnabled )
-		{
-			$this->_filterEnabled = $_filterEnabled;
-
-			return $this;
-		}
-
-		/**
-		 * @return boolean
-		 */
-		public function isTagEnabled()
-		{
-			return $this->_tagEnabled;
-		}
-
-		/**
-		 * @param boolean $tagEnabled
-		 */
-		public function setTagEnabled( $tagEnabled )
-		{
-			$this->_tagEnabled = $tagEnabled;
-
-			return $this;
+			return $this->isValueSet( $value ) ? '<option title="' . $this->_optionTitleMap[ $value ] . '" value="' . $value . '" selected>' . $label . '</option>' : '<option title="' . $this->_optionTitleMap[ $value ] . '" value="' . $value . '">' . $label . '</option>';
 		}
 
 		public function setDefaultValue( $value )
@@ -156,6 +109,9 @@
 
 		/**
 		 * @param array|null $value
+		 *
+		 * @return $this
+		 * @throws \ErrorException
 		 */
 		public function setValue( $value )
 		{
@@ -182,7 +138,7 @@
 			else return $value;
 		}
 
-		public function hasValue( $value )
+		public function isValueSet( $value )
 		{
 			if ( is_string( $this->getValue() ) && $this->getValue() == $value ) return TRUE;
 

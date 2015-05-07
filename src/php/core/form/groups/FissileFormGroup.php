@@ -9,14 +9,14 @@
 	namespace tutomvc;
 
 	/**
-	 * Class ClonableFormGroup
+	 * Class FissileFormGroup
 	 * A clonable FormGroup.
 	 * TODO: Make the form completely independent of JS. Add buttons before and after, delete buttons and index-selectors should be part of the total form.
 	 * TODO: Create an autoparse function that respects the add-, delete-, and index buttons.
 	 * TODO: Add buttons should be able to add more than one at a time?
 	 * @package tutomvc
 	 */
-	class ClonableFormGroup extends FormGroup
+	class FissileFormGroup extends FormGroup
 	{
 		const BUTTON_NAME_ADD_BEFORE = "_tutomvc_clonable_form_group_add_before";
 		const BUTTON_NAME_ADD_AFTER  = "_tutomvc_clonable_form_group_add_after";
@@ -33,7 +33,6 @@
 		 * @param null $description
 		 * @param int $min Minimum clones
 		 * @param int $max Maximum clones
-		 * @param bool $includeFallback
 		 */
 		function __construct( $name, $title = NULL, $description = NULL, $min = 1, $max = 1 )
 		{
@@ -41,6 +40,18 @@
 			$this->setMin( $min );
 			$this->setMax( $max );
 			$this->setIndex( 0 );
+		}
+
+		public function createCloneAt( $index = 0 )
+		{
+
+		}
+
+		public function formatRootElementName( $rootName )
+		{
+			$name = $this->hasParent() ? "[" . $this->getName() . "]" : $this->getName();
+
+			return $this->_parentName . $name . "[" . $rootName . "]";
 		}
 
 		public function count()
@@ -91,7 +102,7 @@
 			return FALSE;
 		}
 
-		final public function getFormElement()
+		final public function getElement()
 		{
 			$collection = array();
 			$model      = array(
@@ -112,7 +123,7 @@
 			for ( $i = 0; $i < $this->count(); $i ++ )
 			{
 				parent::setValue( $this->getValueAt( $i ) );
-				$output .= $this->getSingleFormElement( $i );
+				$output .= $this->getSingleElement( $i );
 			}
 			if ( !$this->hasReachedMax() ) $output .= $this->getFooterElement();
 			$output .= '</ul>';
@@ -120,7 +131,7 @@
 			return $output;
 		}
 
-		protected function getSingleFormElement( $index = 0 )
+		protected function getSingleElement( $index = 0 )
 		{
 			$this->setIndex( $index );
 			// Hack to fix child names
@@ -128,7 +139,7 @@
 			$output          = '
 			<div class="list-group-item">
 				<li class="list-group-item clonable-form-group-item-header disabled">
-					' . $this->getSingleFormElementIndexSelector( $index ) . '
+					' . $this->getSingleElementIndexSelector( $index ) . '
 				</li>
 				<li class="list-group-item clonable-form-group-item-body">
 					' . parent::getFormElement() . '
@@ -140,9 +151,9 @@
 			return $output;
 		}
 
-		protected function getSingleFormElementIndexSelector( $index )
+		protected function getSingleElementIndexSelector( $index )
 		{
-			$output = '<select class="form-control" name="' . self::INPUT_INDEX_SELECTOR . '_' . $index . '">';
+			$output = '<select class="form-control" name="' . $this->formatRootElementName( $index ) . '[' . self::INPUT_INDEX_SELECTOR . ']">';
 			for ( $i = 0; $i < $this->count(); $i ++ )
 			{
 				if ( $i == $index ) $output .= '<option selected value="' . $i . '">#' . ($i + 1) . '</option>';
@@ -175,8 +186,8 @@
 		protected function getTopNavElement()
 		{
 			$output = '
-					<li class="list-group-item clonable-form-group-top-nav" style="text-align: center">
-					    <button name="' . self::BUTTON_NAME_ADD_BEFORE . '" class="btn btn-default btn-add" title="' . __( "Clone 1 before", TutoMVC::NAME ) . '">
+					<li class="list-group-item clonable-form-group-top-nav disabled" style="text-align: center">
+					    <button name="' . $this->formatRootElementName( self::BUTTON_NAME_ADD_BEFORE ) . '" class="btn btn-primary btn-add" title="' . __( "Clone 1 before", TutoMVC::NAME ) . '">
 					        <span class="glyphicon glyphicon-plus"></span>
 					    </button>
 					</li>';
@@ -187,8 +198,8 @@
 		public function getFooterElement()
 		{
 			$output = '
-					<li class="list-group-item clonable-form-group-footer" style="text-align: center">
-					    <button name="' . self::BUTTON_NAME_ADD_AFTER . '" class="btn btn-default btn-add" title="' . __( "Clone 1 after", TutoMVC::NAME ) . '">
+					<li class="list-group-item clonable-form-group-footer disabled" style="text-align: center">
+					    <button name="' . $this->formatRootElementName( self::BUTTON_NAME_ADD_AFTER ) . '" class="btn btn-primary btn-add" title="' . __( "Clone 1 after", TutoMVC::NAME ) . '">
 					        <span class="glyphicon glyphicon-plus"></span>
 					    </button>
 					</li>';
@@ -210,23 +221,12 @@
 		}
 
 		/**
-		 * @param string $metaBoxName
-		 * @param string $inputName
-		 * @param int $index
-		 *
-		 * @return string meta_key
-		 */
-		public static function constructMetaKey( $metaBoxName, $inputName, $index = 0 )
-		{
-			return "{$metaBoxName}_{$index}_{$inputName}";
-		}
-
-		/**
 		 * Do not use. Use setMin and setMax instead.
 		 *
 		 * @param bool $value
 		 *
 		 * @see setMax() setMin()
+		 * @return $this|void
 		 * @throws \ErrorException
 		 */
 		public function setSingle( $value )
@@ -247,6 +247,8 @@
 		 * A int lower than one equals to unlimited.
 		 *
 		 * @param int $max
+		 *
+		 * @return $this
 		 */
 		public function setMax( $max )
 		{
@@ -270,6 +272,8 @@
 		 * A int lower than one equals to unlimited.
 		 *
 		 * @param int $min
+		 *
+		 * @return $this
 		 */
 		public function setMin( $min )
 		{
@@ -401,8 +405,6 @@
 
 		public function getNameAsParent()
 		{
-			$name = $this->hasParent() ? "[" . $this->getName() . "]" : $this->getName();
-
-			return $this->_parentName . $name . "[" . $this->getIndex() . "]";
+			return $this->formatRootElementName( $this->getIndex() );
 		}
 	}

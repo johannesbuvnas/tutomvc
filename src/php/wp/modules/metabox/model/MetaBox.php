@@ -8,9 +8,9 @@
 
 	namespace tutomvc\wp\metabox;
 
-	use tutomvc\ClonableFormGroup;
+	use tutomvc\FissileFormGroup;
 
-	class MetaBox extends ClonableFormGroup
+	class MetaBox extends FissileFormGroup
 	{
 		/* CONSTANTS */
 		const CONTEXT_NORMAL   = "normal";
@@ -51,7 +51,7 @@
 		/* PUBLIC METHODS */
 		public function render( $post, $metabox )
 		{
-			echo $this->getFormElement();
+			echo $this->getElement();
 
 			return $this;
 		}

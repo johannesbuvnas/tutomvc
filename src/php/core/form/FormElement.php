@@ -153,6 +153,24 @@
 		}
 
 		/**
+		 * Get the whole  <div /> including header-, error-, form- and footer- element.
+		 * @return string
+		 */
+		public function getElement()
+		{
+			$output = "";
+			if ( is_string( $this->getErrorMessage() ) ) $output .= '<div class="form-group has-error form-group-input">';
+			else $output .= '<div class="form-group form-group-input">';
+			$output .= $this->getHeaderElement();
+			$output .= $this->getErrorMessageElement();
+			$output .= $this->getFormElement();
+			$output .= $this->getFooterElement();
+			$output .= '</div>';
+
+			return $output;
+		}
+
+		/**
 		 * @return string The <header/> element.
 		 */
 		public function getHeaderElement()

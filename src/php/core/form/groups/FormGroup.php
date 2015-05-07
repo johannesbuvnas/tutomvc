@@ -91,13 +91,7 @@
 			/** @var FormElement $formElement */
 			foreach ( $this->getFormElements() as $formElement )
 			{
-				if ( is_string( $formElement->getErrorMessage() ) ) $output .= '<div class="form-group has-error form-group-input">';
-				else $output .= '<div class="form-group form-group-input">';
-				$output .= $formElement->getHeaderElement();
-				$output .= $formElement->getErrorMessageElement();
-				$output .= $formElement->getFormElement();
-				$output .= $formElement->getFooterElement();
-				$output .= '</div>';
+				$output .= $formElement->getElement();
 			}
 			$output .= '</div>';
 
@@ -247,6 +241,7 @@
 		 * @param array|null $value
 		 *
 		 * @return $this
+		 * @throws \ErrorException
 		 */
 		public function setValue( $value )
 		{

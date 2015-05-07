@@ -8,7 +8,7 @@
 
 	namespace tutomvc;
 
-	class PostMetaBox extends ClonableFormGroup
+	class PostMetaBox extends FissileFormGroup
 	{
 		private $_metaKeysMap;
 

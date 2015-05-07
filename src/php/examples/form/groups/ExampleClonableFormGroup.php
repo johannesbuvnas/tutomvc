@@ -8,7 +8,7 @@
 
 	namespace tutomvc;
 
-	class ExampleClonableFormGroup extends ClonableFormGroup
+	class ExampleFissileFormGroup extends FissileFormGroup
 	{
 		const INPUT_GROUP        = "emails";
 		const INPUT_GROUP_DOMAIN = "domain";

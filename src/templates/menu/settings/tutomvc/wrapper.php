@@ -25,13 +25,13 @@
 	<?php
 		if ( !is_null( $contentMediator ) ) $contentMediator->render();
 		/** @var PostMetaBox $formGroup */
-		$formGroup     = new ExampleClonableFormGroup();
+		$formGroup     = new ExampleFissileFormGroup();
 		$formGroupData = array();
 
 		// save_post action
 		if ( is_array( $_POST ) && count( $_POST ) )
 		{
-//			foreach ( $_POST[ ExampleClonableFormGroup::NAME ] as $data )
+//			foreach ( $_POST[ ExampleFissileFormGroup::NAME ] as $data )
 //			{
 //				$index = intval( $data[ "#" ] );
 //				unset($data[ "#" ]);
@@ -64,7 +64,7 @@
 
 				<?php
 					//					$formGroup->setIndex( 50 );
-					echo $formGroup->getFormElement();
+					echo $formGroup->getElement();
 				?>
 
 			</div>

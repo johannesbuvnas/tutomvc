@@ -35,6 +35,29 @@
 			$this->setSingle( $single );
 		}
 
+		/**
+		 * Get the whole  <div /> including header-, error-, form- and footer- element.
+		 * @return string
+		 */
+		public function getElement()
+		{
+			$output     = "";
+			$classNames = array(
+				"form-group",
+				"form-group-input"
+			);
+			if ( is_string( $this->getErrorMessage() ) ) $classNames[ ] = "has-error";
+			if ( $this->getType() == self::TYPE_HIDDEN ) $classNames[ ] = "hidden";
+			$output = '<div class="' . implode( " ", $classNames ) . '">';
+			$output .= $this->getHeaderElement();
+			$output .= $this->getErrorMessageElement();
+			$output .= $this->getFormElement();
+			$output .= $this->getFooterElement();
+			$output .= '</div>';
+
+			return $output;
+		}
+
 		function getFormElement()
 		{
 			$output = "";
