@@ -10,7 +10,7 @@
 
 	/**
 	 * Class FissileFormGroup
-	 * A clonable FormGroup.
+	 * A fissile FormGroup.
 	 * TODO: Make the form completely independent of JS. Add buttons before and after, delete buttons and index-selectors should be part of the total form.
 	 * TODO: Create an autoparse function that respects the add-, delete-, and index buttons.
 	 * TODO: Add buttons should be able to add more than one at a time?
@@ -18,10 +18,11 @@
 	 */
 	class FissileFormGroup extends FormGroup
 	{
-		const BUTTON_NAME_ADD_BEFORE = "_tutomvc_clonable_form_group_add_before";
-		const BUTTON_NAME_ADD_AFTER  = "_tutomvc_clonable_form_group_add_after";
-		const BUTTON_NAME_DELETE     = "_tutomvc_clonable_form_group_delete";
-		const INPUT_INDEX_SELECTOR   = "_tutomvc_clonable_form_group_index_selector";
+		const BUTTON_NAME_ADD_BEFORE = "_tutomvc_fissile_form_group_add_before";
+		const BUTTON_NAME_ADD_AFTER  = "_tutomvc_fissile_form_group_add_after";
+		const BUTTON_NAME_DELETE     = "_tutomvc_fissile_form_group_delete";
+		const INPUT_INDEX_SELECTOR   = "_tutomvc_fissile_form_group_index_selector";
+		const INPUT_DELETE           = "_tutomvc_fissile_form_group_delete";
 		protected $_max             = 1;
 		protected $_min             = 1;
 		protected $_includeFallback = TRUE;
@@ -57,6 +58,31 @@
 		public function count()
 		{
 			return is_array( $this->getValue() ) ? count( $this->getValue() ) : 0;
+		}
+
+		public function findFormElementByElementName( $elementName )
+		{
+			$elementName = self::sanitizeName( $elementName );
+			$index       = self::extractAncestorIndex( $elementName );
+			if ( !$index ) return NULL;
+			else $this->setIndex( $index );
+			$formElement = $this->getFormElementByElementName( $elementName );
+
+			/** @var \tutomvc\FormElement $formElement */
+			if ( $formElement ) return $formElement;
+
+			foreach ( $this->getFormElements() as $formElement )
+			{
+				if ( is_a( $formElement, "\\tutomvc\\FormGroup" ) )
+				{
+					/** @var \tutomvc\FormGroup $formElement */
+					/** @var \tutomvc\FormElement $subFormElement */
+					$subFormElement = $formElement->findFormElementByElementName( $elementName );
+					if ( $subFormElement ) return $subFormElement;
+				}
+			}
+
+			return NULL;
 		}
 
 		public function getValueMapByElementName( $elementName )
@@ -104,29 +130,28 @@
 
 		final public function getElement()
 		{
-			$collection = array();
-			$model      = array(
-				"max"         => $this->getMax(),
-				"min"         => $this->getMin(),
-				"label"       => $this->getLabel(),
-				"description" => $this->getDescription()
-			);
-			parent::setValue( NULL );
-			$collectionModelDummy = array(
-				"name"            => $this->getName(),
-				"index"           => 1,
-				"total"           => 0,
-				"formElementHTML" => parent::getFormElement()
-			);
-			$output               = '<ul class="list-group clonable-form-group">';
+			$output = '<ul class="list-group fissile-form-group" id="' . $this->getID() . '">';
 			$output .= $this->getHeaderElement();
 			for ( $i = 0; $i < $this->count(); $i ++ )
 			{
-				parent::setValue( $this->getValueAt( $i ) );
 				$output .= $this->getSingleElement( $i );
 			}
 			if ( !$this->hasReachedMax() ) $output .= $this->getFooterElement();
 			$output .= '</ul>';
+
+			$output .= '
+			<script type="text/javascript">
+			jQuery(document).ready(function()
+			{
+				jQuery("#' . $this->getID() . '").sortable({
+					items: ".fissile-form-group-item",
+					opacity: 0.5,
+					handle: ".btn-handle",
+					tolerance: "pointer"
+				});
+			});
+			</script>
+			';
 
 			return $output;
 		}
@@ -134,14 +159,16 @@
 		protected function getSingleElement( $index = 0 )
 		{
 			$this->setIndex( $index );
+			parent::setValue( $this->getValueAt( $index ) );
 			// Hack to fix child names
 			$this->_isSingle = FALSE;
 			$output          = '
-			<div class="list-group-item">
-				<li class="list-group-item clonable-form-group-item-header disabled">
+			<div class="list-group-item ui-sortable fissile-form-group-item">
+				<li class="list-group-item fissile-form-group-item-header disabled" style="text-align: right;">
+					<span class="btn btn-default btn-handle"><span class="glyphicon glyphicon-move"></span></span>
 					' . $this->getSingleElementIndexSelector( $index ) . '
 				</li>
-				<li class="list-group-item clonable-form-group-item-body">
+				<li class="list-group-item fissile-form-group-item-body">
 					' . parent::getFormElement() . '
 				</li>
 			</div>
@@ -153,15 +180,24 @@
 
 		protected function getSingleElementIndexSelector( $index )
 		{
-			$output = '<select class="form-control" name="' . $this->formatRootElementName( $index ) . '[' . self::INPUT_INDEX_SELECTOR . ']">';
-			for ( $i = 0; $i < $this->count(); $i ++ )
-			{
-				if ( $i == $index ) $output .= '<option selected value="' . $i . '">#' . ($i + 1) . '</option>';
-				else $output .= '<option value="' . $i . '">#' . ($i + 1) . '</option>';
-			}
-			$output .= '</select>';
+			$output = "";
+//			$output = '<div class="row">';
+			//			$output .= '<div class="col-xs-6">';
+			$output .= '<label class="btn btn-danger btn">
+							<input name="' . $this->formatRootElementName( $index ) . '[' . self::BUTTON_NAME_DELETE . ']" type="checkbox" style="margin:0 6px 0 0;"> <span class="glyphicon glyphicon-remove"></span>
+						</label>';
+//			$output .= '</div>';
+//			$output .= '<div class="col-xs-5">';
+//			$output .= '<select class="pull-right" name="' . $this->formatRootElementName( $index ) . '[' . self::INPUT_INDEX_SELECTOR . ']">';
+//			for ( $i = 0; $i < $this->count(); $i ++ )
+//			{
+//				if ( $i == $index ) $output .= '<option selected value="' . $i . '">#' . ($i + 1) . '</option>';
+//				else $output .= '<option value="' . $i . '">#' . ($i + 1) . '</option>';
+//			}
+//			$output .= '</select>';
+//			$output .= '</div>';
 
-//			$output .= '<button class="btn btn-sm btn-default"><span class="glyphicon glyphicon-pencil"></span></button>';
+//			$output .= '</div>';
 
 			return $output;
 		}
@@ -185,11 +221,21 @@
 
 		protected function getTopNavElement()
 		{
+//			$output = '
+//			<li class="list-group-item fissile-form-group-top-nav disabled" style="text-align: center">
+//				<div class="input-group input-sm">
+//					<input type="number" value="1" min="1" class="form-control" id="appendedInput">
+//					<label class="input-group-addon text-primary has-success">
+//						<input name="" type="checkbox"> <span class="glyphicon glyphicon-plus"></span>
+//					</label>
+//				</div>
+//			</li>';
+
 			$output = '
-					<li class="list-group-item clonable-form-group-top-nav disabled" style="text-align: center">
-					    <button name="' . $this->formatRootElementName( self::BUTTON_NAME_ADD_BEFORE ) . '" class="btn btn-primary btn-add" title="' . __( "Clone 1 before", TutoMVC::NAME ) . '">
-					        <span class="glyphicon glyphicon-plus"></span>
-					    </button>
+					<li class="list-group-item fissile-form-group-top-nav disabled" style="text-align: center">
+					    <label class="btn btn-default">
+							<input name="' . $this->formatRootElementName( self::BUTTON_NAME_ADD_BEFORE ) . '" type="checkbox" style="margin:0 6px 0 0;"> <span class="glyphicon glyphicon-plus"></span>
+						</label>
 					</li>';
 
 			return $output;
@@ -198,10 +244,10 @@
 		public function getFooterElement()
 		{
 			$output = '
-					<li class="list-group-item clonable-form-group-footer disabled" style="text-align: center">
-					    <button name="' . $this->formatRootElementName( self::BUTTON_NAME_ADD_AFTER ) . '" class="btn btn-primary btn-add" title="' . __( "Clone 1 after", TutoMVC::NAME ) . '">
-					        <span class="glyphicon glyphicon-plus"></span>
-					    </button>
+					<li class="list-group-item fissile-form-group-footer disabled" style="text-align: center">
+						<label class="btn btn-default">
+							<input name="' . $this->formatRootElementName( self::BUTTON_NAME_ADD_AFTER ) . '" type="checkbox" style="margin:0 6px 0 0;"> <span class="glyphicon glyphicon-plus"></span>
+						</label>
 					</li>';
 
 			return $output;
@@ -286,17 +332,53 @@
 
 		public function setValue( $value )
 		{
-			if ( !is_array( $value ) && !is_null( $value ) )
+			if ( !is_array( $value ) && !is_null( $value ) && !is_int( $value ) )
 			{
-				throw new \ErrorException( "Expect array or null.", 0, E_ERROR );
+				throw new \ErrorException( "Expect array, int or null.", 0, E_ERROR );
 			}
 
 			if ( is_null( $value ) )
 			{
 				parent::setValue( NULL );
 			}
-
-			$this->_value = $value;
+			else if ( is_array( $value ) )
+			{
+				$this->_value = array();
+				$newIndex = 0;
+				foreach ( $value as $index => $fission )
+				{
+					if ( is_int( filter_var( $index, FILTER_VALIDATE_INT ) ) && !array_key_exists( self::BUTTON_NAME_DELETE, $fission ) )
+					{
+						$this->_value[ $newIndex ] = $fission;
+						$newIndex++;
+					}
+				}
+				if ( array_key_exists( self::BUTTON_NAME_ADD_BEFORE, $value ) && !$this->hasReachedMax() )
+				{
+					parent::setValue( NULL );
+					array_unshift( $this->_value, parent::getValue() );
+				}
+				if ( array_key_exists( self::BUTTON_NAME_ADD_AFTER, $value ) && !$this->hasReachedMax() )
+				{
+					parent::setValue( NULL );
+					$this->_value[ ] = parent::getValue();
+				}
+			}
+			else if ( is_int( $value ) )
+			{
+				$this->_value = array();
+				$i            = 0;
+				while( $i < $value )
+				{
+					parent::setValue( NULL );
+					array_unshift( $this->_value, parent::getValue() );
+					$i ++;
+				}
+			}
+			else
+			{
+				$this->_value = NULL;
+			}
 
 			return $this;
 		}
@@ -333,11 +415,13 @@
 			$dp = array();
 			if ( is_array( $value ) && count( $value ) )
 			{
+				$before = parent::getValue();
 				foreach ( $value as $index => $valueClone )
 				{
 					parent::setValue( $valueClone );
 					$dp[ ] = parent::getValue( $call_user_func );
 				}
+				parent::setValue( $before );
 			}
 
 			if ( !is_null( $call_user_func ) ) $this->_value = call_user_func_array( $call_user_func, array(
@@ -399,6 +483,12 @@
 		public function setIndex( $index )
 		{
 			parent::setIndex( $index );
+
+			/** @var FormElement $formElement */
+			foreach ( $this->getFormElements() as $formElement )
+			{
+				$formElement->setParentName( $this->getNameAsParent() );
+			}
 
 			return $this;
 		}

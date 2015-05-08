@@ -93,12 +93,31 @@
 		}
 
 		/**
+		 * Parse the data as array ($_POST) and the function will automatically parse the data to the form.
+		 * Same as setValue( $_POST[ name ] )
+		 *
+		 * @param array $dataArray
+		 *
+		 * @return bool TRUE if there exists data, FALSE if no data exists.
+		 */
+		public function parse( $dataArray )
+		{
+			if ( isset($dataArray[ $this->getName() ]) )
+			{
+				$this->setValue( $dataArray[ $this->getName() ] );
+
+				return TRUE;
+			}
+
+			return FALSE;
+		}
+
+		/**
 		 * Possibility to validate the value of the FormElement through call_user_func_array.
 		 * The callable function parsed should return TRUE or a string with a error message on failure.
-		 *
-		 * @param null $call_user_func
-		 *
 		 * @return bool|mixed
+		 * @internal param null $call_user_func
+		 *
 		 */
 		public function validate()
 		{
@@ -217,6 +236,8 @@
 
 		/**
 		 * @param boolean $single
+		 *
+		 * @return $this
 		 */
 		public function setSingle( $single )
 		{
@@ -237,6 +258,8 @@
 		 * Will be used if this single is set to false.
 		 *
 		 * @param null|int $index
+		 *
+		 * @return $this
 		 */
 		public function setIndex( $index )
 		{
@@ -283,6 +306,8 @@
 
 		/**
 		 * @param mixed $defaultValue
+		 *
+		 * @return $this
 		 */
 		public function setDefaultValue( $defaultValue )
 		{
@@ -301,6 +326,8 @@
 
 		/**
 		 * @param string $parentName
+		 *
+		 * @return $this
 		 */
 		public function setParentName( $parentName )
 		{
@@ -340,6 +367,8 @@
 		 * The callable function should return TRUE or a string with a error message on failure.
 		 *
 		 * @param mixed $validationMethod
+		 *
+		 * @return $this
 		 */
 		public function setValidationMethod( $validationMethod )
 		{
@@ -358,6 +387,8 @@
 
 		/**
 		 * @param mixed $errorMessage
+		 *
+		 * @return $this
 		 */
 		public function setErrorMessage( $errorMessage )
 		{

@@ -21,8 +21,19 @@
 
 		function execute()
 		{
-			echo "<pre>";
-			print_r( $_POST );
-			echo "</pre>";
+			$postID = $this->getArg( 0 );
+			$screen = get_current_screen();
+
+			/** @var MetaBox $metaBox */
+			foreach ( $this->getFacade()->model->getProxy( MetaBoxProxy::NAME )->getMap() as $metaBox )
+			{
+				if ( in_array( $screen->post_type, $metaBox->getPostTypes() ) )
+				{
+					if ( $metaBox->parse( $_POST ) )
+					{
+						$metaBox->update( $postID );
+					}
+				}
+			}
 		}
 	}

@@ -51,7 +51,75 @@
 		/* PUBLIC METHODS */
 		public function render( $post, $metabox )
 		{
+			$meta = get_post_meta( $post->ID, $this->getName() );
+			$this->setValue( $meta );
 			echo $this->getElement();
+
+			return $this;
+		}
+
+		public function filter( $postID, $metaKey, $metaValue )
+		{
+			return $metaValue;
+		}
+
+		/**
+		 * @param $postID
+		 *
+		 * @return int
+		 */
+		public function countClones( $postID )
+		{
+			GetPostMetadataFilter::$doNotExecute = TRUE;
+			$int                                 = get_post_meta( $postID, $this->getName(), TRUE );
+			GetPostMetadataFilter::$doNotExecute = FALSE;
+
+			return intval( $int );
+		}
+
+		public function update( $postID )
+		{
+			// Clear old first
+			$this->clear( $postID );
+
+			$map = $this->getFlatValue();
+
+			// get_metadata is executed when updating post meta
+			GetPostMetadataFilter::$doNotExecute = TRUE;
+			update_post_meta( $postID, $this->getName(), count( $map ) );
+
+			if ( count( $map ) )
+			{
+				foreach ( $map as $clone )
+				{
+					foreach ( $clone as $key => $value )
+					{
+						update_post_meta( $postID, $key, $value );
+					}
+				}
+			}
+			GetPostMetadataFilter::$doNotExecute = FALSE;
+
+			return $this;
+		}
+
+		public function clear( $postID )
+		{
+			$prevValue = $this->_value;
+
+			$int = $this->countClones( $postID );
+			$this->setValue( $int );
+			delete_post_meta( $postID, $this->getName() );
+			$map = $this->getFlatValue();
+			foreach ( $map as $clone )
+			{
+				foreach ( $clone as $key => $value )
+				{
+					delete_post_meta( $postID, $key );
+				}
+			}
+
+			$this->_value = $prevValue;
 
 			return $this;
 		}
