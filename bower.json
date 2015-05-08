@@ -1,13 +1,15 @@
 {
-    "name" : "Tuto MVC WordPress Plugin",
-    "version" : "1.0",
-    "dependencies" : {
-        "requirejs" : "latest",
-        "requirejs-text" : "latest",
-        "jquery" : "1.10.2",
-        "underscore" : "latest",
-        "backbone" : "latest",
-        "bootstrap" : "latest",
-        "bootstrap-select" : "latest"
-    }
+  "name": "Tuto MVC WordPress Plugin",
+  "version": "1.0.0",
+  "dependencies": {
+    "requirejs": "latest",
+    "requirejs-text": "latest",
+    "jquery": "latest",
+    "jquery-ui": "latest",
+    "select2": "latest",
+    "underscore": "latest",
+    "backbone": "latest",
+    "bootstrap": "latest",
+    "bootstrap-select": "latest"
+  }
 }

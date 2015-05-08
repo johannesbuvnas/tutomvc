@@ -31,6 +31,9 @@
 				{
 					if ( $metaBox->parse( $_POST ) )
 					{
+//						var_dump( $_POST[ $metaBox->getName() ] );
+//						var_dump( $metaBox->getValue() );
+//						exit;
 						$metaBox->update( $postID );
 					}
 				}

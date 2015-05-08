@@ -109,6 +109,8 @@
 
 		/**
 		 * @param string $value
+		 *
+		 * @return $this
 		 */
 		public function setValue( $value )
 		{
@@ -125,6 +127,8 @@
 
 		/**
 		 * @param string $type
+		 *
+		 * @return $this
 		 */
 		public function setType( $type )
 		{
@@ -143,6 +147,8 @@
 
 		/**
 		 * @param boolean $readOnly
+		 *
+		 * @return $this
 		 */
 		public function setReadOnly( $readOnly )
 		{
@@ -161,6 +167,8 @@
 
 		/**
 		 * @param string $placeholder
+		 *
+		 * @return $this
 		 */
 		public function setPlaceholder( $placeholder )
 		{
@@ -179,6 +187,8 @@
 
 		/**
 		 * @param mixed $accept
+		 *
+		 * @return $this
 		 */
 		public function setAccept( $accept )
 		{
@@ -197,6 +207,8 @@
 
 		/**
 		 * @param bool $autocomplete
+		 *
+		 * @return $this
 		 */
 		public function setAutocomplete( $autocomplete )
 		{

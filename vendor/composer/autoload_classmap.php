@@ -119,6 +119,7 @@ return array(
     'tutomvc\\StringUtil' => $baseDir . '/src/php/wp/core/util/StringUtil.php',
     'tutomvc\\SystemConstants' => $baseDir . '/src/php/wp/system/SystemConstants.php',
     'tutomvc\\SystemFacade' => $baseDir . '/src/php/wp/system/SystemFacade.php',
+    'tutomvc\\Select2FormInput' => $baseDir . '/src/php/core/form/inputs/Select2FormInput.php',
     'tutomvc\\Taxonomy' => $baseDir . '/src/php/wp/system/model/proxy/taxonomy/Taxonomy.php',
     'tutomvc\\TaxonomyMetaField' => $baseDir . '/src/php/wp/system/model/proxy/meta/fields/TaxonomyMetaField.php',
     'tutomvc\\TaxonomyProxy' => $baseDir . '/src/php/wp/system/model/proxy/taxonomy/TaxonomyProxy.php',

@@ -159,6 +159,7 @@
 		protected function getSingleElement( $index = 0 )
 		{
 			$this->setIndex( $index );
+			parent::setValue( NULL ); // Just in case
 			parent::setValue( $this->getValueAt( $index ) );
 			// Hack to fix child names
 			$this->_isSingle = FALSE;
@@ -344,13 +345,13 @@
 			else if ( is_array( $value ) )
 			{
 				$this->_value = array();
-				$newIndex = 0;
+				$newIndex     = 0;
 				foreach ( $value as $index => $fission )
 				{
 					if ( is_int( filter_var( $index, FILTER_VALIDATE_INT ) ) && !array_key_exists( self::BUTTON_NAME_DELETE, $fission ) )
 					{
 						$this->_value[ $newIndex ] = $fission;
-						$newIndex++;
+						$newIndex ++;
 					}
 				}
 				if ( array_key_exists( self::BUTTON_NAME_ADD_BEFORE, $value ) && !$this->hasReachedMax() )
@@ -418,6 +419,7 @@
 				$before = parent::getValue();
 				foreach ( $value as $index => $valueClone )
 				{
+					parent::setValue( NULL ); // JUST IN CASE
 					parent::setValue( $valueClone );
 					$dp[ ] = parent::getValue( $call_user_func );
 				}
@@ -442,6 +444,7 @@
 
 				foreach ( $value as $key => $singleValue )
 				{
+					parent::setValue( NULL ); // Just in case
 					parent::setValue( $singleValue );
 					$valueMap[ ] = parent::getValueMapAt( $key );
 				}
@@ -468,6 +471,7 @@
 			foreach ( $currentValue as $key => $value )
 			{
 				$this->setIndex( $key );
+				parent::setValue( NULL ); // JUST IN CASE
 				parent::setValue( $value );
 				$flatValue[ $key ] = parent::getFlatValue();
 			}

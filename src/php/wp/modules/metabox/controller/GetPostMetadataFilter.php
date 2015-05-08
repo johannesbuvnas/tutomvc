@@ -73,6 +73,8 @@
 			{
 				if ( is_array( $value ) ) $value = $this->mapValues( $postID, $value );
 				else if ( is_string( $value ) ) $value = get_post_meta( $postID, $value, TRUE );
+
+				if ( empty($value) ) $value = NULL;
 			}
 			self::$doNotExecute = FALSE;
 
