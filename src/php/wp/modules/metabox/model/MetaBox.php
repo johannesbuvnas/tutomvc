@@ -68,11 +68,9 @@
 		 *
 		 * @return int
 		 */
-		public function countClones( $postID )
+		public function countFissions( $postID )
 		{
-			GetPostMetadataFilter::$doNotExecute = TRUE;
-			$int                                 = get_post_meta( $postID, $this->getName(), TRUE );
-			GetPostMetadataFilter::$doNotExecute = FALSE;
+			$int = GetPostMetadataFilter::getDBMetaValue( $postID, $this->getName() );
 
 			return intval( $int );
 		}
@@ -107,7 +105,7 @@
 		{
 			$prevValue = $this->_value;
 
-			$int = $this->countClones( $postID );
+			$int = $this->countFissions( $postID );
 			$this->setValue( $int );
 			delete_post_meta( $postID, $this->getName() );
 			$map = $this->getFlatValue();

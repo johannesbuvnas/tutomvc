@@ -35,13 +35,15 @@
 			/** @var MetaBox $metaBox */
 			foreach ( $this->getFacade()->model->getProxy( MetaBoxProxy::NAME )->getMap() as $metaBox )
 			{
+				$valueMap = NULL;
 				if ( in_array( $postType, $metaBox->getPostTypes() ) )
 				{
 					if ( $metaKey == $metaBox->getName() )
 					{
-						$int = $metaBox->countClones( $postID );
+						$int = $metaBox->countFissions( $postID );
 						$metaBox->setValue( $int );
-						$valueMap = $metaBox->getValueMapAt();
+						$formElement = $metaBox;
+						$valueMap    = $metaBox->getValueMapAt();
 					}
 					else if ( $formElement = $metaBox->findFormElementByElementName( $metaKey ) )
 					{
@@ -56,9 +58,9 @@
 						}
 					}
 
-					if ( isset($valueMap) )
+					if ( isset($valueMap) && !empty($valueMap) )
 					{
-						$value = $this->mapValues( $postID, $valueMap );
+						$value = $this->mapValues( $formElement, $postID, $valueMap );
 					}
 				}
 			}
@@ -66,18 +68,51 @@
 			return $value;
 		}
 
-		protected function mapValues( $postID, $map )
+		protected function mapValues( $formElement, $postID, $map )
 		{
-			self::$doNotExecute = TRUE;
+//			var_dump( get_class( $formElement ) );
 			foreach ( $map as &$value )
 			{
-				if ( is_array( $value ) ) $value = $this->mapValues( $postID, $value );
-				else if ( is_string( $value ) ) $value = get_post_meta( $postID, $value, TRUE );
+				if ( is_array( $value ) )
+				{
+					$value = $this->mapValues( $formElement, $postID, $value );
+				}
+				else if ( is_string( $value ) )
+				{
+					// META KEY
+					$childElement = $formElement->findFormElementByElementName( $value );
+//					var_dump( get_class( $childElement ) );
+					// TODO: apply_filter( get_class($childElement) . "_value", $childElement, $value );
+					$value = self::getDBMetaValue( $postID, $value );
+				}
 
 				if ( empty($value) ) $value = NULL;
 			}
-			self::$doNotExecute = FALSE;
 
 			return $map;
+		}
+
+		public static function getDBMetaValue( $postID, $metaKey, $isSingle = TRUE )
+		{
+			if ( !intval( $postID ) ) return FALSE;
+
+			global $wpdb;
+
+			$query = "
+				SELECT {$wpdb->postmeta}.meta_value
+				FROM {$wpdb->postmeta}
+				WHERE {$wpdb->postmeta}.post_id = '{$postID}'
+				AND {$wpdb->postmeta}.meta_key = '{$metaKey}'
+			";
+
+			$myrows = $wpdb->get_results( $query );
+			$dp     = array();
+			foreach ( $myrows as $row )
+			{
+				if ( $isSingle ) return maybe_unserialize( $row->meta_value );
+				$dp[ ] = maybe_unserialize( $row->meta_value );
+			}
+
+			return $dp;
 		}
 	}
