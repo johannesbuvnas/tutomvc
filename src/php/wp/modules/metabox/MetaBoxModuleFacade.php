@@ -42,4 +42,13 @@
 			$this->controller->registerCommand( new SavePostAction() );
 			$this->controller->registerCommand( new GetPostMetadataFilter() );
 		}
+
+		/* SET AND GET */
+		/**
+		 * @return null|MetaBoxProxy
+		 */
+		public function getProxy()
+		{
+			return $this->model->getProxy( MetaBoxProxy::NAME );
+		}
 	}

@@ -35,6 +35,9 @@
 			return $this;
 		}
 
+		/**
+		 * @return array
+		 */
 		public function getOptions()
 		{
 			return $this->_options;

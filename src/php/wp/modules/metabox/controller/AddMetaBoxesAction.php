@@ -23,7 +23,7 @@
 		{
 			$screen = $this->getArg( 0 );
 			/** @var MetaBox $metaBox */
-			foreach ( $this->getFacade()->model->getProxy( MetaBoxProxy::NAME )->getMap() as $metaBox )
+			foreach ( MetaBoxModule::getInstance()->getProxy()->getMap() as $metaBox )
 			{
 				if ( in_array( $screen, $metaBox->getPostTypes() ) )
 				{

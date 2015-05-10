@@ -13,6 +13,34 @@
 	class MetaBoxModule
 	{
 		/**
+		 *
+		 * @see https://codex.wordpress.org/Function_Reference/add_meta_box
+		 *
+		 * @param MetaBox $metaBox
+		 *
+		 * @return Facade|MetaBoxModuleFacade
+		 */
+		public static function add( $metaBox )
+		{
+			self::getProxy()->add( $metaBox );
+
+			return self::getInstance();
+		}
+
+		/**
+		 * @param int|string $postID
+		 * @param string $metaKey
+		 * @param bool $suppressFilters
+		 *
+		 * @return array|mixed|null|void
+		 * @throws \ErrorException
+		 */
+		public static function getPostMeta( $postID, $metaKey, $suppressFilters = FALSE )
+		{
+			return self::getProxy()->getPostMeta( $postID, $metaKey, $suppressFilters );
+		}
+
+		/**
 		 * @return Facade|MetaBoxModuleFacade
 		 */
 		public static function getInstance()
@@ -21,15 +49,10 @@
 		}
 
 		/**
-		 *
-		 * @see https://codex.wordpress.org/Function_Reference/add_meta_box
-		 *
-		 * @param MetaBox $metaBox
+		 * @return null|MetaBoxProxy
 		 */
-		public static function add( $metaBox )
+		public static function getProxy()
 		{
-			self::getInstance()->model->getProxy( MetaBoxProxy::NAME )->add( $metaBox );
-
-			return self::getInstance();
+			return self::getInstance()->getProxy();
 		}
 	}

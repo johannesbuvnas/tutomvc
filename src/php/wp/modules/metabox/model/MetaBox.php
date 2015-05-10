@@ -9,6 +9,7 @@
 	namespace tutomvc\wp\metabox;
 
 	use tutomvc\FissileFormGroup;
+	use tutomvc\wp\PostMetaUtil;
 
 	class MetaBox extends FissileFormGroup
 	{
@@ -51,7 +52,7 @@
 		/* PUBLIC METHODS */
 		public function render( $post, $metabox )
 		{
-			$meta = get_post_meta( $post->ID, $this->getName() );
+			$meta = MetaBoxModule::getPostMeta( $post->ID, $this->getName(), TRUE );
 			$this->setValue( $meta );
 			echo $this->getElement();
 
@@ -70,21 +71,19 @@
 		 */
 		public function countFissions( $postID )
 		{
-			$int = GetPostMetadataFilter::getDBMetaValue( $postID, $this->getName() );
+			$int = PostMetaUtil::getPostMetaFromDB( $postID, $this->getName() );
 
 			return intval( $int );
 		}
 
 		public function update( $postID )
 		{
-			// Clear old first
 			$this->clear( $postID );
 
 			$map = $this->getFlatValue();
 
-			// get_metadata is executed when updating post meta
-			GetPostMetadataFilter::$doNotExecute = TRUE;
-			update_post_meta( $postID, $this->getName(), count( $map ) );
+			// get_metadata is executed when update_post_meta
+			add_post_meta( $postID, $this->getName(), count( $map ) );
 
 			if ( count( $map ) )
 			{
@@ -92,11 +91,10 @@
 				{
 					foreach ( $clone as $key => $value )
 					{
-						update_post_meta( $postID, $key, $value );
+						if ( !empty($value) ) add_post_meta( $postID, $key, $value );
 					}
 				}
 			}
-			GetPostMetadataFilter::$doNotExecute = FALSE;
 
 			return $this;
 		}

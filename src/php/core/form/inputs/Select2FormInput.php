@@ -50,7 +50,7 @@
 			{
 				foreach ( $this->getValue() as $value )
 				{
-					$this->addOption( $value, $value );
+					if ( !array_key_exists( $value, $this->_optionTitleMap ) ) $this->addOption( $value, $value );
 				}
 			}
 

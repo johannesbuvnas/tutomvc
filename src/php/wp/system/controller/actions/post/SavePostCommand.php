@@ -30,8 +30,8 @@
 				{
 					if ( WordPressUtil::verifyNonce( $metaBox->getName() . "_nonce", $metaBox->getName() ) )
 					{
-						$metaBox->clearMetaFields( $postID );
 						/** @var MetaBox $metaBox */
+						$metaBox->clearMetaFields( $postID );
 						$metaBox->addPostMeta( $postID, $metaBox->getName(), $_POST[ $metaBox->getName() ] );
 
 						$map = $metaBox->getMetaBoxMap( $postID );
