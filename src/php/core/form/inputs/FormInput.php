@@ -58,6 +58,20 @@
 			return $output;
 		}
 
+		/**
+		 * The name-attribute.
+		 * Will not create a nested-array-element-name if this is a file input type.
+		 * @return string
+		 */
+		public function getElementName()
+		{
+			$name = parent::getElementName();
+
+			if ( $this->getType() == self::TYPE_FILE ) $name = FormElement::sanitizeID( $name );
+
+			return $name;
+		}
+
 		function getFormElement()
 		{
 			$output = "";
@@ -215,5 +229,20 @@
 			$this->_autocomplete = $autocomplete;
 
 			return $this;
+		}
+
+		/**
+		 * Look for the element name in $_FILES IF this is a file-input-type.
+		 * @return null|array
+		 */
+		public function getSubmittedFile()
+		{
+			if ( $this->getType() != self::TYPE_FILE ) return NULL;
+
+			$file = array_key_exists( $this->getElementName(), $_FILES ) ? $_FILES[ $this->getElementName() ] : NULL;
+
+			if ( is_array( $file ) && !empty($file[ 'size' ]) ) return $file;
+
+			return NULL;
 		}
 	}
