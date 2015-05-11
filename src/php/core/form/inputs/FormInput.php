@@ -241,7 +241,7 @@
 
 			$file = array_key_exists( $this->getElementName(), $_FILES ) ? $_FILES[ $this->getElementName() ] : NULL;
 
-			if ( is_array( $file ) && !empty($file[ 'size' ]) ) return $file;
+			if ( is_array( $file ) && !empty($file[ 'size' ]) && empty($file[ 'error' ]) ) return $file;
 
 			return NULL;
 		}
