@@ -14,6 +14,13 @@ class Proxy extends CoreClass
 		$this->_name = is_null( $name ) ? get_class( $this ) : $name;
 	}
 
+	/**
+	 * @param mixed $item
+	 * @param null $key
+	 * @param bool $override
+	 *
+	 * @return mixed
+	 */
 	public function add( $item, $key = NULL, $override = FALSE )
 	{
 		$key = is_null( $key ) ? uniqid() : $key;

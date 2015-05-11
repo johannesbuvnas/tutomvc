@@ -28,6 +28,7 @@
 			if ( is_admin() )
 			{
 				// TODO: Enqueue scripts that is needed for this module
+				// TODO: Move styles and scripts to SystemFacade. Just enqueue them in modules.
 				wp_enqueue_style( "tutomvc-bootstrap", $this->getURL( "dist/css/style.css" ), NULL, TutoMVC::VERSION );
 				wp_enqueue_style( "bootstrap-selectpicker", $this->getURL( "libs/scripts/bootstrap-select/dist/css/bootstrap-select.min.css" ), NULL, TutoMVC::VERSION );
 				wp_enqueue_style( "select2", $this->getURL( "libs/scripts/select2/dist/css/select2.min.css" ), NULL, TutoMVC::VERSION );
