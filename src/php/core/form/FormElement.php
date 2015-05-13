@@ -112,6 +112,11 @@
 			return FALSE;
 		}
 
+		public function clearError()
+		{
+			$this->setErrorMessage( NULL );
+		}
+
 		/**
 		 * Possibility to validate the value of the FormElement through call_user_func_array.
 		 * The callable function parsed should return TRUE or a string with a error message on failure.

@@ -134,6 +134,24 @@
 			return $this;
 		}
 
+		public function clearErrors()
+		{
+			$this->clearError();
+			/** @var FormElement $formElement */
+			foreach ( $this->getFormElements() as $formElement )
+			{
+				if ( is_a( $formElement, "\\tutomvc\\FormGroup" ) )
+				{
+					/** @var FormGroup $formElement */
+					if ( !is_null( $formElement->getErrors() ) ) $formElement->clearErrors();
+				}
+				else
+				{
+					if ( is_string( $formElement->getErrorMessage() ) ) $formElement->clearError();
+				}
+			}
+		}
+
 		/**
 		 * Returns array of errors if errors exists.
 		 * If no errors exists, it returns NULL.
