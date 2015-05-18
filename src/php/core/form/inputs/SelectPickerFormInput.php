@@ -20,8 +20,32 @@
 	{
 		protected $_liveSearchEnabled = FALSE;
 		protected $_size              = "auto";
+		protected $_optionsSubtextMap = array();
+
+		public function addOptionSubtext( $optionValue, $subtext = "" )
+		{
+			$this->_optionsSubtextMap[ $optionValue ] = $subtext;
+		}
 
 		/* SET AND GET */
+		protected function getOptionElement( $label, $value )
+		{
+			$attr = array(
+				"title" => $this->_optionTitleMap[ $value ],
+				"value" => $value,
+			);
+			if ( $this->isValueSet( $value ) ) $attr[ "selected" ] = "";
+			if ( array_key_exists( $value, $this->_optionsSubtextMap ) ) $attr[ "data-subtext" ] = $this->_optionsSubtextMap[ $value ];
+
+			$attributes = "";
+			foreach ( $attr as $key => $attrValue )
+			{
+				$attributes .= ' ' . $key . '="' . $attrValue . '"';
+			}
+
+			return '<option ' . $attributes . '>' . $label . '</option>';
+		}
+
 		function getFormElement()
 		{
 			$output = "";
