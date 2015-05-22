@@ -185,4 +185,10 @@ return array(
     'tutomvc\\wp\\metabox\\SavePostAction' => $baseDir . '/src/php/wp/modules/metabox/controller/SavePostAction.php',
     'tutomvc\\wp\\posttype\\PostTypeModule' => $baseDir . '/src/php/wp/modules/posttype/PostTypeModule.php',
     'tutomvc\\wp\\posttype\\PostTypeModuleFacade' => $baseDir . '/src/php/wp/modules/posttype/PostTypeModuleFacade.php',
+    'tutomvc\\wp\\setting\\AdminInitAction' => $baseDir . '/src/php/wp/modules/setting/controller/AdminInitAction.php',
+    'tutomvc\\wp\\setting\\ExampleSetting' => $baseDir . '/src/php/wp/modules/setting/model/ExampleSetting.php',
+    'tutomvc\\wp\\setting\\Setting' => $baseDir . '/src/php/wp/modules/setting/model/Setting.php',
+    'tutomvc\\wp\\setting\\SettingModule' => $baseDir . '/src/php/wp/modules/setting/SettingModule.php',
+    'tutomvc\\wp\\setting\\SettingModuleFacade' => $baseDir . '/src/php/wp/modules/setting/SettingModuleFacade.php',
+    'tutomvc\\wp\\setting\\SettingProxy' => $baseDir . '/src/php/wp/modules/setting/model/SettingProxy.php',
 );

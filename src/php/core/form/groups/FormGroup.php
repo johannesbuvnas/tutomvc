@@ -315,7 +315,9 @@
 		}
 
 		/**
-		 * @return array|null
+		 * @param null $call_user_func
+		 *
+		 * @return array|mixed
 		 */
 		public function getValue( $call_user_func = NULL )
 		{

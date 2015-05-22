@@ -10,10 +10,10 @@ class Settings extends MetaBox
 	protected $_description;
 
 
-	function __construct( $name, $menuSlug, $title = NULL, $description = NULL  )
+	function __construct( $name, $pageName, $title = NULL, $description = NULL  )
 	{
 		$this->setName( $name );
-		$this->setMenuSlug( $menuSlug );
+		$this->setMenuSlug( $pageName );
 		$this->setTitle( $title );
 		$this->setDescription( $description );
 	}

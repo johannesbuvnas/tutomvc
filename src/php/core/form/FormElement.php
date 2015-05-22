@@ -293,6 +293,11 @@
 			return $this;
 		}
 
+		/**
+		 * @param null $call_user_func
+		 *
+		 * @return mixed
+		 */
 		public function getValue( $call_user_func = NULL )
 		{
 			$value = is_null( $this->_value ) ? $this->getDefaultValue() : $this->_value;

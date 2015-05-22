@@ -146,7 +146,7 @@
 				jQuery("#' . $this->getID() . '").sortable({
 					items: ".fissile-form-group-item",
 					opacity: 0.5,
-					handle: ".btn-handle",
+					handle: ".fissile-form-group-item-header",
 					tolerance: "pointer"
 				});
 			});
@@ -163,17 +163,22 @@
 			parent::setValue( $this->getValueAt( $index ) );
 			// Hack to fix child names
 			$this->_isSingle = FALSE;
-			$output          = '
-			<div class="list-group-item ui-sortable fissile-form-group-item">
-				<li class="list-group-item fissile-form-group-item-header disabled" style="text-align: right;">
-					<span class="btn btn-default btn-handle"><span class="glyphicon glyphicon-move"></span></span>
+			$output          = '<div class="list-group-item ui-sortable fissile-form-group-item">';
+			if ( $this->getMin() == 1 && $this->getMax() == 1 )
+			{
+				$output .= parent::getFormElement();
+			}
+			else
+			{
+				$output .= '
+				<li class="list-group-item list-group-item-info fissile-form-group-item-header" style="text-align: right;cursor:move;">
 					' . $this->getSingleElementIndexSelector( $index ) . '
 				</li>
 				<li class="list-group-item fissile-form-group-item-body">
 					' . parent::getFormElement() . '
-				</li>
-			</div>
-			';
+				</li>';
+			}
+			$output .= '</div>';
 			$this->_isSingle = TRUE;
 
 			return $output;
@@ -184,7 +189,7 @@
 			$output = "";
 //			$output = '<div class="row">';
 			//			$output .= '<div class="col-xs-6">';
-			$output .= '<label class="btn btn-danger btn">
+			$output .= '<label class="btn btn-danger btn-sm">
 							<input name="' . $this->formatRootElementName( $index ) . '[' . self::BUTTON_NAME_DELETE . ']" type="checkbox" style="margin:0 6px 0 0;"> <span class="glyphicon glyphicon-remove"></span>
 						</label>';
 //			$output .= '</div>';
@@ -206,7 +211,7 @@
 		public function getHeaderElement()
 		{
 			$output = '
-					<li class="list-group-item disabled">
+					<li class="list-group-item">
 						<h2>
 							' . $this->getLabel() . '
 							<small class="help-block">
@@ -233,9 +238,9 @@
 //			</li>';
 
 			$output = '
-					<li class="list-group-item fissile-form-group-top-nav disabled" style="text-align: center">
+					<li class="list-group-item fissile-form-group-top-nav" style="text-align: center">
 					    <label class="btn btn-default">
-							<input name="' . $this->formatRootElementName( self::BUTTON_NAME_ADD_BEFORE ) . '" type="checkbox" style="margin:0 6px 0 0;"> <span class="glyphicon glyphicon-plus"></span>
+							<input name="' . $this->formatRootElementName( self::BUTTON_NAME_ADD_BEFORE ) . '" type="checkbox" style="margin:0 6px 0 0;"> <span class="glyphicon glyphicon-plus"></span> 1
 						</label>
 					</li>';
 
@@ -245,9 +250,9 @@
 		public function getFooterElement()
 		{
 			$output = '
-					<li class="list-group-item fissile-form-group-footer disabled" style="text-align: center">
+					<li class="list-group-item fissile-form-group-footer" style="text-align: center">
 						<label class="btn btn-default">
-							<input name="' . $this->formatRootElementName( self::BUTTON_NAME_ADD_AFTER ) . '" type="checkbox" style="margin:0 6px 0 0;"> <span class="glyphicon glyphicon-plus"></span>
+							<input name="' . $this->formatRootElementName( self::BUTTON_NAME_ADD_AFTER ) . '" type="checkbox" style="margin:0 6px 0 0;"> <span class="glyphicon glyphicon-plus"></span> 1
 						</label>
 					</li>';
 
@@ -384,6 +389,12 @@
 			return $this;
 		}
 
+		/**
+		 * @param null $call_user_func
+		 *
+		 * @return array|mixed
+		 * @throws \ErrorException
+		 */
 		public function getValue( $call_user_func = NULL )
 		{
 			$value = empty($this->_value) ? $this->getDefaultValue() : $this->_value;
@@ -500,5 +511,29 @@
 		public function getNameAsParent()
 		{
 			return $this->formatRootElementName( $this->getIndex() );
+		}
+
+		/**
+		 * Returns array of errors if errors exists.
+		 * If no errors exists, it returns NULL.
+		 * @return array|null
+		 */
+		public function getErrors()
+		{
+			$errors = array();
+			$count  = $this->count();
+			$before = parent::getValue();
+			for ( $i = 0; $i < $count; $i ++ )
+			{
+				parent::setValue( $this->getValueAt( $i ) );
+				$this->validate();
+				$fissionErrors = parent::getErrors();
+				if ( is_array( $fissionErrors ) ) $errors[ $i ] = $fissionErrors;
+			}
+
+			parent::setValue( $before );
+
+			if ( count( $errors ) ) return $errors;
+			else return NULL;
 		}
 	}

@@ -1,6 +1,8 @@
 <?php
 	namespace tutomvc\wp\setting;
 
+	use tutomvc\Facade;
+
 	/**
 	 * Created by PhpStorm.
 	 * User: johannesbuvnas
@@ -9,4 +11,32 @@
 	 */
 	class SettingModule
 	{
+		/**
+		 * @param Setting $settings
+		 *
+		 * @return SettingModuleFacade
+		 * @throws \ErrorException
+		 */
+		public static function add( $settings )
+		{
+			self::getProxy()->add( $settings );
+
+			return self::getInstance();
+		}
+
+		/**
+		 * @return SettingModuleFacade
+		 */
+		public static function getInstance()
+		{
+			return Facade::getInstance( SettingModuleFacade::KEY ) ? Facade::getInstance( SettingModuleFacade::KEY ) : Facade::getInstance( Facade::KEY_SYSTEM )->registerSubFacade( new SettingModuleFacade() );
+		}
+
+		/**
+		 * @return SettingProxy
+		 */
+		public static function getProxy()
+		{
+			return self::getInstance()->getProxy();
+		}
 	}

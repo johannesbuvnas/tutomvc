@@ -4,6 +4,8 @@
 	use tutomvc\wp\metabox\ExampleMetaBox;
 	use tutomvc\wp\metabox\MetaBoxModule;
 	use tutomvc\wp\metabox\MetaBoxModuleFacade;
+	use tutomvc\wp\setting\ExampleSetting;
+	use tutomvc\wp\setting\SettingModule;
 
 	/**
 	 * Class SystemFacade
@@ -55,6 +57,7 @@
 		{
 //			$this->repository = new GitRepositoryVO( TutoMVC::getRoot(), TutoMVC::GIT_REPOSITORY_URL, TutoMVC::GIT_REPOSITORY_BRANCH );
 			MetaBoxModule::add( new ExampleMetaBox() );
+			SettingModule::add( new ExampleSetting() );
 
 			return;
 			$this->prepModel();
