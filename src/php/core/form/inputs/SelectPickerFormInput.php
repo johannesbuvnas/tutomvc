@@ -21,13 +21,23 @@
 		protected $_liveSearchEnabled = FALSE;
 		protected $_size              = "auto";
 		protected $_optionsSubtextMap = array();
-
-		public function addOptionSubtext( $optionValue, $subtext = "" )
-		{
-			$this->_optionsSubtextMap[ $optionValue ] = $subtext;
-		}
+		protected $_optionsContentMap = array();
 
 		/* SET AND GET */
+		public function setOptionSubtext( $optionValue, $subtext = "" )
+		{
+			$this->_optionsSubtextMap[ $optionValue ] = $subtext;
+
+			return $this;
+		}
+
+		public function setOptionContent( $optionValue, $content )
+		{
+			$this->_optionsContentMap[ $optionValue ] = $content;
+
+			return $this;
+		}
+
 		protected function getOptionElement( $label, $value )
 		{
 			$attr = array(
@@ -36,6 +46,7 @@
 			);
 			if ( $this->isValueSet( $value ) ) $attr[ "selected" ] = "";
 			if ( array_key_exists( $value, $this->_optionsSubtextMap ) ) $attr[ "data-subtext" ] = $this->_optionsSubtextMap[ $value ];
+			if ( array_key_exists( $value, $this->_optionsContentMap ) ) $attr[ "data-content" ] = $this->_optionsContentMap[ $value ];
 
 			$attributes = "";
 			foreach ( $attr as $key => $attrValue )
