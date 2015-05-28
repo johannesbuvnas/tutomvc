@@ -88,6 +88,7 @@
 				"accept"       => $this->getAccept(),
 			);
 			if ( $this->isReadOnly() ) $attr[ "readonly" ] = "true";
+			if ( $this->isAutofocus() ) $attr[ "autofocus" ] = "true";
 
 			$attributes = "";
 			foreach ( $attr as $key => $value )
