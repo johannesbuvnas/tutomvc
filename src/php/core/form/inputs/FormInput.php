@@ -23,6 +23,7 @@
 		protected $_placeholder;
 		protected $_accept;
 		protected $_autocomplete = FALSE;
+		protected $_autofocus    = FALSE;
 
 		function __construct( $name, $title, $description = NULL, $type = FormInput::TYPE_TEXT, $readonly = FALSE, $placeholder = "", $single = TRUE )
 		{
@@ -244,5 +245,25 @@
 			if ( is_array( $file ) && !empty($file[ 'size' ]) && empty($file[ 'error' ]) ) return $file;
 
 			return NULL;
+		}
+
+		/**
+		 * @return boolean
+		 */
+		public function isAutofocus()
+		{
+			return $this->_autofocus;
+		}
+
+		/**
+		 * @param boolean $autofocus
+		 *
+		 * @return $this
+		 */
+		public function setAutofocus( $autofocus )
+		{
+			$this->_autofocus = $autofocus;
+
+			return $this;
 		}
 	}
