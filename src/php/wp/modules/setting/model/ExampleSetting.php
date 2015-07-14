@@ -26,11 +26,5 @@
 			/** @var WPEditorFormInput $wpEditor */
 			$wpEditor = $this->addFormElement( new WPEditorFormInput( self::WP_EDITOR, "Some WP Editor", "Edit some stuff", FALSE, FALSE, "Placeholder" ) )
 			                 ->setDefaultValue( '<p class="VA">hej</p>' );
-			$wpEditor->setValidationMethod( array($this, "validateWPEditor") );
-		}
-
-		function validateWPEditor( $formElement, $value )
-		{
-			return "Something wrong";
 		}
 	}

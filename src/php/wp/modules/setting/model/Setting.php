@@ -40,9 +40,7 @@
 					"renderField"
 				), $this->getPageName(), $this->getSectionName() );
 
-				register_setting( $this->getPageName(), $this->getName() );
-
-				add_filter( "sanitize_option_" . $this->getName(), array($this, "sanitize"), 0, 2 );
+				register_setting( $this->getPageName(), $this->getName(), array($this, "sanitize") );
 
 				$this->_isRegistered = TRUE;
 			}
@@ -51,6 +49,9 @@
 		}
 
 		/**
+		 *
+		 * Core function. Runs before data is saved to the database.
+		 *
 		 * @param $value
 		 * @param $option
 		 *
@@ -66,17 +67,18 @@
 			$this->parse( $data );
 
 			$errors = $this->getErrors();
+
 			if ( count( $errors ) )
 			{
 				if ( function_exists( 'add_settings_error' ) )
 				{
-					add_settings_error( $this->getName(), FormElement::sanitizeID( $this->getName() . "-error-msg" ), __( $this->getLabel() . ": Setting contain errors.", TutoMVC::NAME ) );
+					add_settings_error( $this->getName(), FormElement::sanitizeID( $this->getName() . "-error-msg" ), __( $this->getLabel() . ": Setting contain errors.", TutoMVC::NAME ), "error" );
 
-					var_dump( $errors );
+//					var_dump( $errors );
+//
+//					die("error");
 
-					die("error");
-
-					return get_option( $this->getName(), NULL );
+//					return get_option( $this->getName(), NULL );
 				}
 			}
 
@@ -85,7 +87,6 @@
 
 		public function render( $args )
 		{
-			var_dump( $_POST );
 			$this->setValue( get_option( $this->getName(), NULL ) );
 
 			echo $this->getElement();

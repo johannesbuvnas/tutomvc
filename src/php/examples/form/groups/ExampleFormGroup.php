@@ -25,6 +25,7 @@
 
 			/** @var FormInputGroup $inputGroup */
 			$inputGroup = $this->addFormElement( new FormInputGroup( self::EMAIL, "Input group", "Default input groups" ) );
+			$inputGroup->setValidationMethod( array($this, "validateEmailFormGroup") );
 			$inputGroup->addFormElement( new FormInput( self::EMAIL_NAME, NULL ) )
 			           ->setPlaceholder( "Name" );
 			$inputGroup->addFormElement( new FormInputAddon( "@" ) );
@@ -32,6 +33,14 @@
 			           ->setPlaceholder( "Domain" )
 			           ->setDefaultValue( "gmail" );
 			$inputGroup->addFormElement( new FormInputAddon( ".com" ) );
+		}
 
+		function validateEmailFormGroup( $formElement, $value )
+		{
+			/** @var FormGroup $formElement */
+			$email = $formElement->findFormElementByName( self::EMAIL_NAME )->getValue() . "@" . $formElement->findFormElementByName( self::EMAIL_DOMAIN )->getValue() . ".com";
+			if ( filter_var( $email, FILTER_VALIDATE_EMAIL ) === FALSE ) return "Not an email.";
+
+			return TRUE;
 		}
 	}

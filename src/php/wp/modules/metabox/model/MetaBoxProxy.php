@@ -63,7 +63,7 @@
 					if ( isset($valueMap) && !empty($valueMap) )
 					{
 						$value = $this->mapPostMeta( $valueMap, $postID, $formElement, $suppressFilters );
-						if ( !$suppressFilters ) $value = apply_filters( PostMetaUtil::constructValueFilterName( $formElement ), $value, $formElement );
+						if ( !$suppressFilters ) $value = MetaBoxModule::apply_filters( $value, $formElement );
 					}
 				}
 			}
@@ -92,12 +92,12 @@
 				{
 					// META KEY
 					$childElement = $formElement->findFormElementByElementName( $value );
-					$value        = PostMetaUtil::getPostMetaFromDB( $postID, $value );
+					$value        = MetaBoxModule::getPostMetaFromDB( $postID, $value );
 				}
 
 				if ( !is_null( $childElement ) )
 				{
-					if ( !$suppressFilters ) $value = apply_filters( PostMetaUtil::constructValueFilterName( $childElement ), $value, $childElement );
+					if ( !$suppressFilters ) $value = MetaBoxModule::apply_filters( $value, $childElement );
 				}
 
 				if ( empty($value) ) $value = NULL;

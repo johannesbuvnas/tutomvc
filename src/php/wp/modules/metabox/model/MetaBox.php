@@ -71,7 +71,7 @@
 		 */
 		public function countFissions( $postID )
 		{
-			$int = PostMetaUtil::getPostMetaFromDB( $postID, $this->getName() );
+			$int = MetaBoxModule::getPostMetaFromDB( $postID, $this->getName() );
 
 			return intval( $int );
 		}

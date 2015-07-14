@@ -9,9 +9,50 @@
 	namespace tutomvc\wp\metabox;
 
 	use tutomvc\Facade;
+	use tutomvc\FormElement;
 
 	class MetaBoxModule
 	{
+
+		public static function apply_filters( $value, $formElement )
+		{
+			return apply_filters( self::constructFilterHookName( $formElement ), $value, $formElement );
+		}
+
+		/**
+		 * @param FormElement $formElement
+		 *
+		 * @return string
+		 */
+		public static function constructFilterHookName( $formElement )
+		{
+			return FormElement::sanitizeID( get_class( $formElement ) ) . "_meta_value";
+		}
+
+		public static function getPostMetaFromDB( $postID, $metaKey, $isSingle = TRUE )
+		{
+			if ( !intval( $postID ) ) return FALSE;
+
+			global $wpdb;
+
+			$query = "
+				SELECT {$wpdb->postmeta}.meta_value
+				FROM {$wpdb->postmeta}
+				WHERE {$wpdb->postmeta}.post_id = '{$postID}'
+				AND {$wpdb->postmeta}.meta_key = '{$metaKey}'
+			";
+
+			$myrows = $wpdb->get_results( $query );
+			$dp     = array();
+			foreach ( $myrows as $row )
+			{
+				if ( $isSingle ) return maybe_unserialize( $row->meta_value );
+				$dp[ ] = maybe_unserialize( $row->meta_value );
+			}
+
+			return $dp;
+		}
+
 		/**
 		 *
 		 * @see https://codex.wordpress.org/Function_Reference/add_meta_box

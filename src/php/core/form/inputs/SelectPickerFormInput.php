@@ -41,7 +41,6 @@
 		protected function getOptionElement( $label, $value )
 		{
 			$attr = array(
-				"title" => $this->_optionTitleMap[ $value ],
 				"value" => $value,
 			);
 			if ( $this->isValueSet( $value ) ) $attr[ "selected" ] = "";

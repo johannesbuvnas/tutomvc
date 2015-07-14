@@ -161,6 +161,7 @@
 			$this->setIndex( $index );
 			parent::setValue( NULL ); // Just in case
 			parent::setValue( $this->getValueAt( $index ) );
+			parent::validate();
 			// Hack to fix child names
 			$this->_isSingle = FALSE;
 			$output          = '<div class="list-group-item ui-sortable fissile-form-group-item">';

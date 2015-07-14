@@ -29,10 +29,9 @@
 			{
 				if ( in_array( $screen->post_type, $metaBox->getPostTypes() ) )
 				{
-					if ( $metaBox->parse( $_POST ) )
-					{
-						$metaBox->update( $postID );
-					}
+					$metaBox->parse( $_POST );
+					$metaBox->update( $postID );
+					//TODO: Add admin notification if metabox contains errors
 				}
 			}
 		}

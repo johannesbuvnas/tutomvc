@@ -26,7 +26,8 @@
 
 			$this->addFormElement( new ExampleFormGroup() );
 			$this->addFormElement( new ExampleSelectorFormGroup() );
-			$this->addFormElement( new WPEditorFormInput( self::WP_EDITOR, "Some WP Editor", "Edit some stuff", FALSE, FALSE, "Placeholder" ) )
-			     ->setDefaultValue( '<p class="VA">hej</p>' );
+			/** @var WPEditorFormInput $wpEditor */
+			$wpEditor = $this->addFormElement( new WPEditorFormInput( self::WP_EDITOR, "Some WP Editor", "Edit some stuff", FALSE, FALSE, "Placeholder" ) )
+			                 ->setDefaultValue( '<p class="VA">hej</p>' );
 		}
 	}
