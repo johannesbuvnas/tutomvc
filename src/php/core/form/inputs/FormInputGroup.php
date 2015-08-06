@@ -51,4 +51,31 @@
 		{
 			return '<span class="help-block">' . $this->getDescription() . '</span>';
 		}
+
+		public function getErrorMessageElement()
+		{
+			$output = '';
+
+			/** @var FormElement $formElement */
+			foreach ( $this->getFormElements() as $formElement )
+			{
+				$output .= $formElement->getErrorMessageElement();
+			}
+
+			return $output;
+		}
+
+		/**
+		 * @return bool
+		 */
+		public function hasError()
+		{
+			/** @var FormElement $formElement */
+			foreach ( $this->getFormElements() as $formElement )
+			{
+				if ( $formElement->hasError() ) return TRUE;
+			}
+
+			return FALSE;
+		}
 	}

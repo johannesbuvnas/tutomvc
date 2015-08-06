@@ -183,7 +183,7 @@
 		public function getElement()
 		{
 			$output = "";
-			if ( is_string( $this->getErrorMessage() ) ) $output .= '<div class="form-group has-error form-group-input">';
+			if ( $this->hasError() ) $output .= '<div class="form-group has-error form-group-input">';
 			else $output .= '<div class="form-group form-group-input">';
 			$output .= $this->getHeaderElement();
 			$output .= $this->getErrorMessageElement();
@@ -393,6 +393,14 @@
 		public function getErrorMessage()
 		{
 			return $this->_errorMessage;
+		}
+
+		/**
+		 * @return bool
+		 */
+		public function hasError()
+		{
+			return is_string( $this->getErrorMessage() );
 		}
 
 		/**
