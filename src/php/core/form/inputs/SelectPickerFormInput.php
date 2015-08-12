@@ -45,6 +45,7 @@
 				"value" => $value,
 			);
 			if ( $this->isValueSet( $value ) ) $attr[ "selected" ] = "";
+			if ( $this->_optionsDisabledMap[ $value ] ) $attr[ "disabled" ] = "";
 			if ( array_key_exists( $value, $this->_optionsSubtextMap ) ) $attr[ "data-subtext" ] = $this->_optionsSubtextMap[ $value ];
 			if ( array_key_exists( $value, $this->_optionsContentMap ) ) $attr[ "data-content" ] = $this->_optionsContentMap[ $value ];
 
