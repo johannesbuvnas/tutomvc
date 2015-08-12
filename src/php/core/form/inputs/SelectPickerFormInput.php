@@ -22,6 +22,7 @@
 		protected $_size              = "auto";
 		protected $_optionsSubtextMap = array();
 		protected $_optionsContentMap = array();
+		protected $_showSubtext       = TRUE;
 
 		/* SET AND GET */
 		public function setOptionSubtext( $optionValue, $subtext = "" )
@@ -61,10 +62,11 @@
 			$output = "";
 
 			$attr = array(
-				"name"      => $this->getElementName(),
-				"id"        => $this->getID(),
-				"class"     => "form-control selectpicker",
-				"data-size" => $this->getSize()
+				"name"              => $this->getElementName(),
+				"id"                => $this->getID(),
+				"class"             => "form-control selectpicker",
+				"data-size"         => $this->getSize(),
+				"data-show-subtext" => $this->isShowSubtext()
 			);
 			if ( $this->isReadOnly() ) $attr[ "disabled" ] = "true";
 			if ( strlen( $this->getPlaceholder() ) ) $attr[ "title" ] = $this->getPlaceholder();
@@ -149,5 +151,21 @@
 			$this->_size = $size;
 
 			return $this;
+		}
+
+		/**
+		 * @return boolean
+		 */
+		public function isShowSubtext()
+		{
+			return $this->_showSubtext;
+		}
+
+		/**
+		 * @param boolean $showSubtext
+		 */
+		public function setShowSubtext( $showSubtext )
+		{
+			$this->_showSubtext = $showSubtext;
 		}
 	}
