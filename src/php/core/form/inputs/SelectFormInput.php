@@ -10,15 +10,16 @@
 
 	class SelectFormInput extends FormInput
 	{
-		protected $_options        = array();
-		protected $_optionTitleMap = array();
+		protected $_options            = array();
+		protected $_optionsDisabledMap = array();
+		protected $_optionTitleMap     = array();
 
 		function __construct( $name, $title, $description = NULL, $single = TRUE, $readonly = FALSE, $placeholder = "" )
 		{
 			parent::__construct( $name, $title, $description, NULL, $readonly, $placeholder, $single );
 		}
 
-		public function addOption( $label, $value, $groupLabel = NULL, $title = NULL )
+		public function addOption( $label, $value, $groupLabel = NULL, $title = NULL, $disabled = FALSE )
 		{
 			if ( is_string( $groupLabel ) )
 			{
@@ -30,7 +31,8 @@
 				$this->_options[ $value ] = $label;
 			}
 
-			$this->_optionTitleMap[ $value ] = !empty($title) ? $title : $label;
+			$this->_optionsDisabledMap[ $value ] = $disabled;
+			$this->_optionTitleMap[ $value ]     = !empty($title) ? $title : $label;
 
 			return $this;
 		}
@@ -96,7 +98,20 @@
 
 		protected function getOptionElement( $label, $value )
 		{
-			return $this->isValueSet( $value ) ? '<option title="' . $this->_optionTitleMap[ $value ] . '" value="' . $value . '" selected>' . $label . '</option>' : '<option title="' . $this->_optionTitleMap[ $value ] . '" value="' . $value . '">' . $label . '</option>';
+			$attr = array(
+				"value" => $value,
+				"title" => $this->_optionTitleMap[ $value ]
+			);
+			if ( $this->isValueSet( $value ) ) $attr[ "selected" ] = "";
+			if ( $this->_optionsDisabledMap[ $value ] ) $attr[ "disabled" ] = "";
+
+			$attributes = "";
+			foreach ( $attr as $key => $attrValue )
+			{
+				$attributes .= ' ' . $key . '="' . $attrValue . '"';
+			}
+
+			return '<option ' . $attributes . '>' . $label . '</option>';
 		}
 
 		public function setDefaultValue( $value )
