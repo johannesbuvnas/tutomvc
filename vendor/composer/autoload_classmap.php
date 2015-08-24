@@ -174,7 +174,6 @@ return array(
     'tutomvc\\modules\\termpage\\RegisteredTaxonomyAction' => $baseDir . '/src/php/wp/system/modules/termpage/controller/actions/RegisteredTaxonomyAction.php',
     'tutomvc\\modules\\termpage\\TaxonomyAddFormFieldsAction' => $baseDir . '/src/php/wp/system/modules/termpage/controller/actions/TaxonomyAddFormFieldsAction.php',
     'tutomvc\\modules\\termpage\\TermPageModule' => $baseDir . '/src/php/wp/system/modules/termpage/TermPageModule.php',
-    'tutomvc\\wp\\PostMetaUtil' => $baseDir . '/src/php/wp/utils/PostMetaUtil.php',
     'tutomvc\\wp\\metabox\\AddMetaBoxesAction' => $baseDir . '/src/php/wp/modules/metabox/controller/AddMetaBoxesAction.php',
     'tutomvc\\wp\\metabox\\ExampleMetaBox' => $baseDir . '/src/php/wp/modules/metabox/model/ExampleMetaBox.php',
     'tutomvc\\wp\\metabox\\GetPostMetadataFilter' => $baseDir . '/src/php/wp/modules/metabox/controller/GetPostMetadataFilter.php',
@@ -191,4 +190,10 @@ return array(
     'tutomvc\\wp\\setting\\SettingModule' => $baseDir . '/src/php/wp/modules/setting/SettingModule.php',
     'tutomvc\\wp\\setting\\SettingModuleFacade' => $baseDir . '/src/php/wp/modules/setting/SettingModuleFacade.php',
     'tutomvc\\wp\\setting\\SettingProxy' => $baseDir . '/src/php/wp/modules/setting/model/SettingProxy.php',
+    'tutomvc\\wp\\taxonomy\\ExampleTaxonomy' => $baseDir . '/src/php/wp/modules/taxonomy/model/ExampleTaxonomy.php',
+    'tutomvc\\wp\\taxonomy\\Taxonomy' => $baseDir . '/src/php/wp/modules/taxonomy/model/Taxonomy.php',
+    'tutomvc\\wp\\taxonomy\\TaxonomyColumn' => $baseDir . '/src/php/wp/modules/taxonomy/model/TaxonomyColumn.php',
+    'tutomvc\\wp\\taxonomy\\TaxonomyModule' => $baseDir . '/src/php/wp/modules/taxonomy/TaxonomyModule.php',
+    'tutomvc\\wp\\taxonomy\\TaxonomyModuleFacade' => $baseDir . '/src/php/wp/modules/taxonomy/TaxonomyModuleFacade.php',
+    'tutomvc\\wp\\taxonomy\\TaxonomyProxy' => $baseDir . '/src/php/wp/modules/taxonomy/model/TaxonomyProxy.php',
 );

@@ -167,7 +167,13 @@
 				if ( is_a( $formElement, "\\tutomvc\\FormGroup" ) )
 				{
 					/** @var FormGroup $formElement */
-					if ( !is_null( $formElement->getErrors() ) ) $errors[ $formElement->getName() ] = $formElement->getErrors();
+					if ( !is_null( $formElement->getErrors() ) || is_string( $formElement->getErrorMessage() ) )
+					{
+						$formElementErrors = $formElement->getErrors();
+						if ( !is_array( $formElementErrors ) ) $formElementErrors = array();
+						if ( is_string( $formElement->getErrorMessage() ) ) $formElementErrors[ ] = $formElement->getErrorMessage();
+						$errors[ $formElement->getName() ] = $formElementErrors;
+					}
 				}
 				else
 				{

@@ -527,7 +527,6 @@
 			for ( $i = 0; $i < $count; $i ++ )
 			{
 				parent::setValue( $this->getValueAt( $i ) );
-				$this->validate();
 				$fissionErrors = parent::getErrors();
 				if ( is_array( $fissionErrors ) ) $errors[ $i ] = $fissionErrors;
 			}

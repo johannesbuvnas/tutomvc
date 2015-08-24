@@ -72,13 +72,7 @@
 			{
 				if ( function_exists( 'add_settings_error' ) )
 				{
-					add_settings_error( $this->getName(), FormElement::sanitizeID( $this->getName() . "-error-msg" ), __( $this->getLabel() . ": Setting contain errors.", TutoMVC::NAME ), "error" );
-
-//					var_dump( $errors );
-//
-//					die("error");
-
-//					return get_option( $this->getName(), NULL );
+					add_settings_error( $this->getName(), FormElement::sanitizeID( $this->getName() . "-error-msg" ), sprintf( __( "<a href='#%1s'>@%2s</a>: Settings saved but it contain errors.", TutoMVC::NAME ), $this->getID(), $this->getLabel() ), "error" );
 				}
 			}
 
@@ -88,6 +82,7 @@
 		public function render( $args )
 		{
 			$this->setValue( get_option( $this->getName(), NULL ) );
+			$this->validate();
 
 			echo $this->getElement();
 		}

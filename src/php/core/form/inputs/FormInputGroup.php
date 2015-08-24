@@ -56,6 +56,8 @@
 		{
 			$output = '';
 
+			$output .= parent::getErrorMessageElement();
+
 			/** @var FormElement $formElement */
 			foreach ( $this->getFormElements() as $formElement )
 			{

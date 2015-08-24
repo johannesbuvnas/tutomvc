@@ -6,6 +6,8 @@
 	use tutomvc\wp\metabox\MetaBoxModuleFacade;
 	use tutomvc\wp\setting\ExampleSetting;
 	use tutomvc\wp\setting\SettingModule;
+	use tutomvc\wp\taxonomy\ExampleTaxonomy;
+	use tutomvc\wp\taxonomy\TaxonomyModule;
 
 	/**
 	 * Class SystemFacade
@@ -58,6 +60,7 @@
 //			$this->repository = new GitRepositoryVO( TutoMVC::getRoot(), TutoMVC::GIT_REPOSITORY_URL, TutoMVC::GIT_REPOSITORY_BRANCH );
 			MetaBoxModule::add( new ExampleMetaBox() );
 			SettingModule::add( new ExampleSetting() );
+			TaxonomyModule::add( new ExampleTaxonomy() );
 
 			return;
 			$this->prepModel();
@@ -67,17 +70,17 @@
 
 		private function prepModel()
 		{
-			$this->notificationCenter  = $this->model->registerProxy( new NotificationProxy() );
-			$this->postTypeCenter      = $this->model->registerProxy( new PostTypeProxy() );
-			$this->metaCenter          = $this->model->registerProxy( new MetaBoxProxy() );
-			$this->taxonomyCenter      = $this->model->registerProxy( new TaxonomyProxy() );
+			$this->notificationCenter = $this->model->registerProxy( new NotificationProxy() );
+			$this->postTypeCenter     = $this->model->registerProxy( new PostTypeProxy() );
+//			$this->metaCenter          = $this->model->registerProxy( new MetaBoxProxy() );
+//			$this->taxonomyCenter      = $this->model->registerProxy( new TaxonomyProxy() );
 			$this->userMetaCenter      = $this->model->registerProxy( new UserMetaProxy() );
 			$this->menuCenter          = $this->model->registerProxy( new MenuProxy() );
 			$this->adminMenuPageCenter = $this->model->registerProxy( new AdminMenuPageProxy() );
 			$this->imageSizeCenter     = $this->model->registerProxy( new ImageSizeProxy() );
-			$this->settingsCenter      = $this->model->registerProxy( new SettingsProxy() );
-			$this->logCenter           = $this->model->registerProxy( new LogProxy() );
-			$this->userColumnCenter    = $this->model->registerProxy( new UserColumnProxy() );
+//			$this->settingsCenter      = $this->model->registerProxy( new SettingsProxy() );
+			$this->logCenter        = $this->model->registerProxy( new LogProxy() );
+			$this->userColumnCenter = $this->model->registerProxy( new UserColumnProxy() );
 
 			if ( self::DEVELOPMENT_MODE )
 			{
