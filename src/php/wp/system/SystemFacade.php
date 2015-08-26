@@ -71,16 +71,16 @@
 		private function prepModel()
 		{
 			$this->notificationCenter = $this->model->registerProxy( new NotificationProxy() );
+			$this->logCenter        = $this->model->registerProxy( new LogProxy() );
 			$this->postTypeCenter     = $this->model->registerProxy( new PostTypeProxy() );
 //			$this->metaCenter          = $this->model->registerProxy( new MetaBoxProxy() );
 //			$this->taxonomyCenter      = $this->model->registerProxy( new TaxonomyProxy() );
+			$this->userColumnCenter = $this->model->registerProxy( new UserColumnProxy() );
 			$this->userMetaCenter      = $this->model->registerProxy( new UserMetaProxy() );
-			$this->menuCenter          = $this->model->registerProxy( new MenuProxy() );
-			$this->adminMenuPageCenter = $this->model->registerProxy( new AdminMenuPageProxy() );
+//			$this->menuCenter          = $this->model->registerProxy( new MenuProxy() );
+//			$this->adminMenuPageCenter = $this->model->registerProxy( new AdminMenuPageProxy() );
 			$this->imageSizeCenter     = $this->model->registerProxy( new ImageSizeProxy() );
 //			$this->settingsCenter      = $this->model->registerProxy( new SettingsProxy() );
-			$this->logCenter        = $this->model->registerProxy( new LogProxy() );
-			$this->userColumnCenter = $this->model->registerProxy( new UserColumnProxy() );
 
 			if ( self::DEVELOPMENT_MODE )
 			{
