@@ -3,7 +3,7 @@
 
 	class TaxonomyModuleFacade extends \tutomvc\Facade
 	{
-		const KEY = "tutomvc/modules/taxonomy";
+		const KEY = "com.tutomvc.wp.modules.taxonomy";
 
 		function __construct()
 		{

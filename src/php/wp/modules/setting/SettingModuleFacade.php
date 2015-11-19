@@ -9,7 +9,7 @@
 	 */
 	class SettingModuleFacade extends \tutomvc\Facade
 	{
-		const KEY = "tutomvc/modules/setting";
+		const KEY = "com.tutomvc.wp.modules.setting";
 
 		function __construct()
 		{

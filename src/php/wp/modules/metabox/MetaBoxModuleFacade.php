@@ -14,7 +14,7 @@
 
 	class MetaBoxModuleFacade extends \tutomvc\Facade
 	{
-		const KEY = "tutomvc/modules/metabox";
+		const KEY = "com.tutomvc.wp.modules.metabox";
 
 		function __construct()
 		{

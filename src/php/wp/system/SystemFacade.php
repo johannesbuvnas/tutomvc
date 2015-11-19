@@ -1,6 +1,7 @@
 <?php
 	namespace tutomvc;
 
+	use tutomvc\wp\log\LogModule;
 	use tutomvc\wp\metabox\ExampleMetaBox;
 	use tutomvc\wp\metabox\MetaBoxModule;
 	use tutomvc\wp\metabox\MetaBoxModuleFacade;
@@ -70,7 +71,10 @@
 			MetaBoxModule::add( new ExampleMetaBox() );
 			SettingModule::add( new ExampleSetting() );
 			TaxonomyModule::add( new ExampleTaxonomy() );
-			NotificationModule::add( "Yoyoyo!", NotificationModule::TYPE_UPDATE_NAG );
+			NotificationModule::add( "Yoyoyo!", NotificationModule::TYPE_UPDATE );
+			LogModule::add( "YOYOYO" );
+			var_dump(LogModule::getProxy()->getMap());
+			exit;
 
 			return;
 			$this->prepModel();
@@ -80,9 +84,9 @@
 
 		private function prepModel()
 		{
-			$this->notificationCenter = $this->model->registerProxy( new NotificationProxy() );
-			$this->logCenter          = $this->model->registerProxy( new LogProxy() );
-			$this->postTypeCenter     = $this->model->registerProxy( new PostTypeProxy() );
+//			$this->notificationCenter = $this->model->registerProxy( new NotificationProxy() );
+			$this->logCenter      = $this->model->registerProxy( new LogProxy() );
+			$this->postTypeCenter = $this->model->registerProxy( new PostTypeProxy() );
 //			$this->metaCenter          = $this->model->registerProxy( new MetaBoxProxy() );
 //			$this->taxonomyCenter      = $this->model->registerProxy( new TaxonomyProxy() );
 			$this->userColumnCenter = $this->model->registerProxy( new UserColumnProxy() );

@@ -12,7 +12,7 @@
 
 	class PostTypeModuleFacade extends Facade
 	{
-		const KEY = "tutomvc/modules/posttype";
+		const KEY = "com.tutomvc.wp.modules.posttype";
 
 		function __construct()
 		{

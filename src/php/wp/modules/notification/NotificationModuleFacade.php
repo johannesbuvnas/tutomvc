@@ -13,7 +13,7 @@
 
 	class NotificationModuleFacade extends Facade
 	{
-		const KEY = "tutomvc/modules/notification";
+		const KEY = "com.tutomvc.wp.modules.notifcation";
 
 		function __construct()
 		{
