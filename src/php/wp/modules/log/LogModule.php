@@ -18,6 +18,11 @@
 			self::getProxy()->add( new ValueObject( "", $message ) );
 		}
 
+		public static function print_r( $expression )
+		{
+			self::add( print_r( $expression, TRUE ) );
+		}
+
 		/**
 		 * @return LogModuleFacade
 		 */

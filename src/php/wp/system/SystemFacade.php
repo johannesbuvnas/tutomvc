@@ -10,6 +10,7 @@
 	use tutomvc\wp\setting\SettingModule;
 	use tutomvc\wp\taxonomy\ExampleTaxonomy;
 	use tutomvc\wp\taxonomy\TaxonomyModule;
+	use Whoops\Exception\ErrorException;
 
 	/**
 	 * Class SystemFacade
@@ -72,8 +73,13 @@
 			SettingModule::add( new ExampleSetting() );
 			TaxonomyModule::add( new ExampleTaxonomy() );
 			NotificationModule::add( "Yoyoyo!", NotificationModule::TYPE_UPDATE );
-			LogModule::add( "YOYOYO" );
-			var_dump(LogModule::getProxy()->getMap());
+			LogModule::print_r( LogModule::getProxy()->getMap() );
+			$whoops  = new \Whoops\Run;
+			$handler = new \Whoops\Handler\PrettyPageHandler();
+			$handler->setEditor( "phpstorm" );
+			$whoops->pushHandler( $handler );
+			$whoops->register();
+			var_dump();
 			exit;
 
 			return;
@@ -85,7 +91,7 @@
 		private function prepModel()
 		{
 //			$this->notificationCenter = $this->model->registerProxy( new NotificationProxy() );
-			$this->logCenter      = $this->model->registerProxy( new LogProxy() );
+//			$this->logCenter      = $this->model->registerProxy( new LogProxy() );
 			$this->postTypeCenter = $this->model->registerProxy( new PostTypeProxy() );
 //			$this->metaCenter          = $this->model->registerProxy( new MetaBoxProxy() );
 //			$this->taxonomyCenter      = $this->model->registerProxy( new TaxonomyProxy() );
