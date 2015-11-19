@@ -4,6 +4,7 @@
 	use tutomvc\wp\metabox\ExampleMetaBox;
 	use tutomvc\wp\metabox\MetaBoxModule;
 	use tutomvc\wp\metabox\MetaBoxModuleFacade;
+	use tutomvc\wp\notification\NotificationModule;
 	use tutomvc\wp\setting\ExampleSetting;
 	use tutomvc\wp\setting\SettingModule;
 	use tutomvc\wp\taxonomy\ExampleTaxonomy;
@@ -33,6 +34,8 @@
 		const SCRIPT_JS         = "tutomvc-js";
 		const SCRIPT_JS_REQUIRE = "tutomvc-require-js";
 
+		const SESSION_NAME = "com.tutomvc.system.session";
+
 		public static $PRODUCTION_MODE = FALSE;
 
 		/* PUBLIC VARS */
@@ -57,10 +60,17 @@
 
 		public function onRegister()
 		{
+			if ( !session_id() )
+			{
+				session_name( SystemFacade::SESSION_NAME );
+				session_start();
+			}
+
 //			$this->repository = new GitRepositoryVO( TutoMVC::getRoot(), TutoMVC::GIT_REPOSITORY_URL, TutoMVC::GIT_REPOSITORY_BRANCH );
 			MetaBoxModule::add( new ExampleMetaBox() );
 			SettingModule::add( new ExampleSetting() );
 			TaxonomyModule::add( new ExampleTaxonomy() );
+			NotificationModule::add( "Yoyoyo!", NotificationModule::TYPE_UPDATE_NAG );
 
 			return;
 			$this->prepModel();
@@ -71,15 +81,15 @@
 		private function prepModel()
 		{
 			$this->notificationCenter = $this->model->registerProxy( new NotificationProxy() );
-			$this->logCenter        = $this->model->registerProxy( new LogProxy() );
+			$this->logCenter          = $this->model->registerProxy( new LogProxy() );
 			$this->postTypeCenter     = $this->model->registerProxy( new PostTypeProxy() );
 //			$this->metaCenter          = $this->model->registerProxy( new MetaBoxProxy() );
 //			$this->taxonomyCenter      = $this->model->registerProxy( new TaxonomyProxy() );
 			$this->userColumnCenter = $this->model->registerProxy( new UserColumnProxy() );
-			$this->userMetaCenter      = $this->model->registerProxy( new UserMetaProxy() );
+			$this->userMetaCenter   = $this->model->registerProxy( new UserMetaProxy() );
 //			$this->menuCenter          = $this->model->registerProxy( new MenuProxy() );
 //			$this->adminMenuPageCenter = $this->model->registerProxy( new AdminMenuPageProxy() );
-			$this->imageSizeCenter     = $this->model->registerProxy( new ImageSizeProxy() );
+			$this->imageSizeCenter = $this->model->registerProxy( new ImageSizeProxy() );
 //			$this->settingsCenter      = $this->model->registerProxy( new SettingsProxy() );
 
 			if ( self::DEVELOPMENT_MODE )
