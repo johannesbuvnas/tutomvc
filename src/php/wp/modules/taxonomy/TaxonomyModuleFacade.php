@@ -13,14 +13,6 @@
 		function onRegister()
 		{
 			// Model
-			$this->model->registerProxy( new TaxonomyProxy() );
-		}
-
-		/**
-		 * @return TaxonomyProxy
-		 */
-		function getProxy()
-		{
-			return $this->model->getProxy( TaxonomyProxy::NAME );
+			$this->registerProxy( new TaxonomyProxy() );
 		}
 	}

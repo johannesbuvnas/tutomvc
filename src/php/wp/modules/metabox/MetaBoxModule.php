@@ -10,6 +10,7 @@
 
 	use tutomvc\Facade;
 	use tutomvc\FormElement;
+	use tutomvc\SystemApp;
 
 	class MetaBoxModule
 	{
@@ -47,7 +48,7 @@
 			foreach ( $myrows as $row )
 			{
 				if ( $isSingle ) return maybe_unserialize( $row->meta_value );
-				$dp[ ] = maybe_unserialize( $row->meta_value );
+				$dp[] = maybe_unserialize( $row->meta_value );
 			}
 
 			return $dp;
@@ -86,7 +87,7 @@
 		 */
 		public static function getInstance()
 		{
-			return Facade::getInstance( MetaBoxModuleFacade::KEY ) ? Facade::getInstance( MetaBoxModuleFacade::KEY ) : Facade::getInstance( Facade::KEY_SYSTEM )->registerSubFacade( new MetaBoxModuleFacade() );
+			return Facade::getInstance( MetaBoxModuleFacade::KEY ) ? Facade::getInstance( MetaBoxModuleFacade::KEY ) : SystemApp::getInstance()->registerModule( new MetaBoxModuleFacade() );
 		}
 
 		/**
@@ -94,6 +95,6 @@
 		 */
 		public static function getProxy()
 		{
-			return self::getInstance()->getProxy();
+			return self::getInstance()->getProxy( MetaBoxProxy::NAME );
 		}
 	}

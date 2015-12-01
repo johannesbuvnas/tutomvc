@@ -2,6 +2,7 @@
 	namespace tutomvc\wp\setting;
 
 	use tutomvc\Facade;
+	use tutomvc\SystemApp;
 
 	/**
 	 * Created by PhpStorm.
@@ -29,7 +30,7 @@
 		 */
 		public static function getInstance()
 		{
-			return Facade::getInstance( SettingModuleFacade::KEY ) ? Facade::getInstance( SettingModuleFacade::KEY ) : Facade::getInstance( Facade::KEY_SYSTEM )->registerSubFacade( new SettingModuleFacade() );
+			return Facade::getInstance( SettingModuleFacade::KEY ) ? Facade::getInstance( SettingModuleFacade::KEY ) : SystemApp::getInstance()->registerModule( new SettingModuleFacade() );
 		}
 
 		/**
@@ -37,6 +38,6 @@
 		 */
 		public static function getProxy()
 		{
-			return self::getInstance()->getProxy();
+			return self::getInstance()->getProxy( SettingProxy::NAME );
 		}
 	}

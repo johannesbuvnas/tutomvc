@@ -13,74 +13,39 @@
 	use Whoops\Exception\ErrorException;
 
 	/**
-	 * Class SystemFacade
+	 * Class SystemAppFacade
 	 * @package tutomvc
-	 * @property PostTypeProxy postTypeCenter
-	 * @property MetaBoxProxy metaCenter
-	 * @property UserMetaProxy userMetaCenter
-	 * @property AdminMenuPageProxy adminMenuPageCenter
-	 * @property ImageSizeProxy imageSizeCenter
-	 * @property SettingsProxy settingsCenter
-	 * @property LogProxy logCenter
-	 * @property NotificationProxy notificationCenter
-	 * @property TaxonomyProxy taxonomyCenter
-	 * @property UserColumnProxy userColumnCenter
 	 */
-	final class SystemFacade extends Facade
+	final class SystemAppFacade extends Facade
 	{
 		/* CONSTANTS */
-		const DEVELOPMENT_MODE = TRUE;
-		const LOGS_DIRECTORY   = "/logs/";
-
-		const STYLE_CSS         = "tutomvc-css";
-		const SCRIPT_JS         = "tutomvc-js";
-		const SCRIPT_JS_REQUIRE = "tutomvc-require-js";
-
-		const SESSION_NAME = "com.tutomvc.system.session";
-
-		public static $PRODUCTION_MODE = FALSE;
-
 		/* PUBLIC VARS */
 		public $postTypeCenter;
-		public $metaCenter;
 		public $userMetaCenter;
-		public $menuCenter;
-		public $adminMenuPageCenter;
 		public $imageSizeCenter;
-		public $settingsCenter;
-		public $logCenter;
-		public $notificationCenter;
-		public $taxonomyCenter;
 		public $userColumnCenter;
-		public $repository;
-		public $log;
 
 		function __construct()
 		{
-			parent::__construct( Facade::KEY_SYSTEM );
+			parent::__construct( TutoMVC::NAME );
 		}
 
 		public function onRegister()
 		{
 			if ( !session_id() )
 			{
-				session_name( SystemFacade::SESSION_NAME );
+				session_name( TutoMVC::NAME );
 				session_start();
 			}
 
-//			$this->repository = new GitRepositoryVO( TutoMVC::getRoot(), TutoMVC::GIT_REPOSITORY_URL, TutoMVC::GIT_REPOSITORY_BRANCH );
+			$this->setRoot( TutoMVC::getRoot() );
+			$this->setURL( TutoMVC::getURL() );
+
 			MetaBoxModule::add( new ExampleMetaBox() );
 			SettingModule::add( new ExampleSetting() );
 			TaxonomyModule::add( new ExampleTaxonomy() );
-			NotificationModule::add( "Yoyoyo!", NotificationModule::TYPE_UPDATE );
-			LogModule::print_r( LogModule::getProxy()->getMap() );
-			$whoops  = new \Whoops\Run;
-			$handler = new \Whoops\Handler\PrettyPageHandler();
-			$handler->setEditor( "phpstorm" );
-			$whoops->pushHandler( $handler );
-			$whoops->register();
-			var_dump();
-			exit;
+			NotificationModule::add( $this->getURL(), NotificationModule::TYPE_UPDATE );
+			LogModule::add( "YOYYOO" );
 
 			return;
 			$this->prepModel();
@@ -92,14 +57,14 @@
 		{
 //			$this->notificationCenter = $this->model->registerProxy( new NotificationProxy() );
 //			$this->logCenter      = $this->model->registerProxy( new LogProxy() );
-			$this->postTypeCenter = $this->model->registerProxy( new PostTypeProxy() );
+			$this->postTypeCenter = $this->registerProxy( new PostTypeProxy() );
 //			$this->metaCenter          = $this->model->registerProxy( new MetaBoxProxy() );
 //			$this->taxonomyCenter      = $this->model->registerProxy( new TaxonomyProxy() );
-			$this->userColumnCenter = $this->model->registerProxy( new UserColumnProxy() );
-			$this->userMetaCenter   = $this->model->registerProxy( new UserMetaProxy() );
+			$this->userColumnCenter = $this->registerProxy( new UserColumnProxy() );
+			$this->userMetaCenter   = $this->registerProxy( new UserMetaProxy() );
 //			$this->menuCenter          = $this->model->registerProxy( new MenuProxy() );
 //			$this->adminMenuPageCenter = $this->model->registerProxy( new AdminMenuPageProxy() );
-			$this->imageSizeCenter = $this->model->registerProxy( new ImageSizeProxy() );
+			$this->imageSizeCenter = $this->registerProxy( new ImageSizeProxy() );
 //			$this->settingsCenter      = $this->model->registerProxy( new SettingsProxy() );
 
 			if ( self::DEVELOPMENT_MODE )
@@ -115,9 +80,9 @@
 
 		private function prepController()
 		{
-			$this->controller->registerCommand( new InitCommand() );
-			$this->controller->registerCommand( new AdminInitCommand() );
-			$this->controller->registerCommand( new ExceptionCommand() );
+			$this->registerCommand( new InitCommand() );
+			$this->registerCommand( new AdminInitCommand() );
+			$this->registerCommand( new ExceptionCommand() );
 		}
 
 		/* ACTIONS */

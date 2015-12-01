@@ -23,12 +23,12 @@
 
 		function execute()
 		{
-			$value    = $this->getArg( 0 );
-			$postID   = $this->getArg( 1 );
-			$metaKey  = $this->getArg( 2 );
-			$isSingle = $this->getArg( 3 );
+			$value    = func_get_arg( 0 );
+			$postID   = func_get_arg( 1 );
+			$metaKey  = func_get_arg( 2 );
+			$isSingle = func_get_arg( 3 );
 			$postType = get_post_type( $postID );
 
-			return MetaBoxModule::getInstance()->getProxy()->getPostMeta( $postID, $metaKey );
+			return MetaBoxModule::getProxy()->getPostMeta( $postID, $metaKey );
 		}
 	}

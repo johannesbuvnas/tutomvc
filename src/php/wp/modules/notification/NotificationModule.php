@@ -9,6 +9,7 @@
 	namespace tutomvc\wp\notification;
 
 	use tutomvc\Facade;
+	use tutomvc\SystemApp;
 
 	class NotificationModule
 	{
@@ -29,7 +30,7 @@
 		 */
 		public static function getInstance()
 		{
-			return Facade::getInstance( NotificationModuleFacade::KEY ) ? Facade::getInstance( NotificationModuleFacade::KEY ) : Facade::getInstance( Facade::KEY_SYSTEM )->registerSubFacade( new NotificationModuleFacade() );
+			return Facade::getInstance( NotificationModuleFacade::KEY ) ? Facade::getInstance( NotificationModuleFacade::KEY ) : SystemApp::getInstance()->registerModule( new NotificationModuleFacade() );
 		}
 
 		/**
@@ -37,6 +38,6 @@
 		 */
 		public static function getProxy()
 		{
-			return self::getInstance()->model->getProxy( NotificationProxy::NAME );
+			return self::getInstance()->getProxy( NotificationProxy::NAME );
 		}
 	}

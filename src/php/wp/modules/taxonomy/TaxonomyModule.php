@@ -2,6 +2,7 @@
 	namespace tutomvc\wp\taxonomy;
 
 	use tutomvc\Facade;
+	use tutomvc\SystemApp;
 
 	/**
 	 * Created by PhpStorm.
@@ -28,7 +29,7 @@
 		 */
 		public static function getInstance()
 		{
-			return Facade::getInstance( TaxonomyModuleFacade::KEY ) ? Facade::getInstance( TaxonomyModuleFacade::KEY ) : Facade::getInstance( Facade::KEY_SYSTEM )->registerSubFacade( new TaxonomyModuleFacade() );
+			return Facade::getInstance( TaxonomyModuleFacade::KEY ) ? Facade::getInstance( TaxonomyModuleFacade::KEY ) : SystemApp::getInstance()->registerModule( new TaxonomyModuleFacade() );
 		}
 
 		/**
@@ -36,6 +37,6 @@
 		 */
 		public static function getProxy()
 		{
-			return self::getInstance()->getProxy();
+			return self::getInstance()->getProxy( TaxonomyProxy::NAME );
 		}
 	}

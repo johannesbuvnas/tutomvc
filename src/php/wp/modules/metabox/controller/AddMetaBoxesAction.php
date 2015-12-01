@@ -21,9 +21,9 @@
 
 		function execute()
 		{
-			$screen = $this->getArg( 0 );
+			$screen = func_get_arg( 0 );
 			/** @var MetaBox $metaBox */
-			foreach ( MetaBoxModule::getInstance()->getProxy()->getMap() as $metaBox )
+			foreach ( MetaBoxModule::getProxy()->getMap() as $metaBox )
 			{
 				if ( in_array( $screen, $metaBox->getPostTypes() ) )
 				{

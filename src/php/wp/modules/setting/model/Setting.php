@@ -59,7 +59,7 @@
 		 *
 		 * @return array|mixed
 		 */
-		public function sanitize( $value, $option )
+		public function sanitize( $value )
 		{
 			$data = array(
 				$this->getName() => $value

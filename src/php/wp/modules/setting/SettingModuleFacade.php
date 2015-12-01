@@ -19,17 +19,9 @@
 		function onRegister()
 		{
 			// Model
-			$this->model->registerProxy( new SettingProxy() );
+			$this->registerProxy( new SettingProxy() );
 			// View
 			// Controller
-			$this->controller->registerCommand( new AdminInitAction() );
-		}
-
-		/**
-		 * @return SettingProxy
-		 */
-		function getProxy()
-		{
-			return $this->model->getProxy( SettingProxy::NAME );
+			$this->registerCommand( new AdminInitAction() );
 		}
 	}

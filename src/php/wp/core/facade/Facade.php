@@ -5,26 +5,19 @@
 	/**
 	 * Class Facade
 	 * @package tutomvc
-	 * @property Model $model
-	 * @property Controller $controller
 	 */
 	class Facade
 	{
-		/* PUBLIC CONSTANT VARS */
-		const NAME       = __CLASS__;
-		const KEY_SYSTEM = "tutomvc/facade/system";
-
-		/* PUBLIC VARS */
-		public $vo;
-		public $model;
-		public $view;
-		public $controller;
-
 		/* PRIVATE VARS */
-		private        $_initialized = FALSE;
-		private        $_key;
-		private        $_modulesMap  = array();
-		private static $_instanceMap = array();
+		protected static $_instanceMap = array();
+		protected        $_initialized = FALSE;
+		protected        $_key;
+		protected        $_modulesMap  = array();
+		protected        $_root;
+		protected        $_url;
+		protected        $_model;
+		public           $view;
+		protected        $_controller;
 
 		public function __construct( $key )
 		{
@@ -35,13 +28,15 @@
 		}
 
 		/* ACTIONS */
-		private function initialize()
+		protected function initialize()
 		{
-			if ( $this->_initialized ) return FALSE;
-			$this->model        = Model::getInstance( $this->getKey() );
-			$this->view         = View::getInstance( $this->getKey() );
-			$this->controller   = Controller::getInstance( $this->getKey() );
-			$this->_initialized = TRUE;
+			if ( !$this->_initialized )
+			{
+				$this->_model       = Model::getInstance( $this->getKey() );
+				$this->view         = View::getInstance( $this->getKey() );
+				$this->_controller  = Controller::getInstance( $this->getKey() );
+				$this->_initialized = TRUE;
+			}
 
 			return $this->_initialized;
 		}
@@ -51,38 +46,16 @@
 		 *
 		 * @return mixed
 		 */
-		final public function registerSubFacade( $facade )
+		public function registerModule( $facade )
 		{
 			$this->_modulesMap[ $facade->getKey() ] = $facade;
-			$facade->vo                             = $this->vo;
+			$facade->setRoot( $this->getRoot() );
+			$facade->setURL( $this->getURL() );
 			$facade->onRegister();
 
 			return $facade;
 		}
 
-		public function notify( $message, $type = Notification::TYPE_NOTICE )
-		{
-			$this->getSystem()->notificationCenter->add( $message, $type );
-
-			return $this;
-		}
-
-		public function log( $message )
-		{
-			$this->getSystem()->logCenter->add( $message );
-
-			return $this;
-		}
-
-		public function notifyAndLog( $message, $type = Notification::TYPE_NOTICE )
-		{
-			$this->notify( $message, $type );
-			$this->log( $type . " - " . $message );
-
-			return $this;
-		}
-
-		/* SET AND GET */
 		/**
 		 * @param $key
 		 *
@@ -100,9 +73,70 @@
 			}
 		}
 
-		public function getSystem()
+		/* SET AND GET */
+		/**
+		 * @param Command $command
+		 * TODO: Move name to this function.
+		 */
+		public function registerCommand( $command )
 		{
-			return Facade::getInstance( Facade::KEY_SYSTEM );
+			$this->getController()->registerCommand( $command );
+		}
+
+		/**
+		 * @param $commandName
+		 *
+		 * @return NULL|Command
+		 */
+		public function getCommand( $commandName )
+		{
+			return $this->getController()->getCommand( $commandName );
+		}
+
+		/**
+		 * @param string $commandName
+		 */
+		public function removeCommand( $commandName )
+		{
+			$this->getController()->removeCommand( $commandName );
+		}
+
+		/**
+		 * @param string $commandName
+		 *
+		 * @return bool
+		 */
+		public function hasCommand( $commandName )
+		{
+			return $this->getController()->hasCommand( $commandName );
+		}
+
+		/**
+		 * @param Proxy $proxy
+		 */
+		public function registerProxy( $proxy )
+		{
+			$this->getModel()->registerProxy( $proxy );
+		}
+
+		/**
+		 * @param $proxyName
+		 *
+		 * @return bool
+		 */
+		public function hasProxy( $proxyName )
+		{
+			return $this->getModel()->hasProxy( $proxyName );
+		}
+
+		/**
+		 * @param $proxyName
+		 *
+		 * @return null|Proxy
+		 */
+		public function getProxy( $proxyName )
+		{
+			return $this->getModel()->getProxy( $proxyName );
 		}
 
 		/**
@@ -114,34 +148,32 @@
 		}
 
 		/**
-		 *    Get APP URL.
+		 * @param string $url
 		 */
+		public function setURL( $url )
+		{
+			$this->_url = $url;
+		}
+
 		public function getURL( $relativePath = NULL )
 		{
-			return $this->vo->getURL( $relativePath );
+			return is_null( $relativePath ) ? $this->_url : $this->_url . FileUtil::filterFileReference( "/" . $relativePath );
+		}
+
+		/**
+		 * @param string $root
+		 */
+		public function setRoot( $root )
+		{
+			$this->_root = $root;
 		}
 
 		public function getRoot( $relativePath = NULL )
 		{
-			return $this->vo->getRoot( $relativePath );
+			return is_null( $relativePath ) ? FileUtil::filterFileReference( $this->_root ) : FileUtil::filterFileReference( $this->_root . "/{$relativePath}" );
 		}
 
-		/**
-		 *    Get template file path.
-		 */
-		public function getTemplateFileReference( $relativePath = NULL )
-		{
-			return $this->vo->getTemplateFileReference( $relativePath );
-		}
-
-		/**
-		 * @return FacadeVO
-		 */
-		public function getVO()
-		{
-			return $this->vo;
-		}
-
+		/* EVENTS */
 		/**
 		 *    Called when the facade is registered within Tuto Framework and ready.
 		 */
@@ -149,4 +181,21 @@
 		{
 
 		}
+
+		/**
+		 * @return Model
+		 */
+		protected function getModel()
+		{
+			return $this->_model;
+		}
+
+		/**
+		 * @return Controller
+		 */
+		protected function getController()
+		{
+			return $this->_controller;
+		}
+
 	}

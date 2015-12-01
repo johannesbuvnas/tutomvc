@@ -48,7 +48,7 @@
 
 			if ( array_key_exists( "tags", $this->_select2Options ) && filter_var( $this->_select2Options[ "tags" ], FILTER_VALIDATE_BOOLEAN ) )
 			{
-				foreach ( $this->getValue() as $value )
+				foreach ( (array)$this->getValue() as $value )
 				{
 					if ( !array_key_exists( $value, $this->_optionTitleMap ) ) $this->addOption( $value, $value );
 				}

@@ -9,6 +9,7 @@
 	namespace tutomvc\wp\log;
 
 	use tutomvc\Facade;
+	use tutomvc\SystemApp;
 	use tutomvc\ValueObject;
 
 	class LogModule
@@ -28,7 +29,7 @@
 		 */
 		public static function getInstance()
 		{
-			return Facade::getInstance( LogModuleFacade::KEY ) ? Facade::getInstance( LogModuleFacade::KEY ) : Facade::getInstance( Facade::KEY_SYSTEM )->registerSubFacade( new LogModuleFacade() );
+			return Facade::getInstance( LogModuleFacade::KEY ) ? Facade::getInstance( LogModuleFacade::KEY ) : SystemApp::getInstance()->registerModule( new LogModuleFacade() );
 		}
 
 		/**
@@ -36,6 +37,6 @@
 		 */
 		public static function getProxy()
 		{
-			return self::getInstance()->model->getProxy( LogProxy::NAME );
+			return self::getInstance()->getProxy( LogProxy::NAME );
 		}
 	}

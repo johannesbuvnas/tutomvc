@@ -9,7 +9,7 @@
 	namespace tutomvc\wp\notification;
 
 	use tutomvc\Facade;
-	use tutomvc\SystemFacade;
+	use tutomvc\SystemAppFacade;
 
 	class NotificationModuleFacade extends Facade
 	{
@@ -24,8 +24,8 @@
 		function onRegister()
 		{
 			// Model
-			$this->model->registerProxy( new NotificationProxy() );
+			$this->registerProxy( new NotificationProxy() );
 			// Controller
-			$this->controller->registerCommand( new AdminNoticesAction() );
+			$this->registerCommand( new AdminNoticesAction() );
 		}
 	}

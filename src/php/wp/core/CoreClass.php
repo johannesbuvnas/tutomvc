@@ -22,38 +22,6 @@ class CoreClass
 	}
 
 	/**
-	 * @return Controller
-	 */
-	public function getController()
-	{
-		return $this->getFacade()->controller;
-	}
-
-	/**
-	 * @return Model
-	 */
-	public function getModel()
-	{
-		return $this->getFacade()->model;
-	}
-
-	/**
-	 * @return View
-	 */
-	public function getView()
-	{
-		return $this->getFacade()->view;
-	}
-
-	/**
-	 * @return SystemFacade
-	 */
-	public function getSystem()
-	{
-		return Facade::getInstance( Facade::KEY_SYSTEM );
-	}
-
-	/**
 	*	Called by the framework when registered and in the facade scope.
 	*/
 	public function onRegister()

@@ -3,10 +3,9 @@
 
 	class Command extends CoreClass implements ICommand
 	{
-		const NAME = "";
+		const NAME        = "";
 
 		/* VARS */
-		public    $registered      = FALSE;
 		protected $_name;
 		protected $_executionLimit = - 1;
 		protected $_executions     = 0;
@@ -24,12 +23,6 @@
 		 */
 		public function register()
 		{
-
-		}
-
-		public function registerCommand( Command $command )
-		{
-			return $this->getController()->registerCommand( $command );
 		}
 
 		/**
@@ -41,7 +34,6 @@
 
 		public function remove()
 		{
-
 		}
 
 		public function setName( $name )
@@ -75,19 +67,6 @@
 		}
 
 		/**
-		 * Get arguments parsed when executed.
-		 */
-		protected function getArgs()
-		{
-			return $this->_args;
-		}
-
-		protected function getArg( $index )
-		{
-			return array_key_exists( $index, $this->_args ) ? $this->_args[ $index ] : NULL;
-		}
-
-		/**
 		 *    Do not override.
 		 */
 		public function preExecution()
@@ -95,7 +74,6 @@
 			if ( $this->hasReachedExecutionLimit() ) return;
 
 			$this->_executions ++;
-			$this->_args = func_get_args();
 
 			return call_user_func_array( array($this, "execute"), func_get_args() );
 		}

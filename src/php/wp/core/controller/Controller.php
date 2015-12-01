@@ -1,66 +1,84 @@
 <?php
-namespace tutomvc;
+	namespace tutomvc;
 
-class Controller
-{
-	/* PROTECTED VARS */
-	protected $_facadeKey;
-
-	protected $_commandMap = array();
-
-	/* STATIC VARS */
-	protected static $_instanceMap = array();
-
-
-	public function __construct($key)
+	class Controller
 	{
-		if( array_key_exists($key, $this::$_instanceMap) ) die( "ERROR! A Controller with that particular namespace already exists." );
+		/* PROTECTED VARS */
+		protected $_facadeKey;
 
-		$this::$_instanceMap[ $key ] = $this;
+		protected $_commandMap = array();
 
-		$this->_facadeKey = $key;
-	}
+		/* STATIC VARS */
+		protected static $_instanceMap = array();
 
-	/* PUBLIC STATIC METHODS */
-	public static function getInstance( $key )
-	{
-		if( !array_key_exists( $key, self::$_instanceMap ) ) self::$_instanceMap[$key] = new Controller( $key );
-
-		return self::$_instanceMap[ $key ];
-	}
-
-	/* PUBLIC METHODS */
-	public function registerCommand( Command $command )
-	{
-		if( $this->hasCommand( $command->getName() ) ) return $this->getCommand( $command->getName() );
-
-		$command->initializeFacadeKey( $this->_facadeKey );
-		$command->register();
-		$this->_commandMap[ $command->getName() ] = $command;
-		$command->onRegister();
-
-		return $command;
-	}
-	public function removeCommand( $name )
-	{
-		if($this->hasCommand($name))
+		public function __construct( $key )
 		{
-			$this->getCommand($name)->remove();
-			unset( $this->_commandMap[ $name ] );
+			if ( array_key_exists( $key, $this::$_instanceMap ) ) die("ERROR! A Controller with that particular namespace already exists.");
 
-			return TRUE;
+			$this::$_instanceMap[ $key ] = $this;
+
+			$this->_facadeKey = $key;
 		}
 
-		return FALSE;
-	}
+		/* PUBLIC STATIC METHODS */
+		public static function getInstance( $key )
+		{
+			if ( !array_key_exists( $key, self::$_instanceMap ) ) self::$_instanceMap[ $key ] = new Controller( $key );
 
-	public function getCommand( $commandName )
-	{
-		return $this->_commandMap[ $commandName ];
-	}
+			return self::$_instanceMap[ $key ];
+		}
 
-	public function hasCommand( $commandName )
-	{
-		return array_key_exists( $commandName, $this->_commandMap );
+		/* PUBLIC METHODS */
+		/**
+		 * @param Command $command
+		 *
+		 * @return NULL|Command
+		 */
+		public function registerCommand( Command $command )
+		{
+			if ( $this->hasCommand( $command->getName() ) ) return $this->getCommand( $command->getName() );
+
+			$command->initializeFacadeKey( $this->_facadeKey );
+			$command->register();
+			$this->_commandMap[ $command->getName() ] = $command;
+			$command->onRegister();
+		}
+
+		/**
+		 * @param string $commandName
+		 *
+		 * @return bool
+		 */
+		public function removeCommand( $commandName )
+		{
+			if ( $this->hasCommand( $commandName ) )
+			{
+				$this->getCommand( $commandName )->remove();
+				unset($this->_commandMap[ $commandName ]);
+
+				return TRUE;
+			}
+
+			return FALSE;
+		}
+
+		/**
+		 * @param string $commandName
+		 *
+		 * @return Command|NULL
+		 */
+		public function getCommand( $commandName )
+		{
+			return $this->hasCommand( $commandName ) ? $this->getCommand( $commandName ) : NULL;
+		}
+
+		/**
+		 * @param string $commandName
+		 *
+		 * @return bool
+		 */
+		public function hasCommand( $commandName )
+		{
+			return array_key_exists( $commandName, $this->_commandMap );
+		}
 	}
-}

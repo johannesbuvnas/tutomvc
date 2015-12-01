@@ -12,6 +12,6 @@ class TutoMVCLogsPageContentMediator extends Mediator
 
 	function onRegister()
 	{
-		$this->getFacade()->controller->registerCommand( new RenderLogAjaxCommand() );
+		$this->getFacade()->registerCommand( new RenderLogAjaxCommand() );
 	}
 }

@@ -21,11 +21,11 @@
 
 		function execute()
 		{
-			$postID = $this->getArg( 0 );
+			$postID = func_get_arg( 0 );
 			$screen = get_current_screen();
 
 			/** @var MetaBox $metaBox */
-			foreach ( MetaBoxModule::getInstance()->getProxy()->getMap() as $metaBox )
+			foreach ( MetaBoxModule::getProxy()->getMap() as $metaBox )
 			{
 				if ( in_array( $screen->post_type, $metaBox->getPostTypes() ) )
 				{

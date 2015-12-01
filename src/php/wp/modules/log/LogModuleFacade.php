@@ -21,7 +21,7 @@
 		function onRegister()
 		{
 			// Model
-			$this->model->registerProxy( new LogProxy() );
+			$this->registerProxy( new LogProxy() );
 			// Controller
 		}
 	}
