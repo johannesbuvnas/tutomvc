@@ -12,9 +12,10 @@
 	final class TutoMVC
 	{
 		/* CONSTANTS */
-		const VERSION     = "1.0.1";
-		const NAME        = "tutomvc";
-		const ACTION_INIT = "tutomvc_init";
+		const VERSION            = "1.0.1";
+		const NAME               = "tutomvc";
+		const ACTION_INIT        = "tutomvc_init";
+		const ACTION_FACADE_INIT = "tutomvc_facade_init";
 
 		const SCRIPT_JS      = "tutomvc-core-js";
 		const SCRIPT_JS_PATH = "deploy/com.tutomvc.core.js";
@@ -90,7 +91,7 @@
 			$facade->setURL( $appURL );
 			self::$_facadeMap[ $facade->getKey() ] = $facade;
 			$facade->onRegister();
-			do_action( ActionCommand::FACADE_READY, $facade );
+			do_action( self::ACTION_FACADE_INIT, $facade );
 
 			return $facade;
 		}

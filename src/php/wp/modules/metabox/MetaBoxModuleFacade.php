@@ -39,8 +39,8 @@
 				wp_enqueue_script( "bootstrap-selectpicker", $this->getURL( "libs/scripts/bootstrap-select/dist/js/bootstrap-select.min.js" ), NULL, TutoMVC::VERSION );
 			}
 			// Controller
-			$this->registerCommand( new AddMetaBoxesAction() );
-			$this->registerCommand( new SavePostAction() );
-			$this->registerCommand( new GetPostMetadataFilter() );
+			$this->registerCommand( "add_meta_boxes", new AddMetaBoxesAction( 10, 2 ) );
+			$this->registerCommand( "save_post", new SavePostAction() );
+			$this->registerCommand( "get_post_metadata", new GetPostMetadataFilter( 99, 4 ) );
 		}
 	}

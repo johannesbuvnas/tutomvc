@@ -26,6 +26,6 @@
 			// Model
 			$this->registerProxy( new NotificationProxy() );
 			// Controller
-			$this->registerCommand( new AdminNoticesAction() );
+			$this->registerCommand( "admin_notices", new AdminNoticesAction() );
 		}
 	}

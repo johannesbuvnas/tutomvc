@@ -12,13 +12,6 @@
 
 	class AddMetaBoxesAction extends ActionCommand
 	{
-		const NAME = "add_meta_boxes";
-
-		function __construct()
-		{
-			parent::__construct( self::NAME, 10, 2 );
-		}
-
 		function execute()
 		{
 			$screen = func_get_arg( 0 );

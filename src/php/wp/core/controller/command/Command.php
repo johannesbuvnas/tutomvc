@@ -3,19 +3,11 @@
 
 	class Command extends CoreClass implements ICommand
 	{
-		const NAME        = "";
-
 		/* VARS */
 		protected $_name;
 		protected $_executionLimit = - 1;
 		protected $_executions     = 0;
 		protected $_args;
-
-		function __construct( $name = NULL )
-		{
-			$this->setName( $name );
-		}
-
 
 		/* PUBLIC METHODS */
 		/**
@@ -27,6 +19,8 @@
 
 		/**
 		 * Override.
+		 *
+		 * @param $args
 		 */
 		public function execute()
 		{
@@ -38,7 +32,7 @@
 
 		public function setName( $name )
 		{
-			$this->_name = is_null( $name ) ? $this::NAME : $name;
+			$this->_name = $name;
 		}
 
 		public function getName()
@@ -66,10 +60,11 @@
 			return $this->_executionLimit > - 1 && $this->_executions >= $this->_executionLimit;
 		}
 
+		/* EVENTS */
 		/**
 		 *    Do not override.
 		 */
-		public function preExecution()
+		public function onBeforeExecution()
 		{
 			if ( $this->hasReachedExecutionLimit() ) return;
 
@@ -95,5 +90,5 @@
 
 		public function hasReachedExecutionLimit();
 
-		public function preExecution();
+		public function onBeforeExecution();
 	}

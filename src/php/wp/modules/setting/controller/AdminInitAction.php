@@ -12,13 +12,6 @@
 
 	class AdminInitAction extends ActionCommand
 	{
-		const NAME = "admin_init";
-
-		function __construct()
-		{
-			parent::__construct( self::NAME );
-		}
-
 		function execute()
 		{
 			SettingModule::getProxy()->registerAll();

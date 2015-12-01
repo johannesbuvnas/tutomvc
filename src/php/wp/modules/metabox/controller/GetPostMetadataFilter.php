@@ -9,18 +9,9 @@
 	namespace tutomvc\wp\metabox;
 
 	use tutomvc\FilterCommand;
-	use tutomvc\FormGroup;
-	use tutomvc\wp\PostMetaUtil;
 
 	class GetPostMetadataFilter extends FilterCommand
 	{
-		const NAME = "get_post_metadata";
-
-		function __construct()
-		{
-			parent::__construct( self::NAME, 99, 4 );
-		}
-
 		function execute()
 		{
 			$value    = func_get_arg( 0 );

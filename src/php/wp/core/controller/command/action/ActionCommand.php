@@ -3,34 +3,18 @@
 
 	class ActionCommand extends Command
 	{
-		/* ACTION COMMANDS */
-		const FACADE_READY        = "tutomvc/action/facade/ready";
-		const ATTACHMENT_UPLOADED = "tutomvc/action/attachment/uploaded";
-
-		const RENDER_META_BOX        = "tutomvc/action/render/metabox";
-		const RENDER_WP_EDITOR       = "tutomvc/action/render/wp_editor";
-		const RENDER_ADMIN_MENU_PAGE = "tutomvc/action/render/admin_menu_page";
-		const RENDER_SETTINGS_FIELD  = "tutomvc/action/render/settings_field";
-		const RENDER_TAXONOMY_FIELD  = "tutomvc/action/render/taxonomy_field";
-
-		const PREPARE_META_FIELD = "tutomvc/action/prepare/meta/field";
-
 		/* PUBLIC VARS */
 		public $priority          = 10;
 		public $acceptedArguments = 1;
 
-		function __construct( $name = NULL, $priority = 10, $acceptedArguments = 1 )
+		function __construct( $priority = 10, $acceptedArguments = 1 )
 		{
-			parent::__construct( $name );
 			$this->priority          = $priority;
 			$this->acceptedArguments = $acceptedArguments;
 		}
 
-		public function register( $name = NULL )
+		public function register()
 		{
-			add_action( $name ? $name : $this->getName(), array(
-				$this,
-				"preExecution"
-			), $this->priority, $this->acceptedArguments );
+			add_action( $this->getName(), array($this, "onBeforeExecution"), $this->priority, $this->acceptedArguments );
 		}
 	}

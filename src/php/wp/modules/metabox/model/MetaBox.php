@@ -52,7 +52,7 @@
 		/* PUBLIC METHODS */
 		public function render( $post, $metabox )
 		{
-			$meta = MetaBoxModule::getPostMeta( $post->ID, $this->getName(), TRUE );
+			$meta = MetaBoxModule::getProxy()->getPostMeta( $post->ID, $this->getName(), TRUE );
 			$this->setValue( $meta );
 			echo $this->getElement();
 
@@ -71,7 +71,7 @@
 		 */
 		public function countFissions( $postID )
 		{
-			$int = MetaBoxModule::getPostMetaFromDB( $postID, $this->getName() );
+			$int = MetaBoxModule::getProxy()->getPostMetaFromDB( $postID, $this->getName() );
 
 			return intval( $int );
 		}
@@ -87,9 +87,9 @@
 
 			if ( count( $map ) )
 			{
-				foreach ( $map as $clone )
+				foreach ( $map as $fission )
 				{
-					foreach ( $clone as $key => $value )
+					foreach ( $fission as $key => $value )
 					{
 						if ( !empty($value) ) add_post_meta( $postID, $key, $value );
 					}

@@ -22,6 +22,6 @@
 			$this->registerProxy( new SettingProxy() );
 			// View
 			// Controller
-			$this->registerCommand( new AdminInitAction() );
+			$this->registerCommand( "admin_init", new AdminInitAction() );
 		}
 	}

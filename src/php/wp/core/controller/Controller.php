@@ -30,17 +30,22 @@
 
 		/* PUBLIC METHODS */
 		/**
+		 * @param string $commandName
 		 * @param Command $command
 		 *
 		 * @return NULL|Command
 		 */
-		public function registerCommand( Command $command )
+		public function registerCommand( $commandName, Command $command )
 		{
-			if ( $this->hasCommand( $command->getName() ) ) return $this->getCommand( $command->getName() );
+			if ( $this->hasCommand( $commandName ) )
+			{
 
+			}
+
+			$command->setName( $commandName );
 			$command->initializeFacadeKey( $this->_facadeKey );
 			$command->register();
-			$this->_commandMap[ $command->getName() ] = $command;
+			$this->_commandMap[ $commandName ] = $command;
 			$command->onRegister();
 		}
 

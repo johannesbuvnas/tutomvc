@@ -1,31 +1,39 @@
 <?php
-namespace tutomvc;
+	namespace tutomvc;
 
-class CoreClass
-{
-	/* PROTECTED */
-	protected $_facadeKey;
-
-	public function initializeFacadeKey( $key )
+	class CoreClass
 	{
-		$this->_facadeKey = $key;
-	}
+		/* PROTECTED */
+		protected $_facadeKey;
 
-	/**
-	 * @return Facade
-	 */
-	public function getFacade()
-	{
-		if( is_null( $this->_facadeKey ) ) die( "No facade key has yet been initialized." );
+		public function initializeFacadeKey( $key )
+		{
+			$this->_facadeKey = $key;
+		}
 
-		return Facade::getInstance( $this->_facadeKey );
-	}
+		/**
+		 * @return Facade
+		 */
+		public function getFacade()
+		{
+			if ( is_null( $this->_facadeKey ) ) die("No facade key has yet been initialized.");
 
-	/**
-	*	Called by the framework when registered and in the facade scope.
-	*/
-	public function onRegister()
-	{
-		
+			return Facade::getInstance( $this->getFacadeKey() );
+		}
+
+		/**
+		 *    Called by the framework when registered and in the facade scope.
+		 */
+		public function onRegister()
+		{
+
+		}
+
+		/**
+		 * @return mixed
+		 */
+		public function getFacadeKey()
+		{
+			return $this->_facadeKey;
+		}
 	}
-}

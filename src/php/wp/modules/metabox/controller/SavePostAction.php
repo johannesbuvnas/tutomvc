@@ -12,13 +12,6 @@
 
 	class SavePostAction extends ActionCommand
 	{
-		const NAME = "save_post";
-
-		function __construct()
-		{
-			parent::__construct( self::NAME );
-		}
-
 		function execute()
 		{
 			$postID = func_get_arg( 0 );

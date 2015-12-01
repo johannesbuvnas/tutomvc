@@ -75,12 +75,13 @@
 
 		/* SET AND GET */
 		/**
+		 * @param string $commandName
 		 * @param Command $command
 		 * TODO: Move name to this function.
 		 */
-		public function registerCommand( $command )
+		public function registerCommand( $commandName, $command )
 		{
-			$this->getController()->registerCommand( $command );
+			$this->getController()->registerCommand( $commandName, $command );
 		}
 
 		/**

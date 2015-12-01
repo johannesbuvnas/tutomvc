@@ -10,13 +10,7 @@
 
 	class AdminNoticesAction extends \tutomvc\ActionCommand
 	{
-		const NAME = "admin_notices";
 		protected static $_executed = FALSE;
-
-		function __construct()
-		{
-			parent::__construct( self::NAME );
-		}
 
 		function execute()
 		{
