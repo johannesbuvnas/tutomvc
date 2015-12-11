@@ -6,20 +6,20 @@
 	 * Time: 08:39
 	 */
 
-	namespace tutomvc\wp\setting;
+	namespace tutomvc\wp\settings;
 
 	use tutomvc\FissileFormGroup;
 	use tutomvc\FormElement;
 	use tutomvc\TutoMVC;
 
-	class Setting extends FissileFormGroup
+	class Settings extends FissileFormGroup
 	{
 		protected $_pageName     = "";
 		protected $_sectionName  = "";
 		protected $_autoload     = TRUE;
 		protected $_isRegistered = FALSE;
 
-		function __construct( $name, $pageName, $title = NULL, $description = NULL, $min = 1, $max = - 1 )
+		function __construct( $name, $pageName, $title = NULL, $description = NULL, $min = 1, $max = 1 )
 		{
 			parent::__construct( $name, $title, $description, $min, $max );
 			$this->setPageName( $pageName );
@@ -53,11 +53,11 @@
 		 * Core function. Runs before data is saved to the database.
 		 *
 		 * @param $value
-		 * @param $option
+		 *
+		 * @return array|mixed
 		 *
 		 * @see http://wpseek.com/function/sanitize_option/
 		 *
-		 * @return array|mixed
 		 */
 		public function sanitize( $value )
 		{

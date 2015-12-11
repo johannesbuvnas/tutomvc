@@ -14,17 +14,18 @@
 	{
 		const NAME = __CLASS__;
 
-		/**
-		 * @param Taxonomy $item
-		 * @param null $key
-		 * @param bool $override
-		 *
-		 * @return mixed
-		 */
-		public function add( $item, $key = NULL, $override = FALSE )
+		function onRegister()
 		{
-			$item->wp_register();
+			add_action( "init", array($this, "init"), 1 );
+		}
 
-			return parent::add( $item, $key, $override );
+		/* HOOKS */
+		function init()
+		{
+			/** @var Taxonomy $taxonomy */
+			foreach ( $this->getMap() as $taxonomy )
+			{
+				$taxonomy->wp_register();
+			}
 		}
 	}

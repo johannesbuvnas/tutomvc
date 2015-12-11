@@ -27,23 +27,16 @@
 		}
 
 		/* PUBLIC METHODS */
-		public function getOutput( $viewComponent, $dataProvider = array() )
+		public function render( $viewComponent, $dataProvider = array(), $returnOutput = FALSE )
 		{
-			ob_start();
+			if ( $returnOutput ) ob_start();
 
-			$this->render( $viewComponent, $dataProvider );
-
-			return ob_get_clean();
-		}
-
-		public function render( $viewComponent, $dataProvider = array() )
-		{
 			if ( is_array( $dataProvider ) )
 			{
 				extract( $dataProvider, EXTR_SKIP );
 			}
 
-			$filePath = Facade::getInstance( $this->_facadeKey )->getTemplateFileReference( $viewComponent );
+			$filePath = Facade::getInstance( $this->_facadeKey )->getRoot( $viewComponent );
 			$pathinfo = pathinfo( $filePath );
 			if ( !array_key_exists( "extension", $pathinfo ) )
 			{
@@ -59,6 +52,6 @@
 				throw new \ErrorException( "\\tutomvc\\View: " . " View component not found - " . $viewComponent, 0, E_ERROR );
 			}
 
-			return $this;
+			if ( $returnOutput ) return ob_get_clean();
 		}
 	}

@@ -6,13 +6,13 @@
 	 * Time: 09:36
 	 */
 
-	namespace tutomvc\wp\setting;
+	namespace tutomvc\wp\settings;
 
 	use tutomvc\ExampleFormGroup;
 	use tutomvc\ExampleSelectorFormGroup;
 	use tutomvc\WPEditorFormInput;
 
-	class ExampleSetting extends Setting
+	class ExampleSettings extends Settings
 	{
 		const NAME      = "example_settings";
 		const WP_EDITOR = "wp_editor";

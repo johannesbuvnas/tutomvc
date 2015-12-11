@@ -17,4 +17,9 @@
 		{
 			add_action( $this->getName(), array($this, "onBeforeExecution"), $this->priority, $this->acceptedArguments );
 		}
+
+		public function remove()
+		{
+			remove_action( $this->getName(), array($this, "onBeforeExecution"), $this->priority );
+		}
 	}

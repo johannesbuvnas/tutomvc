@@ -6,7 +6,7 @@
 	 * Time: 09:21
 	 */
 
-	namespace tutomvc\wp\setting;
+	namespace tutomvc\wp\settings;
 
 	use tutomvc\ActionCommand;
 
@@ -14,6 +14,6 @@
 	{
 		function execute()
 		{
-			SettingModule::getProxy()->registerAll();
+			SettingsModule::getProxy()->registerAll();
 		}
 	}

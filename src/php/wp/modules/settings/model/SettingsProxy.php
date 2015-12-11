@@ -1,9 +1,9 @@
 <?php
-	namespace tutomvc\wp\setting;
+	namespace tutomvc\wp\settings;
 
 	use tutomvc\Proxy;
 
-	class SettingProxy extends Proxy
+	class SettingsProxy extends Proxy
 	{
 		const NAME = __CLASS__;
 
@@ -15,7 +15,7 @@
 		}
 
 		/**
-		 * @param Setting $item
+		 * @param Settings $item
 		 * @param null $key
 		 * @param bool $override
 		 *
@@ -38,7 +38,7 @@
 			{
 				$this->_isRegistered = TRUE;
 
-				/** @var Setting $setting */
+				/** @var Settings $setting */
 				foreach ( $this->getMap() as $setting )
 				{
 					$setting->register();

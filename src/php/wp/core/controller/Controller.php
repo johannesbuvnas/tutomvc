@@ -37,11 +37,6 @@
 		 */
 		public function registerCommand( $commandName, Command $command )
 		{
-			if ( $this->hasCommand( $commandName ) )
-			{
-
-			}
-
 			$command->setName( $commandName );
 			$command->initializeFacadeKey( $this->_facadeKey );
 			$command->register();

@@ -1,5 +1,5 @@
 <?php
-	namespace tutomvc\wp\setting;
+	namespace tutomvc\wp\settings;
 
 	use tutomvc\Facade;
 	use tutomvc\SystemApp;
@@ -10,12 +10,12 @@
 	 * Date: 10/05/15
 	 * Time: 08:34
 	 */
-	class SettingModule
+	class SettingsModule
 	{
 		/**
-		 * @param Setting $settings
+		 * @param Settings $settings
 		 *
-		 * @return SettingModuleFacade
+		 * @return SettingsModuleFacade
 		 * @throws \ErrorException
 		 */
 		public static function add( $settings )
@@ -26,18 +26,18 @@
 		}
 
 		/**
-		 * @return SettingModuleFacade
+		 * @return SettingsModuleFacade
 		 */
 		public static function getInstance()
 		{
-			return Facade::getInstance( SettingModuleFacade::KEY ) ? Facade::getInstance( SettingModuleFacade::KEY ) : SystemApp::getInstance()->registerModule( new SettingModuleFacade() );
+			return Facade::getInstance( SettingsModuleFacade::KEY ) ? Facade::getInstance( SettingsModuleFacade::KEY ) : SystemApp::getInstance()->registerModule( new SettingsModuleFacade() );
 		}
 
 		/**
-		 * @return SettingProxy
+		 * @return SettingsProxy
 		 */
 		public static function getProxy()
 		{
-			return self::getInstance()->getProxy( SettingProxy::NAME );
+			return self::getInstance()->getProxy( SettingsProxy::NAME );
 		}
 	}

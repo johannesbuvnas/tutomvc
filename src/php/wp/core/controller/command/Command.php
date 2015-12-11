@@ -61,9 +61,6 @@
 		}
 
 		/* EVENTS */
-		/**
-		 *    Do not override.
-		 */
 		public function onBeforeExecution()
 		{
 			if ( $this->hasReachedExecutionLimit() ) return;

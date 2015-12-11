@@ -16,7 +16,7 @@
 		protected        $_root;
 		protected        $_url;
 		protected        $_model;
-		public           $view;
+		protected        $_view;
 		protected        $_controller;
 
 		public function __construct( $key )
@@ -33,12 +33,33 @@
 			if ( !$this->_initialized )
 			{
 				$this->_model       = Model::getInstance( $this->getKey() );
-				$this->view         = View::getInstance( $this->getKey() );
+				$this->_view        = View::getInstance( $this->getKey() );
 				$this->_controller  = Controller::getInstance( $this->getKey() );
 				$this->_initialized = TRUE;
 			}
 
 			return $this->_initialized;
+		}
+
+		/**
+		 * Override.
+		 */
+		protected function prepView()
+		{
+		}
+
+		/**
+		 * Override.
+		 */
+		protected function prepModel()
+		{
+		}
+
+		/**
+		 * Override.
+		 */
+		protected function prepController()
+		{
 		}
 
 		/**
@@ -71,6 +92,19 @@
 			{
 				return NULL;
 			}
+		}
+
+		/**
+		 * @param string $viewComponent File path. Relative to facade's root.
+		 * @param array $dataProvider Data to send to view component.
+		 * @param bool|FALSE $returnOutput
+		 *
+		 * @return $this|string
+		 * @throws \ErrorException
+		 */
+		public function render( $viewComponent, $dataProvider = array(), $returnOutput = FALSE )
+		{
+			return $this->getView()->render( $viewComponent, $dataProvider, $returnOutput );
 		}
 
 		/* SET AND GET */
@@ -180,7 +214,9 @@
 		 */
 		public function onRegister()
 		{
-
+			$this->prepModel();
+			$this->prepView();
+			$this->prepController();
 		}
 
 		/**
@@ -197,6 +233,14 @@
 		protected function getController()
 		{
 			return $this->_controller;
+		}
+
+		/**
+		 * @return View
+		 */
+		protected function getView()
+		{
+			return $this->_view;
 		}
 
 	}

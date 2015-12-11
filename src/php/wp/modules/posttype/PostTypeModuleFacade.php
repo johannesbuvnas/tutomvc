@@ -18,4 +18,9 @@
 		{
 			parent::__construct( self::KEY );
 		}
+
+		protected function prepModel()
+		{
+			$this->registerProxy( new PostTypeProxy() );
+		}
 	}

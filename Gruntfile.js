@@ -78,7 +78,7 @@ module.exports = function ( grunt )
                 options: {
                     cssIn: "dist/css/style.css",
                     out: "dist/css/style.min.css",
-                    // optimizeCss: "standard.keepLines.keepWhitespace"
+                     //optimizeCss: "standard.keepLines.keepWhitespace"
                     optimizeCss: "standard"
                 }
             }
@@ -111,7 +111,7 @@ module.exports = function ( grunt )
     grunt.loadNpmTasks( 'grunt-contrib-watch' );
 
     // All CSS tasks
-    grunt.registerTask( 'dist-css', [ 'less:compile', 'requirejs:minify-css', 'usebanner' ] );
+    grunt.registerTask( 'dist-css', [ 'less:compile', 'usebanner' ] );
     // All JS tasks
     grunt.registerTask( 'dist-js', [ 'requirejs:compile-js' ] );
 

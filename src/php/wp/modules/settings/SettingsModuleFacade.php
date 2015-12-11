@@ -1,5 +1,5 @@
 <?php
-	namespace tutomvc\wp\setting;
+	namespace tutomvc\wp\settings;
 
 	/**
 	 * Created by PhpStorm.
@@ -7,7 +7,7 @@
 	 * Date: 10/05/15
 	 * Time: 08:34
 	 */
-	class SettingModuleFacade extends \tutomvc\Facade
+	class SettingsModuleFacade extends \tutomvc\Facade
 	{
 		const KEY = "com.tutomvc.wp.modules.setting";
 
@@ -19,7 +19,7 @@
 		function onRegister()
 		{
 			// Model
-			$this->registerProxy( new SettingProxy() );
+			$this->registerProxy( new SettingsProxy() );
 			// View
 			// Controller
 			$this->registerCommand( "admin_init", new AdminInitAction() );
