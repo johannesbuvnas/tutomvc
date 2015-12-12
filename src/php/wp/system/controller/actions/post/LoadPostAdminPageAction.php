@@ -6,7 +6,7 @@
 	 * Time: 13:34
 	 */
 
-	namespace tutomvc;
+	namespace tutomvc\wp;
 
 	class LoadPostAdminPageAction extends ActionCommand
 	{

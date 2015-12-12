@@ -6,7 +6,7 @@
 	 * Time: 20:50
 	 */
 
-	namespace tutomvc;
+	namespace tutomvc\wp;
 
 	class WPInsertPostAction extends ActionCommand
 	{

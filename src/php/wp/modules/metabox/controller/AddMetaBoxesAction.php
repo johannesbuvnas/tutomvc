@@ -8,7 +8,7 @@
 
 	namespace tutomvc\wp\metabox;
 
-	use tutomvc\ActionCommand;
+	use tutomvc\wp\ActionCommand;
 
 	class AddMetaBoxesAction extends ActionCommand
 	{

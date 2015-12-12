@@ -1,8 +1,8 @@
 <?php
 	namespace tutomvc\wp\taxonomy;
 
-	use tutomvc\Facade;
-	use tutomvc\SystemApp;
+	use tutomvc\wp\Facade;
+	use tutomvc\wp\SystemApp;
 
 	/**
 	 * Created by PhpStorm.

@@ -9,7 +9,7 @@
 	namespace tutomvc\wp\posttype;
 
 	use tutomvc\NameObject;
-	use tutomvc\WPAdminColumn;
+	use tutomvc\wp\WPAdminColumn;
 	use WP_Post;
 
 	class PostType extends NameObject

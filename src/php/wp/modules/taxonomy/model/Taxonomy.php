@@ -65,7 +65,7 @@
 			$value = array();
 			foreach ( $terms as $termVO )
 			{
-				$value[ ] = (string)$termVO->name;
+				$value[] = (string)$termVO->name;
 			}
 			$tagSelector->setValue( $value );
 

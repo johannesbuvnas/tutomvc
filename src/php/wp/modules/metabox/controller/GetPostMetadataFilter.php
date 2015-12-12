@@ -8,7 +8,7 @@
 
 	namespace tutomvc\wp\metabox;
 
-	use tutomvc\FilterCommand;
+	use tutomvc\wp\FilterCommand;
 
 	class GetPostMetadataFilter extends FilterCommand
 	{

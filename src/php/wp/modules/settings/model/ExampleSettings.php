@@ -10,7 +10,7 @@
 
 	use tutomvc\ExampleFormGroup;
 	use tutomvc\ExampleSelectorFormGroup;
-	use tutomvc\WPEditorFormInput;
+	use tutomvc\wp\WPEditorFormInput;
 
 	class ExampleSettings extends Settings
 	{

@@ -1,5 +1,5 @@
 {
-  "name": "Tuto MVC WordPress Plugin",
+  "name": "tutomvc",
   "version": "1.0.0",
   "dependencies": {
     "requirejs": "latest",

@@ -9,7 +9,6 @@
 	namespace tutomvc\wp\metabox;
 
 	use tutomvc\FissileFormGroup;
-	use tutomvc\wp\PostMetaUtil;
 
 	class MetaBox extends FissileFormGroup
 	{

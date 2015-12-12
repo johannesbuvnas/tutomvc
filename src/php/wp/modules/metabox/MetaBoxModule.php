@@ -8,9 +8,9 @@
 
 	namespace tutomvc\wp\metabox;
 
-	use tutomvc\Facade;
+	use tutomvc\wp\Facade;
 	use tutomvc\FormElement;
-	use tutomvc\SystemApp;
+	use tutomvc\wp\SystemApp;
 
 	class MetaBoxModule
 	{

@@ -8,8 +8,8 @@
 
 	namespace tutomvc\wp\posttype;
 
-	use tutomvc\Facade;
-	use tutomvc\SystemApp;
+	use tutomvc\wp\SystemApp;
+	use tutomvc\wp\Facade;
 
 	class PostTypeModule
 	{

@@ -1,5 +1,5 @@
 <?php
-namespace tutomvc;
+namespace tutomvc\wp;
 
 class ProfileUpdateActionCommand extends ActionCommand
 {

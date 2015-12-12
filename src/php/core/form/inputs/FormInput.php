@@ -81,7 +81,7 @@
 
 
 			$output .= '
-					<input ' . $attributes . ' />
+					<input ' . $this->getFormElementAttributesAsString() . ' />
 				';
 
 			return $output;
@@ -103,15 +103,6 @@
 			if ( $this->isAutofocus() ) $attr[ "autofocus" ] = "true";
 
 			return $attr;
-		}
-
-		function getFormElementAttributesAsString()
-		{
-			$attributes = "";
-			foreach ( $attr as $key => $value )
-			{
-				$attributes .= ' ' . $key . '="' . $value . '"';
-			}
 		}
 
 		public function getHeaderElement()

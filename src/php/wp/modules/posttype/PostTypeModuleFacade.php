@@ -8,7 +8,7 @@
 
 	namespace tutomvc\wp\posttype;
 
-	use tutomvc\Facade;
+	use tutomvc\wp\Facade;
 
 	class PostTypeModuleFacade extends Facade
 	{

@@ -8,8 +8,7 @@
 
 	namespace tutomvc\wp\log;
 
-	use tutomvc\Proxy;
-	use tutomvc\TutoMVC;
+	use tutomvc\wp\Proxy;
 	use tutomvc\ValueObject;
 
 	class LogProxy extends Proxy

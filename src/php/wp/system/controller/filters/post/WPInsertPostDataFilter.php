@@ -6,7 +6,7 @@
 	 * Time: 10:35
 	 */
 
-	namespace tutomvc;
+	namespace tutomvc\wp;
 
 	class WPInsertPostDataFilter extends FilterCommand
 	{

@@ -6,7 +6,7 @@
  * Time: 10:07
  */
 
-namespace tutomvc;
+namespace tutomvc\wp;
 
 
 class GoogleMapsMetaField extends MetaField

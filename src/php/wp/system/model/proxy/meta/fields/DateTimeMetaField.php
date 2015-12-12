@@ -1,5 +1,5 @@
 <?php
-namespace tutomvc;
+namespace tutomvc\wp;
 
 /**
 *	See http://xdsoft.net/jqplugins/datetimepicker/ for custom attributes.

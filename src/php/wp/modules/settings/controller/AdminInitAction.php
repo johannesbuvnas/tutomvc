@@ -8,7 +8,7 @@
 
 	namespace tutomvc\wp\settings;
 
-	use tutomvc\ActionCommand;
+	use tutomvc\wp\ActionCommand;
 
 	class AdminInitAction extends ActionCommand
 	{

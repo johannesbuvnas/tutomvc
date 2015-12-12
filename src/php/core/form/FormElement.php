@@ -176,6 +176,22 @@
 			return $this->_rules;
 		}
 
+		function getFormElementAttributes()
+		{
+			return array();
+		}
+
+		function getFormElementAttributesAsString()
+		{
+			$attributes = "";
+			foreach ( (array)$this->getFormElementAttributes() as $key => $value )
+			{
+				$attributes .= ' ' . $key . '="' . $value . '"';
+			}
+
+			return $attributes;
+		}
+
 		/**
 		 * Get the whole  <div /> including header-, error-, form- and footer- element.
 		 * @return string

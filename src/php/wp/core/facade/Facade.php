@@ -1,5 +1,5 @@
 <?php
-	namespace tutomvc;
+	namespace tutomvc\wp;
 
 // https://github.com/PureMVC/puremvc-as3-multicore-framework/tree/master/src/org/puremvc/as3/multicore/patterns
 	/**

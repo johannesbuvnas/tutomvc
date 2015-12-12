@@ -1,5 +1,5 @@
 <?php
-	namespace tutomvc;
+	namespace tutomvc\wp;
 
 	class AjaxCommand extends Command
 	{

@@ -8,7 +8,7 @@
 
 	namespace tutomvc\wp\posttype;
 
-	use tutomvc\Proxy;
+	use tutomvc\wp\Proxy;
 	use WP_Post;
 
 	class PostTypeProxy extends Proxy

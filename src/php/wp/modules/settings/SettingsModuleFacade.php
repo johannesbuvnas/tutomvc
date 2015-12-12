@@ -7,7 +7,7 @@
 	 * Date: 10/05/15
 	 * Time: 08:34
 	 */
-	class SettingsModuleFacade extends \tutomvc\Facade
+	class SettingsModuleFacade extends \tutomvc\wp\Facade
 	{
 		const KEY = "com.tutomvc.wp.modules.setting";
 

@@ -6,7 +6,7 @@
 	 * Time: 09:53
 	 */
 
-	namespace tutomvc;
+	namespace tutomvc\wp;
 
 	class SystemApp
 	{

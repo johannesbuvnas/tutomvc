@@ -1,16 +1,14 @@
 <?php
-	namespace tutomvc;
+	namespace tutomvc\wp;
 
 	use tutomvc\wp\log\LogModule;
 	use tutomvc\wp\metabox\ExampleMetaBox;
 	use tutomvc\wp\metabox\MetaBoxModule;
-	use tutomvc\wp\metabox\MetaBoxModuleFacade;
 	use tutomvc\wp\notification\NotificationModule;
-	use tutomvc\wp\setting\ExampleSettings;
-	use tutomvc\wp\setting\SettingsModule;
+	use tutomvc\wp\settings\ExampleSettings;
+	use tutomvc\wp\settings\SettingsModule;
 	use tutomvc\wp\taxonomy\ExampleTaxonomy;
 	use tutomvc\wp\taxonomy\TaxonomyModule;
-	use Whoops\Exception\ErrorException;
 
 	/**
 	 * Class SystemAppFacade
@@ -48,6 +46,6 @@
 
 		protected function prepController()
 		{
-
+			$this->registerCommand( "admin_enqueue_scripts", new AdminEnqueueScriptsAction() );
 		}
 	}

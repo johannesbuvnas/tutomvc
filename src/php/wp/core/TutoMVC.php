@@ -1,5 +1,5 @@
 <?php
-	namespace tutomvc;
+	namespace tutomvc\wp;
 
 // https://github.com/PureMVC/puremvc-as3-multicore-framework/tree/master/src/org/puremvc/as3/multicore/patterns
 
@@ -56,7 +56,7 @@
 
 				// Auto load the system app facade
 				global $systemFacade;
-				$systemFacade = TutoMVC::startup( "\\tutomvc\\SystemAppFacade" );
+				$systemFacade = TutoMVC::startup( "\\tutomvc\\wp\\SystemAppFacade" );
 
 				do_action( self::ACTION_INIT );
 			}

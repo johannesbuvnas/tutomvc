@@ -8,8 +8,8 @@
 	 */
 	namespace tutomvc\wp\log;
 
-	use tutomvc\Facade;
-	use tutomvc\SystemApp;
+	use tutomvc\wp\Facade;
+	use tutomvc\wp\SystemApp;
 	use tutomvc\ValueObject;
 
 	class LogModule

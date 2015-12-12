@@ -6,7 +6,7 @@
 	 * Time: 15:49
 	 */
 
-	namespace tutomvc;
+	namespace tutomvc\wp;
 
 	class WPAdminColumn extends NameObject
 	{

@@ -1,4 +1,4 @@
-<?php namespace tutomvc;
+<?php namespace tutomvc\wp;
 /**
 *	LinkUtility
 */
