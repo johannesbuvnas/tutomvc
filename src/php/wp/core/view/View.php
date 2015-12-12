@@ -27,7 +27,16 @@
 		}
 
 		/* PUBLIC METHODS */
-		public function render( $viewComponent, $dataProvider = array(), $returnOutput = FALSE )
+		/**
+		 * @param string $viewComponent
+		 * @param null|string $name
+		 * @param array $dataProvider
+		 * @param bool $returnOutput
+		 *
+		 * @return string
+		 * @throws \ErrorException
+		 */
+		public function render( $viewComponent, $name = NULL, $dataProvider = array(), $returnOutput = FALSE )
 		{
 			if ( $returnOutput ) ob_start();
 
@@ -36,16 +45,11 @@
 				extract( $dataProvider, EXTR_SKIP );
 			}
 
-			$filePath = Facade::getInstance( $this->_facadeKey )->getRoot( $viewComponent );
-			$pathinfo = pathinfo( $filePath );
-			if ( !array_key_exists( "extension", $pathinfo ) )
-			{
-				$filePath .= ".php";
-			}
+			$viewComponent = $this->getViewComponentRealpath( $viewComponent, $name );
 
-			if ( is_file( $filePath ) )
+			if ( $viewComponent )
 			{
-				include $filePath;
+				include $viewComponent;
 			}
 			else
 			{
@@ -53,5 +57,26 @@
 			}
 
 			if ( $returnOutput ) return ob_get_clean();
+		}
+
+		/**
+		 * @param $relativeFilePath
+		 * @param null|string $name
+		 *
+		 * @return null|string
+		 */
+		public function getViewComponentRealpath( $relativeFilePath, $name = NULL )
+		{
+			$name = (string)$name;
+			if ( '' !== $name ) $relativeFilePath = "{$relativeFilePath}-{$name}";
+
+			$filePath = Facade::getInstance( $this->_facadeKey )->getRoot( $relativeFilePath );
+			$pathinfo = pathinfo( $filePath );
+			if ( !array_key_exists( "extension", $pathinfo ) )
+			{
+				$filePath .= ".php";
+			}
+
+			return is_file( $filePath ) ? $filePath : NULL;
 		}
 	}

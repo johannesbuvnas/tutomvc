@@ -175,6 +175,7 @@ return array(
     'tutomvc\\wp\\log\\LogModuleFacade' => $baseDir . '/src/php/wp/modules/log/LogModuleFacade.php',
     'tutomvc\\wp\\log\\LogProxy' => $baseDir . '/src/php/wp/modules/log/model/LogProxy.php',
     'tutomvc\\wp\\metabox\\AddMetaBoxesAction' => $baseDir . '/src/php/wp/modules/metabox/controller/AddMetaBoxesAction.php',
+    'tutomvc\\wp\\metabox\\AdminInitAction' => $baseDir . '/src/php/wp/modules/metabox/controller/AdminInitAction.php',
     'tutomvc\\wp\\metabox\\ExampleMetaBox' => $baseDir . '/src/php/wp/modules/metabox/model/ExampleMetaBox.php',
     'tutomvc\\wp\\metabox\\GetPostMetadataFilter' => $baseDir . '/src/php/wp/modules/metabox/controller/GetPostMetadataFilter.php',
     'tutomvc\\wp\\metabox\\MetaBox' => $baseDir . '/src/php/wp/modules/metabox/model/MetaBox.php',

@@ -24,6 +24,8 @@
 		protected $_accept;
 		protected $_autocomplete = FALSE;
 		protected $_autofocus    = FALSE;
+		protected $_min;
+		protected $_max;
 
 		function __construct( $name, $title, $description = NULL, $type = FormInput::TYPE_TEXT, $readonly = FALSE, $placeholder = "", $single = TRUE )
 		{
@@ -77,6 +79,16 @@
 		{
 			$output = "";
 
+
+			$output .= '
+					<input ' . $attributes . ' />
+				';
+
+			return $output;
+		}
+
+		function getFormElementAttributes()
+		{
 			$attr = array(
 				"value"        => $this->getValue(),
 				"type"         => $this->getType(),
@@ -90,17 +102,16 @@
 			if ( $this->isReadOnly() ) $attr[ "readonly" ] = "true";
 			if ( $this->isAutofocus() ) $attr[ "autofocus" ] = "true";
 
+			return $attr;
+		}
+
+		function getFormElementAttributesAsString()
+		{
 			$attributes = "";
 			foreach ( $attr as $key => $value )
 			{
 				$attributes .= ' ' . $key . '="' . $value . '"';
 			}
-
-			$output .= '
-					<input ' . $attributes . ' />
-				';
-
-			return $output;
 		}
 
 		public function getHeaderElement()
@@ -266,5 +277,37 @@
 			$this->_autofocus = $autofocus;
 
 			return $this;
+		}
+
+		/**
+		 * @return mixed
+		 */
+		public function getMin()
+		{
+			return $this->_min;
+		}
+
+		/**
+		 * @param mixed $min
+		 */
+		public function setMin( $min )
+		{
+			$this->_min = $min;
+		}
+
+		/**
+		 * @return mixed
+		 */
+		public function getMax()
+		{
+			return $this->_max;
+		}
+
+		/**
+		 * @param mixed $max
+		 */
+		public function setMax( $max )
+		{
+			$this->_max = $max;
 		}
 	}

@@ -95,16 +95,22 @@
 		}
 
 		/**
-		 * @param string $viewComponent File path. Relative to facade's root.
+		 * @param string $relativePath File path. Relative to facade's root.
+		 * @param null|string $name Optional name of view component. {$relativePath}-{$name}.php
 		 * @param array $dataProvider Data to send to view component.
 		 * @param bool|FALSE $returnOutput
 		 *
 		 * @return $this|string
 		 * @throws \ErrorException
 		 */
-		public function render( $viewComponent, $dataProvider = array(), $returnOutput = FALSE )
+		public function render( $relativePath, $name = NULL, $dataProvider = array(), $returnOutput = FALSE )
 		{
-			return $this->getView()->render( $viewComponent, $dataProvider, $returnOutput );
+			return $this->getView()->render( $relativePath, $name, $dataProvider, $returnOutput );
+		}
+
+		public function isViewComponent( $relativePath, $name = NULL )
+		{
+			return $this->getView()->getViewComponentRealpath( $relativePath, $name ) != NULL;
 		}
 
 		/* SET AND GET */

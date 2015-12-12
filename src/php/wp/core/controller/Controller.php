@@ -69,7 +69,7 @@
 		 */
 		public function getCommand( $commandName )
 		{
-			return $this->hasCommand( $commandName ) ? $this->getCommand( $commandName ) : NULL;
+			return $this->hasCommand( $commandName ) ? $this->_commandMap[ $commandName ] : NULL;
 		}
 
 		/**

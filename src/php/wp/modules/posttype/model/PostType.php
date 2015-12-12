@@ -61,6 +61,24 @@
 			}
 		}
 
+		/* STATIC MTHODS */
+		public static function getPublicSlug( $postTypeName )
+		{
+			$object = get_post_type_object( $postTypeName );
+
+			if ( is_object( $object ) && isset($object->public) && $object->public )
+			{
+				if ( is_array( $object->rewrite ) )
+				{
+					return $object->rewrite[ 'slug' ];
+				}
+
+				return $postTypeName;
+			}
+
+			return NULL;
+		}
+
 		/* METHODS */
 		public function addColumn( WPAdminColumn $column )
 		{

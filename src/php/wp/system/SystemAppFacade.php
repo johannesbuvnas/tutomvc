@@ -45,4 +45,9 @@
 //			NotificationModule::add( $this->getURL(), NotificationModule::TYPE_UPDATE );
 //			LogModule::add( "YOYYOO" );
 		}
+
+		protected function prepController()
+		{
+
+		}
 	}
