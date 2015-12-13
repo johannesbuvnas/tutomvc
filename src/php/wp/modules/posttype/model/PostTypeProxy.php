@@ -54,7 +54,7 @@
 				add_action( "manage_" . $postType->getName() . "_posts_custom_column", array(
 					$postType,
 					"action_custom_column"
-				), 1, 1 );
+				), 1, 2 );
 				// Filters
 				add_filter( "manage_" . $postType->getName() . "_posts_columns", array(
 					$postType,
