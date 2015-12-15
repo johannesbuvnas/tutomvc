@@ -20,12 +20,15 @@
 
 		protected $_type;
 		protected $_readOnly;
-		protected $_placeholder;
-		protected $_accept;
 		protected $_autocomplete = FALSE;
 		protected $_autofocus    = FALSE;
+		protected $_placeholder;
+		protected $_accept;
 		protected $_min;
 		protected $_max;
+		protected $_maxlength;
+		protected $_pattern;
+		protected $_required     = FALSE;
 
 		function __construct( $name, $title, $description = NULL, $type = FormInput::TYPE_TEXT, $readonly = FALSE, $placeholder = "", $single = TRUE )
 		{
@@ -49,8 +52,8 @@
 				"form-group",
 				"form-group-input"
 			);
-			if ( is_string( $this->getErrorMessage() ) ) $classNames[ ] = "has-error";
-			if ( $this->getType() == self::TYPE_HIDDEN ) $classNames[ ] = "hidden";
+			if ( is_string( $this->getErrorMessage() ) ) $classNames[] = "has-error";
+			if ( $this->getType() == self::TYPE_HIDDEN ) $classNames[] = "hidden";
 			$output = '<div class="' . implode( " ", $classNames ) . '">';
 			$output .= $this->getHeaderElement();
 			$output .= $this->getErrorMessageElement();
@@ -78,7 +81,6 @@
 		function getFormElement()
 		{
 			$output = "";
-
 
 			$output .= '
 					<input ' . $this->getFormElementAttributesAsString() . ' />
@@ -279,7 +281,9 @@
 		}
 
 		/**
-		 * @param mixed $min
+		 * Specifies a minimum value for an <input> element
+		 *
+		 * @param number|date $min
 		 */
 		public function setMin( $min )
 		{
@@ -295,10 +299,84 @@
 		}
 
 		/**
-		 * @param mixed $max
+		 * Specifies the maximum value for an <input> element
+		 *
+		 * @param number|date $max
 		 */
 		public function setMax( $max )
 		{
 			$this->_max = $max;
+		}
+
+		/**
+		 * @return mixed
+		 */
+		public function getMaxlength()
+		{
+			return $this->_maxlength;
+		}
+
+		/**
+		 *    Specifies the maximum number of characters allowed in an <input> element
+		 *
+		 * @param number $maxlength
+		 */
+		public function setMaxlength( $maxlength )
+		{
+			$this->_maxlength = $maxlength;
+		}
+
+		/**
+		 * @return mixed
+		 */
+		public function isMultiple()
+		{
+			return !$this->isSingle();
+		}
+
+		/**
+		 * Specifies that a user can enter more than one value in an <input> element
+		 *
+		 * @param bool $multiple
+		 */
+		public function setMultiple( $multiple )
+		{
+			$this->setSingle( !$multiple );
+		}
+
+		/**
+		 * @return mixed
+		 */
+		public function getPattern()
+		{
+			return $this->_pattern;
+		}
+
+		/**
+		 *    Specifies a regular expression that an <input> element's value is checked against
+		 *
+		 * @param regexp $pattern
+		 */
+		public function setPattern( $pattern )
+		{
+			$this->_pattern = $pattern;
+		}
+
+		/**
+		 * @return boolean
+		 */
+		public function isRequired()
+		{
+			return $this->_required;
+		}
+
+		/**
+		 * 	Specifies that an input field must be filled out before submitting the form
+		 *
+		 * @param boolean $required
+		 */
+		public function setRequired( $required )
+		{
+			$this->_required = $required;
 		}
 	}
