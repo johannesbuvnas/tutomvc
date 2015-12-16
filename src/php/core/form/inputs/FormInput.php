@@ -318,10 +318,14 @@
 		 * Specifies a minimum value for an <input> element
 		 *
 		 * @param number|date $min
+		 *
+		 * @return $this
 		 */
 		public function setMin( $min )
 		{
 			$this->_min = $min;
+
+			return $this;
 		}
 
 		/**
@@ -336,10 +340,14 @@
 		 * Specifies the maximum value for an <input> element
 		 *
 		 * @param number|date $max
+		 *
+		 * @return $this
 		 */
 		public function setMax( $max )
 		{
 			$this->_max = $max;
+
+			return $this;
 		}
 
 		/**
@@ -354,10 +362,14 @@
 		 *    Specifies the maximum number of characters allowed in an <input> element
 		 *
 		 * @param number $maxlength
+		 *
+		 * @return $this
 		 */
 		public function setMaxlength( $maxlength )
 		{
 			$this->_maxlength = $maxlength;
+
+			return $this;
 		}
 
 		/**
@@ -372,10 +384,14 @@
 		 * Specifies that a user can enter more than one value in an <input> element
 		 *
 		 * @param bool $multiple
+		 *
+		 * @return $this
 		 */
 		public function setMultiple( $multiple )
 		{
 			$this->setSingle( !$multiple );
+
+			return $this;
 		}
 
 		/**
@@ -390,10 +406,14 @@
 		 *    Specifies a regular expression that an <input> element's value is checked against
 		 *
 		 * @param regexp $pattern
+		 *
+		 * @return $this
 		 */
 		public function setPattern( $pattern )
 		{
 			$this->_pattern = $pattern;
+
+			return $this;
 		}
 
 		/**
@@ -408,10 +428,14 @@
 		 *    Specifies that an input field must be filled out before submitting the form
 		 *
 		 * @param boolean $required
+		 *
+		 * @return $this
 		 */
 		public function setRequired( $required )
 		{
 			$this->_required = $required;
+
+			return $this;
 		}
 
 		/**
@@ -426,10 +450,14 @@
 		 * Specifies an alternate text for images (only for type="image")
 		 *
 		 * @param string $alt
+		 *
+		 * @return $this
 		 */
 		public function setAlt( $alt )
 		{
 			$this->_alt = $alt;
+
+			return $this;
 		}
 
 		/**
@@ -444,10 +472,14 @@
 		 * Specifies that an <input> element should be pre-selected when the page loads (for type="checkbox" or type="radio")
 		 *
 		 * @param boolean $checked
+		 *
+		 * @return $this
 		 */
 		public function setChecked( $checked )
 		{
 			$this->_checked = $checked;
+
+			return $this;
 		}
 
 		/**
@@ -462,10 +494,14 @@
 		 *    Specifies that an <input> element should be disabled
 		 *
 		 * @param boolean $disabled
+		 *
+		 * @return $this
 		 */
 		public function setDisabled( $disabled )
 		{
 			$this->_disabled = $disabled;
+
+			return $this;
 		}
 
 		/**
@@ -478,12 +514,17 @@
 
 		/**
 		 *    Specifies the width, in characters, of an <input> element
+		 *1
 		 *
 		 * @param number $size
+		 *
+		 * @return $this
 		 */
 		public function setSize( $size )
 		{
 			$this->_size = $size;
+
+			return $this;
 		}
 
 		/**
@@ -498,10 +539,14 @@
 		 *    Specifies the URL of the image to use as a submit button (only for type="image")
 		 *
 		 * @param string $src
+		 *
+		 * @return $this
 		 */
 		public function setSrc( $src )
 		{
 			$this->_src = $src;
+
+			return $this;
 		}
 
 		/**
@@ -516,10 +561,14 @@
 		 * Specifies the legal number intervals for an input field
 		 *
 		 * @param mixed $step
+		 *
+		 * @return $this
 		 */
 		public function setStep( $step )
 		{
 			$this->_step = $step;
+
+			return $this;
 		}
 
 		/**
@@ -534,10 +583,14 @@
 		 *    Specifies the width of an <input> element (only for type="image")
 		 *
 		 * @param mixed $width Pixels
+		 *
+		 * @return $this
 		 */
 		public function setWidth( $width )
 		{
 			$this->_width = $width;
+
+			return $this;
 		}
 
 		/**
@@ -552,9 +605,13 @@
 		 *    Specifies the height of an <input> element (only for type="image")
 		 *
 		 * @param mixed $height Pixels
+		 *
+		 * @return $this
 		 */
 		public function setHeight( $height )
 		{
 			$this->_height = $height;
+
+			return $this;
 		}
 	}
