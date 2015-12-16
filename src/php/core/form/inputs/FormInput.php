@@ -10,25 +10,49 @@
 
 	class FormInput extends FormElement
 	{
-		const TYPE_TEXT     = "text";
-		const TYPE_PASSWORD = "password";
-		const TYPE_HIDDEN   = "hidden";
-		const TYPE_DATE     = "date";
-		const TYPE_DATETIME = "datetime";
-		const TYPE_NUMBER   = "number";
-		const TYPE_FILE     = "file";
+		const TYPE_TEXT           = "text";
+		const TYPE_PASSWORD       = "password";
+		const TYPE_HIDDEN         = "hidden";
+		const TYPE_DATE           = "date";
+		const TYPE_DATETIME       = "datetime";
+		const TYPE_NUMBER         = "number";
+		const TYPE_FILE           = "file";
+		const TYPE_BUTTON         = "button";
+		const TYPE_CHECKBOX       = "checkbox";
+		const TYPE_COLOR          = "color";
+		const TYPE_DATETIME_LOCAL = "datetime-local ";
+		const TYPE_EMAIL          = "email";
+		const TYPE_IMAGE          = "image";
+		const TYPE_MONTH          = "month";
+		const TYPE_RADIO          = "radio";
+		const TYPE_RANGE          = "range";
+		const TYPE_RESET          = "reset";
+		const TYPE_SEARCH         = "search";
+		const TYPE_SUBMIT         = "submit";
+		const TYPE_TEL            = "tel";
+		const TYPE_TIME           = "time";
+		const TYPE_URL            = "url";
+		const TYPE_WEEK           = "week";
 
-		protected $_type;
-		protected $_readOnly;
 		protected $_autocomplete = FALSE;
 		protected $_autofocus    = FALSE;
+		protected $_required     = FALSE;
+		protected $_checked      = FALSE;
+		protected $_disabled     = FALSE;
+		protected $_readOnly     = FALSE;
+		protected $_type;
 		protected $_placeholder;
 		protected $_accept;
 		protected $_min;
 		protected $_max;
 		protected $_maxlength;
 		protected $_pattern;
-		protected $_required     = FALSE;
+		protected $_alt;
+		protected $_size;
+		protected $_src;
+		protected $_step;
+		protected $_width;
+		protected $_height;
 
 		function __construct( $name, $title, $description = NULL, $type = FormInput::TYPE_TEXT, $readonly = FALSE, $placeholder = "", $single = TRUE )
 		{
@@ -92,17 +116,31 @@
 		function getFormElementAttributes()
 		{
 			$attr = array(
-				"value"        => $this->getValue(),
 				"type"         => $this->getType(),
-				"placeholder"  => $this->getPlaceholder(),
 				"name"         => $this->getElementName(),
 				"id"           => $this->getID(),
 				"class"        => "form-control form-input-element",
-				"autocomplete" => $this->getAutocomplete() ? "on" : "off",
-				"accept"       => $this->getAccept(),
+				"autocomplete" => $this->isAutocomplete() ? "on" : "off",
 			);
-			if ( $this->isReadOnly() ) $attr[ "readonly" ] = "true";
-			if ( $this->isAutofocus() ) $attr[ "autofocus" ] = "true";
+			if ( $this->isReadOnly() ) $attr[ "readonly" ] = "readonly";
+			if ( $this->isAutofocus() ) $attr[ "autofocus" ] = "autofocus";
+			if ( $this->isRequired() ) $attr[ "required" ] = "required";
+			if ( $this->isDisabled() ) $attr[ "disabled" ] = "disabled";
+			if ( $this->isChecked() ) $attr[ "checked" ] = "checked";
+			if ( strlen( $this->getMin() ) ) $attr[ "min" ] = $this->getMin();
+			if ( strlen( $this->getMax() ) ) $attr[ "max" ] = $this->getMax();
+			if ( strlen( $this->getMaxlength() ) ) $attr[ "maxlength" ] = $this->getMaxlength();
+			if ( strlen( $this->getPattern() ) ) $attr[ "pattern" ] = $this->getPattern();
+			if ( strlen( $this->getAlt() ) ) $attr[ "alt" ] = $this->getAlt();
+			if ( strlen( $this->getSize() ) ) $attr[ "size" ] = $this->getSize();
+			if ( strlen( $this->getSrc() ) ) $attr[ "src" ] = $this->getSrc();
+			if ( strlen( $this->getStep() ) ) $attr[ "step" ] = $this->getStep();
+			if ( strlen( $this->getWidth() ) ) $attr[ "width" ] = $this->getWidth();
+			if ( strlen( $this->getHeight() ) ) $attr[ "height" ] = $this->getHeight();
+			if ( !is_array( $this->getValue() ) && strlen( $this->getValue() ) ) $attr[ "value" ] = $this->getValue();
+			if ( strlen( $this->getPlaceholder() ) ) $attr[ "placeholder" ] = $this->getPlaceholder();
+			if ( strlen( $this->getAccept() ) ) $attr[ "accept" ] = $this->getAccept();
+			if ( strlen( $this->isMultiple() ) ) $attr[ "multiple" ] = "multiple";
 
 			return $attr;
 		}
@@ -115,16 +153,6 @@
 		public function getFooterElement()
 		{
 			return $this->getType() == self::TYPE_HIDDEN ? '' : '<span class="help-block">' . $this->getDescription() . '</span>';
-		}
-
-		/**
-		 * @param $value
-		 *
-		 * @return mixed
-		 */
-		public function filterValue( $value )
-		{
-			return $value;
 		}
 
 		/**
@@ -206,7 +234,9 @@
 		}
 
 		/**
-		 * @param mixed $accept
+		 * Specifies the types of files that the server accepts (only for type="file")
+		 *
+		 * @param string $accept file_extension | audio/* video/* image/* | media_type
 		 *
 		 * @return $this
 		 */
@@ -220,12 +250,14 @@
 		/**
 		 * @return bool
 		 */
-		public function getAutocomplete()
+		public function isAutocomplete()
 		{
 			return $this->_autocomplete;
 		}
 
 		/**
+		 * Specifies whether an <input> element should have autocomplete enabled
+		 *
 		 * @param bool $autocomplete
 		 *
 		 * @return $this
@@ -253,6 +285,8 @@
 		}
 
 		/**
+		 * Specifies that an <input> element should automatically get focus when the page loads
+		 *
 		 * @return boolean
 		 */
 		public function isAutofocus()
@@ -371,12 +405,156 @@
 		}
 
 		/**
-		 * 	Specifies that an input field must be filled out before submitting the form
+		 *    Specifies that an input field must be filled out before submitting the form
 		 *
 		 * @param boolean $required
 		 */
 		public function setRequired( $required )
 		{
 			$this->_required = $required;
+		}
+
+		/**
+		 * @return mixed
+		 */
+		public function getAlt()
+		{
+			return $this->_alt;
+		}
+
+		/**
+		 * Specifies an alternate text for images (only for type="image")
+		 *
+		 * @param string $alt
+		 */
+		public function setAlt( $alt )
+		{
+			$this->_alt = $alt;
+		}
+
+		/**
+		 * @return boolean
+		 */
+		public function isChecked()
+		{
+			return $this->_checked;
+		}
+
+		/**
+		 * Specifies that an <input> element should be pre-selected when the page loads (for type="checkbox" or type="radio")
+		 *
+		 * @param boolean $checked
+		 */
+		public function setChecked( $checked )
+		{
+			$this->_checked = $checked;
+		}
+
+		/**
+		 * @return boolean
+		 */
+		public function isDisabled()
+		{
+			return $this->_disabled;
+		}
+
+		/**
+		 *    Specifies that an <input> element should be disabled
+		 *
+		 * @param boolean $disabled
+		 */
+		public function setDisabled( $disabled )
+		{
+			$this->_disabled = $disabled;
+		}
+
+		/**
+		 * @return number
+		 */
+		public function getSize()
+		{
+			return $this->_size;
+		}
+
+		/**
+		 *    Specifies the width, in characters, of an <input> element
+		 *
+		 * @param number $size
+		 */
+		public function setSize( $size )
+		{
+			$this->_size = $size;
+		}
+
+		/**
+		 * @return string|null
+		 */
+		public function getSrc()
+		{
+			return $this->_src;
+		}
+
+		/**
+		 *    Specifies the URL of the image to use as a submit button (only for type="image")
+		 *
+		 * @param string $src
+		 */
+		public function setSrc( $src )
+		{
+			$this->_src = $src;
+		}
+
+		/**
+		 * @return mixed
+		 */
+		public function getStep()
+		{
+			return $this->_step;
+		}
+
+		/**
+		 * Specifies the legal number intervals for an input field
+		 *
+		 * @param mixed $step
+		 */
+		public function setStep( $step )
+		{
+			$this->_step = $step;
+		}
+
+		/**
+		 * @return mixed
+		 */
+		public function getWidth()
+		{
+			return $this->_width;
+		}
+
+		/**
+		 *    Specifies the width of an <input> element (only for type="image")
+		 *
+		 * @param mixed $width Pixels
+		 */
+		public function setWidth( $width )
+		{
+			$this->_width = $width;
+		}
+
+		/**
+		 * @return mixed
+		 */
+		public function getHeight()
+		{
+			return $this->_height;
+		}
+
+		/**
+		 *    Specifies the height of an <input> element (only for type="image")
+		 *
+		 * @param mixed $height Pixels
+		 */
+		public function setHeight( $height )
+		{
+			$this->_height = $height;
 		}
 	}

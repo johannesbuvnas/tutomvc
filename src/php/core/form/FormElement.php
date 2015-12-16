@@ -30,7 +30,6 @@
 		protected $_index  = NULL;
 		protected $_defaultValue;
 		protected $_parentName;
-		protected $_sanitizedName;
 		protected $_validationMethod;
 		protected $_errorMessage;
 
@@ -381,7 +380,7 @@
 		}
 
 		/**
-		 * @return mixed
+		 * @return callable|null
 		 */
 		public function getValidationMethod()
 		{
@@ -392,7 +391,7 @@
 		 * Possibility to validate the value of the FormElement through call_user_func_array.
 		 * The callable function should return TRUE or a string with a error message on failure.
 		 *
-		 * @param mixed $validationMethod
+		 * @param callable $validationMethod
 		 *
 		 * @return $this
 		 */

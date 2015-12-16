@@ -10,7 +10,7 @@
 
 	use tutomvc\FissileFormGroup;
 	use tutomvc\FormElement;
-	use tutomvc\TutoMVC;
+	use tutomvc\wp\TutoMVC;
 
 	class Settings extends FissileFormGroup
 	{

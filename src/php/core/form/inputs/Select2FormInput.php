@@ -23,24 +23,7 @@
 		{
 			$output = "";
 
-			$attr = array(
-				"name"             => $this->getElementName(),
-				"id"               => $this->getID(),
-				"class"            => "form-control",
-				"data-placeholder" => $this->getPlaceholder(),
-			);
-			if ( $this->isReadOnly() ) $attr[ "disabled" ] = "true";
-			if ( strlen( $this->getPlaceholder() ) ) $attr[ "title" ] = $this->getPlaceholder();
-			if ( !$this->isSingle() )
-			{
-				$attr[ "multiple" ] = "true";
-			}
-
-			$attributes = "";
-			foreach ( $attr as $key => $label )
-			{
-				$attributes .= ' ' . $key . '="' . $label . '"';
-			}
+			$attributes = $this->getFormElementAttributesAsString();
 
 			$output .= '
 					<select ' . $attributes . '>

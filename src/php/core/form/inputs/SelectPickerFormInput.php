@@ -58,33 +58,26 @@
 			return '<option ' . $attributes . '>' . $label . '</option>';
 		}
 
+		function getFormElementAttributes()
+		{
+			$attr                        = parent::getFormElementAttributes();
+			$attr[ "data-size" ]         = $this->getSize();
+			$attr[ "data-show-subtext" ] = $this->isShowSubtext();
+			$attr[ "class" ]             = $attr[ "class" ] . " selectpicker";
+			if ( $this->isReadOnly() ) $attr[ "disabled" ] = "true";
+			if ( $this->isLiveSearchEnabled() ) $attr[ "data-live-search" ] = "true";
+
+			unset($attr[ "size" ]);
+
+			return $attr;
+		}
+
 		function getFormElement()
 		{
 			$output = "";
 
-			$attr = array(
-				"name"              => $this->getElementName(),
-				"id"                => $this->getID(),
-				"class"             => "form-control selectpicker",
-				"data-size"         => $this->getSize(),
-				"data-show-subtext" => $this->isShowSubtext()
-			);
-			if ( $this->isReadOnly() ) $attr[ "disabled" ] = "true";
-			if ( strlen( $this->getPlaceholder() ) ) $attr[ "title" ] = $this->getPlaceholder();
-			if ( !$this->isSingle() )
-			{
-				$attr[ "multiple" ] = "true";
-			}
-			if ( $this->isLiveSearchEnabled() ) $attr[ "data-live-search" ] = "true";
-
-			$attributes = "";
-			foreach ( $attr as $key => $label )
-			{
-				$attributes .= ' ' . $key . '="' . $label . '"';
-			}
-
 			$output .= '
-					<select ' . $attributes . '>
+					<select ' . $this->getFormElementAttributesAsString() . '>
 				';
 			foreach ( $this->getOptions() as $key => $label )
 			{
@@ -129,27 +122,6 @@
 		public function setLiveSearchEnabled( $_liveSearchEnabled )
 		{
 			$this->_liveSearchEnabled = $_liveSearchEnabled;
-
-			return $this;
-		}
-
-		/**
-		 * @return string
-		 */
-		public function getSize()
-		{
-			return $this->_size;
-		}
-
-		/**
-		 * @param string $size
-		 *
-		 * @return $this
-		 * @see http://silviomoreto.github.io/bootstrap-select/#size
-		 */
-		public function setSize( $size )
-		{
-			$this->_size = $size;
 
 			return $this;
 		}
