@@ -16,11 +16,6 @@
 
 		function onRegister()
 		{
-			if ( $this->isCacheEnabled() === TRUE )
-			{
-				$map = wp_cache_get( $this->getCacheMapKeyName(), $this->getCacheGroupName() );
-				if ( is_array( $map ) ) $this->_map = $map;
-			}
 		}
 
 		/**
@@ -90,6 +85,12 @@
 
 		public function getMap()
 		{
+			if ( empty($this->_map) && $this->isCacheEnabled() === TRUE )
+			{
+				$map = wp_cache_get( $this->getCacheMapKeyName(), $this->getCacheGroupName() );
+				if ( is_array( $map ) ) $this->_map = $map;
+			}
+
 			return $this->_map;
 		}
 
