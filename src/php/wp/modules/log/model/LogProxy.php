@@ -14,7 +14,7 @@
 	class LogProxy extends Proxy
 	{
 		const NAME          = __CLASS__;
-		const ROOT_DIR_NAME = "logs";
+		const ROOT_DIR_NAME = "tutomvc_logs";
 
 		function __construct()
 		{
@@ -112,7 +112,7 @@
 		{
 			$relativePath = $relativePath ? self::ROOT_DIR_NAME . "/" . $relativePath : self::ROOT_DIR_NAME;
 
-			return $this->getFacade()->getRoot( $relativePath );
+			return get_stylesheet_directory() . "/" . $relativePath;
 		}
 
 		/* EVENTS */

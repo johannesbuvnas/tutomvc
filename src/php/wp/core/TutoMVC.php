@@ -41,7 +41,9 @@
 				$caller    = $backtrace[ 0 ][ 'file' ];
 
 				// Plugin root path
-				self::$_root = realpath( dirname( $caller ) );
+				self::$_root = realpath( dirname( __FILE__ ) . "/../../../../" );
+//				var_dump(self::$_root);
+//				exit;
 				// Figure out domain name
 				$wpURL         = get_bloginfo( 'wpurl' );
 				self::$_domain = parse_url( $wpURL );

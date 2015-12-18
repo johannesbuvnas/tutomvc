@@ -1,10 +1,6 @@
-/logs/*
-/bin
 .DS_Store
-
-/terminal.glue
 /.idea/
-
 /node_modules/
-
 /bower_components/
+/vendor/
+composer.lock
