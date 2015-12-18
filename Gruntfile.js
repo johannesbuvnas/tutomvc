@@ -14,87 +14,56 @@ module.exports = function ( grunt )
                     strictMath: true,
                     sourceMap: true,
                     outputSourceFiles: true,
-                    sourceMapURL: 'style.css.map',
-                    sourceMapFilename: 'style.css.map'
+                    //sourceMapURL: 'dist/css/tutomvc.css.map',
+                    //sourceMapFilename: 'dist/css/tutomvc.css.map'
                 },
                 files: {
-                    "dist/css/style.css": "src/less/style.less"
+                    "dist/css/tutomvc.css": "src/less/tutomvc.less"
                 }
             }
         },
-        requirejs: {
-            "compile-js": {
-                options: {
-                    paths: {
-                        "requirejs": "../../libs/scripts/requirejs/require",
-                        "text": "../../libs/scripts/requirejs-text/text",
-                        "bootstrap": "../../libs/scripts/bootstrap/dist/js/bootstrap",
-                        "bootstrap-select": "../../libs/scripts/bootstrap-select/dist/js/bootstrap-select"
-                    },
-                    shim: {
-                        backbone: {
-                            deps: [
-                                "jquery",
-                                "underscore"
-                            ]
-                        },
-                        "Main": {
-                            deps: [
-                                "backbone"
-                            ]
-                        },
-                        "modules/jQuery": {
-                            deps: [
-                                "jquery"
-                            ]
-                        }
-                    },
-                    map: {
-                        "modules/Backbone": {
-                            "backbone": "../../libs/scripts/backbone/backbone"
-                        },
-                        "modules/jQuery": {
-                            "jquery": "../../libs/scripts/jquery/jquery"
-                        },
-                        "modules/underscore": {
-                            "underscore": "../../libs/scripts/underscore/underscore"
-                        },
-                        "*": {
-                            "jquery": "modules/jQuery",
-                            "underscore": "modules/underscore",
-                            "backbone": "modules/Backbone"
-                        }
-                    },
-                    "baseUrl": "src/scripts",
-                    "include": [
-                        "requirejs",
-                        "Main.config"
-                    ],
-                    optimize: "none",
-                    "out": "dist/js/script.min.js"
-                }
-            },
-            "minify-css": {
-                options: {
-                    cssIn: "dist/css/style.css",
-                    out: "dist/css/style.min.css",
-                     //optimizeCss: "standard.keepLines.keepWhitespace"
-                    optimizeCss: "standard"
-                }
-            }
-        },
-        usebanner: {
+        concat: {
             options: {
-                position: 'top',
-                banner: '<%= banner %>'
+                stripBanners: false
             },
-            files: {
-                src: [ "dist/css/style.css" ]
+            tutomvc: {
+                src: [
+                    'bower_components/bootstrap/dist/bootstrap.js',
+                    'bower_components/bootstrap-select/bootstrap.js',
+                    'bower_components/select2/dist/js/select2.full.js',
+                    'src/js/tutomvc.js'
+                ],
+                dest: 'dist/js/<%= pkg.name %>.js'
+            }
+        },
+        uglify: {
+            options: {
+                compress: {
+                    warnings: false
+                },
+                mangle: true,
+                preserveComments: 'some'
+            },
+            tutomvc: {
+                src: '<%= concat.tutomvc.dest %>',
+                dest: 'dist/js/<%= pkg.name %>.min.js'
+            }
+        },
+        cssmin: {
+            options: {
+                compatibility: 'ie8',
+                keepSpecialComments: '*',
+                sourceMap: true,
+                advanced: false
+            },
+            tutomvc: {
+                src: 'dist/css/<%= pkg.name %>.css',
+                dest: 'dist/css/<%= pkg.name %>.min.css'
             }
         },
         watch: {
-            scripts: {
-                files: [ 'src/scripts/**/*.js' ],
+            js: {
+                files: [ 'src/js/**/*.js' ],
                 tasks: [ 'dist-js' ]
             },
             less: {
@@ -106,17 +75,15 @@ module.exports = function ( grunt )
 
     // Load npm tasks
     grunt.loadNpmTasks( 'grunt-contrib-less' );
-    grunt.loadNpmTasks( 'grunt-banner' );
-    grunt.loadNpmTasks( 'grunt-requirejs' );
+    grunt.loadNpmTasks( 'grunt-contrib-concat' );
     grunt.loadNpmTasks( 'grunt-contrib-watch' );
+    grunt.loadNpmTasks( 'grunt-contrib-uglify' );
+    grunt.loadNpmTasks( 'grunt-contrib-cssmin' );
 
     // All CSS tasks
-    grunt.registerTask( 'dist-css', [ 'less:compile', 'usebanner' ] );
+    grunt.registerTask( 'dist-css', [ 'less:compile', "cssmin:tutomvc" ] );
     // All JS tasks
-    grunt.registerTask( 'dist-js', [ 'requirejs:compile-js' ] );
-
+    grunt.registerTask( 'dist-js', [ 'concat:tutomvc', 'uglify:tutomvc' ] );
     // All dist tasks
     grunt.registerTask( 'dist', [ 'dist-css', 'dist-js' ] );
-    // DEFAULT
-    grunt.registerTask( 'default', [ 'dist' ] );
 };

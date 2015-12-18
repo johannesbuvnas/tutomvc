@@ -17,7 +17,9 @@
 	class Select2FormInput extends SelectFormInput
 	{
 
-		protected $_select2Options = array();
+		protected $_select2Options = array(
+			"theme" => "classic"
+		);
 
 		function getFormElement()
 		{
@@ -61,13 +63,21 @@
 					</select>
 				';
 
-			$output .= '
-			<script type="text/javascript">
-				jQuery("#' . $this->getID() . '").select2( ' . json_encode( $this->getSelect2Options() ) . ' );
-			</script>
-			';
-
 			return $output;
+		}
+
+		function getFormElementAttributes()
+		{
+			$attr = parent::getFormElementAttributes();
+
+			foreach ( $this->getSelect2Options() as $key => $value )
+			{
+				$attr[ "data-$key" ] = htmlspecialchars( $value, ENT_QUOTES, 'UTF-8' );
+			}
+
+			$attr[ 'class' ]        = $attr[ 'class' ] . " select2";
+
+			return $attr;
 		}
 
 		/**

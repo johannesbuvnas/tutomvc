@@ -1,7 +1,7 @@
 <?php
 	namespace tutomvc\wp;
 
-		/*
+		/**
 			Plugin Name: Tuto MVC
 			Plugin URI: http://tutomvc.com
 			Description: The WordPress MVC framework.
