@@ -12,7 +12,7 @@
 	{
 		function execute()
 		{
-			wp_enqueue_style( TutoMVC::NAME, $this->getFacade()->getURL( "dist/css/tutomvc.css" ) );
-			wp_enqueue_script( TutoMVC::NAME, $this->getFacade()->getURL( "dist/js/tutomvc.js?ver=" . time() ) );
+			wp_enqueue_style( TutoMVC::NAME, $this->getFacade()->getURL( "dist/css/tutomvc.css?ver=" . TutoMVC::VERSION ) );
+			wp_enqueue_script( TutoMVC::NAME, $this->getFacade()->getURL( "dist/js/tutomvc.min.js?ver=" . TutoMVC::VERSION ) );
 		}
 	}
