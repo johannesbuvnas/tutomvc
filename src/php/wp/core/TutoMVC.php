@@ -37,19 +37,17 @@
 		{
 			if ( !self::$_initiated )
 			{
-				$backtrace = debug_backtrace();
-				$caller    = $backtrace[ 0 ][ 'file' ];
-
 				// Plugin root path
 				self::$_root = realpath( dirname( __FILE__ ) . "/../../../../" );
-//				var_dump(self::$_root);
-//				exit;
+
 				// Figure out domain name
 				$wpURL         = get_bloginfo( 'wpurl' );
 				self::$_domain = parse_url( $wpURL );
 				self::$_domain = array_key_exists( "port", self::$_domain ) ? self::$_domain[ 'host' ] . ":" . self::$_domain[ 'port' ] : self::$_domain[ 'host' ];
+
 				// Figure out the root of the WP folder
 				self::$_wpRelativeRoot = substr( $wpURL, strpos( $wpURL, self::$_domain ) + strlen( self::$_domain ) );
+
 				// Figure out URL to this plugin
 				self::$_documentRoot = getenv( "DOCUMENT_ROOT" );
 				self::$_url          = $wpURL . FileUtil::filterFileReference( substr( self::$_root, strripos( self::$_root, self::$_documentRoot ) + strlen( self::$_wpRelativeRoot ) + strlen( self::$_documentRoot ) ) );
@@ -58,7 +56,7 @@
 
 				// Auto load the system app facade
 				global $systemFacade;
-				$systemFacade = TutoMVC::startup( "\\tutomvc\\wp\\SystemAppFacade" );
+				$systemFacade = TutoMVC::startup( new SystemAppFacade() );
 
 				do_action( self::ACTION_INIT );
 			}
@@ -67,17 +65,15 @@
 		}
 
 		/**
-		 *    Import application into scope.
+		 * @param Facade $facade
 		 *
-		 * @param string $facadeClassReference A reference to the class name which extends the Facade.
-		 *
-		 * @return boolean
+		 * @return Facade
 		 */
-		public static function startup( $facadeClassReference )
+		public static function startup( $facade )
 		{
 			if ( !self::$_initiated )
 			{
-				die("ERROR! Cannot import application. Tuto Framework hasn't been initialized.");
+				self::initialize();
 			}
 
 			// The file that called this function will set the root for this app
@@ -86,9 +82,6 @@
 			$appRoot   = realpath( dirname( $caller ) );
 			$appURL    = get_bloginfo( 'wpurl' ) . FileUtil::filterFileReference( substr( $appRoot, strripos( $appRoot, TutoMVC::getDocumentRoot() ) + strlen( TutoMVC::getWPRelativeRoot() ) + strlen( TutoMVC::getDocumentRoot() ) ) );
 
-			// Construct and initalize the facade
-			/** @var Facade $facade */
-			$facade = new $facadeClassReference;
 			$facade->setRoot( $appRoot );
 			$facade->setURL( $appURL );
 			self::$_facadeMap[ $facade->getKey() ] = $facade;
