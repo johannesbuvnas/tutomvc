@@ -40,7 +40,7 @@
 		 */
 		public static function add( $metaBox )
 		{
-			self::getProxy()->add( $metaBox );
+			self::getProxy()->add( $metaBox, $metaBox->getName() );
 
 			return self::getInstance();
 		}
@@ -59,5 +59,15 @@
 		public static function getProxy()
 		{
 			return self::getInstance()->getProxy( MetaBoxProxy::NAME );
+		}
+
+		/**
+		 * @param $name
+		 *
+		 * @return MetaBox|null
+		 */
+		public static function getMetaBox( $name )
+		{
+			return self::getProxy()->get( $name );
 		}
 	}

@@ -465,21 +465,9 @@
 		 */
 		public function isChecked()
 		{
-			return $this->_checked;
-		}
+			$value = $this->getValue();
 
-		/**
-		 * Specifies that an <input> element should be pre-selected when the page loads (for type="checkbox" or type="radio")
-		 *
-		 * @param boolean $checked
-		 *
-		 * @return $this
-		 */
-		public function setChecked( $checked )
-		{
-			$this->_checked = $checked;
-
-			return $this;
+			return !empty($value);
 		}
 
 		/**
