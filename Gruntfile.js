@@ -31,7 +31,8 @@ module.exports = function ( grunt )
                     'bower_components/bootstrap/dist/bootstrap.js',
                     'bower_components/bootstrap-select/bootstrap.js',
                     'bower_components/select2/dist/js/select2.full.js',
-                    'src/js/tutomvc.js'
+                    'src/js/wp/jquery.wpattachmentforminput.js',
+                    'src/js/wp/tutomvc.js'
                 ],
                 dest: 'dist/js/<%= pkg.name %>.js'
             }
