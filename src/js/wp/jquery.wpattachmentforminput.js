@@ -51,7 +51,22 @@
     PluginConstructor.prototype.add = function ( attachmentModel )
     {
         var _this = this;
-        var $el = $( this.template( attachmentModel.toJSON() ) );
+        var json = attachmentModel.toJSON();
+        json.src = json.icon;
+        if ( !json.width ) json.width = "";
+        if ( !json.height ) json.height = "";
+        if ( json.sizes )
+        {
+            if ( json.sizes.thumbnail && json.sizes.thumbnail.url )
+            {
+                json.src = json.sizes.thumbnail.url;
+            }
+            else if ( json.sizes.full && json.sizes.full.url )
+            {
+                json.src = json.sizes.full.url;
+            }
+        }
+        var $el = $( this.template( json ) );
         $el.find( ".btn-remove" ).click( function ( e )
         {
             e.preventDefault();

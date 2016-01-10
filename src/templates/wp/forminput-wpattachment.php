@@ -10,20 +10,6 @@
 ?>
 <div id="<?php echo $formInput->getID(); ?>" class="wpattachmentforminput" data-max="<?php echo $formInput->getMax(); ?>" data-title="<?php echo $formInput->getLabel(); ?>" data-button-text="<?php _e( "Add" ); ?>" data-type="<?php echo $formInput->getType(); ?>">
 	<textarea class="hidden underscore-template">
-		<%
-		src = icon;
-		if(type == "image")
-		{
-			if(sizes.thumbnail && sizes.thumbnail.url)
-			{
-				src = sizes.thumbnail.url;
-			}
-			else if(sizes.full && sizes.full.url)
-			{
-				src = sizes.full.url;
-			}
-		}
-		%>
 		<div class="list-group-item" data-attachment-id="<%= id %>">
 			<input type="hidden" name="<?php echo $formInput->getElementName(); ?>" value="<%= id %>">
 			<div class="media" style="position:relative;">
@@ -112,7 +98,7 @@
 								</li>
 								<li><strong><?php _e( 'File size:' ); ?></strong> <?php echo $bytesHumanReadable; ?>
 								</li>
-								<?php if ( $attachment[ 'type' ] == "image" ): ?>
+								<?php if ( $attachment[ 'type' ] == "image" && (isset($attachment[ 'width' ]) && isset($attachment[ 'height' ])) ): ?>
 									<li>
 										<strong><?php _e( 'Dimensions:' ); ?></strong> <?php echo $attachment[ 'width' ] . "x" . $attachment[ 'height' ]; ?>
 									</li>
