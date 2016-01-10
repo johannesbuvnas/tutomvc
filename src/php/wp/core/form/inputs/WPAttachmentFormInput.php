@@ -12,17 +12,33 @@
 
 	class WPAttachmentFormInput extends SelectFormInput
 	{
-		function __construct( $name, $title, $description, $min = 0, $max = - 1 )
+		const TYPE_WPMEDIA_ALL   = "";
+		const TYPE_WPMEDIA_IMAGE = "image";
+
+		function __construct( $name, $title, $description, $max = - 1, $type = self::TYPE_WPMEDIA_ALL )
 		{
 			parent::__construct( $name, $title, $description );
-			$this->setMin( $min );
 			$this->setMax( $max );
+			$this->setType( $type );
 		}
 
 		/* SET AND GET */
+		public function getHeaderElement()
+		{
+			$el = parent::getHeaderElement();
+			$el .= '<span class="help-block">' . $this->getDescription() . '</span>';
+
+			return $el;
+		}
+
+		public function getFooterElement()
+		{
+			return "";
+		}
+
 		public function getFormElement()
 		{
-			return SystemApp::getInstance()->render( "src/templates/forminput", "wpattachment", array(
+			return SystemApp::getInstance()->render( "src/templates/wp/forminput", "wpattachment", array(
 				"formInput" => $this
 			), TRUE );
 		}
