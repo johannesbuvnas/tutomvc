@@ -23,6 +23,7 @@
 		function onRegister()
 		{
 			add_action( "init", array($this, "init") );
+			add_action( "admin_init", array($this, "admin_init") );
 			add_action( "post_updated", array($this, "post_updated"), 10, 3 );
 			add_action( "pre_post_update", array($this, "pre_post_update"), 10, 2 );
 			add_action( "wp_insert_post", array($this, "wp_insert_post"), 10, 3 );
@@ -64,6 +65,24 @@
 					$postType,
 					"filter_manage_sortable_columns"
 				), 1, 1 );
+			}
+		}
+
+		public function admin_init()
+		{
+			add_action( "current_screen", array($this, "current_screen") );
+		}
+
+		public function current_screen()
+		{
+			/** @var \WP_Screen $screen */
+			$screen = get_current_screen();
+			if ( !empty($screen->post_type) )
+			{
+				if ( $this->has( $screen->post_type ) )
+				{
+					$this->get( $screen->post_type )->action_load_admin_page();
+				}
 			}
 		}
 
