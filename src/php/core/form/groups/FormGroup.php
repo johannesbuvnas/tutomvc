@@ -171,13 +171,44 @@
 					{
 						$formElementErrors = $formElement->getErrors();
 						if ( !is_array( $formElementErrors ) ) $formElementErrors = array();
-						if ( is_string( $formElement->getErrorMessage() ) ) $formElementErrors[ ] = $formElement->getErrorMessage();
+						if ( is_string( $formElement->getErrorMessage() ) ) $formElementErrors[] = $formElement->getErrorMessage();
 						$errors[ $formElement->getName() ] = $formElementErrors;
 					}
 				}
 				else
 				{
 					if ( is_string( $formElement->getErrorMessage() ) ) $errors[ $formElement->getName() ] = $formElement->getErrorMessage();
+				}
+			}
+
+			if ( count( $errors ) ) return $errors;
+			else return NULL;
+		}
+
+		/**
+		 * Returns array of errors if errors exists.
+		 * If no errors exists, it returns NULL.
+		 * @return array|null
+		 */
+		public function getFlatErrors()
+		{
+			$this->validate();
+			$errors = array();
+
+			if ( is_string( $this->getErrorMessage() ) ) $errors[ $this->getElementName() ] = $this->getErrorMessage();
+
+			/** @var FormElement $formElement */
+			foreach ( $this->getFormElements() as $formElement )
+			{
+				if ( is_a( $formElement, "\\tutomvc\\FormGroup" ) )
+				{
+					/** @var FormGroup $formElement */
+					$formGroupErrors = $formElement->getFlatErrors();
+					if ( is_array( $formGroupErrors ) ) $errors = array_merge( $errors, $formGroupErrors );
+				}
+				else
+				{
+					if ( is_string( $formElement->getErrorMessage() ) ) $errors[ $formElement->getElementName() ] = $formElement->getErrorMessage();
 				}
 			}
 
