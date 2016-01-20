@@ -10,7 +10,7 @@
 
 	class NameObject
 	{
-		private $_name;
+		protected $_name;
 
 		function __construct( $name )
 		{
@@ -27,6 +27,8 @@
 
 		/**
 		 * @param string $name
+		 *
+		 * @return $this
 		 */
 		public function setName( $name )
 		{

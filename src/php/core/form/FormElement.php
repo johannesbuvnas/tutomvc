@@ -20,7 +20,6 @@
 		const REGEX_SANITIZE_NAME = "/[^\[\]A-Za-z0-9-]+/";
 		const REGEX_ELEMENT_NAME  = "/(.*)\[([0-9]+)\](.*)/ix";
 		const REGEX_GROUP_NAME    = "/\[([^\]]*)\]/ix";
-		protected $_name;
 		protected $_value;
 		protected $_label;
 		protected $_id;
@@ -33,9 +32,9 @@
 		protected $_validationMethod;
 		protected $_errorMessage;
 
-		public function __construct( $name )
+		function __construct( $name )
 		{
-			$this->_name = self::sanitizeID( $name );
+			$this->_name = parent::__construct( self::sanitizeID( $name ) );
 		}
 
 		final public static function sanitizeID( $name )
@@ -142,7 +141,7 @@
 
 		public function addRule( Rule $rule )
 		{
-			$this->_rules[ ] = $rule;
+			$this->_rules[] = $rule;
 		}
 
 		/* SET AND GET */
