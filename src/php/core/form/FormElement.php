@@ -34,7 +34,7 @@
 
 		function __construct( $name )
 		{
-			$this->_name = parent::__construct( self::sanitizeID( $name ) );
+			$this->_name = self::sanitizeID( $name );
 		}
 
 		final public static function sanitizeID( $name )
