@@ -14,7 +14,7 @@
 			<input type="hidden" name="<?php echo $formInput->getElementName(); ?>" value="<%= id %>">
 			<div class="media" style="position:relative;">
 				<div class="media-left" style="min-width: 150px;min-height: 150px; vertical-align: middle;cursor: move;">
-					<img class="media-object" src="<%= src %>" style="margin: 0 auto;">
+					<img class="media-object" src="<%= src %>" style="margin: 0 auto;max-width: 100%; height: auto;">
 				</div>
 				<div class="media-body">
 					<h4 class="media-heading"><%= title %></h4>
@@ -75,7 +75,7 @@
 					<input type="hidden" name="<?php echo $formInput->getElementName(); ?>" value="<?php echo $wpAttachmentID; ?>">
 					<div class="media" style="position:relative;">
 						<div class="media-left" style="min-width: 150px;min-height: 150px; vertical-align: middle;cursor: move;">
-							<img class="media-object" src="<?php echo $src[ 0 ]; ?>" style="margin: 0 auto;">
+							<img class="media-object" src="<?php echo $src[ 0 ]; ?>" style="margin: 0 auto;max-width: 100%; height: auto;">
 						</div>
 						<div class="media-body">
 							<h4 class="media-heading"><?php echo $attachment[ 'title' ]; ?></h4>

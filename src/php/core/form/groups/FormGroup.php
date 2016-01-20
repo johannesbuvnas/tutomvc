@@ -15,7 +15,7 @@
 	 */
 	class FormGroup extends FormElement
 	{
-		private $_fieldMap = array();
+		protected $_formElementsMap = array();
 
 		function __construct( $name, $title = NULL, $description = NULL )
 		{
@@ -31,7 +31,7 @@
 		 */
 		public function addFormElement( FormElement $formElement )
 		{
-			$this->_fieldMap[ $formElement->getName() ] = $formElement;
+			$this->_formElementsMap[ $formElement->getName() ] = $formElement;
 			$formElement->setParentName( $this->getNameAsParent() );
 
 			return $formElement;
@@ -216,9 +216,20 @@
 			else return NULL;
 		}
 
+		/**
+		 * @return array
+		 */
 		public function getFormElements()
 		{
-			return $this->_fieldMap;
+			return $this->_formElementsMap;
+		}
+
+		/**
+		 * @param array $map
+		 */
+		public function setFormElements( $map )
+		{
+			$this->_formElementsMap = $map;
 		}
 
 		/**
@@ -229,9 +240,9 @@
 		public function getFormElementByName( $name )
 		{
 			$name = FormElement::sanitizeID( $name );
-			if ( array_key_exists( $name, $this->_fieldMap ) )
+			if ( array_key_exists( $name, $this->_formElementsMap ) )
 			{
-				return $this->_fieldMap[ $name ];
+				return $this->_formElementsMap[ $name ];
 			}
 			else
 			{
