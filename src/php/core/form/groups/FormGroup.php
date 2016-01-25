@@ -456,4 +456,12 @@
 
 			return $this;
 		}
+
+		/**
+		 * @return bool
+		 */
+		public function hasError()
+		{
+			return !empty($this->getErrors());
+		}
 	}
