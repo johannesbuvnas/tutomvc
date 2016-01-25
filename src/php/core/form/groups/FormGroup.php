@@ -363,7 +363,7 @@
 		}
 
 		/**
-		 * @param null $call_user_func
+		 * @param callable|null $call_user_func
 		 *
 		 * @return array|mixed
 		 */
@@ -381,7 +381,9 @@
 		}
 
 		/**
-		 * @return array
+		 * @param callable|null $call_user_func
+		 *
+		 * @return array|null
 		 */
 		public function getFlatValue( $call_user_func = NULL )
 		{

@@ -119,7 +119,6 @@
 		 * Possibility to validate the value of the FormElement through call_user_func_array.
 		 * The callable function parsed should return TRUE or a string with a error message on failure.
 		 * @return bool|mixed
-		 * @internal param null $call_user_func
 		 *
 		 */
 		public function validate()
@@ -308,7 +307,7 @@
 		}
 
 		/**
-		 * @param null $call_user_func
+		 * @param callable|null $call_user_func
 		 *
 		 * @return mixed
 		 */

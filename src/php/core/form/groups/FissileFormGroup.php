@@ -368,7 +368,7 @@
 				if ( array_key_exists( self::BUTTON_NAME_ADD_AFTER, $value ) && !$this->hasReachedMax() )
 				{
 					parent::setValue( NULL );
-					$this->_value[ ] = parent::getValue();
+					$this->_value[] = parent::getValue();
 				}
 			}
 			else if ( is_int( $value ) )
@@ -414,7 +414,7 @@
 				parent::setValue( NULL );
 				for ( $i = 0; $i < $this->getMin(); $i ++ )
 				{
-					$defaultValue[ ] = parent::getValue();
+					$defaultValue[] = parent::getValue();
 				}
 				parent::setValue( $before );
 				$value = array_merge( $value, $defaultValue );
@@ -433,7 +433,7 @@
 				{
 					parent::setValue( NULL ); // JUST IN CASE
 					parent::setValue( $valueClone );
-					$dp[ ] = parent::getValue( $call_user_func );
+					$dp[] = parent::getValue( $call_user_func );
 				}
 				parent::setValue( $before );
 			}
@@ -458,7 +458,7 @@
 				{
 					parent::setValue( NULL ); // Just in case
 					parent::setValue( $singleValue );
-					$valueMap[ ] = parent::getValueMapAt( $key );
+					$valueMap[] = parent::getValueMapAt( $key );
 				}
 
 				// Restore value
@@ -473,19 +473,22 @@
 		}
 
 		/**
+		 * @param callable|null $call_user_func
+		 *
 		 * @return array
+		 * @throws \ErrorException
 		 */
-		public function getFlatValue()
+		public function getFlatValue( $call_user_func = NULL )
 		{
 			$flatValue    = array();
-			$currentValue = $this->getValue();
+			$currentValue = $this->getValue( $call_user_func );
 			/** @var FormElement $formElement */
 			foreach ( $currentValue as $key => $value )
 			{
 				$this->setIndex( $key );
 				parent::setValue( NULL ); // JUST IN CASE
 				parent::setValue( $value );
-				$flatValue[ $key ] = parent::getFlatValue();
+				$flatValue[ $key ] = parent::getFlatValue( $call_user_func );
 			}
 
 			return $flatValue;
