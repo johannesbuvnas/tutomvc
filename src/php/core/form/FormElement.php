@@ -414,7 +414,7 @@
 		 */
 		public function hasError()
 		{
-			return is_string( $this->getErrorMessage() );
+			return !empty($this->getErrorMessage());
 		}
 
 		/**
