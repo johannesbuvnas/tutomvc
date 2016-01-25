@@ -399,7 +399,7 @@
 				}
 				else
 				{
-					if ( strlen( $formElement->getElementName() ) ) $value[ $formElement->getElementName() ] = $formElement->getValue();
+					if ( strlen( $formElement->getElementName() ) ) $value[ $formElement->getElementName() ] = $formElement->getValue( $call_user_func );
 				}
 			}
 
