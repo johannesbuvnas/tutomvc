@@ -161,6 +161,7 @@
 		{
 			$this->validate();
 			$errors = array();
+			if ( is_string( $this->getErrorMessage() ) ) $errors[ $this->getElementName() ] = $this->getErrorMessage();
 			/** @var FormElement $formElement */
 			foreach ( $this->getFormElements() as $formElement )
 			{
