@@ -38,6 +38,36 @@
 		}
 
 		/**
+		 * @param $optionValue
+		 */
+		public function removeOption( $optionValue )
+		{
+			if ( array_key_exists( $optionValue, $this->_options ) )
+			{
+				unset($this->_options[ $optionValue ]);
+				unset($this->_optionsDisabledMap[ $optionValue ]);
+				unset($this->_optionTitleMap[ $optionValue ]);
+			}
+			foreach ( $this->_options as $groupLabel => $groupLabelArray )
+			{
+				if ( is_array( $groupLabelArray ) )
+				{
+					if ( array_key_exists( $optionValue, $groupLabelArray ) )
+					{
+						unset($groupLabelArray[ $optionValue ]);
+					}
+				}
+			}
+		}
+
+		public function removeOptions()
+		{
+			$this->_options            = array();
+			$this->_optionsDisabledMap = array();
+			$this->_optionTitleMap     = array();
+		}
+
+		/**
 		 * @return array
 		 */
 		public function getOptions()
