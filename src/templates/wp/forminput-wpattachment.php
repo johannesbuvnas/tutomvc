@@ -28,6 +28,10 @@
 							<em><%= caption %></em>
 						</li>
 						<li>
+							<strong><?php _e( 'Description:' ); ?></strong>
+							<em><%= description %></em>
+						</li>
+						<li>
 							<strong><?php _e( 'File name:' ); ?></strong> <%= filename %>
 						</li>
 						<li><strong><?php _e( 'File type:' ); ?></strong> <%= mime %>
@@ -81,13 +85,18 @@
 							<h4 class="media-heading"><?php echo $attachment[ 'title' ]; ?></h4>
 							<ul>
 								<li>
-									<a href="#"><?php _e( "Edit" ); ?></a> |
+									<a href="<?php echo $attachment[ 'editLink' ]; ?>"><?php _e( "Edit" ); ?></a> |
 									<a role="button" href="#" class="btn-remove" data-target="#<?php echo $formInput->getID(); ?>"><?php _e( "Remove" ); ?></a>
 								</li>
 								<li>
 									<strong><?php _e( 'Caption:' ); ?></strong>
 									<em><?php echo $attachment[ 'caption' ]; ?></em>
 								</li>
+								<li>
+									<strong><?php _e( 'Description:' ); ?></strong>
+									<em><?php echo htmlentities( $attachment[ 'description' ] ); ?></em>
+								</li>
+
 								<li>
 									<strong><?php _e( 'File name:' ); ?></strong> <?php echo $attachment[ 'filename' ]; ?>
 								</li>
