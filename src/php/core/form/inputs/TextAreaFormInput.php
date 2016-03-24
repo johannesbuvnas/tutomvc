@@ -22,25 +22,20 @@
 		{
 			$output = "";
 
-			$attr = array(
-				"placeholder" => $this->getPlaceholder(),
-				"name"        => $this->getElementName(),
-				"id"          => $this->getID(),
-				"class"       => "form-control",
-				"rows"        => $this->getRows()
-			);
-			if ( $this->isReadOnly() ) $attr[ "readonly" ] = "true";
-			if ( $this->getType() == self::TYPE_HIDDEN ) $attr[ 'class' ] .= " hidden";
-
-			$attributes = "";
-			foreach ( $attr as $key => $value )
-			{
-				$attributes .= ' ' . $key . '="' . $value . '"';
-			}
-
-			$output .= '<textarea ' . $attributes . '>' . $this->getValue() . '</textarea>';
+			$output .= '
+					<textarea ' . $this->getFormElementAttributesAsString() . ' >' . $this->getValue() . '</textarea>
+				';
 
 			return $output;
+		}
+
+		function getFormElementAttributes()
+		{
+			$attr            = parent::getFormElementAttributes();
+			$attr[ 'value' ] = NULL;
+			$attr[ 'rows' ]  = $this->getRows();
+
+			return $attr;
 		}
 
 		/**
