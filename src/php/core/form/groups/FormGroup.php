@@ -37,6 +37,17 @@
 			return $formElement;
 		}
 
+		public function removeFormElement( $formElementName )
+		{
+			if ( $formElement = $this->getFormElementByName( $formElementName ) )
+			{
+				unset($this->_formElementsMap[ $formElementName ]);
+				$formElement = NULL;
+			}
+
+			return FALSE;
+		}
+
 		/**
 		 * Try to find a FormElement by a certain name, first in this current FormGroup, and then in children. Returns the first match.
 		 *
