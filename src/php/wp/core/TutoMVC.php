@@ -49,7 +49,7 @@
 				self::$_wpRelativeRoot = substr( $wpURL, strpos( $wpURL, self::$_domain ) + strlen( self::$_domain ) );
 
 				// Figure out URL to this plugin
-				self::$_documentRoot = getenv( "DOCUMENT_ROOT" );
+				self::$_documentRoot = str_replace( $_SERVER[ 'SCRIPT_NAME' ], '', $_SERVER[ 'SCRIPT_FILENAME' ] ); // In case of VirtualDocumentRoot
 				self::$_url          = $wpURL . FileUtil::filterFileReference( substr( self::$_root, strripos( self::$_root, self::$_documentRoot ) + strlen( self::$_wpRelativeRoot ) + strlen( self::$_documentRoot ) ) );
 
 				self::$_initiated = TRUE;
