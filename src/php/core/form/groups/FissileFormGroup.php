@@ -339,12 +339,12 @@
 
 		public function setValue( $value )
 		{
-			if ( !is_array( $value ) && !is_null( $value ) && !is_int( $value ) )
+			if ( !is_array( $value ) && !is_null( $value ) && !is_int( $value ) && !is_bool( $value ) )
 			{
 				throw new \ErrorException( "Expect array, int or null.", 0, E_ERROR );
 			}
 
-			if ( is_null( $value ) )
+			if ( is_null( $value ) || $value === FALSE )
 			{
 				parent::setValue( NULL );
 			}
