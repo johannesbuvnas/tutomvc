@@ -164,16 +164,17 @@
 		 */
 		public function getValue( $call_user_func = NULL )
 		{
-			if ( $this->isSingle() && is_array( parent::getValue() ) ) $value = array_pop( parent::getValue() );
+			$parentValue = parent::getValue();
+			if ( $this->isSingle() && is_array( $parentValue ) ) $value = array_pop( $parentValue );
 			else $value = parent::getValue();
 
-			if ( !is_null( $call_user_func ) ) return call_user_func_array( $call_user_func, array(&$this, $value) );
+			if ( !is_null( $call_user_func ) ) return call_user_func_array( $call_user_func, array($this, $value) );
 			else return $value;
 		}
 
 		public function isValueSet( $value )
 		{
-			if ( is_string( $this->getValue() ) && strcmp($this->getValue(), $value) == 0 ) return TRUE;
+			if ( is_string( $this->getValue() ) && strcmp( $this->getValue(), $value ) == 0 ) return TRUE;
 
 			return is_array( $this->getValue() ) ? in_array( $value, $this->getValue() ) : FALSE;
 		}
