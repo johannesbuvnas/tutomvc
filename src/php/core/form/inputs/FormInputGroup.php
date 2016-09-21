@@ -16,7 +16,7 @@
 		 * @throws \ErrorException
 		 * @return FormElement
 		 */
-		public function addFormElement( $formElement )
+		public function addFormElement( FormElement $formElement )
 		{
 			if ( !is_a( $formElement, "\\tutomvc\\FormInput" ) && !is_a( $formElement, "\\tutomvc\\FormInputAddon" ) )
 			{
