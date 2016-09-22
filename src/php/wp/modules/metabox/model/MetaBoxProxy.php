@@ -49,7 +49,7 @@
 					}
 					else if ( $formElement = $metaBox->findFormElementByElementName( $metaKey ) )
 					{
-						if ( is_a( $formElement, "\\tutomvc\\FormGroup" ) )
+						if ( is_a( $formElement, "\\tutomvc\\core\\form\\groups\\FormGroup" ) )
 						{
 							/** @var FormGroup $formElement */
 							$valueMap = $formElement->getValueMapAt();

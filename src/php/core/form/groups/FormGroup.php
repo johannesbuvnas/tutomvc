@@ -67,7 +67,7 @@
 
 			foreach ( $this->getFormElements() as $formElement )
 			{
-				if ( is_a( $formElement, "\\tutomvc\\FormGroup" ) )
+				if ( is_a( $formElement, "\\tutomvc\\core\\form\\groups\\FormGroup" ) )
 				{
 					/** @var FormGroup $formElement */
 					/** @var FormElement $subFormElement */
@@ -89,7 +89,7 @@
 
 			foreach ( $this->getFormElements() as $formElement )
 			{
-				if ( is_a( $formElement, "\\tutomvc\\FormGroup" ) )
+				if ( is_a( $formElement, "\\tutomvc\\core\\form\\groups\\FormGroup" ) )
 				{
 					/** @var FormGroup $formElement */
 					/** @var FormElement $subFormElement */
@@ -153,7 +153,7 @@
 			/** @var FormElement $formElement */
 			foreach ( $this->getFormElements() as $formElement )
 			{
-				if ( is_a( $formElement, "\\tutomvc\\FormGroup" ) )
+				if ( is_a( $formElement, "\\tutomvc\\core\\form\\groups\\FormGroup" ) )
 				{
 					/** @var FormGroup $formElement */
 					if ( !is_null( $formElement->getErrors() ) ) $formElement->clearErrors();
@@ -178,7 +178,7 @@
 			/** @var FormElement $formElement */
 			foreach ( $this->getFormElements() as $formElement )
 			{
-				if ( is_a( $formElement, "\\tutomvc\\FormGroup" ) )
+				if ( is_a( $formElement, "\\tutomvc\\core\\form\\groups\\FormGroup" ) )
 				{
 					/** @var FormGroup $formElement */
 					if ( !is_null( $formElement->getErrors() ) || is_string( $formElement->getErrorMessage() ) )
@@ -214,7 +214,7 @@
 			/** @var FormElement $formElement */
 			foreach ( $this->getFormElements() as $formElement )
 			{
-				if ( is_a( $formElement, "\\tutomvc\\FormGroup" ) )
+				if ( is_a( $formElement, "\\tutomvc\\core\\form\\groups\\FormGroup" ) )
 				{
 					/** @var FormGroup $formElement */
 					$formGroupErrors = $formElement->getFlatErrors();
@@ -280,7 +280,7 @@
 
 					/** @var FormElement $formElement */
 					$formElement = $this->getFormElementByName( $elementName );
-					if ( is_a( $formElement, "\\tutomvc\\FormGroup" ) )
+					if ( is_a( $formElement, "\\tutomvc\\core\\form\\groups\\FormGroup" ) )
 					{
 						/** @var FormGroup $formElement */
 						if ( $i == count( $matches ) )
@@ -294,7 +294,7 @@
 							return $formElement->getValueMapByElementName( implode( "|", $namesLeft ) );
 						}
 					}
-					else if ( is_a( $formElement, "\\tutomvc\\FormElement" ) )
+					else if ( is_a( $formElement, "\\tutomvc\\core\\form\\FormElement" ) )
 					{
 						if ( $i == count( $matches ) ) return $formElement->getElementName();
 					}
@@ -311,7 +311,7 @@
 			{
 				if ( $formElement->getElementName() == $elementName ) return $formElement;
 
-				if ( is_a( $formElement, "\\tutomvc\\FormGroup" ) )
+				if ( is_a( $formElement, "\\tutomvc\\core\\form\\groups\\FormGroup" ) )
 				{
 					/** @var FormGroup $formElement */
 					$search = $formElement->getFormElementByElementName( $elementName );
@@ -329,7 +329,7 @@
 			{
 				if ( $formElement->getID() == $elementID ) return $formElement;
 
-				if ( is_a( $formElement, "\\tutomvc\\FormGroup" ) )
+				if ( is_a( $formElement, "\\tutomvc\\core\\form\\groups\\FormGroup" ) )
 				{
 					/** @var FormGroup $formElement */
 					$search = $formElement->getFormElementByElementID( $elementID );
@@ -405,7 +405,7 @@
 			/** @var FormElement $formElement */
 			foreach ( $this->getFormElements() as $formElement )
 			{
-				if ( is_a( $formElement, "\\tutomvc\\FormGroup" ) )
+				if ( is_a( $formElement, "\\tutomvc\\core\\form\\groups\\FormGroup" ) )
 				{
 					/** @var FormGroup $formElement */
 					$value = array_merge( $value, $formElement->getFlatValue( $call_user_func ) );
@@ -431,7 +431,7 @@
 			{
 				if ( strlen( $formElement->getName() ) )
 				{
-					if ( is_a( $formElement, "\\tutomvc\\FormGroup" ) )
+					if ( is_a( $formElement, "\\tutomvc\\core\\form\\groups\\FormGroup" ) )
 					{
 						/** @var FormGroup $formElement */
 						$valueMap[ $formElement->getName() ] = $formElement->getValueMapAt( $index );
