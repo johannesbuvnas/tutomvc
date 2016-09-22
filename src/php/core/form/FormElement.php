@@ -6,12 +6,13 @@
 	 * Time: 09:27
 	 */
 
-	namespace tutomvc;
+	namespace tutomvc\core\form;
+
+	use tutomvc\core\model\NameObject;
 
 	/**
 	 * Class FormElement
 	 * The base element of a Form.
-	 * @package tutomvc
 	 */
 	class FormElement extends NameObject
 	{
@@ -24,7 +25,6 @@
 		protected $_label;
 		protected $_id;
 		protected $_description;
-		protected $_rules  = array();
 		protected $_single = TRUE;
 		protected $_index  = NULL;
 		protected $_defaultValue;
@@ -138,11 +138,6 @@
 			return $this;
 		}
 
-		public function addRule( Rule $rule )
-		{
-			$this->_rules[] = $rule;
-		}
-
 		/* SET AND GET */
 		public function setLabel( $title )
 		{
@@ -166,11 +161,6 @@
 		public function getDescription()
 		{
 			return $this->_description;
-		}
-
-		public function getRules()
-		{
-			return $this->_rules;
 		}
 
 		function getFormElementAttributes()

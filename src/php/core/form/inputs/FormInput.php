@@ -6,7 +6,9 @@
 	 * Time: 10:02
 	 */
 
-	namespace tutomvc;
+	namespace tutomvc\core\form\inputs;
+
+	use tutomvc\core\form\FormElement;
 
 	class FormInput extends FormElement
 	{

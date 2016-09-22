@@ -7,7 +7,7 @@
 	 *
 	 */
 
-	namespace tutomvc;
+	namespace tutomvc\core\form\inputs;
 
 	/**
 	 * Class SelectPickerFormInput

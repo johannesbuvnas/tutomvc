@@ -8,7 +8,7 @@
 
 	namespace tutomvc\wp\metabox;
 
-	use tutomvc\wp\ActionCommand;
+	use tutomvc\wp\core\controller\command\ActionCommand;
 
 	class SavePostAction extends ActionCommand
 	{

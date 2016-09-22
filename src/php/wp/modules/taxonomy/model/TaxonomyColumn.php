@@ -8,7 +8,7 @@
 
 	namespace tutomvc\wp\taxonomy;
 
-	use tutomvc\NameObject;
+	use tutomvc\core\model\NameObject;
 
 	class TaxonomyColumn extends NameObject
 	{

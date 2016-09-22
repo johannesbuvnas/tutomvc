@@ -6,7 +6,9 @@
 	 * Time: 09:13
 	 */
 
-	namespace tutomvc;
+	namespace tutomvc\core\form\groups;
+
+	use tutomvc\core\form\FormElement;
 
 	/**
 	 * Class FormGroup
@@ -60,15 +62,15 @@
 			$name        = self::sanitizeID( $name );
 			$formElement = $this->getFormElementByName( $name );
 
-			/** @var \tutomvc\FormElement $formElement */
+			/** @var FormElement $formElement */
 			if ( $formElement ) return $formElement;
 
 			foreach ( $this->getFormElements() as $formElement )
 			{
 				if ( is_a( $formElement, "\\tutomvc\\FormGroup" ) )
 				{
-					/** @var \tutomvc\FormGroup $formElement */
-					/** @var \tutomvc\FormElement $subFormElement */
+					/** @var FormGroup $formElement */
+					/** @var FormElement $subFormElement */
 					$subFormElement = $formElement->findFormElementByName( $name );
 					if ( $subFormElement ) return $subFormElement;
 				}
@@ -82,15 +84,15 @@
 			$elementName = self::sanitizeName( $elementName );
 			$formElement = $this->getFormElementByElementName( $elementName );
 
-			/** @var \tutomvc\FormElement $formElement */
+			/** @var FormElement $formElement */
 			if ( $formElement ) return $formElement;
 
 			foreach ( $this->getFormElements() as $formElement )
 			{
 				if ( is_a( $formElement, "\\tutomvc\\FormGroup" ) )
 				{
-					/** @var \tutomvc\FormGroup $formElement */
-					/** @var \tutomvc\FormElement $subFormElement */
+					/** @var FormGroup $formElement */
+					/** @var FormElement $subFormElement */
 					$subFormElement = $formElement->findFormElementByElementName( $elementName );
 					if ( $subFormElement ) return $subFormElement;
 				}

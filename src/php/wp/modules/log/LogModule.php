@@ -8,9 +8,9 @@
 	 */
 	namespace tutomvc\wp\log;
 
-	use tutomvc\wp\Facade;
-	use tutomvc\wp\SystemApp;
-	use tutomvc\ValueObject;
+	use tutomvc\core\model\ValueObject;
+	use tutomvc\wp\core\facade\Facade;
+	use tutomvc\wp\system\SystemApp;
 
 	class LogModule
 	{

@@ -6,7 +6,10 @@
 	 * Time: 15:23
 	 */
 
-	namespace tutomvc;
+	namespace tutomvc\examples\form\groups;
+
+	use tutomvc\core\form\groups\FissileFormGroup;
+	use tutomvc\wp\form\inputs\WPEditorFormInput;
 
 	class ExampleFissileFormGroup extends FissileFormGroup
 	{

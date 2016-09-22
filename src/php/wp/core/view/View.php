@@ -1,5 +1,7 @@
 <?php
-	namespace tutomvc\wp;
+	namespace tutomvc\wp\core\view;
+
+	use tutomvc\wp\core\facade\Facade;
 
 	class View
 	{
@@ -33,7 +35,7 @@
 		 * @param array $dataProvider
 		 * @param bool $returnOutput
 		 *
-		 * @return string
+		 * @return string|bool
 		 * @throws \ErrorException
 		 */
 		public function render( $viewComponent, $name = NULL, $dataProvider = array(), $returnOutput = FALSE )
@@ -57,6 +59,8 @@
 			}
 
 			if ( $returnOutput ) return ob_get_clean();
+
+			return TRUE;
 		}
 
 		/**

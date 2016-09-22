@@ -1,5 +1,7 @@
 <?php
-	namespace tutomvc\wp;
+	namespace tutomvc\wp\core\model\proxy;
+
+	use tutomvc\wp\core\CoreClass;
 
 	class Proxy extends CoreClass
 	{
@@ -104,8 +106,6 @@
 		 *
 		 * @param bool $value
 		 * @param int $cacheExpirationTimeInSeconds
-		 *
-		 * @return $this
 		 */
 		public function setCacheEnabled( $value, $cacheExpirationTimeInSeconds = 0 )
 		{

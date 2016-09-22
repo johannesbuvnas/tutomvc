@@ -1,14 +1,8 @@
 <?php
 	namespace tutomvc\wp;
 
-	use tutomvc\wp\log\LogModule;
-	use tutomvc\wp\metabox\ExampleMetaBox;
-	use tutomvc\wp\metabox\MetaBoxModule;
-	use tutomvc\wp\notification\NotificationModule;
-	use tutomvc\wp\settings\ExampleSettings;
-	use tutomvc\wp\settings\SettingsModule;
-	use tutomvc\wp\taxonomy\ExampleTaxonomy;
-	use tutomvc\wp\taxonomy\TaxonomyModule;
+	use tutomvc\wp\core\facade\Facade;
+	use tutomvc\wp\system\controller\actions\AdminEnqueueScriptsAction;
 
 	/**
 	 * Class SystemAppFacade

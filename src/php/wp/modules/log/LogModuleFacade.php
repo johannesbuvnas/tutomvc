@@ -8,7 +8,9 @@
 	 */
 	namespace tutomvc\wp\log;
 
-	class LogModuleFacade extends \tutomvc\wp\Facade
+	use tutomvc\wp\core\facade\Facade;
+
+	class LogModuleFacade extends Facade
 	{
 		const KEY = "com.tutomvc.wp.modules.log";
 

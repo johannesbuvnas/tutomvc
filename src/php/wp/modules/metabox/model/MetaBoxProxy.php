@@ -9,9 +9,10 @@
 
 	namespace tutomvc\wp\metabox;
 
-	use tutomvc\FormGroup;
+	use tutomvc\core\form\groups\FormGroup;
+	use tutomvc\wp\core\model\proxy\Proxy;
 
-	class MetaBoxProxy extends \tutomvc\wp\Proxy
+	class MetaBoxProxy extends Proxy
 	{
 		const NAME = __CLASS__;
 

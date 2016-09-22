@@ -8,7 +8,7 @@
 
 	namespace tutomvc\wp\notification;
 
-	use tutomvc\ValueObject;
+	use tutomvc\core\model\ValueObject;
 
 	class Notification extends ValueObject
 	{

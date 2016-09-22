@@ -6,7 +6,9 @@
 	 * Time: 17:54
 	 */
 
-	namespace tutomvc;
+	namespace tutomvc\core\form\groups;
+
+	use tutomvc\core\form\FormElement;
 
 	/**
 	 * Class FissileFormGroup
@@ -68,15 +70,15 @@
 			else $this->setIndex( $index );
 			$formElement = $this->getFormElementByElementName( $elementName );
 
-			/** @var \tutomvc\FormElement $formElement */
+			/** @var FormElement $formElement */
 			if ( $formElement ) return $formElement;
 
 			foreach ( $this->getFormElements() as $formElement )
 			{
-				if ( is_a( $formElement, "\\tutomvc\\FormGroup" ) )
+				if ( is_a( $formElement, "\\tutomvc\\core\\form\\groups\\FormGroup" ) )
 				{
-					/** @var \tutomvc\FormGroup $formElement */
-					/** @var \tutomvc\FormElement $subFormElement */
+					/** @var FormGroup $formElement */
+					/** @var FormElement $subFormElement */
 					$subFormElement = $formElement->findFormElementByElementName( $elementName );
 					if ( $subFormElement ) return $subFormElement;
 				}
@@ -101,11 +103,11 @@
 					if ( is_array( $children ) && count( $children ) )
 					{
 						$formElement = $this->getFormElementByElementName( $elementName );
-						if ( is_a( $formElement, "\\tutomvc\\FormGroup" ) )
+						if ( is_a( $formElement, "\\tutomvc\\core\\form\\groups\\FormGroup" ) )
 						{
 							return $formElement->getValueMapAt( $index );
 						}
-						else if ( is_a( $formElement, "\\tutomvc\\FormElement" ) )
+						else if ( is_a( $formElement, "\\tutomvc\\core\\form\\FormElement" ) )
 						{
 							return $formElement->getElementName();
 						}

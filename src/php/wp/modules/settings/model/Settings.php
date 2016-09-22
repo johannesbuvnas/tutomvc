@@ -8,8 +8,8 @@
 
 	namespace tutomvc\wp\settings;
 
-	use tutomvc\FissileFormGroup;
-	use tutomvc\FormElement;
+	use tutomvc\core\form\FormElement;
+	use tutomvc\core\form\groups\FissileFormGroup;
 	use tutomvc\wp\TutoMVC;
 
 	class Settings extends FissileFormGroup

@@ -6,7 +6,7 @@
 	 * Time: 10:19
 	 */
 
-	namespace tutomvc;
+	namespace tutomvc\core\form\inputs;
 
 	/**
 	 * Class Select2FormInput
@@ -75,7 +75,7 @@
 				$attr[ "data-$key" ] = htmlspecialchars( $value, ENT_QUOTES, 'UTF-8' );
 			}
 
-			$attr[ 'class' ]        = $attr[ 'class' ] . " select2";
+			$attr[ 'class' ] = $attr[ 'class' ] . " select2";
 
 			return $attr;
 		}

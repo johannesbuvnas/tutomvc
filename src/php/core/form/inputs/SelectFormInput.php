@@ -6,7 +6,7 @@
 	 * Time: 11:40
 	 */
 
-	namespace tutomvc;
+	namespace tutomvc\core\form\inputs;
 
 	class SelectFormInput extends FormInput
 	{
