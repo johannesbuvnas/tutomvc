@@ -1,6 +1,9 @@
 {
   "name": "tutomvc",
   "version": "2.0.1",
+  "scripts": {
+    "phpdoc": "./vendor/phpdocumentor/phpdocumentor/bin/phpdoc -d src/php -t docs --template=\"clean\""
+  },
   "devDependencies": {
     "grunt": "~0.4.5",
     "grunt-contrib-less": "~0.11.4",

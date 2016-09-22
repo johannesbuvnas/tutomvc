@@ -26,10 +26,14 @@
   "require": {
     "php": ">=5.3.0"
   },
-  "require-dev": {},
+  "require-dev": {
+    "phpdocumentor/phpdocumentor": "2.*"
+  },
   "suggest": {},
   "autoload": {
-    "classmap": ["src/php/"]
+    "classmap": [
+      "src/php/"
+    ]
   },
   "provide": {},
   "extra": {}
