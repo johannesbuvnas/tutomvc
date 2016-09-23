@@ -106,7 +106,7 @@
 		 * @param array $dataProvider Data to send to view component.
 		 * @param bool|FALSE $returnOutput
 		 *
-		 * @return $this|string
+		 * @return bool|string
 		 * @throws \ErrorException
 		 */
 		public function render( $relativePath, $name = NULL, $dataProvider = array(), $returnOutput = FALSE )
