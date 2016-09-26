@@ -15,6 +15,12 @@
 	class MetaBoxModule
 	{
 
+		/**
+		 * @param $value
+		 * @param FormElement $formElement
+		 *
+		 * @return mixed|void
+		 */
 		public static function apply_filters( $value, $formElement )
 		{
 			return apply_filters( self::constructFilterHookName( $formElement ), $value, $formElement );

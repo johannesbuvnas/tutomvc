@@ -8,11 +8,11 @@
 		 */
 		public static function filterFileReference( $fileReference )
 		{
-			$fileReference = str_replace( "\\", "/", $fileReference );
+			$fileReference = str_replace( "\\", DIRECTORY_SEPARATOR, $fileReference );
 
-			$fileReference = str_replace( "//", "/", $fileReference );
+			$fileReference = str_replace( "//", DIRECTORY_SEPARATOR, $fileReference );
 
-			if ( substr( $fileReference, strlen( $fileReference ) - 1, 1 ) == "/" ) $fileReference = substr( $fileReference, 0, strlen( $fileReference ) - 1 );
+			if ( substr( $fileReference, strlen( $fileReference ) - 1, 1 ) == DIRECTORY_SEPARATOR ) $fileReference = substr( $fileReference, 0, strlen( $fileReference ) - 1 );
 
 			return $fileReference;
 		}
