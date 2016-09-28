@@ -11,8 +11,8 @@
 	use tutomvc\core\form\FormElement;
 
 	/**
-	 * Class FormGroup
-	 * A group of FormElements
+	 * A group of elements. Can be inputs or groups.
+	 *
 	 * @package tutomvc
 	 */
 	class FormGroup extends FormElement
@@ -39,19 +39,29 @@
 			return $formElement;
 		}
 
+		/**
+		 * Only removes the element if it's a direct child of this group.
+		 *
+		 * @param $formElementName
+		 *
+		 * @return bool
+		 */
 		public function removeFormElement( $formElementName )
 		{
 			if ( $formElement = $this->getFormElementByName( $formElementName ) )
 			{
 				unset($this->_formElementsMap[ $formElementName ]);
 				$formElement = NULL;
+
+				return TRUE;
 			}
 
 			return FALSE;
 		}
 
 		/**
-		 * Try to find a FormElement by a certain name, first in this current FormGroup, and then in children. Returns the first match.
+		 * Try to find a element by a certain name, first in this current group, and then in children. Returns the first match.<br/>
+		 * For more accurate search see {@link findFormElementByElementName}.
 		 *
 		 * @param $name
 		 *
@@ -79,6 +89,14 @@
 			return NULL;
 		}
 
+		/**
+		 * Search for the object based on the generated name-attr.
+		 *
+		 * @param $elementName
+		 *
+		 * @return null|FormElement|FormGroup
+		 * @see {@link getElementName}
+		 */
 		public function findFormElementByElementName( $elementName )
 		{
 			$elementName = self::sanitizeName( $elementName );
@@ -89,7 +107,7 @@
 
 			foreach ( $this->getFormElements() as $formElement )
 			{
-				if ( is_a( $formElement, "\\tutomvc\\core\\form\\groups\\FormGroup" ) )
+				if ( $formElement instanceof FormGroup )
 				{
 					/** @var FormGroup $formElement */
 					/** @var FormElement $subFormElement */
@@ -147,6 +165,9 @@
 			return $this;
 		}
 
+		/**
+		 * Remove errors.
+		 */
 		public function clearErrors()
 		{
 			$this->clearError();
@@ -166,7 +187,7 @@
 		}
 
 		/**
-		 * Returns array of errors if errors exists.
+		 * Returns nested array of errors.
 		 * If no errors exists, it returns NULL.
 		 * @return array|null
 		 */
@@ -200,7 +221,7 @@
 		}
 
 		/**
-		 * Returns array of errors if errors exists.
+		 * Returns flat array of errors.
 		 * If no errors exists, it returns NULL.
 		 * @return array|null
 		 */
@@ -304,6 +325,11 @@
 			return FALSE;
 		}
 
+		/**
+		 * @param $elementName
+		 *
+		 * @return null|FormElement|FormGroup
+		 */
 		public function getFormElementByElementName( $elementName )
 		{
 			/** @var FormElement $formElement */
@@ -311,7 +337,7 @@
 			{
 				if ( $formElement->getElementName() == $elementName ) return $formElement;
 
-				if ( is_a( $formElement, "\\tutomvc\\core\\form\\groups\\FormGroup" ) )
+				if ( $formElement instanceof FormGroup )
 				{
 					/** @var FormGroup $formElement */
 					$search = $formElement->getFormElementByElementName( $elementName );

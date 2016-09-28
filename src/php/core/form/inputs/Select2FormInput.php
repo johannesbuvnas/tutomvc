@@ -9,8 +9,7 @@
 	namespace tutomvc\core\form\inputs;
 
 	/**
-	 * Class Select2FormInput
-	 *
+	 * Advanced select-element with text-input. Dependant on external javascript library. Good for tagging-like-select.
 	 * @package tutomvc
 	 * @see https://select2.github.io/
 	 */

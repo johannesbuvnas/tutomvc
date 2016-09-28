@@ -10,6 +10,11 @@
 
 	use tutomvc\core\form\FormElement;
 
+	/**
+	 * HTML element "input"
+	 *
+	 * @package tutomvc\core\form\inputs
+	 */
 	class FormInput extends FormElement
 	{
 		const TYPE_TEXT           = "text";
@@ -67,13 +72,8 @@
 			$this->setSingle( $single );
 		}
 
-		/**
-		 * Get the whole  <div /> including header-, error-, form- and footer- element.
-		 * @return string
-		 */
 		public function getElement()
 		{
-			$output     = "";
 			$classNames = array(
 				"form-group",
 				"form-group-input"
@@ -90,11 +90,6 @@
 			return $output;
 		}
 
-		/**
-		 * The name-attribute.
-		 * Will not create a nested-array-element-name if this is a file input type.
-		 * @return string
-		 */
 		public function getElementName()
 		{
 			$name = parent::getElementName();
@@ -157,11 +152,6 @@
 			return $this->getType() == self::TYPE_HIDDEN ? '' : '<span class="help-block">' . $this->getDescription() . '</span>';
 		}
 
-		/**
-		 * @param string $value
-		 *
-		 * @return $this
-		 */
 		public function setValue( $value )
 		{
 			return parent::setValue( $value );
@@ -176,6 +166,8 @@
 		}
 
 		/**
+		 * The type-attr of the element.
+		 *
 		 * @param string $type
 		 *
 		 * @return $this
@@ -196,6 +188,8 @@
 		}
 
 		/**
+		 * Will add the readonly-attr.
+		 *
 		 * @param boolean $readOnly
 		 *
 		 * @return $this
@@ -216,6 +210,8 @@
 		}
 
 		/**
+		 * Will add the placeholder-attr.
+		 *
 		 * @param string $placeholder
 		 *
 		 * @return $this
@@ -236,7 +232,7 @@
 		}
 
 		/**
-		 * Specifies the types of files that the server accepts (only for type="file")
+		 * Specifies the types of files acceptable. Only if type is set to "file".
 		 *
 		 * @param string $accept file_extension | audio/* video/* image/* | media_type
 		 *
@@ -258,7 +254,7 @@
 		}
 
 		/**
-		 * Specifies whether an <input> element should have autocomplete enabled
+		 * Will add the autocomplete-attr.
 		 *
 		 * @param bool $autocomplete
 		 *
@@ -273,6 +269,7 @@
 
 		/**
 		 * Look for the element name in $_FILES IF this is a file-input-type.
+		 *
 		 * @return null|array
 		 */
 		public function getSubmittedFile()
@@ -287,8 +284,6 @@
 		}
 
 		/**
-		 * Specifies that an <input> element should automatically get focus when the page loads
-		 *
 		 * @return boolean
 		 */
 		public function isAutofocus()
@@ -297,6 +292,8 @@
 		}
 
 		/**
+		 * Will add the autofocus-attr.
+		 *
 		 * @param boolean $autofocus
 		 *
 		 * @return $this
@@ -317,7 +314,7 @@
 		}
 
 		/**
-		 * Specifies a minimum value for an <input> element
+		 * Will add the min-attr for date- and number-type.
 		 *
 		 * @param number|date $min
 		 *
@@ -339,7 +336,7 @@
 		}
 
 		/**
-		 * Specifies the maximum value for an <input> element
+		 * Will add the max-attr for date- and number-type.
 		 *
 		 * @param number|date $max
 		 *
@@ -361,7 +358,7 @@
 		}
 
 		/**
-		 *    Specifies the maximum number of characters allowed in an <input> element
+		 * Will add the maxlength-attr.
 		 *
 		 * @param number $maxlength
 		 *
@@ -383,7 +380,7 @@
 		}
 
 		/**
-		 * Specifies that a user can enter more than one value in an <input> element
+		 * Will add the multiple-attr and manipulate {@link setSingle}
 		 *
 		 * @param bool $multiple
 		 *
@@ -405,7 +402,7 @@
 		}
 
 		/**
-		 *    Specifies a regular expression that an <input> element's value is checked against
+		 * Will add the pattern-attr.
 		 *
 		 * @param regexp $pattern
 		 *
@@ -427,7 +424,7 @@
 		}
 
 		/**
-		 *    Specifies that an input field must be filled out before submitting the form
+		 * Will add the required-attr.
 		 *
 		 * @param boolean $required
 		 *
@@ -463,6 +460,8 @@
 		}
 
 		/**
+		 * For checkboxes.
+		 *
 		 * @return boolean
 		 */
 		public function isChecked()
@@ -481,7 +480,7 @@
 		}
 
 		/**
-		 *    Specifies that an <input> element should be disabled
+		 * Will add the disabled-attr.
 		 *
 		 * @param boolean $disabled
 		 *
@@ -503,8 +502,7 @@
 		}
 
 		/**
-		 *    Specifies the width, in characters, of an <input> element
-		 *1
+		 * Specifies the width, in characters.
 		 *
 		 * @param number $size
 		 *
@@ -526,7 +524,8 @@
 		}
 
 		/**
-		 *    Specifies the URL of the image to use as a submit button (only for type="image")
+		 * Specifies the URL of the image to use as a submit button (only for type="image")
+		 * Will add the src-attr.
 		 *
 		 * @param string $src
 		 *
@@ -548,7 +547,8 @@
 		}
 
 		/**
-		 * Specifies the legal number intervals for an input field
+		 * Specifies the legal number intervals for an input field.
+		 * Will add the step-attr.
 		 *
 		 * @param mixed $step
 		 *
@@ -570,7 +570,8 @@
 		}
 
 		/**
-		 *    Specifies the width of an <input> element (only for type="image")
+		 * Specifies the width of an input-element (only for type="image")
+		 * Will add the width-attr.
 		 *
 		 * @param mixed $width Pixels
 		 *
@@ -592,7 +593,8 @@
 		}
 
 		/**
-		 *    Specifies the height of an <input> element (only for type="image")
+		 * Specifies the height of an input-element (only for type="image")
+		 * Will add the height-attr.
 		 *
 		 * @param mixed $height Pixels
 		 *

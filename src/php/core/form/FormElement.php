@@ -11,8 +11,8 @@
 	use tutomvc\core\model\NameObject;
 
 	/**
-	 * Class FormElement
-	 * The base element of a Form.
+	 * Base class of all classes in this package.
+	 * @package tutomvc\core\form
 	 */
 	class FormElement extends NameObject
 	{
@@ -32,21 +32,43 @@
 		protected $_validationMethod;
 		protected $_errorMessage;
 
+		/**
+		 * @param string $name A single name-identifier. Whatever string you like.
+		 */
 		function __construct( $name )
 		{
 			$this->_name = self::sanitizeID( $name );
 		}
 
+		/**
+		 * Sanitizes a string to be appropriate for the id-attribute on HTML-elements.
+		 *
+		 * @param string $name
+		 *
+		 * @return mixed
+		 */
 		final public static function sanitizeID( $name )
 		{
 			return preg_replace( self::REGEX_SANITIZE_ID, '_', $name );
 		}
 
+		/**
+		 * Sanitizes a string to be appropriate for the name-attribute on HTML-elements.
+		 *
+		 * @param string $elementName
+		 *
+		 * @return mixed
+		 */
 		final public static function sanitizeName( $elementName )
 		{
 			return preg_replace( self::REGEX_SANITIZE_NAME, "_", $elementName );
 		}
 
+		/**
+		 * @param string $elementName
+		 *
+		 * @return mixed
+		 */
 		final public static function matchElementName( $elementName )
 		{
 			preg_match( self::REGEX_ELEMENT_NAME, $elementName, $matches );
@@ -54,6 +76,11 @@
 			return $matches;
 		}
 
+		/**
+		 * @param string $elementName
+		 *
+		 * @return null|string
+		 */
 		final public static function extractNames( $elementName )
 		{
 			preg_match_all( self::REGEX_NAME, $elementName, $matches );
@@ -63,6 +90,11 @@
 			return NULL;
 		}
 
+		/**
+		 * @param string $elementName
+		 *
+		 * @return null|string
+		 */
 		final public static function extractAncestorName( $elementName )
 		{
 			$matches = FormElement::matchElementName( $elementName );
@@ -72,6 +104,11 @@
 			return NULL;
 		}
 
+		/**
+		 * @param string $elementName
+		 *
+		 * @return null|string
+		 */
 		final public static function extractAncestorIndex( $elementName )
 		{
 			$matches = FormElement::matchElementName( $elementName );
@@ -81,6 +118,11 @@
 			return NULL;
 		}
 
+		/**
+		 * @param string $elementName
+		 *
+		 * @return null|string
+		 */
 		final public static function extractGroupNames( $elementName )
 		{
 			preg_match_all( "/\[([^\]]*)\]/ix", $elementName, $matches );
@@ -110,6 +152,9 @@
 			return FALSE;
 		}
 
+		/**
+		 * Removes error message for user.
+		 */
 		public function clearError()
 		{
 			$this->setErrorMessage( NULL );
@@ -117,8 +162,9 @@
 
 		/**
 		 * Possibility to validate the value of the FormElement through call_user_func_array.
-		 * The callable function parsed should return TRUE or a string with a error message on failure.
-		 * @return bool|mixed
+		 *
+		 * @return $this
+		 * @see {@link setValidationMethod}
 		 *
 		 */
 		public function validate()
@@ -139,6 +185,13 @@
 		}
 
 		/* SET AND GET */
+		/**
+		 * Label / title.
+		 *
+		 * @param string $title
+		 *
+		 * @return $this
+		 */
 		public function setLabel( $title )
 		{
 			$this->_label = $title;
@@ -146,11 +199,22 @@
 			return $this;
 		}
 
+		/**
+		 * @return null|string
+		 * @see {@link setLabel}
+		 */
 		public function getLabel()
 		{
 			return $this->_label;
 		}
 
+		/**
+		 * A short help text about this form element.
+		 *
+		 * @param $description
+		 *
+		 * @return $this
+		 */
 		public function setDescription( $description )
 		{
 			$this->_description = $description;
@@ -158,16 +222,28 @@
 			return $this;
 		}
 
+		/**
+		 * @return null|string
+		 * @see {@link setDescription}
+		 */
 		public function getDescription()
 		{
 			return $this->_description;
 		}
 
+		/**
+		 * An array that contains all the attributes and attribute-data that the element will output.
+		 * @return array
+		 */
 		function getFormElementAttributes()
 		{
 			return array();
 		}
 
+		/**
+		 * @return string
+		 * @see FormElement::getFormElementAttributes() Creates a string based on this array.
+		 */
 		function getFormElementAttributesAsString()
 		{
 			$attributes = "";
@@ -180,8 +256,12 @@
 		}
 
 		/**
-		 * Get the whole  <div /> including header-, error-, form- and footer- element.
+		 * Generates the HTML for output. Including header-, error-, form- and footer- element.
 		 * @return string
+		 * @see {@link getFormElement}
+		 * @see {@link getHeaderElement}
+		 * @see {@link getErrorMessageElement}
+		 * @see {@link getFooterElement}
 		 */
 		public function getElement()
 		{
@@ -198,7 +278,9 @@
 		}
 
 		/**
-		 * @return string The <header/> element.
+		 * Generates HTML for header-element. Normally just the label-element.
+		 *
+		 * @return string
 		 */
 		public function getHeaderElement()
 		{
@@ -206,7 +288,10 @@
 		}
 
 		/**
-		 * @return string The <footer/> element.
+		 * Generates HTML for footer-element. Normally the description in a span-element.
+		 *
+		 * @return string
+		 * @see {@link setDescription}
 		 */
 		public function getFooterElement()
 		{
@@ -214,7 +299,9 @@
 		}
 
 		/**
-		 * @return string The <div class="alert"/> element.
+		 * Generates div containing error message.
+		 * @return string
+		 * @see {@link setErrorMessage}
 		 */
 		public function getErrorMessageElement()
 		{
@@ -227,7 +314,9 @@
 		}
 
 		/**
-		 * @return string The <input/> element.
+		 * Generates HTML for form-element. Normally a input-element with type-attr. Or textarea, select, etc.
+		 *
+		 * @return string
 		 */
 		public function getFormElement()
 		{
@@ -236,6 +325,7 @@
 
 		/**
 		 * @return boolean
+		 * @see {@link setSingle}
 		 */
 		public function isSingle()
 		{
@@ -243,6 +333,9 @@
 		}
 
 		/**
+		 * Whether this form element just contains a single input of data.
+		 * If not, the data/value usually is an array and the element name ends with [].
+		 *
 		 * @param boolean $single
 		 *
 		 * @return $this
@@ -256,6 +349,7 @@
 
 		/**
 		 * @return null|int
+		 * @see {@link setIndex}
 		 */
 		public function getIndex()
 		{
@@ -276,19 +370,36 @@
 			return $this;
 		}
 
+		/**
+		 * Should only be set from constructor and never be changed after that.
+		 *
+		 * @param string $name
+		 *
+		 * @throws \ErrorException
+		 */
 		public function setName( $name )
 		{
 			throw new \ErrorException( "Name can only be set from constructor.", 0, E_ERROR );
 		}
 
 		/**
+		 * Returns a autogenerated ID that is a sanitized version of the element name.
 		 * @return string
+		 * @see {@link sanitizeID}
+		 * @see {@link getElementName}
 		 */
 		public function getID()
 		{
 			return FormElement::sanitizeID( $this->getElementName() );
 		}
 
+		/**
+		 * The value.
+		 *
+		 * @param $value
+		 *
+		 * @return $this
+		 */
 		public function setValue( $value )
 		{
 			$this->_value = $value;
@@ -297,7 +408,7 @@
 		}
 
 		/**
-		 * @param callable|null $call_user_func
+		 * @param callable|null $call_user_func Set a callable method that will filter the value before returned.
 		 *
 		 * @return mixed
 		 */
@@ -311,6 +422,7 @@
 
 		/**
 		 * @return mixed
+		 * @see {@link setDefaultValue}
 		 */
 		public function getDefaultValue()
 		{
@@ -318,6 +430,8 @@
 		}
 
 		/**
+		 * If {@link _value} equals NULL, this value will be returned as default by {@link getValue}.
+		 *
 		 * @param mixed $defaultValue
 		 *
 		 * @return $this
@@ -330,7 +444,9 @@
 		}
 
 		/**
+		 * Is this a nested form element?
 		 * @return boolean
+		 * @see {@link setParentName}
 		 */
 		public function hasParent()
 		{
@@ -338,6 +454,8 @@
 		}
 
 		/**
+		 * If this form element is nested, it will have a parent name.
+		 *
 		 * @param string $parentName
 		 *
 		 * @return $this
@@ -349,14 +467,21 @@
 			return $this;
 		}
 
+		/**
+		 * @return mixed
+		 * @see {@link setParentName}
+		 */
 		public function getParentName()
 		{
 			return $this->_parentName;
 		}
 
 		/**
-		 * The name-attribute.
+		 * The name-attr of the form element. It is autogenerated based on parent names, if it's a single-valued-form-element, and index-value.
 		 * @return string
+		 * @see {@link setParentName}
+		 * @see {@link setSingle}
+		 * @see {@link setIndex}
 		 */
 		public function getElementName()
 		{
@@ -369,6 +494,7 @@
 
 		/**
 		 * @return callable|null
+		 * @see {@link setValidationMethod}
 		 */
 		public function getValidationMethod()
 		{
@@ -376,8 +502,11 @@
 		}
 
 		/**
-		 * Possibility to validate the value of the FormElement through call_user_func_array.
-		 * The callable function should return TRUE or a string with a error message on failure.
+		 * Possibility to validate the value of the FormElement through call_user_func_array.<br/>
+		 * The callable should return TRUE|NULL (if no errors are found) or a string with a error message on failure.<br/>
+		 * The callable will receive two arguments in following order:<br/>
+		 * 1. The value<br/>
+		 * 2. The object instance
 		 *
 		 * @param callable $validationMethod
 		 *
@@ -392,6 +521,7 @@
 
 		/**
 		 * @return mixed
+		 * @see {@link setErrorMessage}
 		 */
 		public function getErrorMessage()
 		{
@@ -399,7 +529,13 @@
 		}
 
 		/**
+		 * If a error message is set, then the form contains errors.<br/>
+		 * The error message is normally automatically set when running {@link validate} which is calling the method is set via {@link setValidationMethod}
+		 *
 		 * @return bool
+		 * @see {@link setErrorMessage}
+		 * @see {@link setValidationMethod}
+		 * @see {@link validate}
 		 */
 		public function hasError()
 		{
@@ -407,7 +543,9 @@
 		}
 
 		/**
-		 * @param mixed $errorMessage
+		 * Error message for the user.
+		 *
+		 * @param string $errorMessage
 		 *
 		 * @return $this
 		 */
@@ -419,7 +557,10 @@
 		}
 
 		/**
-		 * @return mixed
+		 * A single name-identifier. Whatever string you like sets through the constructor.<br/>
+		 * **NOT** the same as elementName.
+		 * @return string
+		 * @see {@link __construct}
 		 */
 		public function getName()
 		{

@@ -4,4 +4,5 @@
 /bower_components/
 /vendor/
 docs
+api
 composer.lock

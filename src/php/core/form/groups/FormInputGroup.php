@@ -9,8 +9,15 @@
 	namespace tutomvc\core\form\groups;
 
 	use tutomvc\core\form\FormElement;
+	use tutomvc\core\form\inputs\FormInput;
 	use tutomvc\core\form\inputs\FormInputAddon;
 
+	/**
+	 * A group of inputs.
+	 *
+	 * @package tutomvc\core\form\groups
+	 * @see http://getbootstrap.com/components/#input-groups
+	 */
 	class FormInputGroup extends FormGroup
 	{
 		/**
@@ -21,7 +28,7 @@
 		 */
 		public function addFormElement( FormElement $formElement )
 		{
-			if ( !is_a( $formElement, "\\tutomvc\\core\\form\\inputs\\FormInput" ) && !is_a( $formElement, "\\tutomvc\\core\\form\\inputs\\FormInputAddon" ) )
+			if ( !($formElement instanceof FormInput) && !($formElement instanceof FormInputAddon) )
 			{
 				throw new \ErrorException( "Only accepts FormInput and FormInputAddon - ", 0, E_ERROR );
 			}
@@ -70,9 +77,6 @@
 			return $output;
 		}
 
-		/**
-		 * @return bool
-		 */
 		public function hasError()
 		{
 			/** @var FormElement $formElement */

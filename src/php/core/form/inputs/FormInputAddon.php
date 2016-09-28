@@ -10,11 +10,17 @@
 
 	use tutomvc\core\form\FormElement;
 
+	/**
+	 * Addon for {@link tutomvc\core\form\groups\FormInputGroup}.<br/>
+	 * Doesn't have any value, just a visual addon.
+	 * @package tutomvc\core\form\inputs
+	 * @see http://getbootstrap.com/components/#input-groups-buttons
+	 */
 	class FormInputAddon extends FormElement
 	{
 		function __construct( $label )
 		{
-			parent::__construct( NULL, NULL );
+			parent::__construct( NULL );
 			$this->setLabel( $label );
 		}
 

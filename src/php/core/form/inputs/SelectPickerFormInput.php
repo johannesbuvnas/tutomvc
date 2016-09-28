@@ -10,8 +10,7 @@
 	namespace tutomvc\core\form\inputs;
 
 	/**
-	 * Class SelectPickerFormInput
-	 * Dependent on JS.
+	 * Advanced select-element with search ability. Dependant on external javascript library. Good dropdown with ability to customize.
 	 *
 	 * @package tutomvc
 	 * @see http://silviomoreto.github.io/bootstrap-select/
