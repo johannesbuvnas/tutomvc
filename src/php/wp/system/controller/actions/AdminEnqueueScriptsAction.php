@@ -6,7 +6,10 @@
 	 * Time: 10:17
 	 */
 
-	namespace tutomvc\wp;
+	namespace tutomvc\wp\system\controller\actions;
+
+	use tutomvc\wp\core\controller\command\ActionCommand;
+	use tutomvc\wp\TutoMVC;
 
 	class AdminEnqueueScriptsAction extends ActionCommand
 	{

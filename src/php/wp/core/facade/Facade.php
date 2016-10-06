@@ -1,7 +1,13 @@
 <?php
-	namespace tutomvc\wp;
+	namespace tutomvc\wp\core\facade;
 
-// https://github.com/PureMVC/puremvc-as3-multicore-framework/tree/master/src/org/puremvc/as3/multicore/patterns
+	use tutomvc\wp\core\controller\command\Command;
+	use tutomvc\wp\core\controller\Controller;
+	use tutomvc\wp\core\model\Model;
+	use tutomvc\wp\core\model\proxy\Proxy;
+	use tutomvc\wp\core\view\View;
+	use tutomvc\wp\utils\FileUtil;
+
 	/**
 	 * Class Facade
 	 * @package tutomvc
@@ -100,7 +106,7 @@
 		 * @param array $dataProvider Data to send to view component.
 		 * @param bool|FALSE $returnOutput
 		 *
-		 * @return $this|string
+		 * @return bool|string
 		 * @throws \ErrorException
 		 */
 		public function render( $relativePath, $name = NULL, $dataProvider = array(), $returnOutput = FALSE )

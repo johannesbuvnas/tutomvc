@@ -8,7 +8,7 @@
 
 	namespace tutomvc\wp\metabox;
 
-	use tutomvc\FissileFormGroup;
+	use tutomvc\core\form\groups\FissileFormGroup;
 
 	class MetaBox extends FissileFormGroup
 	{

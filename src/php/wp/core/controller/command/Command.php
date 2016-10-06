@@ -1,7 +1,9 @@
 <?php
-	namespace tutomvc\wp;
+	namespace tutomvc\wp\core\controller\command;
 
-	class Command extends CoreClass implements ICommand
+	use tutomvc\wp\core\CoreClass;
+
+	class Command extends CoreClass
 	{
 		/* VARS */
 		protected $_name;
@@ -63,29 +65,10 @@
 		/* EVENTS */
 		public function onBeforeExecution()
 		{
-			if ( $this->hasReachedExecutionLimit() ) return;
+			if ( $this->hasReachedExecutionLimit() ) return NULL;
 
 			$this->_executions ++;
 
 			return call_user_func_array( array($this, "execute"), func_get_args() );
 		}
-	}
-
-	interface ICommand
-	{
-		public function setName( $name );
-
-		public function getName();
-
-		public function register();
-
-		public function setExecutionLimit( $limit );
-
-		public function getExecutionLimit();
-
-		public function getExecutionCount();
-
-		public function hasReachedExecutionLimit();
-
-		public function onBeforeExecution();
 	}

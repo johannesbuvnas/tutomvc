@@ -10,9 +10,9 @@
 
 	namespace tutomvc\wp\metabox;
 
-	use tutomvc\wp\TutoMVC;
+	use tutomvc\wp\core\facade\Facade;
 
-	class MetaBoxModuleFacade extends \tutomvc\wp\Facade
+	class MetaBoxModuleFacade extends Facade
 	{
 		const KEY = "com.tutomvc.wp.modules.metabox";
 

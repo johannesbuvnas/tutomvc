@@ -1,5 +1,7 @@
 <?php
-	namespace tutomvc\wp;
+	namespace tutomvc\wp\core\controller;
+
+	use tutomvc\wp\core\controller\command\Command;
 
 	class Controller
 	{
@@ -32,8 +34,6 @@
 		/**
 		 * @param string $commandName
 		 * @param Command $command
-		 *
-		 * @return NULL|Command
 		 */
 		public function registerCommand( $commandName, Command $command )
 		{

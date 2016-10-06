@@ -6,19 +6,43 @@
 	 * Time: 11:40
 	 */
 
-	namespace tutomvc;
+	namespace tutomvc\core\form\inputs;
 
+	/**
+	 * A select element.
+	 *
+	 * @package tutomvc\core\form\inputs
+	 */
 	class SelectFormInput extends FormInput
 	{
 		protected $_options            = array();
 		protected $_optionsDisabledMap = array();
 		protected $_optionTitleMap     = array();
 
+		/**
+		 * SelectFormInput constructor.
+		 *
+		 * @param string $name
+		 * @param $title
+		 * @param null $description
+		 * @param bool $single
+		 * @param bool $readonly
+		 * @param string $placeholder
+		 */
 		function __construct( $name, $title, $description = NULL, $single = TRUE, $readonly = FALSE, $placeholder = "" )
 		{
 			parent::__construct( $name, $title, $description, NULL, $readonly, $placeholder, $single );
 		}
 
+		/**
+		 * @param $label
+		 * @param $value
+		 * @param null $groupLabel
+		 * @param null $title
+		 * @param bool $disabled
+		 *
+		 * @return $this
+		 */
 		public function addOption( $label, $value, $groupLabel = NULL, $title = NULL, $disabled = FALSE )
 		{
 			if ( is_string( $groupLabel ) )
@@ -38,6 +62,8 @@
 		}
 
 		/**
+		 * Remove single option.
+		 *
 		 * @param $optionValue
 		 */
 		public function removeOption( $optionValue )
@@ -60,6 +86,9 @@
 			}
 		}
 
+		/**
+		 * Remove all options.
+		 */
 		public function removeOptions()
 		{
 			$this->_options            = array();
@@ -111,6 +140,14 @@
 			return $output;
 		}
 
+		/**
+		 * Generates the option HTML element.
+		 *
+		 * @param $label
+		 * @param $value
+		 *
+		 * @return string
+		 */
 		protected function getOptionElement( $label, $value )
 		{
 			$attr = array(
@@ -172,6 +209,11 @@
 			else return $value;
 		}
 
+		/**
+		 * @param string $value
+		 *
+		 * @return bool
+		 */
 		public function isValueSet( $value )
 		{
 			if ( is_string( $this->getValue() ) && strcmp( $this->getValue(), $value ) == 0 ) return TRUE;

@@ -8,9 +8,9 @@
 
 	namespace tutomvc\wp\settings;
 
-	use tutomvc\ExampleFormGroup;
-	use tutomvc\ExampleSelectorFormGroup;
-	use tutomvc\wp\WPEditorFormInput;
+	use tutomvc\examples\form\groups\ExampleFormGroup;
+	use tutomvc\examples\form\groups\ExampleSelectorFormGroup;
+	use tutomvc\wp\form\inputs\WPEditorFormInput;
 
 	class ExampleSettings extends Settings
 	{

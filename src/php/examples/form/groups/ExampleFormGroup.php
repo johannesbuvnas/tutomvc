@@ -6,7 +6,12 @@
 	 * Time: 17:30
 	 */
 
-	namespace tutomvc;
+	namespace tutomvc\examples\form\groups;
+
+	use tutomvc\core\form\groups\FormGroup;
+	use tutomvc\core\form\groups\FormInputGroup;
+	use tutomvc\core\form\inputs\FormInput;
+	use tutomvc\core\form\inputs\FormInputAddon;
 
 	class ExampleFormGroup extends FormGroup
 	{

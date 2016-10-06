@@ -8,7 +8,7 @@
 
 	namespace tutomvc\wp\taxonomy;
 
-	use tutomvc\wp\Proxy;
+	use tutomvc\wp\core\model\proxy\Proxy;
 
 	class TaxonomyProxy extends Proxy
 	{
