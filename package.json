@@ -1,6 +1,6 @@
 {
   "name": "tutomvc",
-  "version": "2.0.1",
+  "version": "2.1.0",
   "scripts": {
     "phpdoc": "./vendor/phpdocumentor/phpdocumentor/bin/phpdoc -d src/php -t docs --template=\"clean\"",
     "apigen": "./vendor/apigen/apigen/bin/apigen generate -s src/php -d api --template-theme bootstrap --title=\"Tuto MVC\" --tree"
