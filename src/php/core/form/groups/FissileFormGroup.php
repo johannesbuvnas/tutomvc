@@ -11,11 +11,8 @@
 	use tutomvc\core\form\FormElement;
 
 	/**
-	 * Class FissileFormGroup
-	 * A fissile FormGroup.
-	 * TODO: Make the form completely independent of JS. Add buttons before and after, delete buttons and index-selectors should be part of the total form.
-	 * TODO: Create an autoparse function that respects the add-, delete-, and index buttons.
-	 * TODO: Add buttons should be able to add more than one at a time?
+	 * This is a **advanced** type of FormGroup that is fissionable.<br/>
+	 * Meaning it can be multiplicate itself.
 	 * @package tutomvc
 	 */
 	class FissileFormGroup extends FormGroup
@@ -75,7 +72,7 @@
 
 			foreach ( $this->getFormElements() as $formElement )
 			{
-				if ( is_a( $formElement, "\\tutomvc\\core\\form\\groups\\FormGroup" ) )
+				if ( $formElement instanceof FormGroup )
 				{
 					/** @var FormGroup $formElement */
 					/** @var FormElement $subFormElement */
@@ -103,11 +100,11 @@
 					if ( is_array( $children ) && count( $children ) )
 					{
 						$formElement = $this->getFormElementByElementName( $elementName );
-						if ( is_a( $formElement, "\\tutomvc\\core\\form\\groups\\FormGroup" ) )
+						if ( $formElement instanceof FormGroup )
 						{
 							return $formElement->getValueMapAt( $index );
 						}
-						else if ( is_a( $formElement, "\\tutomvc\\core\\form\\FormElement" ) )
+						else if ( $formElement instanceof FormElement )
 						{
 							return $formElement->getElementName();
 						}
