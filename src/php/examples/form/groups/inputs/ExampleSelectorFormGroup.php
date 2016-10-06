@@ -6,7 +6,12 @@
 	 * Time: 21:10
 	 */
 
-	namespace tutomvc;
+	namespace tutomvc\examples\form\groups;
+
+	use tutomvc\core\form\groups\FormGroup;
+	use tutomvc\core\form\inputs\Select2FormInput;
+	use tutomvc\core\form\inputs\SelectFormInput;
+	use tutomvc\core\form\inputs\SelectPickerFormInput;
 
 	class ExampleSelectorFormGroup extends FormGroup
 	{
@@ -40,8 +45,8 @@
 			     ->addOption( "Norway", "no", "Nordic countries" )
 			     ->addOption( "Finland", "fi", "Nordic countries" )
 			     ->setSelect2Options( array(
-				     "tags"            => TRUE,
-//				     "tokenSeparators" => array(",", " ")
+				     "tags" => TRUE,
+				     //				     "tokenSeparators" => array(",", " ")
 			     ) );
 
 			/** @var SelectFormInput $singleSelector */

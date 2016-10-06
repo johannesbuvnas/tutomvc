@@ -8,13 +8,19 @@
 
 	namespace tutomvc\wp\metabox;
 
-	use tutomvc\wp\Facade;
-	use tutomvc\FormElement;
-	use tutomvc\wp\SystemApp;
+	use tutomvc\core\form\FormElement;
+	use tutomvc\wp\core\facade\Facade;
+	use tutomvc\wp\system\SystemApp;
 
 	class MetaBoxModule
 	{
 
+		/**
+		 * @param $value
+		 * @param FormElement $formElement
+		 *
+		 * @return mixed|void
+		 */
 		public static function apply_filters( $value, $formElement )
 		{
 			return apply_filters( self::constructFilterHookName( $formElement ), $value, $formElement );

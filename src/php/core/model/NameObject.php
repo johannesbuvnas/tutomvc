@@ -6,7 +6,7 @@
 	 * Time: 09:57
 	 */
 
-	namespace tutomvc;
+	namespace tutomvc\core\model;
 
 	class NameObject
 	{

@@ -1,5 +1,7 @@
 <?php
-	namespace tutomvc\wp;
+	namespace tutomvc\wp\core;
+
+	use tutomvc\wp\core\facade\Facade;
 
 	class CoreClass
 	{

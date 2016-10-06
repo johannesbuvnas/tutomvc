@@ -1,13 +1,15 @@
 <?php
 	namespace tutomvc\wp\settings;
 
+	use tutomvc\wp\core\facade\Facade;
+
 	/**
 	 * Created by PhpStorm.
 	 * User: johannesbuvnas
 	 * Date: 10/05/15
 	 * Time: 08:34
 	 */
-	class SettingsModuleFacade extends \tutomvc\wp\Facade
+	class SettingsModuleFacade extends Facade
 	{
 		const KEY = "com.tutomvc.wp.modules.setting";
 

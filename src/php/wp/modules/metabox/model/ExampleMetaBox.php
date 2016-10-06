@@ -8,13 +8,13 @@
 
 	namespace tutomvc\wp\metabox;
 
-	use tutomvc\ExampleFormGroup;
-	use tutomvc\ExampleSelectorFormGroup;
-	use tutomvc\wp\WPEditorFormInput;
+	use tutomvc\examples\form\groups\ExampleFormGroup;
+	use tutomvc\examples\form\groups\ExampleSelectorFormGroup;
+	use tutomvc\wp\form\inputs\WPEditorFormInput;
 
 	class ExampleMetaBox extends MetaBox
 	{
-		const NAME = "example";
+		const NAME      = "example";
 		const WP_EDITOR = "wp_editor";
 
 		function __construct()

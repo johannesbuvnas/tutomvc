@@ -1,9 +1,9 @@
 <?php
 	namespace tutomvc\wp\taxonomy;
 
-	use tutomvc\wp\TutoMVC;
+	use tutomvc\wp\core\facade\Facade;
 
-	class TaxonomyModuleFacade extends \tutomvc\wp\Facade
+	class TaxonomyModuleFacade extends Facade
 	{
 		const KEY = "com.tutomvc.wp.modules.taxonomy";
 

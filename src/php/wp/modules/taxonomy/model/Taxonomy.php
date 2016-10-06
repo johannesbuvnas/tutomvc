@@ -8,8 +8,8 @@
 
 	namespace tutomvc\wp\taxonomy;
 
-	use tutomvc\NameObject;
-	use tutomvc\Select2FormInput;
+	use tutomvc\core\form\inputs\Select2FormInput;
+	use tutomvc\core\model\NameObject;
 
 	class Taxonomy extends NameObject
 	{

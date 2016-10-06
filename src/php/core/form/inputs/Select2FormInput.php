@@ -6,11 +6,10 @@
 	 * Time: 10:19
 	 */
 
-	namespace tutomvc;
+	namespace tutomvc\core\form\inputs;
 
 	/**
-	 * Class Select2FormInput
-	 *
+	 * Advanced select-element with text-input. Dependant on external javascript library. Good for tagging-like-select.
 	 * @package tutomvc
 	 * @see https://select2.github.io/
 	 */
@@ -75,7 +74,7 @@
 				$attr[ "data-$key" ] = htmlspecialchars( $value, ENT_QUOTES, 'UTF-8' );
 			}
 
-			$attr[ 'class' ]        = $attr[ 'class' ] . " select2";
+			$attr[ 'class' ] = $attr[ 'class' ] . " select2";
 
 			return $attr;
 		}

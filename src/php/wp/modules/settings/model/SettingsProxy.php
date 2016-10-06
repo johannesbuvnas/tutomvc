@@ -1,7 +1,7 @@
 <?php
 	namespace tutomvc\wp\settings;
 
-	use tutomvc\wp\Proxy;
+	use tutomvc\wp\core\model\proxy\Proxy;
 
 	class SettingsProxy extends Proxy
 	{

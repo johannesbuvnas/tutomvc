@@ -8,7 +8,9 @@
 	 */
 	namespace tutomvc\wp\notification;
 
-	class AdminNoticesAction extends \tutomvc\wp\ActionCommand
+	use tutomvc\wp\core\controller\command\ActionCommand;
+
+	class AdminNoticesAction extends ActionCommand
 	{
 		protected static $_executed = FALSE;
 

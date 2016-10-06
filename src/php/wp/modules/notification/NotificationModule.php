@@ -8,8 +8,8 @@
 
 	namespace tutomvc\wp\notification;
 
-	use tutomvc\wp\Facade;
-	use tutomvc\wp\SystemApp;
+	use tutomvc\wp\core\facade\Facade;
+	use tutomvc\wp\system\SystemApp;
 
 	class NotificationModule
 	{

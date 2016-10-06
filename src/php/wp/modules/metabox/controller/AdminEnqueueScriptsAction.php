@@ -8,8 +8,7 @@
 
 	namespace tutomvc\wp\metabox;
 
-	use tutomvc\wp\ActionCommand;
-	use tutomvc\wp\TutoMVC;
+	use tutomvc\wp\core\controller\command\ActionCommand;
 
 	class AdminEnqueueScriptsAction extends ActionCommand
 	{

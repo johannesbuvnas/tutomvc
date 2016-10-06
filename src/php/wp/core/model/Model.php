@@ -1,5 +1,7 @@
 <?php
-	namespace tutomvc\wp;
+	namespace tutomvc\wp\core\model;
+
+	use tutomvc\wp\core\model\proxy\Proxy;
 
 	class Model
 	{

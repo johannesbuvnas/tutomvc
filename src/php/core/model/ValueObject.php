@@ -1,5 +1,5 @@
 <?php
-	namespace tutomvc;
+	namespace tutomvc\core\model;
 
 	class ValueObject extends NameObject
 	{

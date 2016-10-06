@@ -6,7 +6,10 @@
 	 * Time: 09:53
 	 */
 
-	namespace tutomvc\wp;
+	namespace tutomvc\wp\system;
+
+	use tutomvc\wp\core\facade\Facade;
+	use tutomvc\wp\TutoMVC;
 
 	class SystemApp
 	{

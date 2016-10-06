@@ -9,7 +9,9 @@
 
 	namespace tutomvc\wp\notification;
 
-	class NotificationProxy extends \tutomvc\wp\Proxy
+	use tutomvc\wp\core\model\proxy\Proxy;
+
+	class NotificationProxy extends Proxy
 	{
 		const NAME = __CLASS__;
 

@@ -6,8 +6,12 @@
 	 * Time: 20:55
 	 */
 
-	namespace tutomvc;
+	namespace tutomvc\core\form\inputs;
 
+	/**
+	 * Textarea form element.
+	 * @package tutomvc\core\form\inputs
+	 */
 	class TextAreaFormInput extends FormInput
 	{
 		protected $_rows = 5;
@@ -47,6 +51,8 @@
 		}
 
 		/**
+		 * Will add the rows-attr. It's the height attribute of textareas.
+		 *
 		 * @param int $rows
 		 */
 		public function setRows( $rows )
