@@ -1,7 +1,7 @@
 {
   "name": "tutomvc/tutomvc",
-  "version": "2.1.0",
   "description": "The WordPress MVC Framework for developers.",
+  "version": "3.0.0",
   "homepage": "http://tutomvc.com",
   "keywords": [
     "WordPress",
