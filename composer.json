@@ -1,19 +1,19 @@
 {
   "name": "tutomvc/tutomvc",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "The WordPress MVC Framework for developers.",
-  "repositories": [
-    {
-      "type": "git",
-      "url": "https://github.com/johannesbuvnas/com.tutomvc.wpplugin"
-    }
-  ],
+  "homepage": "http://tutomvc.com",
   "keywords": [
     "WordPress",
     "MVC",
     "Framework"
   ],
-  "homepage": "http://tutomvc.com",
+  "repositories": [
+    {
+      "type": "git",
+      "url": "https://github.com/johannesbuvnas/tutomvc"
+    }
+  ],
   "type": "library",
   "license": "MIT",
   "authors": [
