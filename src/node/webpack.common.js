@@ -1,6 +1,7 @@
 var webpack = require( 'webpack' );
 var pkg = require( "../../package.json" );
 var ExtractTextPlugin = require( "extract-text-webpack-plugin" );
+var fileLoader
 
 module.exports = {
     entry: {
@@ -39,8 +40,12 @@ module.exports = {
                 )
             },
             {
-                test: /\.jpe?g$|\.gif$|\.png$|\.svg$|\.woff$|\.woff2$|\.eot$|\.ttf$|\.wav$|\.mp3$/,
-                loader: require.resolve( "file-loader" ) + "?name=[path][name].[ext]"
+                test: /\.woff$|\.woff2$|\.eot$|\.ttf$/,
+                loader: require.resolve( "file-loader" ) + "?name=assets/fonts/[name].[ext]"
+            },
+            {
+                test: /\.jpe?g$|\.gif$|\.png$|\.svg$/,
+                loader: require.resolve( "file-loader" ) + "?name=assets/images/[name].[ext]"
             }
         ]
     },

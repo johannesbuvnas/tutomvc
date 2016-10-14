@@ -9,10 +9,11 @@
   },
   "scripts": {
     "postinstall": "typings install",
+    "clean:dist": "rm -r dist",
     "apigen": "./vendor/apigen/apigen/bin/apigen generate -s src/php -d api --template-theme bootstrap --title=\"Tuto MVC\" --tree",
     "build:dev": "webpack --config src/node/webpack.dev.js --progress --profile --colors --display-error-details --display-cached --bail",
     "build:prod": "webpack --config src/node/webpack.prod.js --progress --profile --colors --display-error-details --display-cached --bail",
-    "build": "npm run build:dev && npm run build:prod"
+    "build": "npm run clean:dist && npm run build:dev && npm run build:prod"
   },
   "devDependencies": {
     "typings": "^1.0.4",
