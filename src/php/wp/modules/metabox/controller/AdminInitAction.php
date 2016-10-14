@@ -15,5 +15,6 @@
 		function execute()
 		{
 			$this->getFacade()->registerCommand( "save_post", new SavePostAction() );
+			$this->getFacade()->registerCommand( "edit_attachment", $this->getFacade()->getCommand( "save_post" ) );
 		}
 	}

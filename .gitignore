@@ -6,3 +6,5 @@
 docs
 api
 composer.lock
+src/tsc/**/*.js
+src/tsc/**/*.js.map
