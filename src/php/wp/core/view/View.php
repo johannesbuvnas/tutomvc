@@ -47,15 +47,16 @@
 				extract( $dataProvider, EXTR_SKIP );
 			}
 
-			$viewComponent = $this->getViewComponentRealpath( $viewComponent, $name );
+			$viewComponentFilePath = $this->getViewComponentRealpath( $viewComponent, $name );
+			if ( empty($viewComponentFilePath) ) $viewComponentFilePath = $this->getViewComponentRealpath( $viewComponent, NULL );
 
-			if ( $viewComponent )
+			if ( $viewComponentFilePath )
 			{
-				include $viewComponent;
+				include $viewComponentFilePath;
 			}
 			else
 			{
-				throw new \ErrorException( "\\tutomvc\\View: " . " View component not found - " . $viewComponent, 0, E_ERROR );
+				throw new \ErrorException( "\\tutomvc\\View: " . " View component not found - " . $viewComponentFilePath, 0, E_ERROR );
 			}
 
 			if ( $returnOutput ) return ob_get_clean();

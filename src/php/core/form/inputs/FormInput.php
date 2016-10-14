@@ -76,7 +76,7 @@
 		{
 			$classNames = array(
 				"form-group",
-				"form-group-input"
+				self::CSS_CLASS
 			);
 			if ( is_string( $this->getErrorMessage() ) ) $classNames[] = "has-error";
 			if ( $this->getType() == self::TYPE_HIDDEN ) $classNames[] = "hidden";

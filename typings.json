@@ -1,0 +1,9 @@
+{
+  "globalDependencies": {
+    "core-js": "registry:dt/core-js#0.0.0+20160317120654",
+    "jasmine": "registry:dt/jasmine#2.2.0+20160505161446",
+    "node": "registry:dt/node#4.0.0+20160509154515",
+    "jquery": "github:DefinitelyTyped/DefinitelyTyped/jquery/jquery.d.ts#470954c4f427e0805a2d633636a7c6aa7170def8",
+    "bootstrap": "github:DefinitelyTyped/DefinitelyTyped/bootstrap/bootstrap.d.ts#56295f5058cac7ae458540423c50ac2dcf9fc711"
+  }
+}
