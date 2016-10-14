@@ -15,7 +15,7 @@
 	final class TutoMVC
 	{
 		/* CONSTANTS */
-		const VERSION            = "3.0.1";
+		const VERSION            = "3.0.2";
 		const NAME               = "tutomvc";
 		const ACTION_INIT        = "tutomvc_init";
 		const ACTION_FACADE_INIT = "tutomvc_facade_init";
