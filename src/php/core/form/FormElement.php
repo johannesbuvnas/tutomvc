@@ -21,6 +21,7 @@
 		const REGEX_SANITIZE_NAME = "/[^\[\]A-Za-z0-9-]+/";
 		const REGEX_ELEMENT_NAME  = "/(.*)\[([0-9]+)\](.*)/ix";
 		const REGEX_GROUP_NAME    = "/\[([^\]]*)\]/ix";
+		const CSS_CLASS           = "tutomvc-form-element";
 		protected $_value;
 		protected $_label;
 		protected $_id;
@@ -266,8 +267,8 @@
 		public function getElement()
 		{
 			$output = "";
-			if ( $this->hasError() ) $output .= '<div class="form-group has-error form-group-input">';
-			else $output .= '<div class="form-group form-group-input">';
+			if ( $this->hasError() ) $output .= '<div class="form-group has-error ' . self::CSS_CLASS . '">';
+			else $output .= '<div class="form-group ' . self::CSS_CLASS . '">';
 			$output .= $this->getHeaderElement();
 			$output .= $this->getErrorMessageElement();
 			$output .= $this->getFormElement();

@@ -21,7 +21,10 @@
 			$this->setTitle( $title );
 		}
 
-		public function render()
+		/**
+		 * @param $postID
+		 */
+		public function render( $postID )
 		{
 		}
 

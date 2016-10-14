@@ -17,6 +17,7 @@
 		function __construct( $name, $title, $description = NULL, $args = array() )
 		{
 			parent::__construct( $name, $title, $description, FALSE );
+			$this->setArgs( $args );
 		}
 
 		function getFormElement()
