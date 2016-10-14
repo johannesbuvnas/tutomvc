@@ -1,9 +1,0 @@
-{
-  "name": "tutomvc",
-  "version": "2.0.0",
-  "dependencies": {
-    "bootstrap": "latest",
-    "bootstrap-select": "latest",
-    "select2": "latest"
-  }
-}
