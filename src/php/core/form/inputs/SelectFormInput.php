@@ -216,7 +216,7 @@
 		 */
 		public function isValueSet( $value )
 		{
-			if ( is_string( $this->getValue() ) && strcmp( $this->getValue(), $value ) == 0 ) return TRUE;
+			if ( is_string( $this->getValue() ) && strcmp( strtolower( $this->getValue() ), strtolower( $value ) ) == 0 ) return TRUE;
 
 			return is_array( $this->getValue() ) ? in_array( $value, $this->getValue() ) : FALSE;
 		}
