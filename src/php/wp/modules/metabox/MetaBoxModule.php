@@ -52,6 +52,16 @@
 		}
 
 		/**
+		 * @param $metaBoxName
+		 *
+		 * @return MetaBox|null
+		 */
+		public static function get( $metaBoxName )
+		{
+			return self::getProxy()->get( $metaBoxName );
+		}
+
+		/**
 		 * @return Facade|MetaBoxModuleFacade
 		 */
 		public static function getInstance()
