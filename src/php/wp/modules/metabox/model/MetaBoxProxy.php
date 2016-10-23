@@ -85,17 +85,17 @@
 			{
 				if ( is_array( $value ) )
 				{
-					$childElement = $formElement->findFormElementByName( $key );
-					$value        = $this->mapPostMeta( $value, $postID, $formElement, $suppressFilters );
+					if ( $formElement instanceof FormGroup ) $childElement = $formElement->findFormElementByName( $key );
+					$value = $this->mapPostMeta( $value, $postID, $formElement, $suppressFilters );
 				}
 				else if ( is_string( $value ) )
 				{
 					// META KEY
-					$childElement = $formElement->findFormElementByElementName( $value );
-					$value        = $this->getPostMetaFromDB( $postID, $value );
+					if ( $formElement instanceof FormGroup ) $childElement = $formElement->findFormElementByElementName( $value );
+					$value = $this->getPostMetaFromDB( $postID, $value );
 				}
 
-				if ( !is_null( $childElement ) )
+				if ( isset($childElement) && !is_null( $childElement ) )
 				{
 					if ( !$suppressFilters ) $value = MetaBoxModule::apply_filters( $value, $childElement );
 				}
