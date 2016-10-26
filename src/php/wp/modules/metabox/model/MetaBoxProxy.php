@@ -63,7 +63,7 @@
 					if ( isset($valueMap) && !empty($valueMap) )
 					{
 						$value = $this->mapPostMeta( $valueMap, $postID, $formElement, $suppressFilters );
-						if ( !$suppressFilters ) $value = MetaBoxModule::apply_filters( $value, $formElement );
+						if ( !$suppressFilters ) $value = MetaBoxModule::apply_filters( $value, $formElement, $postID );
 					}
 				}
 			}
@@ -97,7 +97,7 @@
 
 				if ( isset($childElement) && !is_null( $childElement ) )
 				{
-					if ( !$suppressFilters ) $value = MetaBoxModule::apply_filters( $value, $childElement );
+					if ( !$suppressFilters ) $value = MetaBoxModule::apply_filters( $value, $childElement, $postID );
 				}
 
 				if ( empty($value) ) $value = NULL;

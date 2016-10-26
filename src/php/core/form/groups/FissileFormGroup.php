@@ -63,7 +63,7 @@
 		{
 			$elementName = self::sanitizeName( $elementName );
 			$index       = self::extractAncestorIndex( $elementName );
-			if ( !$index ) return NULL;
+			if ( is_null($index) ) return NULL;
 			else $this->setIndex( $index );
 			$formElement = $this->getFormElementByElementName( $elementName );
 

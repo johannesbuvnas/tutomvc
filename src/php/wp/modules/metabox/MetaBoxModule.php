@@ -18,12 +18,13 @@
 		/**
 		 * @param $value
 		 * @param FormElement $formElement
+		 * @param int $postID
 		 *
 		 * @return mixed|void
 		 */
-		public static function apply_filters( $value, $formElement )
+		public static function apply_filters( $value, $formElement, $postID )
 		{
-			return apply_filters( self::constructFilterHookName( $formElement ), $value, $formElement );
+			return apply_filters( self::constructFilterHookName( $formElement ), $value, $formElement, $postID );
 		}
 
 		/**
@@ -33,7 +34,7 @@
 		 */
 		public static function constructFilterHookName( $formElement )
 		{
-			return FormElement::sanitizeID( get_class( $formElement ) ) . "_meta_value";
+			return spl_object_hash( $formElement ) . "_meta_value";
 		}
 
 		/**
