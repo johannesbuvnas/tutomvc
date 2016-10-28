@@ -27,7 +27,6 @@
 			/** @var Taxonomy $taxonomy */
 			foreach ( $this->getMap() as $taxonomy )
 			{
-				LogModule::add( "REGISTERING TAXONOMY: " . $taxonomy->getName() );
 				$taxonomy->wp_register();
 			}
 		}
