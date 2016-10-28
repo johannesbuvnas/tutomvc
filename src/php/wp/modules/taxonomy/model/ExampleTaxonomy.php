@@ -23,6 +23,6 @@
 				'labels'            => array(),
 			) );
 
-			$this->addColumn( new TaxonomyColumn( "something", "This is a column" ) );
+			$this->addColumn( new WPAdminTaxonomyColumn( "something", "This is a column" ) );
 		}
 	}

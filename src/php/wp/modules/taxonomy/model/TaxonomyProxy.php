@@ -9,6 +9,7 @@
 	namespace tutomvc\wp\taxonomy;
 
 	use tutomvc\wp\core\model\proxy\Proxy;
+	use tutomvc\wp\log\LogModule;
 
 	class TaxonomyProxy extends Proxy
 	{
@@ -16,15 +17,17 @@
 
 		function onRegister()
 		{
-			add_action( "init", array($this, "init"), 1 );
+			add_action( "init", array($this, "init"), 0 );
 		}
 
 		/* HOOKS */
 		function init()
 		{
+
 			/** @var Taxonomy $taxonomy */
 			foreach ( $this->getMap() as $taxonomy )
 			{
+				LogModule::add( "REGISTERING TAXONOMY: " . $taxonomy->getName() );
 				$taxonomy->wp_register();
 			}
 		}

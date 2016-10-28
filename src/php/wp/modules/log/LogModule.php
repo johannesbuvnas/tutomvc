@@ -24,6 +24,11 @@
 			self::add( print_r( $expression, TRUE ) );
 		}
 
+		public static function clear( $time = 0 )
+		{
+			return self::getProxy()->delete( $time );
+		}
+
 		/**
 		 * @return LogModuleFacade
 		 */

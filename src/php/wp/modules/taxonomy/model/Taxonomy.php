@@ -91,7 +91,7 @@
 			}
 		}
 
-		public function addColumn( TaxonomyColumn $column )
+		public function addColumn( WPAdminTaxonomyColumn $column )
 		{
 			$this->_columnsMap[ $column->getName() ] = $column;
 
