@@ -128,7 +128,7 @@
 			}
 			if ( is_string( $param ) )
 			{
-				if ( property_exists( self::$_pkg, $param ) ) return self::$_pkg[ $param ];
+				if ( property_exists( self::$_pkg, $param ) ) return self::$_pkg->$param;
 
 				return NULL;
 			}
