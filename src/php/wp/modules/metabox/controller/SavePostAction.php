@@ -22,7 +22,7 @@
 				/** @var MetaBox $metaBox */
 				foreach ( MetaBoxModule::getProxy()->getMap() as $metaBox )
 				{
-					if ( in_array( $screen->post_type, $metaBox->getPostTypes() ) )
+					if ( in_array( $screen->post_type, $metaBox->getPostTypes() ) && !empty($_POST) && isset($_POST[ $metaBox->getName() ]) )
 					{
 						$metaBox->parse( $_POST );
 						$metaBox->update( $postID );
