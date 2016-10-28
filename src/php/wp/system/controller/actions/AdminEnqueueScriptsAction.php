@@ -15,7 +15,7 @@
 	{
 		function execute()
 		{
-			wp_enqueue_style( TutoMVC::NAME, $this->getFacade()->getURL( "dist/tutomvc.css?ver=" . TutoMVC::VERSION ) );
-			wp_enqueue_script( TutoMVC::NAME, $this->getFacade()->getURL( "dist/tutomvc.js?ver=" . TutoMVC::VERSION ) );
+			wp_enqueue_style( TutoMVC::NAME, $this->getFacade()->getURL( "dist/tutomvc.css?ver=" . TutoMVC::getVersion() ) );
+			wp_enqueue_script( TutoMVC::NAME, $this->getFacade()->getURL( "dist/tutomvc.js?ver=" . TutoMVC::getVersion() ) );
 		}
 	}

@@ -10,7 +10,7 @@
 
 	use tutomvc\core\model\NameObject;
 
-	class TaxonomyColumn extends NameObject
+	class WPAdminTaxonomyColumn extends NameObject
 	{
 		protected $_title;
 

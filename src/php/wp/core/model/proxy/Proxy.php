@@ -60,7 +60,7 @@
 				wp_cache_set( $this->getCacheMapKeyName(), $this->_map, $this->getCacheGroupName(), $this->getCacheExpirationTimeInSeconds() );
 			}
 
-			return $this;
+			return TRUE;
 		}
 
 		public function has( $key )

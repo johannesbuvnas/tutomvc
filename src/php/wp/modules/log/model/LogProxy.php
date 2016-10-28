@@ -42,6 +42,20 @@
 			return file_put_contents( $logFilePath, $logMessage, FILE_APPEND | LOCK_EX );
 		}
 
+		public function delete( $time = 0 )
+		{
+			$logFilePath = $this->getLogFileByTimestamp( $time );
+
+			if ( is_file( $logFilePath ) )
+			{
+				unlink( $logFilePath );
+
+				return TRUE;
+			}
+
+			return FALSE;
+		}
+
 		protected function createLogFile( $file )
 		{
 			$content  = "<?php defined('ABSPATH') or die('No direct script access.'); ?>";

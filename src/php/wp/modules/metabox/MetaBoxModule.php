@@ -62,6 +62,11 @@
 			return self::getProxy()->get( $metaBoxName );
 		}
 
+		public static function remove( $metaBoxName )
+		{
+			return self::getProxy()->delete( $metaBoxName );
+		}
+
 		/**
 		 * @return Facade|MetaBoxModuleFacade
 		 */
