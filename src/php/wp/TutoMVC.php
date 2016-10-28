@@ -15,7 +15,6 @@
 	final class TutoMVC
 	{
 		/* CONSTANTS */
-		const VERSION            = "3.0.5";
 		const NAME               = "tutomvc";
 		const ACTION_INIT        = "tutomvc_init";
 		const ACTION_FACADE_INIT = "tutomvc_facade_init";
@@ -31,6 +30,7 @@
 		private static $_root           = "";
 		private static $_url            = "";
 		private static $_facadeMap      = array();
+		private static $_pkg;
 
 		/* ACTIONS */
 		/**
@@ -113,5 +113,26 @@
 		public static function getURL( $relativePath = NULL )
 		{
 			return is_null( $relativePath ) ? self::$_url : self::$_url . FileUtil::filterFileReference( "/" . $relativePath );
+		}
+
+		public static function getVersion()
+		{
+			return self::getPackageAsJSON( "version" );
+		}
+
+		public static function getPackageAsJSON( $param = NULL )
+		{
+			if ( empty(self::$_pkg) )
+			{
+				self::$_pkg = json_decode( file_get_contents( self::getRoot( "package.json" ) ) );
+			}
+			if ( is_string( $param ) )
+			{
+				if ( property_exists( self::$_pkg, $param ) ) return self::$_pkg[ $param ];
+
+				return NULL;
+			}
+
+			return self::$_pkg;
 		}
 	}
