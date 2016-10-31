@@ -50,9 +50,14 @@
 			}
 		}
 
+		/**
+		 * @param $key
+		 *
+		 * @return bool
+		 */
 		public function delete( $key )
 		{
-			if ( !$key ) return $this;
+			if ( !$key ) return FALSE;
 			if ( array_key_exists( $key, $this->_map ) ) unset($this->_map[ $key ]);
 			if ( $this->isCacheEnabled() )
 			{

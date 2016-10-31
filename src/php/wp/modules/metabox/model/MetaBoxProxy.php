@@ -9,6 +9,7 @@
 
 	namespace tutomvc\wp\metabox;
 
+	use tutomvc\core\form\FormElement;
 	use tutomvc\core\form\groups\FormGroup;
 	use tutomvc\wp\core\model\proxy\Proxy;
 
@@ -128,5 +129,77 @@
 			}
 
 			return $dp;
+		}
+
+		/**
+		 * @param int $postID
+		 * @param MetaBox $metaBox
+		 * @param FormElement|null $formElement
+		 * @param int|null $fissionIndex
+		 *
+		 * @return mixed
+		 */
+		public function getWPPostMeta( $postID, $metaBox, $formElement = NULL, $fissionIndex = NULL )
+		{
+			if ( is_int( $fissionIndex ) ) $metaBox->setIndex( $fissionIndex );
+			else $metaBox->setIndex( 0 );
+
+			if ( !is_null( $formElement ) )
+			{
+				if ( $formElement instanceof FormElement )
+				{
+					$metaKey = $formElement->getElementName();
+
+					return get_post_meta( $postID, $metaKey, TRUE );
+				}
+
+				return FALSE;
+			}
+
+			$metaKey        = $metaBox->getName();
+			$allMetaBoxMeta = get_post_meta( $postID, $metaKey, FALSE );
+
+			if ( !is_null( $fissionIndex ) )
+			{
+				if ( is_int( $fissionIndex ) )
+				{
+					if ( is_array( $allMetaBoxMeta ) && array_key_exists( $fissionIndex, $allMetaBoxMeta ) ) return $allMetaBoxMeta[ $fissionIndex ];
+
+					return FALSE;
+				}
+
+				return FALSE;
+			}
+
+			return $allMetaBoxMeta;
+		}
+
+		/**
+		 * @param int $postID
+		 * @param string $metaBoxName
+		 * @param null|string $formElementName
+		 * @param null|int $fissionIndex
+		 *
+		 * @return bool|mixed
+		 */
+		public function getWPPostMetaByName( $postID, $metaBoxName, $formElementName = NULL, $fissionIndex = NULL )
+		{
+			if ( !$this->get( $metaBoxName ) ) return FALSE;
+			/** @var MetaBox $metaBox */
+			$metaBox     = $this->get( $metaBoxName );
+			$formElement = NULL;
+
+			if ( !is_null( $formElementName ) )
+			{
+				if ( is_string( $formElementName ) )
+				{
+					$formElement = $metaBox->findFormElementByName( $formElementName );
+					if ( !$formElement ) return FALSE;
+				}
+
+				return FALSE;
+			}
+
+			return $this->getWPPostMeta( $postID, $metaBox, $formElement, $fissionIndex );
 		}
 	}
