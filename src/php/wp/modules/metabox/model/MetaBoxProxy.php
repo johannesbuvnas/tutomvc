@@ -30,7 +30,7 @@
 		 * @return array|mixed|null|void
 		 * @throws \ErrorException
 		 */
-		public function getPostMeta( $postID, $metaKey, $suppressFilters = FALSE )
+		public function getPostMetaByMetaKey( $postID, $metaKey, $suppressFilters = FALSE )
 		{
 			$value    = NULL;
 			$postType = get_post_type( $postID );
@@ -139,7 +139,7 @@
 		 *
 		 * @return mixed
 		 */
-		public function getWPPostMeta( $postID, $metaBox, $formElement = NULL, $fissionIndex = NULL )
+		public function getPostMeta( $postID, $metaBox, $formElement = NULL, $fissionIndex = NULL )
 		{
 			if ( is_int( $fissionIndex ) ) $metaBox->setIndex( $fissionIndex );
 			else $metaBox->setIndex( 0 );
@@ -182,7 +182,7 @@
 		 *
 		 * @return bool|mixed
 		 */
-		public function getWPPostMetaByName( $postID, $metaBoxName, $formElementName = NULL, $fissionIndex = NULL )
+		public function getPostMetaByName( $postID, $metaBoxName, $formElementName = NULL, $fissionIndex = NULL )
 		{
 			if ( !$this->get( $metaBoxName ) ) return FALSE;
 			/** @var MetaBox $metaBox */
@@ -202,6 +202,6 @@
 				}
 			}
 
-			return $this->getWPPostMeta( $postID, $metaBox, $formElement, $fissionIndex );
+			return $this->getPostMeta( $postID, $metaBox, $formElement, $fissionIndex );
 		}
 	}
