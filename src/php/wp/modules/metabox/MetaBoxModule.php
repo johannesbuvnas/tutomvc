@@ -62,6 +62,37 @@
 			return self::getProxy()->get( $metaBoxName );
 		}
 
+		/**
+		 * @param int $postID
+		 * @param MetaBox $metaBox
+		 * @param FormElement|null $formElement
+		 * @param int|null $fissionIndex
+		 *
+		 * @return mixed
+		 */
+		public static function getWPPostMeta( $postID, $metaBox, $formElement = NULL, $fissionIndex = NULL )
+		{
+			return self::getProxy()->getWPPostMeta( $postID, $metaBox, $formElement, $fissionIndex );
+		}
+
+		/**
+		 * @param int $postID
+		 * @param string $metaBoxName
+		 * @param null|string $formElementName
+		 * @param null|int $fissionIndex
+		 *
+		 * @return bool|mixed
+		 */
+		public static function getWPPostMetaByName( $postID, $metaBoxName, $formElementName = NULL, $fissionIndex = NULL )
+		{
+			return self::getProxy()->getWPPostMetaByName( $postID, $metaBoxName, $formElementName, $fissionIndex );
+		}
+
+		/**
+		 * @param $metaBoxName
+		 *
+		 * @return bool
+		 */
 		public static function remove( $metaBoxName )
 		{
 			return self::getProxy()->delete( $metaBoxName );
@@ -81,15 +112,5 @@
 		public static function getProxy()
 		{
 			return self::getInstance()->getProxy( MetaBoxProxy::NAME );
-		}
-
-		/**
-		 * @param $name
-		 *
-		 * @return MetaBox|null
-		 */
-		public static function getMetaBox( $name )
-		{
-			return self::getProxy()->get( $name );
 		}
 	}
