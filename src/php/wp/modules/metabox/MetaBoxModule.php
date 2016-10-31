@@ -42,14 +42,10 @@
 		 * @see https://codex.wordpress.org/Function_Reference/add_meta_box
 		 *
 		 * @param MetaBox $metaBox
-		 *
-		 * @return Facade|MetaBoxModuleFacade
 		 */
 		public static function add( $metaBox )
 		{
 			self::getProxy()->add( $metaBox, $metaBox->getName() );
-
-			return self::getInstance();
 		}
 
 		/**
@@ -72,7 +68,7 @@
 		 */
 		public static function getWPPostMeta( $postID, $metaBox, $formElement = NULL, $fissionIndex = NULL )
 		{
-			return self::getProxy()->getWPPostMeta( $postID, $metaBox, $formElement, $fissionIndex );
+			return self::getProxy()->getPostMeta( $postID, $metaBox, $formElement, $fissionIndex );
 		}
 
 		/**
@@ -85,7 +81,7 @@
 		 */
 		public static function getWPPostMetaByName( $postID, $metaBoxName, $formElementName = NULL, $fissionIndex = NULL )
 		{
-			return self::getProxy()->getWPPostMetaByName( $postID, $metaBoxName, $formElementName, $fissionIndex );
+			return self::getProxy()->getPostMetaByName( $postID, $metaBoxName, $formElementName, $fissionIndex );
 		}
 
 		/**

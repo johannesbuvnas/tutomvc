@@ -53,7 +53,7 @@
 		/* PUBLIC METHODS */
 		public function render( $post, $metabox )
 		{
-			$meta = MetaBoxModule::getProxy()->getPostMeta( $post->ID, $this->getName(), TRUE );
+			$meta = MetaBoxModule::getProxy()->getPostMetaByMetaKey( $post->ID, $this->getName(), TRUE );
 			$this->setValue( $meta );
 			echo $this->getElement();
 

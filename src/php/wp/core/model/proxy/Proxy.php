@@ -44,10 +44,8 @@
 
 				return $item;
 			}
-			else
-			{
-				return $this->get( $key );
-			}
+
+			return $this->get( $key );
 		}
 
 		/**

@@ -20,6 +20,6 @@
 			$isSingle = func_get_arg( 3 );
 			$postType = get_post_type( $postID );
 
-			return MetaBoxModule::getProxy()->getPostMeta( $postID, $metaKey );
+			return MetaBoxModule::getProxy()->getPostMetaByMetaKey( $postID, $metaKey );
 		}
 	}
