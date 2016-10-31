@@ -36,6 +36,8 @@
 		 * @param string $context
 		 * @param string $priority
 		 *
+		 * @see https://codex.wordpress.org/Function_Reference/add_meta_box
+		 *
 		 * @throws \ErrorException
 		 */
 		function __construct( $name, $title, $description, $postTypes, $min = 0, $max = - 1, $context = MetaBox::CONTEXT_NORMAL, $priority = MetaBox::PRIORITY_DEFAULT )

@@ -19,7 +19,7 @@
 		const REGEX_NAME          = "/([A-Za-z0-9-_]+)/ix";
 		const REGEX_SANITIZE_ID   = "/[^A-Za-z0-9-]+/";
 		const REGEX_SANITIZE_NAME = "/[^\[\]A-Za-z0-9-]+/";
-		const REGEX_ELEMENT_NAME  = "/(.*)\[([0-9]+)\](.*)/ix";
+		const REGEX_ELEMENT_NAME  = "/(.*?)\[([0-9]+)\](.*)/ix";
 		const REGEX_GROUP_NAME    = "/\[([^\]]*)\]/ix";
 		const CSS_CLASS           = "tutomvc-form-element";
 		protected $_value;
