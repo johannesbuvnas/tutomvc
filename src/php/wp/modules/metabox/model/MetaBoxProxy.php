@@ -194,10 +194,12 @@
 				if ( is_string( $formElementName ) )
 				{
 					$formElement = $metaBox->findFormElementByName( $formElementName );
-					if ( !$formElement ) return FALSE;
+					if ( !($formElement instanceof FormElement) ) return FALSE;
 				}
-
-				return FALSE;
+				else
+				{
+					return FALSE;
+				}
 			}
 
 			return $this->getWPPostMeta( $postID, $metaBox, $formElement, $fissionIndex );
