@@ -6,4 +6,10 @@
 	class AdminMenuPageProxy extends Proxy
 	{
 
+		const NAME = __CLASS__;
+
+		function __construct()
+		{
+			parent::__construct( self::NAME );
+		}
 	}

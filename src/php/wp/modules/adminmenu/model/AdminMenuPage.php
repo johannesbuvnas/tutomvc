@@ -12,19 +12,38 @@
 		protected $_menuTitle;
 		protected $_capability;
 		protected $_menuSlug;
+		protected $_parentSlug;
 		protected $_iconURL;
 		protected $_position;
 
-		function __construct( $pageTitle, $menuTitle, $capability, $menuSlug, $iconURL = NULL, $position = NULL )
+		function __construct( $pageTitle, $menuTitle, $capability, $menuSlug, $parentSlug = NULL, $iconURL = NULL, $position = NULL )
 		{
 			$this->setPageTitle( $pageTitle );
 			$this->setMenuTitle( $menuTitle );
 			$this->setCapability( $capability );
 			$this->setMenuSlug( $menuSlug );
+			$this->setParentSlug( $parentSlug );
 			$this->setIconURL( $iconURL );
 			$this->setPosition( $position );
 		}
 
+		function render()
+		{
+			$output = '
+			<div class="wrap">
+				<h1>' . $this->getPageTitle() . '</h1>
+			</div>
+			';
+
+			echo $output;
+		}
+
+		function isSubmenuPage()
+		{
+			return !empty($this->_parentSlug);
+		}
+
+		/* SET AND GET */
 		/**
 		 * @return mixed
 		 */
@@ -119,5 +138,21 @@
 		public function setPosition( $position )
 		{
 			$this->_position = $position;
+		}
+
+		/**
+		 * @return mixed
+		 */
+		public function getParentSlug()
+		{
+			return $this->_parentSlug;
+		}
+
+		/**
+		 * @param mixed $parentSlug
+		 */
+		public function setParentSlug( $parentSlug )
+		{
+			$this->_parentSlug = $parentSlug;
 		}
 	}
