@@ -10,6 +10,7 @@
 
 	use tutomvc\core\form\inputs\Select2FormInput;
 	use tutomvc\core\model\NameObject;
+	use tutomvc\wp\core\model\vo\WPAdminColumn;
 
 	class Taxonomy extends NameObject
 	{
@@ -101,7 +102,7 @@
 		/**
 		 * @param $columnName
 		 *
-		 * @return null|TaxonomyColumn
+		 * @return null|WPAdminColumn
 		 */
 		public function getColumn( $columnName )
 		{
