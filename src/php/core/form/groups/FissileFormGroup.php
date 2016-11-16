@@ -63,7 +63,7 @@
 		{
 			$elementName = self::sanitizeName( $elementName );
 			$index       = self::extractAncestorIndex( $elementName );
-			if ( is_null($index) ) return NULL;
+			if ( is_null( $index ) ) return NULL;
 			else $this->setIndex( $index );
 			$formElement = $this->getFormElementByElementName( $elementName );
 
@@ -160,7 +160,7 @@
 			$this->setIndex( $index );
 			parent::setValue( NULL ); // Just in case
 			parent::setValue( $this->getValueAt( $index ) );
-			parent::validate();
+//			parent::validate();
 			// Hack to fix child names
 			$this->_isSingle = FALSE;
 			$output          = '<div class="list-group-item ui-sortable fissile-form-group-item">';
