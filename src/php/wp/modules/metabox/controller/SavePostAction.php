@@ -9,7 +9,6 @@
 	namespace tutomvc\wp\metabox;
 
 	use tutomvc\wp\core\controller\command\ActionCommand;
-	use tutomvc\wp\log\LogModule;
 
 	class SavePostAction extends ActionCommand
 	{

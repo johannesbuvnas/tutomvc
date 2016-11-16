@@ -16,6 +16,7 @@
 	{
 		protected $_pageName     = "";
 		protected $_sectionName  = "";
+		protected $_groupName    = "";
 		protected $_autoload     = TRUE;
 		protected $_isRegistered = FALSE;
 
@@ -24,12 +25,15 @@
 			parent::__construct( $name, $title, $description, $min, $max );
 			$this->setPageName( $pageName );
 			$this->_sectionName = FormElement::sanitizeID( $name . "_section" );
+			$this->_groupName   = FormElement::sanitizeID( $name . "_group" );
 		}
 
 		public function register()
 		{
 			if ( !$this->_isRegistered )
 			{
+				register_setting( $this->getGroupName(), $this->getName(), array($this, "sanitize") );
+
 				add_settings_section( $this->getSectionName(), "", array(
 					$this,
 					"render"
@@ -39,8 +43,6 @@
 					$this,
 					"renderField"
 				), $this->getPageName(), $this->getSectionName() );
-
-				register_setting( $this->getPageName(), $this->getName(), array($this, "sanitize") );
 
 				$this->_isRegistered = TRUE;
 			}
@@ -66,7 +68,7 @@
 			);
 			$this->parse( $data );
 
-			$errors = $this->getErrors();
+			$errors = $this->validate();
 
 			if ( count( $errors ) )
 			{
@@ -81,8 +83,9 @@
 
 		public function render( $args )
 		{
-			$this->setValue( get_option( $this->getName(), NULL ) );
 			$this->validate();
+			settings_fields( $this->getGroupName() );
+			$this->setValue( get_option( $this->getName(), NULL ) );
 
 			echo $this->getElement();
 		}
@@ -139,5 +142,13 @@
 		public function getSectionName()
 		{
 			return $this->_sectionName;
+		}
+
+		/**
+		 * @return mixed|string
+		 */
+		public function getGroupName()
+		{
+			return $this->_groupName;
 		}
 	}

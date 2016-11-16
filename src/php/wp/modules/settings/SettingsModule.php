@@ -26,6 +26,16 @@
 		}
 
 		/**
+		 * @param $settingsName
+		 *
+		 * @return Settings|null
+		 */
+		public static function get( $settingsName )
+		{
+			return self::getProxy()->get( $settingsName );
+		}
+
+		/**
 		 * @return SettingsModuleFacade
 		 */
 		public static function getInstance()
