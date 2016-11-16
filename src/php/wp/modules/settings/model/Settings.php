@@ -83,6 +83,7 @@
 
 		public function render( $args )
 		{
+			$this->validate();
 			settings_fields( $this->getGroupName() );
 			$this->setValue( get_option( $this->getName(), NULL ) );
 
