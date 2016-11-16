@@ -8,6 +8,18 @@
 	 */
 	class AdminMenuPage
 	{
+		const PARENT_SLUG_DASHBOARD        = "index.php";
+		const PARENT_SLUG_POSTS            = "edit.php";
+		const PARENT_SLUG_MEDIA            = "upload.php";
+		const PARENT_SLUG_PAGES            = "edit.php?post_type=page";
+		const PARENT_SLUG_COMMENTS         = "edit-comments.php";
+		const PARENT_SLUG_APPEARANCE       = "themes.php";
+		const PARENT_SLUG_PLUGINS          = "plugins.php";
+		const PARENT_SLUG_USERS            = "users.php";
+		const PARENT_SLUG_TOOLS            = "tools.php";
+		const PARENT_SLUG_SETTINGS         = "options-general.php";
+		const PARENT_SLUG_NETWORK_SETTINGS = "settings.php";
+
 		protected $_pageTitle;
 		protected $_menuTitle;
 		protected $_capability;
@@ -16,15 +28,13 @@
 		protected $_iconURL;
 		protected $_position;
 
-		function __construct( $pageTitle, $menuTitle, $capability, $menuSlug, $parentSlug = NULL, $iconURL = NULL, $position = NULL )
+		function __construct( $pageTitle, $menuTitle, $capability, $menuSlug, $parentSlug = NULL )
 		{
 			$this->setPageTitle( $pageTitle );
 			$this->setMenuTitle( $menuTitle );
 			$this->setCapability( $capability );
 			$this->setMenuSlug( $menuSlug );
 			$this->setParentSlug( $parentSlug );
-			$this->setIconURL( $iconURL );
-			$this->setPosition( $position );
 		}
 
 		function render()
@@ -45,7 +55,7 @@
 
 		/* SET AND GET */
 		/**
-		 * @return mixed
+		 * @return string
 		 */
 		public function getPageTitle()
 		{
@@ -53,7 +63,7 @@
 		}
 
 		/**
-		 * @param mixed $pageTitle
+		 * @param string $pageTitle
 		 */
 		public function setPageTitle( $pageTitle )
 		{
@@ -61,7 +71,7 @@
 		}
 
 		/**
-		 * @return mixed
+		 * @return string
 		 */
 		public function getMenuTitle()
 		{
@@ -69,7 +79,7 @@
 		}
 
 		/**
-		 * @param mixed $menuTitle
+		 * @param string $menuTitle
 		 */
 		public function setMenuTitle( $menuTitle )
 		{
@@ -77,7 +87,7 @@
 		}
 
 		/**
-		 * @return mixed
+		 * @return string
 		 */
 		public function getCapability()
 		{
@@ -85,7 +95,7 @@
 		}
 
 		/**
-		 * @param mixed $capability
+		 * @param string $capability
 		 */
 		public function setCapability( $capability )
 		{
@@ -93,7 +103,7 @@
 		}
 
 		/**
-		 * @return mixed
+		 * @return string
 		 */
 		public function getMenuSlug()
 		{
@@ -101,7 +111,7 @@
 		}
 
 		/**
-		 * @param mixed $menuSlug
+		 * @param string $menuSlug
 		 */
 		public function setMenuSlug( $menuSlug )
 		{
@@ -109,7 +119,7 @@
 		}
 
 		/**
-		 * @return mixed
+		 * @return string
 		 */
 		public function getIconURL()
 		{
@@ -117,7 +127,9 @@
 		}
 
 		/**
-		 * @param mixed $iconURL
+		 * Only for root menu pages without parents.
+		 *
+		 * @param string $iconURL
 		 */
 		public function setIconURL( $iconURL )
 		{
@@ -125,7 +137,7 @@
 		}
 
 		/**
-		 * @return mixed
+		 * @return string
 		 */
 		public function getPosition()
 		{
@@ -133,7 +145,9 @@
 		}
 
 		/**
-		 * @param mixed $position
+		 * * Only for root menu pages without parents.
+		 *
+		 * @param string $position
 		 */
 		public function setPosition( $position )
 		{
@@ -141,7 +155,7 @@
 		}
 
 		/**
-		 * @return mixed
+		 * @return string
 		 */
 		public function getParentSlug()
 		{
@@ -149,7 +163,7 @@
 		}
 
 		/**
-		 * @param mixed $parentSlug
+		 * @param string $parentSlug
 		 */
 		public function setParentSlug( $parentSlug )
 		{

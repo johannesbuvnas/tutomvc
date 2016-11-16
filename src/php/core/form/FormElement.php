@@ -164,7 +164,7 @@
 		/**
 		 * Possibility to validate the value of the FormElement through call_user_func_array.
 		 *
-		 * @return $this
+		 * @return string|null
 		 * @see {@link setValidationMethod}
 		 *
 		 */
@@ -179,10 +179,12 @@
 				if ( is_string( $filter ) )
 				{
 					$this->setErrorMessage( $filter );
+
+					return $filter;
 				}
 			}
 
-			return $this;
+			return NULL;
 		}
 
 		/* SET AND GET */
