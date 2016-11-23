@@ -86,7 +86,7 @@
 			}
 		}
 
-		public function renderException( \Exception $exception )
+		public function renderException( $exception )
 		{
 			if ( ob_get_status() ) ob_end_clean();
 
