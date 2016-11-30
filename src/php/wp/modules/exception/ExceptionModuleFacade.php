@@ -8,6 +8,7 @@
 
 	namespace tutomvc\wp\exception;
 
+	use Herrera\Json\Exception\Exception;
 	use tutomvc\wp\core\facade\Facade;
 	use tutomvc\wp\log\LogModule;
 
@@ -36,6 +37,9 @@
 			}
 		}
 
+		/**
+		 * @param Exception|\Throwable $exception
+		 */
 		function executeException( $exception )
 		{
 			$this->renderException( $exception );
@@ -86,6 +90,9 @@
 			}
 		}
 
+		/**
+		 * @param Exception|\Throwable $exception
+		 */
 		public function renderException( $exception )
 		{
 			if ( ob_get_status() ) ob_end_clean();
