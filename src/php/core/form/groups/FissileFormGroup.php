@@ -20,7 +20,7 @@
 		const BUTTON_NAME_ADD_BEFORE = "_tutomvc_fissile_form_group_add_before";
 		const BUTTON_NAME_ADD_AFTER  = "_tutomvc_fissile_form_group_add_after";
 		const BUTTON_NAME_DELETE     = "_tutomvc_fissile_form_group_delete";
-		const INPUT_INDEX_SELECTOR   = "_tutomvc_fissile_form_group_index_selector";
+		const INPUT_INDEX            = "_tutomvc_fissile_form_group_index";
 		const INPUT_DELETE           = "_tutomvc_fissile_form_group_delete";
 		protected $_max             = 1;
 		protected $_min             = 1;
@@ -40,6 +40,32 @@
 			$this->setMin( $min );
 			$this->setMax( $max );
 			$this->setIndex( 0 );
+		}
+
+		public function parse( $dataArray )
+		{
+			if ( isset( $dataArray[ $this->getName() ] ) )
+			{
+				$dataArray = $dataArray[ $this->getName() ];
+				$fissions  = array();
+				foreach ( $dataArray as $key => $fission )
+				{
+					if ( !array_key_exists( self::INPUT_INDEX, $fission ) )
+					{
+						$fissions[] = $fission;
+					}
+					else
+					{
+						$fissions[ $fission[ self::INPUT_INDEX ] ] = $fission;
+					}
+				}
+
+				$this->setValue( $fissions );
+
+				return TRUE;
+			}
+
+			return FALSE;
 		}
 
 		public function createCloneAt( $index = 0 )
@@ -146,7 +172,16 @@
 					items: ".fissile-form-group-item",
 					opacity: 0.5,
 					handle: ".fissile-form-group-item-header",
-					tolerance: "pointer"
+					tolerance: "pointer",
+					update: function( event, ui ) 
+					{
+						var i = 0;
+						jQuery(this).find(".fissile-form-group-item").each(function()
+						{
+							jQuery(this).find("input.fissile-form-group-index").val(i);
+							i++;
+						});
+					}
 				});
 			});
 			</script>
@@ -192,6 +227,7 @@
 			$output .= '<label class="btn btn-danger btn-sm">
 							<input name="' . $this->formatRootElementName( $index ) . '[' . self::BUTTON_NAME_DELETE . ']" type="checkbox" style="margin:0 6px 0 0;"> <span class="glyphicon glyphicon-remove"></span>
 						</label>';
+			$output .= '<input type="hidden" value="' . $index . '" class="fissile-form-group-index" name="' . $this->formatRootElementName( $index ) . '[' . self::INPUT_INDEX . ']" >';
 //			$output .= '</div>';
 //			$output .= '<div class="col-xs-5">';
 //			$output .= '<select class="pull-right" name="' . $this->formatRootElementName( $index ) . '[' . self::INPUT_INDEX_SELECTOR . ']">';
@@ -397,7 +433,7 @@
 		 */
 		public function getValue( $call_user_func = NULL )
 		{
-			$value = empty($this->_value) ? $this->getDefaultValue() : $this->_value;
+			$value = empty( $this->_value ) ? $this->getDefaultValue() : $this->_value;
 
 			if ( !is_array( $value ) ) $value = array();
 
@@ -448,7 +484,7 @@
 
 		public function getValueMapAt( $index = NULL )
 		{
-			if ( empty($index) && filter_var( $index, FILTER_VALIDATE_INT ) === FALSE )
+			if ( empty( $index ) && filter_var( $index, FILTER_VALIDATE_INT ) === FALSE )
 			{
 				$valueMap = array();
 				$value    = $this->getValue();
