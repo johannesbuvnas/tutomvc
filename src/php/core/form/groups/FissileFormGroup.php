@@ -47,20 +47,8 @@
 			if ( isset( $dataArray[ $this->getName() ] ) )
 			{
 				$dataArray = $dataArray[ $this->getName() ];
-				$fissions  = array();
-				foreach ( $dataArray as $key => $fission )
-				{
-					if ( !array_key_exists( self::INPUT_INDEX, $fission ) )
-					{
-						$fissions[] = $fission;
-					}
-					else
-					{
-						$fissions[ $fission[ self::INPUT_INDEX ] ] = $fission;
-					}
-				}
 
-				$this->setValue( $fissions );
+				$this->setValue( $dataArray );
 
 				return TRUE;
 			}

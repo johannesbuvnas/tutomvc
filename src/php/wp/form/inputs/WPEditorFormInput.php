@@ -22,14 +22,12 @@
 
 		function getFormElement()
 		{
-			ob_start();
-
-			$this->_args = wp_parse_args( $this->_args, array(
+			$this->_args[ 'textarea_name' ] = $this->getElementName();
+			$this->_args                    = wp_parse_args( $this->_args, array(
 				'wpautop'             => TRUE,
 				'media_buttons'       => TRUE,
 				'default_editor'      => '',
 				'drag_drop_upload'    => FALSE,
-				'textarea_name'       => $this->getElementName(),
 				'textarea_rows'       => 20,
 				'tabindex'            => '',
 				'tabfocus_elements'   => ':prev,:next',
@@ -42,8 +40,8 @@
 				'quicktags'           => TRUE
 			) );
 
+			ob_start();
 			wp_editor( $this->getValue(), $this->getID(), $this->getArgs() );
-
 			return ob_get_clean();
 		}
 
