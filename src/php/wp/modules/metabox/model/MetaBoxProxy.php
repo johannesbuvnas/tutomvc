@@ -61,7 +61,7 @@
 						}
 					}
 
-					if ( isset($valueMap) && !empty($valueMap) )
+					if ( isset( $valueMap ) && !empty( $valueMap ) )
 					{
 						$value = $this->mapPostMeta( $valueMap, $postID, $formElement, $suppressFilters );
 						if ( !$suppressFilters ) $value = MetaBoxModule::apply_filters( $value, $formElement, $postID );
@@ -96,12 +96,12 @@
 					$value = $this->getPostMetaFromDB( $postID, $value );
 				}
 
-				if ( isset($childElement) && !is_null( $childElement ) )
+				if ( isset( $childElement ) && !is_null( $childElement ) )
 				{
 					if ( !$suppressFilters ) $value = MetaBoxModule::apply_filters( $value, $childElement, $postID );
 				}
 
-				if ( empty($value) ) $value = NULL;
+				if ( empty( $value ) ) $value = NULL;
 			}
 
 			return $valueMap;
@@ -156,7 +156,9 @@
 				return FALSE;
 			}
 
-			$metaKey        = $metaBox->getName();
+			$metaKey      = $metaBox->getName();
+			$fissonsCount = $metaBox->countFissions( $postID );
+			if ( empty( $fissonsCount ) ) return NULL;
 			$allMetaBoxMeta = get_post_meta( $postID, $metaKey, FALSE );
 
 			if ( !is_null( $fissionIndex ) )
