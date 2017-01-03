@@ -144,6 +144,9 @@
 			if ( is_int( $fissionIndex ) ) $metaBox->setIndex( $fissionIndex );
 			else $metaBox->setIndex( 0 );
 
+			$postType = get_post_type( $postID );
+			if ( !in_array( $postType, $metaBox->getPostTypes() ) ) return FALSE;
+
 			if ( !is_null( $formElement ) )
 			{
 				if ( $formElement instanceof FormElement )
