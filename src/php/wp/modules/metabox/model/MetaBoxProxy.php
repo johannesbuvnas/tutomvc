@@ -61,7 +61,7 @@
 						}
 					}
 
-					if ( isset($valueMap) && !empty($valueMap) )
+					if ( isset( $valueMap ) && !empty( $valueMap ) )
 					{
 						$value = $this->mapPostMeta( $valueMap, $postID, $formElement, $suppressFilters );
 						if ( !$suppressFilters ) $value = MetaBoxModule::apply_filters( $value, $formElement, $postID );
@@ -96,20 +96,30 @@
 					$value = $this->getPostMetaFromDB( $postID, $value );
 				}
 
-				if ( isset($childElement) && !is_null( $childElement ) )
+				if ( isset( $childElement ) && !is_null( $childElement ) )
 				{
 					if ( !$suppressFilters ) $value = MetaBoxModule::apply_filters( $value, $childElement, $postID );
 				}
 
-				if ( empty($value) ) $value = NULL;
+				if ( empty( $value ) ) $value = NULL;
 			}
 
 			return $valueMap;
 		}
 
-		public function getPostMetaFromDB( $postID, $metaKey, $isSingle = TRUE )
+		/**
+		 * Straight up SQL query to avoid native WP methods that uses hooks.
+		 *
+		 * @param $postID
+		 * @param $metaKey
+		 *
+		 * @return array|bool|mixed
+		 */
+		public function getPostMetaFromDB( $postID, $metaKey )
 		{
 			if ( !intval( $postID ) ) return FALSE;
+
+			$isSingle = substr( $metaKey, strlen( $metaKey ) - 2, 2 ) == "[]" ? FALSE : TRUE;
 
 			global $wpdb;
 
@@ -122,9 +132,11 @@
 
 			$myrows = $wpdb->get_results( $query );
 			$dp     = array();
+			$i      = 0;
 			foreach ( $myrows as $row )
 			{
-				if ( $isSingle ) return maybe_unserialize( $row->meta_value );
+				$i ++;
+				if ( $i == 1 && ($isSingle || is_serialized( $row->meta_value )) ) return maybe_unserialize( $row->meta_value );
 				$dp[] = maybe_unserialize( $row->meta_value );
 			}
 
