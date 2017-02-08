@@ -58,6 +58,21 @@
 			return self::getProxy()->get( $metaBoxName );
 		}
 
+		public static function findMetaKey( $metaBoxName, $formElementName, $atIndex = 0 )
+		{
+			/** @var MetaBox $metaBox */
+			if ( $metaBox = self::get( $metaBoxName ) )
+			{
+				$metaBox->setIndex( $atIndex );
+				if ( $formElement = $metaBox->findFormElementByName( $formElementName ) )
+				{
+					return $formElement->getElementName();
+				}
+			}
+
+			return NULL;
+		}
+
 		/**
 		 * @param int $postID
 		 * @param MetaBox $metaBox
