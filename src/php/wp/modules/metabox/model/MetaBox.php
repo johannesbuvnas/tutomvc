@@ -93,7 +93,20 @@
 				{
 					foreach ( $fission as $key => $value )
 					{
-						if ( !empty($value) ) add_post_meta( $postID, $key, $value );
+						if ( !empty( $value ) )
+						{
+							if ( is_array( $value ) )
+							{
+								foreach ( $value as $nestedValue )
+								{
+									add_post_meta( $postID, $key, $nestedValue );
+								}
+							}
+							else
+							{
+								add_post_meta( $postID, $key, $value );
+							}
+						}
 					}
 				}
 			}
