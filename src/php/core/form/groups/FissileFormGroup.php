@@ -13,6 +13,10 @@
 	/**
 	 * This is a **advanced** type of FormGroup that is fissionable.<br/>
 	 * Meaning it can be multiplicate itself.
+	 *
+	 * While the parent class FormGroup generates the value from it's children - FissileFormGroup work very differently because it's fissionable.
+	 * If you manipulate the value of the children of FissileFormGroup, you then need to use {@link saveValue()} after manipulation.
+	 *
 	 * @package tutomvc
 	 */
 	class FissileFormGroup extends FormGroup
@@ -360,6 +364,19 @@
 			return $this;
 		}
 
+		/**
+		 * Saves current value of the child elements to a specific index.
+		 *
+		 * @param null|int $atIndex If no index is set, it will save it to current index.
+		 */
+		public function saveValue( $atIndex = NULL )
+		{
+			if ( !is_array( $this->_value ) ) $this->_value = array();
+			if ( is_null( $atIndex ) || !is_int( $atIndex ) ) $atIndex = $this->getIndex();
+
+			$this->_value[ $atIndex ] = parent::getValue();
+		}
+
 		public function setValue( $value )
 		{
 			if ( !is_array( $value ) && !is_null( $value ) && !is_int( $value ) && !is_bool( $value ) )
@@ -413,12 +430,6 @@
 			return $this;
 		}
 
-		/**
-		 * @param null $call_user_func
-		 *
-		 * @return array|mixed
-		 * @throws \ErrorException
-		 */
 		public function getValue( $call_user_func = NULL )
 		{
 			$value = empty( $this->_value ) ? $this->getDefaultValue() : $this->_value;
