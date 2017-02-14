@@ -92,7 +92,14 @@
 				else if ( is_string( $value ) )
 				{
 					// META KEY
-					if ( $formElement instanceof FormGroup ) $childElement = $formElement->findFormElementByElementName( $value );
+					if ( $formElement instanceof FormGroup )
+					{
+						$childElement = $formElement->findFormElementByElementName( $value );
+					}
+					else if ( $formElement->getElementName() == $value )
+					{
+						$childElement = $formElement;
+					}
 					$value = $this->getPostMetaFromDB( $postID, $value );
 				}
 
