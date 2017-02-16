@@ -178,7 +178,9 @@
 				return FALSE;
 			}
 
-			$metaKey        = $metaBox->getName();
+			$metaKey      = $metaBox->getName();
+			$fissonsCount = $metaBox->countFissions( $postID );
+			if ( empty( $fissonsCount ) ) return NULL;
 			$allMetaBoxMeta = get_post_meta( $postID, $metaKey, FALSE );
 
 			if ( !is_null( $fissionIndex ) )
