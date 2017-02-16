@@ -3,6 +3,7 @@
 
 	use tutomvc\wp\core\controller\command\Command;
 	use tutomvc\wp\core\controller\Controller;
+	use tutomvc\wp\core\model\cache\ICacheDriver;
 	use tutomvc\wp\core\model\Model;
 	use tutomvc\wp\core\model\proxy\Proxy;
 	use tutomvc\wp\core\view\View;
@@ -24,10 +25,11 @@
 		protected        $_model;
 		protected        $_view;
 		protected        $_controller;
+		protected        $_cacheDriver;
 
 		public function __construct( $key )
 		{
-			if ( array_key_exists( $key, self::$_instanceMap ) ) throw new \ErrorException( "CUSTOM ERROR: " . " Instance of Facade with that particular key already exists.", 0, E_ERROR );
+			if ( array_key_exists( $key, self::$_instanceMap ) ) throw new \ErrorException( "Instance of Facade with that particular key already exists.", 0, E_ERROR );
 			self::$_instanceMap[ $key ] = $this;
 			$this->_key                 = $key;
 			$this->initialize();
@@ -69,6 +71,8 @@
 		}
 
 		/**
+		 * Modules will inherit the root, cache driver from it's parent.
+		 *
 		 * @param Facade $facade
 		 *
 		 * @return mixed
@@ -78,6 +82,7 @@
 			$this->_modulesMap[ $facade->getKey() ] = $facade;
 			$facade->setRoot( $this->getRoot() );
 			$facade->setURL( $this->getURL() );
+			if ( $this->getCacheDriver() ) $facade->setCacheDriver( $this->getCacheDriver() );
 			$facade->onRegister();
 
 			return $facade;
@@ -253,6 +258,23 @@
 		protected function getView()
 		{
 			return $this->_view;
+		}
+
+		/**
+		 * @return ICacheDriver
+		 */
+		final function getCacheDriver()
+		{
+			return $this->_cacheDriver;
+		}
+
+		/**
+		 * @param ICacheDriver $cacheDriver
+		 */
+		final function setCacheDriver( $cacheDriver )
+		{
+			$cacheDriver->setFacadeKey( $this->getKey() );
+			$this->_cacheDriver = $cacheDriver;
 		}
 
 	}
