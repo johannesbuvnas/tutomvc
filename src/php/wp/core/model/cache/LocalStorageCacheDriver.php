@@ -84,8 +84,8 @@
 			{
 				mkdir( $dir, 0777, TRUE );
 			}
-			$fileContent = $this->formatCache( $key, $data, $expire );
-			file_put_contents( $filePath, $fileContent );
+			$fileContent = $this->formatCache( $key, $data, time() + $expire );
+			$result      = file_put_contents( $filePath, $fileContent );
 
 			return TRUE;
 		}
@@ -100,7 +100,11 @@
 		{
 			$cache = $this->readCacheFromFile( $this->formatPath( $group, $key ) );
 
-			return is_array( $cache ) ? $cache[ 'data' ] : NULL;
+			$expire  = intval( $cache[ 'expire' ] );
+			$expired = FALSE;
+			if ( $expire < time() && $expire > 0 ) $expired = TRUE;
+
+			return $expired ? NULL : $cache[ 'data' ];
 		}
 
 		/**

@@ -121,7 +121,12 @@
 
 		public function isViewComponent( $relativePath, $name = NULL )
 		{
-			return $this->getView()->getViewComponentRealpath( $relativePath, $name ) != NULL;
+			return $this->getViewComponentRealpath( $relativePath, $name ) != NULL;
+		}
+
+		public function getViewComponentRealpath( $relativePath, $name = NULL )
+		{
+			return $this->getView()->getViewComponentRealpath( $relativePath, $name );
 		}
 
 		/* SET AND GET */
