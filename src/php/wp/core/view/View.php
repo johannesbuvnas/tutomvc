@@ -13,7 +13,7 @@
 
 		public function __construct( $key )
 		{
-			if ( array_key_exists( $key, $this::$_instanceMap ) ) die("ERROR! A View with that particular namespace already exists.");
+			if ( array_key_exists( $key, $this::$_instanceMap ) ) die( "ERROR! A View with that particular namespace already exists." );
 
 			$this::$_instanceMap[ $key ] = $this;
 
@@ -48,7 +48,6 @@
 			}
 
 			$viewComponentFilePath = $this->getViewComponentRealpath( $viewComponent, $name );
-			if ( empty($viewComponentFilePath) ) $viewComponentFilePath = $this->getViewComponentRealpath( $viewComponent, NULL );
 
 			if ( $viewComponentFilePath )
 			{
@@ -56,7 +55,7 @@
 			}
 			else
 			{
-				throw new \ErrorException( "\\tutomvc\\View: " . " View component not found - " . $viewComponentFilePath, 0, E_ERROR );
+				throw new \ErrorException( "View component not found - " . $viewComponentFilePath, 0, E_ERROR );
 			}
 
 			if ( $returnOutput ) return ob_get_clean();
