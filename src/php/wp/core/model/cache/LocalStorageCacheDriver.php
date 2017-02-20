@@ -19,14 +19,17 @@
 		 */
 		public function formatPath( $group, $key = NULL )
 		{
-			$relativePaths = array(self::PATH_ROOT_DIR_NAME);
+			$relativePaths   = array(WP_CONTENT_DIR);
+			$relativePaths[] = "cache";
+			$relativePaths[] = "tutomvc";
+			$relativePaths[] = "object";
 			if ( empty( $group ) ) $group = "default";
-			$relativePaths[] = FormElement::sanitizeID( $group );
-			if ( !empty( $key ) ) $relativePaths[] = FormElement::sanitizeID( $key ) . ".php";
+			$relativePaths[] = strtolower( FormElement::sanitizeID( $group ) );
+			if ( !empty( $key ) ) $relativePaths[] = strtolower( FormElement::sanitizeID( $key ) ) . ".php";
 
 			$relativePath = implode( DIRECTORY_SEPARATOR, $relativePaths );
 
-			return $this->getFacade()->getRoot( strtolower( $relativePath ) );
+			return $relativePath;
 		}
 
 		public function formatCache( $key, $data, $expire )
