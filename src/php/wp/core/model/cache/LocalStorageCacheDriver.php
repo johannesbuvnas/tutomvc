@@ -84,7 +84,7 @@
 			{
 				mkdir( $dir, 0777, TRUE );
 			}
-			$fileContent = $this->formatCache( $key, $data, time() + $expire );
+			$fileContent = $this->formatCache( $key, $data, $expire > 0 ? time() + $expire : 0 );
 			$result      = file_put_contents( $filePath, $fileContent );
 
 			return TRUE;
