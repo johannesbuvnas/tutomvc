@@ -1,13 +1,13 @@
 <?php
 	namespace tutomvc\wp\core\facade;
 
+	use tutomvc\core\utils\FileUtil;
 	use tutomvc\wp\core\controller\command\Command;
 	use tutomvc\wp\core\controller\Controller;
 	use tutomvc\wp\core\model\cache\ICacheDriver;
 	use tutomvc\wp\core\model\Model;
 	use tutomvc\wp\core\model\proxy\Proxy;
 	use tutomvc\wp\core\view\View;
-	use tutomvc\wp\utils\FileUtil;
 
 	/**
 	 * Class Facade
@@ -214,7 +214,7 @@
 
 		public function getURL( $relativePath = NULL )
 		{
-			return is_null( $relativePath ) ? $this->_url : $this->_url . FileUtil::filterFileReference( "/" . $relativePath );
+			return is_null( $relativePath ) ? $this->_url : $this->_url . FileUtil::sanitizePath( "/" . $relativePath );
 		}
 
 		/**
@@ -227,7 +227,7 @@
 
 		public function getRoot( $relativePath = NULL )
 		{
-			return is_null( $relativePath ) ? FileUtil::filterFileReference( $this->_root ) : FileUtil::filterFileReference( $this->_root . "/{$relativePath}" );
+			return is_null( $relativePath ) ? FileUtil::sanitizePath( $this->_root ) : FileUtil::sanitizePath( $this->_root . "/{$relativePath}" );
 		}
 
 		/* EVENTS */

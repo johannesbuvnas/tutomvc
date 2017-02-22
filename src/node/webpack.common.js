@@ -8,14 +8,14 @@ module.exports = {
         'tutomvc': [ './src/tsc/tutomvc.js' ]
     },
     resolve: {
-        extensions: [ '', '.js' ],
-        modulesDirectories: [
+        extensions: [ '.js' ],
+        modules: [
             'node_modules',
             'src/node/loaders'
         ]
     },
     resolveLoader: {
-        modulesDirectories: [
+        modules: [
             "node_modules",
             'src/node/loaders'
         ]
@@ -30,13 +30,21 @@ module.exports = {
         "jquery": "jQuery"
     },
     module: {
-        loaders: [
+        rules: [
+            {
+                test: /\.scss$/,
+                loader: ExtractTextPlugin.extract(
+                    // activate source maps via loader query
+                    'css-loader?sourceMap!' +
+                    'sass-loader?sourceMap'
+                )
+            },
             {
                 test: /\.less$/,
                 loader: ExtractTextPlugin.extract(
                     // activate source maps via loader query
-                    'css?sourceMap!' +
-                    'less?sourceMap'
+                    'css-loader?sourceMap!' +
+                    'less-loader?sourceMap'
                 )
             },
             {
@@ -49,6 +57,5 @@ module.exports = {
             }
         ]
     },
-    plugins: [
-    ]
+    plugins: []
 };

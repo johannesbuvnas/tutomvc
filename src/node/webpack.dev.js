@@ -5,12 +5,11 @@ var commonConfig = require( "./webpack.common" );
 var ExtractTextPlugin = require( "extract-text-webpack-plugin" );
 
 var config = {
-    debug: true,
     devtool: "#inline-source-map",
     module: {
-        preLoaders: [
+        rules: [
             // All output '.js' files will have any sourcemaps re-processed by 'source-map-loader'.
-            { test: /\.js$/, loader: "source-map-loader" }
+            { enforce: "pre", test: /\.js$/, loader: "source-map-loader" }
         ]
     },
     plugins: [

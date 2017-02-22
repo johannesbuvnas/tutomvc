@@ -1,16 +1,7 @@
 <?php
 	namespace tutomvc\wp;
-
-// https://github.com/PureMVC/puremvc-as3-multicore-framework/tree/master/src/org/puremvc/as3/multicore/patterns
-
-// DEPENDENCIES
-////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// require_once realpath( dirname( __FILE__ ) ) . '/utils/ArrayUtil.php';
-// require_once realpath( dirname( __FILE__ ) ) . '/utils/FileUtil.php';
-////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+	use tutomvc\core\utils\FileUtil;
 	use tutomvc\wp\core\facade\Facade;
-	use tutomvc\wp\utils\FileUtil;
 
 	final class TutoMVC
 	{
@@ -53,7 +44,7 @@
 
 				// Figure out URL to this plugin
 				self::$_documentRoot = str_replace( $_SERVER[ 'SCRIPT_NAME' ], '', $_SERVER[ 'SCRIPT_FILENAME' ] );
-				self::$_url          = $wpURL . FileUtil::filterFileReference( substr( self::$_root, strripos( self::$_root, self::$_documentRoot ) + strlen( self::$_wpRelativeRoot ) + strlen( self::$_documentRoot ) ) );
+				self::$_url          = $wpURL . FileUtil::sanitizePath( substr( self::$_root, strripos( self::$_root, self::$_documentRoot ) + strlen( self::$_wpRelativeRoot ) + strlen( self::$_documentRoot ) ) );
 
 				self::$_initiated = TRUE;
 
@@ -83,7 +74,7 @@
 			$backtrace = debug_backtrace();
 			$caller    = $backtrace[ 0 ][ 'file' ];
 			$appRoot   = realpath( dirname( $caller ) );
-			$appURL    = get_bloginfo( 'wpurl' ) . FileUtil::filterFileReference( substr( $appRoot, strripos( $appRoot, TutoMVC::getDocumentRoot() ) + strlen( TutoMVC::getWPRelativeRoot() ) + strlen( TutoMVC::getDocumentRoot() ) ) );
+			$appURL    = get_bloginfo( 'wpurl' ) . FileUtil::sanitizePath( substr( $appRoot, strripos( $appRoot, TutoMVC::getDocumentRoot() ) + strlen( TutoMVC::getWPRelativeRoot() ) + strlen( TutoMVC::getDocumentRoot() ) ) );
 
 			$facade->setRoot( $appRoot );
 			$facade->setURL( $appURL );
@@ -97,22 +88,22 @@
 		/* SET AND GET */
 		public static function getRoot( $relativePath = NULL )
 		{
-			return is_null( $relativePath ) ? self::$_root : self::$_root . FileUtil::filterFileReference( "/" . $relativePath );
+			return is_null( $relativePath ) ? self::$_root : self::$_root . FileUtil::sanitizePath( "/" . $relativePath );
 		}
 
 		public static function getDocumentRoot( $relativePath = NULL )
 		{
-			return is_null( $relativePath ) ? self::$_documentRoot : self::$_documentRoot . FileUtil::filterFileReference( "/" . $relativePath );
+			return is_null( $relativePath ) ? self::$_documentRoot : self::$_documentRoot . FileUtil::sanitizePath( "/" . $relativePath );
 		}
 
 		public static function getWPRelativeRoot( $relativePath = NULL )
 		{
-			return is_null( $relativePath ) ? self::$_wpRelativeRoot : self::$_wpRelativeRoot . FileUtil::filterFileReference( "/" . $relativePath );
+			return is_null( $relativePath ) ? self::$_wpRelativeRoot : self::$_wpRelativeRoot . FileUtil::sanitizePath( "/" . $relativePath );
 		}
 
 		public static function getURL( $relativePath = NULL )
 		{
-			return is_null( $relativePath ) ? self::$_url : self::$_url . FileUtil::filterFileReference( "/" . $relativePath );
+			return is_null( $relativePath ) ? self::$_url : self::$_url . FileUtil::sanitizePath( "/" . $relativePath );
 		}
 
 		public static function getVersion()
