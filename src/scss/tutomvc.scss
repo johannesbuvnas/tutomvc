@@ -1,0 +1,19 @@
+// Bootstrap
+//@import "../../node_modules/bootstrap/scss/bootstrap";
+// Core variables and mixins
+@import "../../node_modules/bootstrap/dist/css/bootstrap.css";
+////////////////////////////////////////
+// Customization
+@import "../../node_modules/bootstrap-select/sass/bootstrap-select";
+@import "../../node_modules/select2/dist/css/select2.css";
+
+.fissile-form-group,
+.fissile-form-group .list-group-item
+{
+  background-color: #f6f6f6;
+}
+
+.fissile-form-group .fissile-form-group-item-body
+{
+  background-color: #ffffff;
+}
