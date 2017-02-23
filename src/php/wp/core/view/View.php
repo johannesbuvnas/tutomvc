@@ -55,7 +55,9 @@
 			}
 			else
 			{
-				throw new \ErrorException( "View component not found - " . $viewComponentFilePath, 0, E_ERROR );
+				$requested = $viewComponent;
+				if ( !empty( $name ) ) $requested = $viewComponent . "-" . $name;
+				throw new \ErrorException( "View component not found - " . $requested, 0, E_ERROR );
 			}
 
 			if ( $returnOutput ) return ob_get_clean();
