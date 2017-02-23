@@ -4,6 +4,7 @@
 
 	use tutomvc\wp\adminmenu\model\AdminMenuPage;
 	use tutomvc\wp\adminmenu\model\AdminMenuPageProxy;
+	use tutomvc\wp\adminmenu\model\NetworkAdminMenuPageProxy;
 	use tutomvc\wp\core\facade\Facade;
 	use tutomvc\wp\system\SystemApp;
 
@@ -14,7 +15,20 @@
 			return self::getProxy()->add( $adminMenuPage, $adminMenuPage->getMenuSlug() );
 		}
 
+		public static function addPageToNetwork( AdminMenuPage $adminMenuPage )
+		{
+			return self::getNetworkProxy()->add( $adminMenuPage, $adminMenuPage->getMenuSlug() );
+		}
+
 		/* SET AND GET */
+		/**
+		 * @return NetworkAdminMenuPageProxy
+		 */
+		public static function getNetworkProxy()
+		{
+			return self::getInstance()->getProxy( NetworkAdminMenuPageProxy::NAME );
+		}
+
 		/**
 		 * @return AdminMenuPageProxy
 		 */
