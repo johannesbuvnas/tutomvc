@@ -129,7 +129,7 @@
 			}
 		?>
 		<?php
-			if ( is_network_admin() ):
+			if ( !defined( "MULTISITE" ) || is_network_admin() ):
 				?>
                 <!-- #advanced-cache -->
                 <div class="card" id="advanced-cache">
