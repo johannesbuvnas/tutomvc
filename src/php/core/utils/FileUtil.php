@@ -6,6 +6,24 @@
 		/**
 		 * @param $directory
 		 *
+		 * @return array
+		 */
+		public static function listFiles( $directory )
+		{
+			$content = array_diff( scandir( $directory ), array('.', '..') );
+			$files   = array();
+			foreach ( $content as $file )
+			{
+				$path = self::sanitizePath( "$directory/$file" );
+				if ( is_file( $path ) ) $files[] = $path;
+			}
+
+			return $files;
+		}
+
+		/**
+		 * @param $directory
+		 *
 		 * @return bool
 		 */
 		public static function removeDirectoryRecursively( $directory )
