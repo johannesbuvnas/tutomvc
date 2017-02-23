@@ -184,7 +184,7 @@
 		 */
 		public static function hasExpired()
 		{
-			$fileExpires = filemtime( self::getCurrentIndexHTMLGZ() ) + self::getExpireTimeInSeconds();
+			$fileExpires = is_file( self::getCurrentIndexHTMLGZ() ) ? filemtime( self::getCurrentIndexHTMLGZ() ) + self::getExpireTimeInSeconds() : 1;
 
 			return self::getExpireTimeInSeconds() > 0 && $fileExpires < time() ? TRUE : FALSE;
 		}
