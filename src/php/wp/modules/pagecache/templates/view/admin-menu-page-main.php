@@ -98,6 +98,52 @@
     ExpiresByType image/x-icon "access 1 year"
     ExpiresDefault "access 1 month"
 &lt;/IfModule&gt;
+&#x3C;IfModule mod_deflate.c&#x3E;
+    &#x3C;IfModule mod_setenvif.c&#x3E;
+        &#x3C;IfModule mod_headers.c&#x3E;
+            SetEnvIfNoCase ^(Accept-EncodXng|X-cept-Encoding|X{15}|~{15}|-{15})$ ^((gzip|deflate)\s*,?\s*)+|[X~-]{4,13}$ HAVE_Accept-Encoding
+            RequestHeader append Accept-Encoding &#x22;gzip,deflate&#x22; env=HAVE_Accept-Encoding
+        &#x3C;/IfModule&#x3E;
+    &#x3C;/IfModule&#x3E;
+    &#x3C;IfModule mod_filter.c&#x3E;
+        AddOutputFilterByType DEFLATE &#x22;application/atom+xml&#x22; \
+                                      &#x22;application/javascript&#x22; \
+                                      &#x22;application/json&#x22; \
+                                      &#x22;application/ld+json&#x22; \
+                                      &#x22;application/manifest+json&#x22; \
+                                      &#x22;application/rdf+xml&#x22; \
+                                      &#x22;application/rss+xml&#x22; \
+                                      &#x22;application/schema+json&#x22; \
+                                      &#x22;application/vnd.geo+json&#x22; \
+                                      &#x22;application/vnd.ms-fontobject&#x22; \
+                                      &#x22;application/x-font-ttf&#x22; \
+                                      &#x22;application/x-javascript&#x22; \
+                                      &#x22;application/x-web-app-manifest+json&#x22; \
+                                      &#x22;application/xhtml+xml&#x22; \
+                                      &#x22;application/xml&#x22; \
+                                      &#x22;font/eot&#x22; \
+                                      &#x22;font/opentype&#x22; \
+                                      &#x22;image/bmp&#x22; \
+                                      &#x22;image/svg+xml&#x22; \
+                                      &#x22;image/vnd.microsoft.icon&#x22; \
+                                      &#x22;image/x-icon&#x22; \
+                                      &#x22;text/cache-manifest&#x22; \
+                                      &#x22;text/css&#x22; \
+                                      &#x22;text/html&#x22; \
+                                      &#x22;text/javascript&#x22; \
+                                      &#x22;text/plain&#x22; \
+                                      &#x22;text/vcard&#x22; \
+                                      &#x22;text/vnd.rim.location.xloc&#x22; \
+                                      &#x22;text/vtt&#x22; \
+                                      &#x22;text/x-component&#x22; \
+                                      &#x22;text/x-cross-domain-policy&#x22; \
+                                      &#x22;text/xml&#x22;
+
+    &#x3C;/IfModule&#x3E;
+    &#x3C;IfModule mod_mime.c&#x3E;
+        AddEncoding gzip              svgz
+    &#x3C;/IfModule&#x3E;
+&#x3C;/IfModule&#x3E;
                     </code></pre>
                 <p class="">
                     <a href="https://varvy.com/pagespeed/leverage-browser-caching.html" target="_blank" class="">Read more</a>
