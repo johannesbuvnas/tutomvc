@@ -28,7 +28,7 @@
 				mkdir( $dir, 0777, TRUE );
 			}
 			file_put_contents( PageCacheModule::getCurrentIndexHTML(), $html );
-			file_put_contents( PageCacheModule::getCurrentIndexHTMLGZ(), gzencode( PageCacheModule::minifyHTML( $html ) ) );
+			file_put_contents( PageCacheModule::getCurrentIndexHTMLGZ(), gzencode( $html ) );
 
 			return TRUE;
 		}
@@ -38,7 +38,7 @@
 			$map  = array();
 			$root = PageCacheModule::formatPageCacheRoot( "/" );
 			$path = PageCacheModule::formatPageCacheRoot( $relativePath );
-			$pos = strrpos( $path, $root ) + strlen( $root ) + 1;
+			$pos  = strrpos( $path, $root ) + strlen( $root ) + 1;
 			if ( is_dir( $path ) )
 			{
 				$di    = new \RecursiveDirectoryIterator( $path, \RecursiveDirectoryIterator::SKIP_DOTS );
