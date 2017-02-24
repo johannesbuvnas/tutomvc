@@ -275,4 +275,12 @@
 
 			return self::$_currentURL;
 		}
+
+		/**
+		 * @param int $expireTimeInSeconds
+		 */
+		public static function setExpireTimeInSeconds( $expireTimeInSeconds )
+		{
+			self::$_expireTimeInSeconds = $expireTimeInSeconds;
+		}
 	}
