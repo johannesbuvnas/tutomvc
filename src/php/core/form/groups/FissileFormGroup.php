@@ -191,6 +191,7 @@
 			// Hack to fix child names
 			$this->_isSingle = FALSE;
 			$output          = '<div class="list-group-item ui-sortable fissile-form-group-item">';
+			$output .= '<input type="hidden" value="' . $index . '" class="fissile-form-group-index" name="' . $this->formatRootElementName( $index ) . '[' . self::INPUT_INDEX . ']" >';
 			if ( $this->getMin() == 1 && $this->getMax() == 1 )
 			{
 				$output .= parent::getFormElement();
@@ -219,7 +220,6 @@
 			$output .= '<label class="btn btn-danger btn-sm">
 							<input name="' . $this->formatRootElementName( $index ) . '[' . self::BUTTON_NAME_DELETE . ']" type="checkbox" style="margin:0 6px 0 0;"> <span class="glyphicon glyphicon-remove"></span>
 						</label>';
-			$output .= '<input type="hidden" value="' . $index . '" class="fissile-form-group-index" name="' . $this->formatRootElementName( $index ) . '[' . self::INPUT_INDEX . ']" >';
 //			$output .= '</div>';
 //			$output .= '<div class="col-xs-5">';
 //			$output .= '<select class="pull-right" name="' . $this->formatRootElementName( $index ) . '[' . self::INPUT_INDEX_SELECTOR . ']">';
