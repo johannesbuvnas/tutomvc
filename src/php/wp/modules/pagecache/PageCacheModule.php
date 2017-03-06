@@ -31,6 +31,7 @@
 				// Ignore cache?
 				//////////////////////////////////////////
 				self::$_ignoreCacheMode = self::hasLoggedInCookies();
+				if ( !empty( $_GET ) || !empty( $_POST ) ) self::$_ignoreCacheMode = TRUE;
 
 				//////////////////////////////////////////
 
