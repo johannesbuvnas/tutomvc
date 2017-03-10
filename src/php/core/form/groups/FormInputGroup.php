@@ -59,7 +59,9 @@
 
 		public function getFooterElement()
 		{
-			return '<span class="help-block">' . $this->getDescription() . '</span>';
+			$desc = $this->getDescription();
+
+			return is_string( $desc ) && strlen( $desc ) ? '<span class="help-block">' . $this->getDescription() . '</span>' : '';
 		}
 
 		public function getErrorMessageElement()
