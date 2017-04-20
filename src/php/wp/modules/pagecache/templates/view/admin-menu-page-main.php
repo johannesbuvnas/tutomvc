@@ -3,12 +3,13 @@
 
 	if ( is_network_admin() )
 	{
-		$indexedFiles = array();
+		$indexedFiles = PageCacheModule::getInstance()->getPageCacheProxy()->listIndexes();
+		usort( $indexedFiles, array("\\tutomvc\\core\\utils\\ArrayUtil", "usortByDirectoryDepth") );
 		/** @var WP_Site $site */
-		foreach ( get_sites() as $site )
-		{
-			if ( !empty( $indexes = PageCacheModule::getInstance()->getPageCacheProxy()->listIndexes( $site->domain ) ) ) $indexedFiles = array_merge( $indexedFiles, $indexes );
-		}
+//		foreach ( get_sites() as $site )
+//		{
+//			if ( !empty( $indexes = PageCacheModule::getInstance()->getPageCacheProxy()->listIndexes( $site->domain ) ) ) $indexedFiles = array_merge( $indexedFiles, $indexes );
+//		}
 	}
 	else
 	{
