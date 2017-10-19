@@ -106,7 +106,7 @@
 		}
 
 		/**
-		 * @param string $relativePath File path. Relative to facade's root.
+		 * @param string $relativePath File path. Relative to facade's root. Can be an absolute file path as well.
 		 * @param null|string $name Optional name of view component. {$relativePath}-{$name}.php
 		 * @param array $dataProvider Data to send to view component.
 		 * @param bool|FALSE $returnOutput
