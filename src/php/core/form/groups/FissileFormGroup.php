@@ -506,7 +506,7 @@
 		 * @return array
 		 * @throws \ErrorException
 		 */
-		public function getFlattenFissions( $call_user_func = NULL )
+		public function getFissionsFlatten( $call_user_func = NULL )
 		{
 			$flatValue    = array();
 			$currentValue = $this->getFissions( $call_user_func );

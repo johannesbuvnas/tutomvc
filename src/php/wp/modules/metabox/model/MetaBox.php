@@ -82,7 +82,7 @@
 		{
 			$this->clear( $postID );
 
-			$map = $this->getFlattenFissions();
+			$map = $this->getFissionsFlatten();
 
 			// get_metadata is executed when update_post_meta
 			add_post_meta( $postID, $this->getName(), count( $map ) );
@@ -121,7 +121,7 @@
 			$int = $this->countFissions( $postID );
 			$this->setFissions( $int );
 			delete_post_meta( $postID, $this->getName() );
-			$map = $this->getFlattenFissions();
+			$map = $this->getFissionsFlatten();
 			foreach ( $map as $clone )
 			{
 				foreach ( $clone as $key => $value )
