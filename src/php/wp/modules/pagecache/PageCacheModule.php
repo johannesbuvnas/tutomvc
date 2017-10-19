@@ -5,6 +5,7 @@
 	use tutomvc\core\utils\FileUtil;
 	use tutomvc\core\utils\URLUtil;
 	use tutomvc\wp\core\facade\Facade;
+	use tutomvc\wp\system\SystemApp;
 
 	class PageCacheModule
 	{
@@ -16,6 +17,14 @@
 		private static $_originalTemplateInclude = "";
 		private static $_expireTimeInSeconds     = 0;
 		private static $_currentURL;
+
+		/**
+		 * @return PageCacheFacade
+		 */
+		public static function activate()
+		{
+			return self::getInstance();
+		}
 
 		public static function initialize()
 		{
@@ -210,7 +219,7 @@
 		 */
 		public static function getInstance()
 		{
-			return Facade::getInstance( PageCacheFacade::KEY );
+			return Facade::getInstance( PageCacheFacade::KEY ) ? Facade::getInstance( PageCacheFacade::KEY ) : SystemApp::getInstance()->registerModule( new PageCacheFacade() );
 		}
 
 		/**
