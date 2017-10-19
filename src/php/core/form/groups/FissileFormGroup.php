@@ -52,7 +52,7 @@
 			{
 				$dataArray = $dataArray[ $this->getName() ];
 
-				$this->setValue( $dataArray );
+				$this->setFissions( $dataArray );
 
 				return TRUE;
 			}
@@ -65,16 +65,11 @@
 
 		}
 
-		public function formatRootElementName( $rootName )
-		{
-			$name = $this->hasParent() ? "[" . $this->getName() . "]" : $this->getName();
-
-			return $this->_parentName . $name . "[" . $rootName . "]";
-		}
-
 		public function count()
 		{
-			return is_array( $this->getValue() ) ? count( $this->getValue() ) : 0;
+			$fissions = $this->getFissions();
+
+			return is_array( $fissions ) ? count( $fissions ) : 0;
 		}
 
 		public function findFormElementByElementName( $elementName )
@@ -186,7 +181,7 @@
 		{
 			$this->setIndex( $index );
 			parent::setValue( NULL ); // Just in case
-			parent::setValue( $this->getValueAt( $index ) );
+			parent::setValue( $this->getFissionAt( $index ) );
 //			parent::validate();
 			// Hack to fix child names
 			$this->_isSingle = FALSE;
@@ -205,7 +200,7 @@
 					' . parent::getFormElement() . '
 				</li>';
 			}
-			$output .= '</div>';
+			$output          .= '</div>';
 			$this->_isSingle = TRUE;
 
 			return $output;
@@ -301,7 +296,7 @@
 		}
 
 		/**
-		 * Do not use. Use setMin and setMax instead.
+		 * Do not use. Use setMin() and setMax() instead.
 		 *
 		 * @param bool $value
 		 *
@@ -336,7 +331,6 @@
 
 			$this->_max = $max;
 
-			return $this;
 		}
 
 		/**
@@ -361,7 +355,6 @@
 
 			$this->_min = $min;
 
-			return $this;
 		}
 
 		/**
@@ -369,7 +362,7 @@
 		 *
 		 * @param null|int $atIndex If no index is set, it will save it to current index.
 		 */
-		public function saveValue( $atIndex = NULL )
+		public function saveFission( $atIndex = NULL )
 		{
 			if ( !is_array( $this->_value ) ) $this->_value = array();
 			if ( is_null( $atIndex ) || !is_int( $atIndex ) ) $atIndex = $this->getIndex();
@@ -377,7 +370,12 @@
 			$this->_value[ $atIndex ] = parent::getValue();
 		}
 
-		public function setValue( $value )
+		public function setValueByFission( $index )
+		{
+			parent::setValue( $this->getFissionAt( $index ) );
+		}
+
+		public function setFissions( $value )
 		{
 			if ( !is_array( $value ) && !is_null( $value ) && !is_int( $value ) && !is_bool( $value ) )
 			{
@@ -427,10 +425,9 @@
 				$this->_value = NULL;
 			}
 
-			return $this;
 		}
 
-		public function getValue( $call_user_func = NULL )
+		public function getFissions( $call_user_func = NULL )
 		{
 			$value = empty( $this->_value ) ? $this->getDefaultValue() : $this->_value;
 
@@ -486,17 +483,20 @@
 			if ( empty( $index ) && filter_var( $index, FILTER_VALIDATE_INT ) === FALSE )
 			{
 				$valueMap = array();
-				$value    = $this->getValue();
+				$fissions = $this->getValue();
+				$value    = parent::getValue();
 
-				foreach ( $value as $key => $singleValue )
+				foreach ( $fissions as $key => $fission )
 				{
 					parent::setValue( NULL ); // Just in case
-					parent::setValue( $singleValue );
+					$this->setIndex( $key );
+					parent::setValue( $fission );
 					$valueMap[] = parent::getValueMapAt( $key );
 				}
 
 				// Restore value
-				$this->setValue( $value );
+				parent::setValue( NULL );
+				parent::setValue( $value );
 
 				return $valueMap;
 			}
@@ -512,10 +512,10 @@
 		 * @return array
 		 * @throws \ErrorException
 		 */
-		public function getFlatValue( $call_user_func = NULL )
+		public function getFlattenFissions( $call_user_func = NULL )
 		{
 			$flatValue    = array();
-			$currentValue = $this->getValue( $call_user_func );
+			$currentValue = $this->getFissions( $call_user_func );
 			/** @var FormElement $formElement */
 			foreach ( $currentValue as $key => $value )
 			{
@@ -528,27 +528,11 @@
 			return $flatValue;
 		}
 
-		public function getValueAt( $index = 0 )
+		public function getFissionAt( $index = 0 )
 		{
-			return is_array( $this->getValue() ) && array_key_exists( $index, $this->getValue() ) ? $this->getValue()[ $index ] : NULL;
-		}
+			$fissions = $this->getFissions();
 
-		public function setIndex( $index )
-		{
-			parent::setIndex( $index );
-
-			/** @var FormElement $formElement */
-			foreach ( $this->getFormElements() as $formElement )
-			{
-				$formElement->setParentName( $this->getNameAsParent() );
-			}
-
-			return $this;
-		}
-
-		public function getNameAsParent()
-		{
-			return $this->formatRootElementName( $this->getIndex() );
+			return is_array( $fissions ) && array_key_exists( $index, $fissions ) ? $fissions[ $index ] : NULL;
 		}
 
 		/**
@@ -563,7 +547,7 @@
 			$before = parent::getValue();
 			for ( $i = 0; $i < $count; $i ++ )
 			{
-				parent::setValue( $this->getValueAt( $i ) );
+				parent::setValue( $this->getFissionAt( $i ) );
 				$fissionErrors = parent::getErrors();
 				if ( is_array( $fissionErrors ) ) $errors[ $i ] = $fissionErrors;
 			}

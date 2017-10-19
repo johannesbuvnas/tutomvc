@@ -21,7 +21,7 @@
 
 		function __construct( $name, $title = NULL, $description = NULL )
 		{
-			parent::__construct( $name, NULL );
+			parent::__construct( $name );
 			$this->setLabel( $title );
 			$this->setDescription( $description );
 		}
@@ -50,7 +50,7 @@
 		{
 			if ( $formElement = $this->getFormElementByName( $formElementName ) )
 			{
-				unset($this->_formElementsMap[ $formElementName ]);
+				unset( $this->_formElementsMap[ $formElementName ] );
 				$formElement = NULL;
 
 				return TRUE;
@@ -117,6 +117,14 @@
 			}
 
 			return NULL;
+		}
+
+		public function formatRootElementName( $rootName )
+		{
+			$name     = $this->hasParent() ? "[" . $this->getName() . "]" : $this->getName();
+			$rootName = strval( $rootName );
+
+			return is_string( $rootName ) && strlen( $rootName ) ? $this->_parentName . $name . "[" . $rootName . "]" : $this->_parentName . $name;
 		}
 
 		/* SET AND GET */
@@ -417,8 +425,6 @@
 					$formElement->setValue( NULL );
 				}
 			}
-
-			return $this;
 		}
 
 		/**
@@ -509,9 +515,7 @@
 		 */
 		public function getNameAsParent()
 		{
-			$name = $this->hasParent() ? "[" . $this->getName() . "]" : $this->getName();
-
-			return $this->_parentName . $name;
+			return $this->formatRootElementName( $this->getIndex() );
 		}
 
 		public function setParentName( $parentName )
@@ -523,8 +527,17 @@
 			{
 				$formElement->setParentName( $this->getNameAsParent() );
 			}
+		}
 
-			return $this;
+		public function setIndex( $index )
+		{
+			parent::setIndex( $index );
+
+			/** @var FormElement $formElement */
+			foreach ( $this->getFormElements() as $formElement )
+			{
+				$formElement->setParentName( $this->getNameAsParent() );
+			}
 		}
 
 		/**
@@ -538,6 +551,6 @@
 		 */
 		public function hasError()
 		{
-			return !empty($this->getErrors());
+			return !empty( $this->getErrors() );
 		}
 	}

@@ -86,7 +86,7 @@
 		{
 			preg_match_all( self::REGEX_NAME, $elementName, $matches );
 
-			if ( count( $matches ) == 2 && !empty($matches[ 1 ]) ) return $matches[ 1 ];
+			if ( count( $matches ) == 2 && !empty( $matches[ 1 ] ) ) return $matches[ 1 ];
 
 			return NULL;
 		}
@@ -128,7 +128,7 @@
 		{
 			preg_match_all( "/\[([^\]]*)\]/ix", $elementName, $matches );
 
-			if ( count( $matches ) == 2 && !empty($matches[ 1 ]) ) return $matches[ 1 ];
+			if ( count( $matches ) == 2 && !empty( $matches[ 1 ] ) ) return $matches[ 1 ];
 
 			return NULL;
 		}
@@ -143,7 +143,7 @@
 		 */
 		public function parse( $dataArray )
 		{
-			if ( isset($dataArray[ $this->getName() ]) )
+			if ( isset( $dataArray[ $this->getName() ] ) )
 			{
 				$this->setValue( $dataArray[ $this->getName() ] );
 
@@ -199,7 +199,6 @@
 		{
 			$this->_label = $title;
 
-			return $this;
 		}
 
 		/**
@@ -222,7 +221,6 @@
 		{
 			$this->_description = $description;
 
-			return $this;
 		}
 
 		/**
@@ -347,7 +345,6 @@
 		{
 			$this->_single = $single;
 
-			return $this;
 		}
 
 		/**
@@ -370,7 +367,6 @@
 		{
 			$this->_index = $index;
 
-			return $this;
 		}
 
 		/**
@@ -378,6 +374,7 @@
 		 *
 		 * @param string $name
 		 *
+		 * @return $this|void
 		 * @throws \ErrorException
 		 */
 		public function setName( $name )
@@ -406,8 +403,6 @@
 		public function setValue( $value )
 		{
 			$this->_value = $value;
-
-			return $this;
 		}
 
 		/**
@@ -442,8 +437,6 @@
 		public function setDefaultValue( $defaultValue )
 		{
 			$this->_defaultValue = $defaultValue;
-
-			return $this;
 		}
 
 		/**
@@ -453,7 +446,7 @@
 		 */
 		public function hasParent()
 		{
-			return !empty($this->_parentName);
+			return !empty( $this->_parentName );
 		}
 
 		/**
@@ -466,8 +459,6 @@
 		public function setParentName( $parentName )
 		{
 			$this->_parentName = $parentName;
-
-			return $this;
 		}
 
 		/**
@@ -518,8 +509,6 @@
 		public function setValidationMethod( $validationMethod )
 		{
 			$this->_validationMethod = $validationMethod;
-
-			return $this;
 		}
 
 		/**
@@ -542,7 +531,7 @@
 		 */
 		public function hasError()
 		{
-			return !empty($this->getErrorMessage());
+			return !empty( $this->getErrorMessage() );
 		}
 
 		/**
@@ -555,8 +544,6 @@
 		public function setErrorMessage( $errorMessage )
 		{
 			$this->_errorMessage = $errorMessage;
-
-			return $this;
 		}
 
 		/**

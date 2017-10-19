@@ -55,7 +55,7 @@
 		{
 			$this->validate();
 			$meta = MetaBoxModule::getProxy()->getPostMetaByMetaKey( $post->ID, $this->getName(), TRUE );
-			$this->setValue( $meta );
+			$this->setFissions( $meta );
 			echo $this->getElement();
 
 			return $this;
@@ -82,7 +82,7 @@
 		{
 			$this->clear( $postID );
 
-			$map = $this->getFlatValue();
+			$map = $this->getFlattenFissions();
 
 			// get_metadata is executed when update_post_meta
 			add_post_meta( $postID, $this->getName(), count( $map ) );
@@ -119,9 +119,9 @@
 			$prevValue = $this->_value;
 
 			$int = $this->countFissions( $postID );
-			$this->setValue( $int );
+			$this->setFissions( $int );
 			delete_post_meta( $postID, $this->getName() );
-			$map = $this->getFlatValue();
+			$map = $this->getFlattenFissions();
 			foreach ( $map as $clone )
 			{
 				foreach ( $clone as $key => $value )
