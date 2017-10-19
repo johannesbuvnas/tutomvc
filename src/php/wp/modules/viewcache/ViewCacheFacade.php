@@ -2,21 +2,25 @@
 
 	namespace tutomvc\wp\viewcache;
 
-	use tutomvc\wp\viewcache\model\proxy\ViewCacheProxy;
 	use tutomvc\wp\core\facade\Facade;
+	use tutomvc\wp\viewcache\model\proxy\ViewCacheProxy;
 
 	class ViewCacheFacade extends Facade
 	{
 		const KEY = "tutomvc_viewcache";
 
-		public function __construct()
+		protected $_cacheExpirationTimeInSeconds = 0;
+
+		public function __construct( $cacheExpirationTimeInSeconds = 0 )
 		{
 			parent::__construct( self::KEY );
+
+			$this->_cacheExpirationTimeInSeconds = $cacheExpirationTimeInSeconds;
 		}
 
 		protected function prepModel()
 		{
-			$this->registerProxy( new ViewCacheProxy() );
+			$this->registerProxy( new ViewCacheProxy( $this->_cacheExpirationTimeInSeconds ) );
 		}
 
 		public function render( $relativePath, $name = NULL, $dataProvider = array(), $returnOutput = FALSE )

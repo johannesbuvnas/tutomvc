@@ -143,20 +143,20 @@
 
 		public static function minifyHTML( $html )
 		{
-			$search  = array(
-				'/\>[^\S ]+/s',
-				'/[^\S ]+\</s',
-				'/(\s)+/s'
-			);
-			$replace = array(
-				'>',
-				'<',
-				'\\1'
-			);
-			if ( preg_match( "/\<html/i", $html ) == 1 && preg_match( "/\<\/html\>/i", $html ) == 1 )
-			{
-				$html = preg_replace( $search, $replace, $html );
-			}
+//			$search  = array(
+//				'/\>[^\S ]+/s',
+//				'/[^\S ]+\</s',
+//				'/(\s)+/s'
+//			);
+//			$replace = array(
+//				'>',
+//				'<',
+//				'\\1'
+//			);
+//			if ( preg_match( "/\<html/i", $html ) == 1 && preg_match( "/\<\/html\>/i", $html ) == 1 )
+//			{
+//				$html = preg_replace( $search, $replace, $html );
+//			}
 
 			return $html;
 		}

@@ -8,9 +8,9 @@
 	{
 		const NAME = "view_cache_proxy";
 
-		function __construct()
+		function __construct( $cacheExpirationInSeconds )
 		{
-			parent::__construct( self::NAME, 0 );
+			parent::__construct( self::NAME, $cacheExpirationInSeconds );
 		}
 
 		public function formatKey( $requestURI, $viewComponent, $name, $dataProvider )

@@ -4,6 +4,7 @@
 - [WordPress: Framework](wiki/WordPress:-Framework)
 - [WordPress: MetaBoxModule](wiki/WordPress:-MetaBoxModule)
 - [WordPress: PageCacheModule](wiki/WordPress:-PageCacheModule)
+- [WordPress: ViewCacheModule](wiki/WordPress:-ViewCacheModule)
 
 **Dependencies**
 
