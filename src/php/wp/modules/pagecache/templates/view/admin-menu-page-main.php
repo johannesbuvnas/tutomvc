@@ -60,7 +60,6 @@
 							<?php
 								foreach ( $indexedFiles as $key => $uri )
 								{
-									$created = date( "Y-m-d H:i:s", filemtime( $key ) );
 									?>
                                     <li class="list-group-item">
                                         <a href="<?php echo "http://$uri"; ?>" target="_blank">
