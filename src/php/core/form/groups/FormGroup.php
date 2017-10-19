@@ -396,7 +396,6 @@
 		/**
 		 * @param array|null $value
 		 *
-		 * @return $this
 		 * @throws \ErrorException
 		 */
 		public function setValue( $value )

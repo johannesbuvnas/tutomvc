@@ -193,7 +193,6 @@
 		 *
 		 * @param string $title
 		 *
-		 * @return $this
 		 */
 		public function setLabel( $title )
 		{
@@ -215,7 +214,6 @@
 		 *
 		 * @param $description
 		 *
-		 * @return $this
 		 */
 		public function setDescription( $description )
 		{
@@ -339,7 +337,6 @@
 		 *
 		 * @param boolean $single
 		 *
-		 * @return $this
 		 */
 		public function setSingle( $single )
 		{
@@ -360,13 +357,10 @@
 		 * Will be used if this single is set to false.
 		 *
 		 * @param null|int $index
-		 *
-		 * @return $this
 		 */
 		public function setIndex( $index )
 		{
 			$this->_index = $index;
-
 		}
 
 		/**
@@ -374,7 +368,6 @@
 		 *
 		 * @param string $name
 		 *
-		 * @return $this|void
 		 * @throws \ErrorException
 		 */
 		public function setName( $name )
@@ -398,7 +391,6 @@
 		 *
 		 * @param $value
 		 *
-		 * @return $this
 		 */
 		public function setValue( $value )
 		{
@@ -432,7 +424,6 @@
 		 *
 		 * @param mixed $defaultValue
 		 *
-		 * @return $this
 		 */
 		public function setDefaultValue( $defaultValue )
 		{
@@ -454,7 +445,6 @@
 		 *
 		 * @param string $parentName
 		 *
-		 * @return $this
 		 */
 		public function setParentName( $parentName )
 		{
@@ -504,7 +494,6 @@
 		 *
 		 * @param callable $validationMethod
 		 *
-		 * @return $this
 		 */
 		public function setValidationMethod( $validationMethod )
 		{
@@ -539,7 +528,6 @@
 		 *
 		 * @param string $errorMessage
 		 *
-		 * @return $this
 		 */
 		public function setErrorMessage( $errorMessage )
 		{

@@ -301,7 +301,6 @@
 		 * @param bool $value
 		 *
 		 * @see setMax() setMin()
-		 * @return $this|void
 		 * @throws \ErrorException
 		 */
 		public function setSingle( $value )
@@ -322,15 +321,12 @@
 		 * A int lower than one equals to unlimited.
 		 *
 		 * @param int $max
-		 *
-		 * @return $this
 		 */
 		public function setMax( $max )
 		{
 			if ( $max < 1 ) $max = - 1;
 
 			$this->_max = $max;
-
 		}
 
 		/**
@@ -346,8 +342,6 @@
 		 * A int lower than one equals to unlimited.
 		 *
 		 * @param int $min
-		 *
-		 * @return $this
 		 */
 		public function setMin( $min )
 		{

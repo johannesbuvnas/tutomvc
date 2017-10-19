@@ -36,13 +36,6 @@
 			return parent::addFormElement( $formElement );
 		}
 
-		public function getNameAsParent()
-		{
-			$name = $this->hasParent() ? "[" . $this->getName() . "]" : $this->getName();
-
-			return $this->_parentName . $name;
- 		}
-
 		/**
 		 * @return string The <input/> element
 		 */
@@ -82,6 +75,17 @@
 			}
 
 			return $output;
+		}
+
+		/**
+		 * Indexes not supported
+		 *
+		 * @param int|null $index
+		 */
+		public function setIndex( $index )
+		{
+			$index = NULL;
+			parent::setIndex( $index );
 		}
 
 		public function hasError()
