@@ -515,10 +515,7 @@
 		 */
 		public function getNameAsParent()
 		{
-			$name = $this->hasParent() ? "[" . $this->getName() . "]" : $this->getName();
-
-			return $this->_parentName . $name;
-
+			return $this->formatRootElementName( $this->getIndex() );
 		}
 
 		public function setParentName( $parentName )

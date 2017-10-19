@@ -528,11 +528,6 @@
 			return $flatValue;
 		}
 
-		public function getNameAsParent()
-		{
-			return $this->formatRootElementName( $this->getIndex() );
-		}
-
 		public function getFissionAt( $index = 0 )
 		{
 			$fissions = $this->getFissions();
