@@ -483,7 +483,7 @@
 			if ( empty( $index ) && filter_var( $index, FILTER_VALIDATE_INT ) === FALSE )
 			{
 				$valueMap = array();
-				$fissions = $this->getValue();
+				$fissions = $this->getFissions();
 				$value    = parent::getValue();
 
 				foreach ( $fissions as $key => $fission )
