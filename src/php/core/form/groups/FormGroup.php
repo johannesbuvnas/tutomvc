@@ -11,9 +11,10 @@
 	use tutomvc\core\form\FormElement;
 
 	/**
-	 * A group of elements. Can be inputs or groups.
+	 * A group of form elements. Can be other FormGroups or FormInputs.
 	 *
-	 * @package tutomvc
+	 * @see \tutomvc\core\form\inputs\FormInput FormInput
+	 * @package tutomvc\core\form\groups
 	 */
 	class FormGroup extends FormElement
 	{
@@ -60,10 +61,10 @@
 		}
 
 		/**
-		 * Try to find a element by a certain name, first in this current group, and then in children. Returns the first match.<br/>
-		 * For more accurate search see {@link findFormElementByElementName}.
+		 * Try to find a element by a certain name, first in this current group, and then in children. Returns the first match.
 		 *
 		 * @param $name
+		 * @see FormGroup::findFormElementByElementName() For more accurate search.
 		 *
 		 * @return null|FormElement|FormGroup
 		 */

@@ -11,13 +11,14 @@
 	use tutomvc\core\form\FormElement;
 
 	/**
-	 * This is a **advanced** type of FormGroup that is fissionable.<br/>
+	 * This is a **advanced** type of FormGroup that is fissionable.
+	 *
 	 * Meaning it can be multiplicate itself.
 	 *
 	 * While the parent class FormGroup generates the value from it's children - FissileFormGroup work very differently because it's fissionable.
-	 * If you manipulate the value of the children of FissileFormGroup, you then need to use {@link saveValue()} after manipulation.
+	 * If you manipulate the value of the children of FissileFormGroup, you then need to use {@link saveFission()} after manipulation.
 	 *
-	 * @package tutomvc
+	 * @package tutomvc\core\form\groups
 	 */
 	class FissileFormGroup extends FormGroup
 	{
