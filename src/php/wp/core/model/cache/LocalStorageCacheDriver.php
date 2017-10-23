@@ -34,7 +34,7 @@
 
 		public function formatCache( $key, $data, $expire )
 		{
-			$data = maybe_serialize( $data );
+			$data = serialize( $data );
 
 			return '
 			<?php 
@@ -57,9 +57,10 @@
 				$cachedData = include "$filePath";
 				if ( !empty( $cachedData ) && is_array( $cachedData ) )
 				{
+					if ( !strlen( $cachedData[ 'data' ] ) ) return NULL;
 					$cachedData[ 'key' ]  = base64_decode( $cachedData[ 'key' ] );
 					$cachedData[ 'data' ] = base64_decode( $cachedData[ 'data' ] );
-					$cachedData[ 'data' ] = maybe_unserialize( $cachedData[ 'data' ] );
+					$cachedData[ 'data' ] = unserialize( $cachedData[ 'data' ] );
 
 					return $cachedData;
 				}
@@ -102,6 +103,8 @@
 		public function get( $key, $group = '' )
 		{
 			$cache = $this->readCacheFromFile( $this->formatPath( $group, $key ) );
+
+			if ( empty( $cache ) ) return NULL;
 
 			$expire  = intval( $cache[ 'expire' ] );
 			$expired = FALSE;

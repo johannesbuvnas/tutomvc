@@ -149,7 +149,7 @@
 
 		public function formatFooterOutput()
 		{
-			return $this->getType() == self::TYPE_HIDDEN ? '' : '<span class="help-block">' . $this->getDescription() . '</span>';
+			return $this->getType() == self::TYPE_HIDDEN ? '' : parent::getFooterElement();
 		}
 
 		public function setValue( $value )
