@@ -149,7 +149,7 @@
 
 		public function formatFooterOutput()
 		{
-			return $this->getType() == self::TYPE_HIDDEN ? '' : parent::getFooterElement();
+			return $this->getType() == self::TYPE_HIDDEN ? '' : parent::formatFooterOutput();
 		}
 
 		public function setValue( $value )
