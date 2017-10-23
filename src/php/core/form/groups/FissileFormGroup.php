@@ -11,13 +11,14 @@
 	use tutomvc\core\form\FormElement;
 
 	/**
-	 * This is a **advanced** type of FormGroup that is fissionable.<br/>
+	 * This is a **advanced** type of FormGroup that is fissionable.
+	 *
 	 * Meaning it can be multiplicate itself.
 	 *
 	 * While the parent class FormGroup generates the value from it's children - FissileFormGroup work very differently because it's fissionable.
-	 * If you manipulate the value of the children of FissileFormGroup, you then need to use {@link saveValue()} after manipulation.
+	 * If you manipulate the value of the children of FissileFormGroup, you then need to use {@link saveFission()} after manipulation.
 	 *
-	 * @package tutomvc
+	 * @package tutomvc\core\form\groups
 	 */
 	class FissileFormGroup extends FormGroup
 	{
@@ -52,7 +53,7 @@
 			{
 				$dataArray = $dataArray[ $this->getName() ];
 
-				$this->setValue( $dataArray );
+				$this->setFissions( $dataArray );
 
 				return TRUE;
 			}
@@ -65,16 +66,11 @@
 
 		}
 
-		public function formatRootElementName( $rootName )
-		{
-			$name = $this->hasParent() ? "[" . $this->getName() . "]" : $this->getName();
-
-			return $this->_parentName . $name . "[" . $rootName . "]";
-		}
-
 		public function count()
 		{
-			return is_array( $this->getValue() ) ? count( $this->getValue() ) : 0;
+			$fissions = $this->getFissions();
+
+			return is_array( $fissions ) ? count( $fissions ) : 0;
 		}
 
 		public function findFormElementByElementName( $elementName )
@@ -145,15 +141,15 @@
 			return FALSE;
 		}
 
-		final public function getElement()
+		final public function formatOutput()
 		{
 			$output = '<ul class="list-group fissile-form-group" id="' . $this->getID() . '">';
-			$output .= $this->getHeaderElement();
+			$output .= $this->formatHeaderOutput();
 			for ( $i = 0; $i < $this->count(); $i ++ )
 			{
 				$output .= $this->getSingleElement( $i );
 			}
-			if ( !$this->hasReachedMax() ) $output .= $this->getFooterElement();
+			if ( !$this->hasReachedMax() ) $output .= $this->formatFooterOutput();
 			$output .= '</ul>';
 
 			$output .= '
@@ -186,7 +182,7 @@
 		{
 			$this->setIndex( $index );
 			parent::setValue( NULL ); // Just in case
-			parent::setValue( $this->getValueAt( $index ) );
+			parent::setValue( $this->getFissionAt( $index ) );
 //			parent::validate();
 			// Hack to fix child names
 			$this->_isSingle = FALSE;
@@ -194,7 +190,7 @@
 			$output .= '<input type="hidden" value="' . $index . '" class="fissile-form-group-index" name="' . $this->formatRootElementName( $index ) . '[' . self::INPUT_INDEX . ']" >';
 			if ( $this->getMin() == 1 && $this->getMax() == 1 )
 			{
-				$output .= parent::getFormElement();
+				$output .= parent::formatFormElementOutput();
 			}
 			else
 			{
@@ -203,10 +199,10 @@
 					' . $this->getSingleElementIndexSelector( $index ) . '
 				</li>
 				<li class="list-group-item fissile-form-group-item-body">
-					' . parent::getFormElement() . '
+					' . parent::formatFormElementOutput() . '
 				</li>';
 			}
-			$output .= '</div>';
+			$output          .= '</div>';
 			$this->_isSingle = TRUE;
 
 			return $output;
@@ -236,7 +232,7 @@
 			return $output;
 		}
 
-		public function getHeaderElement()
+		public function formatHeaderOutput()
 		{
 			$output = '
 					<li class="list-group-item">
@@ -275,7 +271,7 @@
 			return $output;
 		}
 
-		public function getFooterElement()
+		public function formatFooterOutput()
 		{
 			$output = '
 					<li class="list-group-item fissile-form-group-footer" style="text-align: center">
@@ -301,12 +297,11 @@
 		}
 
 		/**
-		 * Do not use. Use setMin and setMax instead.
+		 * Do not use. Use setMin() and setMax() instead.
 		 *
 		 * @param bool $value
 		 *
 		 * @see setMax() setMin()
-		 * @return $this|void
 		 * @throws \ErrorException
 		 */
 		public function setSingle( $value )
@@ -327,16 +322,12 @@
 		 * A int lower than one equals to unlimited.
 		 *
 		 * @param int $max
-		 *
-		 * @return $this
 		 */
 		public function setMax( $max )
 		{
 			if ( $max < 1 ) $max = - 1;
 
 			$this->_max = $max;
-
-			return $this;
 		}
 
 		/**
@@ -352,8 +343,6 @@
 		 * A int lower than one equals to unlimited.
 		 *
 		 * @param int $min
-		 *
-		 * @return $this
 		 */
 		public function setMin( $min )
 		{
@@ -361,7 +350,6 @@
 
 			$this->_min = $min;
 
-			return $this;
 		}
 
 		/**
@@ -369,7 +357,7 @@
 		 *
 		 * @param null|int $atIndex If no index is set, it will save it to current index.
 		 */
-		public function saveValue( $atIndex = NULL )
+		public function saveFission( $atIndex = NULL )
 		{
 			if ( !is_array( $this->_value ) ) $this->_value = array();
 			if ( is_null( $atIndex ) || !is_int( $atIndex ) ) $atIndex = $this->getIndex();
@@ -377,7 +365,12 @@
 			$this->_value[ $atIndex ] = parent::getValue();
 		}
 
-		public function setValue( $value )
+		public function setValueByFission( $index )
+		{
+			parent::setValue( $this->getFissionAt( $index ) );
+		}
+
+		public function setFissions( $value )
 		{
 			if ( !is_array( $value ) && !is_null( $value ) && !is_int( $value ) && !is_bool( $value ) )
 			{
@@ -427,10 +420,9 @@
 				$this->_value = NULL;
 			}
 
-			return $this;
 		}
 
-		public function getValue( $call_user_func = NULL )
+		public function getFissions( $call_user_func = NULL )
 		{
 			$value = empty( $this->_value ) ? $this->getDefaultValue() : $this->_value;
 
@@ -486,17 +478,20 @@
 			if ( empty( $index ) && filter_var( $index, FILTER_VALIDATE_INT ) === FALSE )
 			{
 				$valueMap = array();
-				$value    = $this->getValue();
+				$fissions = $this->getFissions();
+				$value    = parent::getValue();
 
-				foreach ( $value as $key => $singleValue )
+				foreach ( $fissions as $key => $fission )
 				{
 					parent::setValue( NULL ); // Just in case
-					parent::setValue( $singleValue );
+					$this->setIndex( $key );
+					parent::setValue( $fission );
 					$valueMap[] = parent::getValueMapAt( $key );
 				}
 
 				// Restore value
-				$this->setValue( $value );
+				parent::setValue( NULL );
+				parent::setValue( $value );
 
 				return $valueMap;
 			}
@@ -512,10 +507,10 @@
 		 * @return array
 		 * @throws \ErrorException
 		 */
-		public function getFlatValue( $call_user_func = NULL )
+		public function getFissionsFlatten( $call_user_func = NULL )
 		{
 			$flatValue    = array();
-			$currentValue = $this->getValue( $call_user_func );
+			$currentValue = $this->getFissions( $call_user_func );
 			/** @var FormElement $formElement */
 			foreach ( $currentValue as $key => $value )
 			{
@@ -528,27 +523,11 @@
 			return $flatValue;
 		}
 
-		public function getValueAt( $index = 0 )
+		public function getFissionAt( $index = 0 )
 		{
-			return is_array( $this->getValue() ) && array_key_exists( $index, $this->getValue() ) ? $this->getValue()[ $index ] : NULL;
-		}
+			$fissions = $this->getFissions();
 
-		public function setIndex( $index )
-		{
-			parent::setIndex( $index );
-
-			/** @var FormElement $formElement */
-			foreach ( $this->getFormElements() as $formElement )
-			{
-				$formElement->setParentName( $this->getNameAsParent() );
-			}
-
-			return $this;
-		}
-
-		public function getNameAsParent()
-		{
-			return $this->formatRootElementName( $this->getIndex() );
+			return is_array( $fissions ) && array_key_exists( $index, $fissions ) ? $fissions[ $index ] : NULL;
 		}
 
 		/**
@@ -563,7 +542,7 @@
 			$before = parent::getValue();
 			for ( $i = 0; $i < $count; $i ++ )
 			{
-				parent::setValue( $this->getValueAt( $i ) );
+				parent::setValue( $this->getFissionAt( $i ) );
 				$fissionErrors = parent::getErrors();
 				if ( is_array( $fissionErrors ) ) $errors[ $i ] = $fissionErrors;
 			}

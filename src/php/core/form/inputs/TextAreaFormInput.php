@@ -22,7 +22,7 @@
 			$this->setRows( $rows );
 		}
 
-		function getFormElement()
+		function formatFormElementOutput()
 		{
 			$output = "";
 

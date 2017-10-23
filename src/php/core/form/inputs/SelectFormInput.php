@@ -104,7 +104,7 @@
 			return $this->_options;
 		}
 
-		function getFormElement()
+		function formatFormElementOutput()
 		{
 			$output = "";
 

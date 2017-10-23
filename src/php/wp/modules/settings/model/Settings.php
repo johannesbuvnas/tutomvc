@@ -78,16 +78,16 @@
 				}
 			}
 
-			return $this->getValue();
+			return $this->getFissions();
 		}
 
 		public function render( $args )
 		{
 			$this->validate();
 			settings_fields( $this->getGroupName() );
-			$this->setValue( get_option( $this->getName(), NULL ) );
+			$this->setFissions( get_option( $this->getName(), NULL ) );
 
-			echo $this->getElement();
+			$this->output();
 		}
 
 		public function renderField()

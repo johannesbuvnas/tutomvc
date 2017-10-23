@@ -27,13 +27,9 @@
 
 		/**
 		 * @param string $name
-		 *
-		 * @return $this
 		 */
 		public function setName( $name )
 		{
 			$this->_name = $name;
-
-			return $this;
 		}
 	}

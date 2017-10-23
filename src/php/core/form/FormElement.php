@@ -86,7 +86,7 @@
 		{
 			preg_match_all( self::REGEX_NAME, $elementName, $matches );
 
-			if ( count( $matches ) == 2 && !empty($matches[ 1 ]) ) return $matches[ 1 ];
+			if ( count( $matches ) == 2 && !empty( $matches[ 1 ] ) ) return $matches[ 1 ];
 
 			return NULL;
 		}
@@ -128,7 +128,7 @@
 		{
 			preg_match_all( "/\[([^\]]*)\]/ix", $elementName, $matches );
 
-			if ( count( $matches ) == 2 && !empty($matches[ 1 ]) ) return $matches[ 1 ];
+			if ( count( $matches ) == 2 && !empty( $matches[ 1 ] ) ) return $matches[ 1 ];
 
 			return NULL;
 		}
@@ -143,7 +143,7 @@
 		 */
 		public function parse( $dataArray )
 		{
-			if ( isset($dataArray[ $this->getName() ]) )
+			if ( isset( $dataArray[ $this->getName() ] ) )
 			{
 				$this->setValue( $dataArray[ $this->getName() ] );
 
@@ -193,13 +193,11 @@
 		 *
 		 * @param string $title
 		 *
-		 * @return $this
 		 */
 		public function setLabel( $title )
 		{
 			$this->_label = $title;
 
-			return $this;
 		}
 
 		/**
@@ -216,13 +214,11 @@
 		 *
 		 * @param $description
 		 *
-		 * @return $this
 		 */
 		public function setDescription( $description )
 		{
 			$this->_description = $description;
 
-			return $this;
 		}
 
 		/**
@@ -259,6 +255,14 @@
 		}
 
 		/**
+		 * Render and echo output HTML.
+		 */
+		public function output()
+		{
+			echo $this->formatOutput();
+		}
+
+		/**
 		 * Generates the HTML for output. Including header-, error-, form- and footer- element.
 		 * @return string
 		 * @see {@link getFormElement}
@@ -266,15 +270,15 @@
 		 * @see {@link getErrorMessageElement}
 		 * @see {@link getFooterElement}
 		 */
-		public function getElement()
+		public function formatOutput()
 		{
 			$output = "";
 			if ( $this->hasError() ) $output .= '<div class="form-group has-error ' . self::CSS_CLASS . '">';
 			else $output .= '<div class="form-group ' . self::CSS_CLASS . '">';
-			$output .= $this->getHeaderElement();
-			$output .= $this->getErrorMessageElement();
-			$output .= $this->getFormElement();
-			$output .= $this->getFooterElement();
+			$output .= $this->formatHeaderOutput();
+			$output .= $this->formatErrorMessageOutput();
+			$output .= $this->formatFormElementOutput();
+			$output .= $this->formatFooterOutput();
 			$output .= '</div>';
 
 			return $output;
@@ -285,7 +289,7 @@
 		 *
 		 * @return string
 		 */
-		public function getHeaderElement()
+		public function formatHeaderOutput()
 		{
 			return '<label class="control-label" for="' . $this->getID() . '">' . $this->getLabel() . '</label>';
 		}
@@ -296,7 +300,7 @@
 		 * @return string
 		 * @see {@link setDescription}
 		 */
-		public function getFooterElement()
+		public function formatFooterOutput()
 		{
 			$desc = $this->getDescription();
 
@@ -308,7 +312,7 @@
 		 * @return string
 		 * @see {@link setErrorMessage}
 		 */
-		public function getErrorMessageElement()
+		public function formatErrorMessageOutput()
 		{
 			if ( is_string( $this->getErrorMessage() ) )
 			{
@@ -323,7 +327,7 @@
 		 *
 		 * @return string
 		 */
-		public function getFormElement()
+		public function formatFormElementOutput()
 		{
 			return '';
 		}
@@ -343,13 +347,11 @@
 		 *
 		 * @param boolean $single
 		 *
-		 * @return $this
 		 */
 		public function setSingle( $single )
 		{
 			$this->_single = $single;
 
-			return $this;
 		}
 
 		/**
@@ -365,14 +367,10 @@
 		 * Will be used if this single is set to false.
 		 *
 		 * @param null|int $index
-		 *
-		 * @return $this
 		 */
 		public function setIndex( $index )
 		{
 			$this->_index = $index;
-
-			return $this;
 		}
 
 		/**
@@ -403,13 +401,10 @@
 		 *
 		 * @param $value
 		 *
-		 * @return $this
 		 */
 		public function setValue( $value )
 		{
 			$this->_value = $value;
-
-			return $this;
 		}
 
 		/**
@@ -439,13 +434,10 @@
 		 *
 		 * @param mixed $defaultValue
 		 *
-		 * @return $this
 		 */
 		public function setDefaultValue( $defaultValue )
 		{
 			$this->_defaultValue = $defaultValue;
-
-			return $this;
 		}
 
 		/**
@@ -455,7 +447,7 @@
 		 */
 		public function hasParent()
 		{
-			return !empty($this->_parentName);
+			return !empty( $this->_parentName );
 		}
 
 		/**
@@ -463,13 +455,10 @@
 		 *
 		 * @param string $parentName
 		 *
-		 * @return $this
 		 */
 		public function setParentName( $parentName )
 		{
 			$this->_parentName = $parentName;
-
-			return $this;
 		}
 
 		/**
@@ -515,13 +504,10 @@
 		 *
 		 * @param callable $validationMethod
 		 *
-		 * @return $this
 		 */
 		public function setValidationMethod( $validationMethod )
 		{
 			$this->_validationMethod = $validationMethod;
-
-			return $this;
 		}
 
 		/**
@@ -544,7 +530,7 @@
 		 */
 		public function hasError()
 		{
-			return !empty($this->getErrorMessage());
+			return !empty( $this->getErrorMessage() );
 		}
 
 		/**
@@ -552,13 +538,10 @@
 		 *
 		 * @param string $errorMessage
 		 *
-		 * @return $this
 		 */
 		public function setErrorMessage( $errorMessage )
 		{
 			$this->_errorMessage = $errorMessage;
-
-			return $this;
 		}
 
 		/**

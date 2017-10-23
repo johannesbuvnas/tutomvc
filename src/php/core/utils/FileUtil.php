@@ -1,4 +1,5 @@
 <?php
+
 	namespace tutomvc\core\utils;
 
 	class FileUtil
@@ -10,6 +11,8 @@
 		 */
 		public static function listFiles( $directory )
 		{
+			if ( !is_dir( $directory ) ) return array();
+
 			$content = array_diff( scandir( $directory ), array('.', '..') );
 			$files   = array();
 			foreach ( $content as $file )
@@ -28,6 +31,8 @@
 		 */
 		public static function removeDirectoryRecursively( $directory )
 		{
+			if ( !is_dir( $directory ) ) return FALSE;
+
 			$files = array_diff( scandir( $directory ), array('.', '..') );
 			foreach ( $files as $file )
 			{

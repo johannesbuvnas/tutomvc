@@ -71,7 +71,7 @@
 			return $attr;
 		}
 
-		function getFormElement()
+		function formatFormElementOutput()
 		{
 			$output = "";
 

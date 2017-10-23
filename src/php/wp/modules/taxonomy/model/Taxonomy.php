@@ -70,7 +70,7 @@
 			}
 			$tagSelector->setValue( $value );
 
-			echo $tagSelector->getFormElement();
+			echo $tagSelector->formatFormElementOutput();
 		}
 
 		public function wp_filter_manage_columns( $columns )

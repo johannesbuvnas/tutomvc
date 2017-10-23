@@ -1,7 +1,9 @@
 <?php
+
 	namespace tutomvc\wp\core\view;
 
 	use tutomvc\wp\core\facade\Facade;
+	use tutomvc\wp\TutoMVC;
 
 	class View
 	{
@@ -73,10 +75,21 @@
 		 */
 		public function getViewComponentRealpath( $relativeFilePath, $name = NULL )
 		{
-			$name = (string)$name;
-			if ( '' !== $name ) $relativeFilePath = "{$relativeFilePath}-{$name}";
+			// Maybe the absolute file position is passed?
+			$absoluteFilePathPosition = strpos( $relativeFilePath, TutoMVC::getDocumentRoot() );
 
-			$filePath = Facade::getInstance( $this->_facadeKey )->getRoot( $relativeFilePath );
+			if ( $absoluteFilePathPosition === FALSE )
+			{
+				$name = (string)$name;
+				if ( '' !== $name ) $relativeFilePath = "{$relativeFilePath}-{$name}";
+
+				$filePath = Facade::getInstance( $this->_facadeKey )->getRoot( $relativeFilePath );
+			}
+			else
+			{
+				$filePath = $relativeFilePath;
+			}
+
 			$pathinfo = pathinfo( $filePath );
 			if ( !array_key_exists( "extension", $pathinfo ) )
 			{

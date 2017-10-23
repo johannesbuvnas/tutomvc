@@ -16,6 +16,14 @@
 		/**
 		 * @return ExceptionModuleFacade
 		 */
+		public static function activate()
+		{
+			return self::getInstance();
+		}
+
+		/**
+		 * @return ExceptionModuleFacade
+		 */
 		public static function getInstance()
 		{
 			return Facade::getInstance( ExceptionModuleFacade::KEY ) ? Facade::getInstance( ExceptionModuleFacade::KEY ) : SystemApp::getInstance()->registerModule( new ExceptionModuleFacade() );

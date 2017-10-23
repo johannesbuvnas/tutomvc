@@ -39,44 +39,55 @@
 		/**
 		 * @return string The <input/> element
 		 */
-		function getFormElement()
+		function formatFormElementOutput()
 		{
 			$output = '<div class="input-group">';
 			/** @var FormElement $formElement */
 			foreach ( $this->getFormElements() as $formElement )
 			{
-				$output .= $formElement->getFormElement();
+				$output .= $formElement->formatFormElementOutput();
 			}
 			$output .= '</div>';
 
 			return $output;
 		}
 
-		public function getHeaderElement()
+		public function formatHeaderOutput()
 		{
 			return '<label class="control-label">' . $this->getLabel() . '</label>';
 		}
 
-		public function getFooterElement()
+		public function formatFooterOutput()
 		{
 			$desc = $this->getDescription();
 
 			return is_string( $desc ) && strlen( $desc ) ? '<span class="help-block">' . $this->getDescription() . '</span>' : '';
 		}
 
-		public function getErrorMessageElement()
+		public function formatErrorMessageOutput()
 		{
 			$output = '';
 
-			$output .= parent::getErrorMessageElement();
+			$output .= parent::formatErrorMessageOutput();
 
 			/** @var FormElement $formElement */
 			foreach ( $this->getFormElements() as $formElement )
 			{
-				$output .= $formElement->getErrorMessageElement();
+				$output .= $formElement->formatErrorMessageOutput();
 			}
 
 			return $output;
+		}
+
+		/**
+		 * Indexes not supported
+		 *
+		 * @param int|null $index
+		 */
+		public function setIndex( $index )
+		{
+			$index = NULL;
+			parent::setIndex( $index );
 		}
 
 		public function hasError()

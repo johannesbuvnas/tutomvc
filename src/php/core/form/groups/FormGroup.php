@@ -11,9 +11,10 @@
 	use tutomvc\core\form\FormElement;
 
 	/**
-	 * A group of elements. Can be inputs or groups.
+	 * A group of form elements. Can be other FormGroups or FormInputs.
 	 *
-	 * @package tutomvc
+	 * @see \tutomvc\core\form\inputs\FormInput FormInput
+	 * @package tutomvc\core\form\groups
 	 */
 	class FormGroup extends FormElement
 	{
@@ -21,7 +22,7 @@
 
 		function __construct( $name, $title = NULL, $description = NULL )
 		{
-			parent::__construct( $name, NULL );
+			parent::__construct( $name );
 			$this->setLabel( $title );
 			$this->setDescription( $description );
 		}
@@ -50,7 +51,7 @@
 		{
 			if ( $formElement = $this->getFormElementByName( $formElementName ) )
 			{
-				unset($this->_formElementsMap[ $formElementName ]);
+				unset( $this->_formElementsMap[ $formElementName ] );
 				$formElement = NULL;
 
 				return TRUE;
@@ -60,10 +61,10 @@
 		}
 
 		/**
-		 * Try to find a element by a certain name, first in this current group, and then in children. Returns the first match.<br/>
-		 * For more accurate search see {@link findFormElementByElementName}.
+		 * Try to find a element by a certain name, first in this current group, and then in children. Returns the first match.
 		 *
 		 * @param $name
+		 * @see FormGroup::findFormElementByElementName() For more accurate search.
 		 *
 		 * @return null|FormElement|FormGroup
 		 */
@@ -119,8 +120,16 @@
 			return NULL;
 		}
 
+		public function formatRootElementName( $rootName )
+		{
+			$name     = $this->hasParent() ? "[" . $this->getName() . "]" : $this->getName();
+			$rootName = strval( $rootName );
+
+			return is_string( $rootName ) && strlen( $rootName ) ? $this->_parentName . $name . "[" . $rootName . "]" : $this->_parentName . $name;
+		}
+
 		/* SET AND GET */
-		public function getHeaderElement()
+		public function formatHeaderOutput()
 		{
 			return '
 					<header>
@@ -134,18 +143,18 @@
 			';
 		}
 
-		public function getFooterElement()
+		public function formatFooterOutput()
 		{
 			return '<hr/>';
 		}
 
-		function getFormElement()
+		function formatFormElementOutput()
 		{
 			$output = '<div class="form-group" id="' . $this->getID() . '">';
 			/** @var FormElement $formElement */
 			foreach ( $this->getFormElements() as $formElement )
 			{
-				$output .= $formElement->getElement();
+				$output .= $formElement->formatOutput();
 			}
 			$output .= '</div>';
 
@@ -388,7 +397,6 @@
 		/**
 		 * @param array|null $value
 		 *
-		 * @return $this
 		 * @throws \ErrorException
 		 */
 		public function setValue( $value )
@@ -417,8 +425,6 @@
 					$formElement->setValue( NULL );
 				}
 			}
-
-			return $this;
 		}
 
 		/**
@@ -509,9 +515,7 @@
 		 */
 		public function getNameAsParent()
 		{
-			$name = $this->hasParent() ? "[" . $this->getName() . "]" : $this->getName();
-
-			return $this->_parentName . $name;
+			return $this->formatRootElementName( $this->getIndex() );
 		}
 
 		public function setParentName( $parentName )
@@ -523,8 +527,17 @@
 			{
 				$formElement->setParentName( $this->getNameAsParent() );
 			}
+		}
 
-			return $this;
+		public function setIndex( $index )
+		{
+			parent::setIndex( $index );
+
+			/** @var FormElement $formElement */
+			foreach ( $this->getFormElements() as $formElement )
+			{
+				$formElement->setParentName( $this->getNameAsParent() );
+			}
 		}
 
 		/**
@@ -538,6 +551,6 @@
 		 */
 		public function hasError()
 		{
-			return !empty($this->getErrors());
+			return !empty( $this->getErrors() );
 		}
 	}

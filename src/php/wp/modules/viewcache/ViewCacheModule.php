@@ -1,8 +1,7 @@
 <?php
 
-	namespace tutomvc\wp\pagecache;
+	namespace tutomvc\wp\viewcache;
 
-	use tutomvc\wp\viewcache\ViewCacheFacade;
 	use tutomvc\wp\core\facade\Facade;
 
 	class ViewCacheModule
