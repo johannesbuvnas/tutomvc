@@ -39,39 +39,39 @@
 		/**
 		 * @return string The <input/> element
 		 */
-		function getFormElement()
+		function formatFormElementOutput()
 		{
 			$output = '<div class="input-group">';
 			/** @var FormElement $formElement */
 			foreach ( $this->getFormElements() as $formElement )
 			{
-				$output .= $formElement->getFormElement();
+				$output .= $formElement->formatFormElementOutput();
 			}
 			$output .= '</div>';
 
 			return $output;
 		}
 
-		public function getHeaderElement()
+		public function formatHeaderOutput()
 		{
 			return '<label class="control-label">' . $this->getLabel() . '</label>';
 		}
 
-		public function getFooterElement()
+		public function formatFooterOutput()
 		{
 			return '<span class="help-block">' . $this->getDescription() . '</span>';
 		}
 
-		public function getErrorMessageElement()
+		public function formatErrorMessageOutput()
 		{
 			$output = '';
 
-			$output .= parent::getErrorMessageElement();
+			$output .= parent::formatErrorMessageOutput();
 
 			/** @var FormElement $formElement */
 			foreach ( $this->getFormElements() as $formElement )
 			{
-				$output .= $formElement->getErrorMessageElement();
+				$output .= $formElement->formatErrorMessageOutput();
 			}
 
 			return $output;

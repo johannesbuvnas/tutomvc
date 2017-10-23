@@ -24,20 +24,20 @@
 		}
 
 		/* SET AND GET */
-		public function getHeaderElement()
+		public function formatHeaderOutput()
 		{
-			$el = parent::getHeaderElement();
+			$el = parent::formatHeaderOutput();
 			$el .= '<span class="help-block">' . $this->getDescription() . '</span>';
 
 			return $el;
 		}
 
-		public function getFooterElement()
+		public function formatFooterOutput()
 		{
 			return "";
 		}
 
-		public function getFormElement()
+		public function formatFormElementOutput()
 		{
 			return SystemApp::getInstance()->render( "src/templates/wp/forminput", "wpattachment", array(
 				"formInput" => $this

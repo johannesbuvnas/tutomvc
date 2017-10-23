@@ -20,7 +20,7 @@
 			$this->setArgs( $args );
 		}
 
-		function getFormElement()
+		function formatFormElementOutput()
 		{
 			$this->_args[ 'textarea_name' ] = $this->getElementName();
 			$this->_args                    = wp_parse_args( $this->_args, array(

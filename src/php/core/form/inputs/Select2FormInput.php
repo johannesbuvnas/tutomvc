@@ -19,7 +19,7 @@
 			"theme" => "classic"
 		);
 
-		function getFormElement()
+		function formatFormElementOutput()
 		{
 			$output = "";
 

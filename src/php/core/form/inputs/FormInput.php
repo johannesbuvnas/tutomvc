@@ -72,7 +72,7 @@
 			$this->setSingle( $single );
 		}
 
-		public function getElement()
+		public function formatOutput()
 		{
 			$classNames = array(
 				"form-group",
@@ -81,10 +81,10 @@
 			if ( is_string( $this->getErrorMessage() ) ) $classNames[] = "has-error";
 			if ( $this->getType() == self::TYPE_HIDDEN ) $classNames[] = "hidden";
 			$output = '<div class="' . implode( " ", $classNames ) . '">';
-			$output .= $this->getHeaderElement();
-			$output .= $this->getErrorMessageElement();
-			$output .= $this->getFormElement();
-			$output .= $this->getFooterElement();
+			$output .= $this->formatHeaderOutput();
+			$output .= $this->formatErrorMessageOutput();
+			$output .= $this->formatFormElementOutput();
+			$output .= $this->formatFooterOutput();
 			$output .= '</div>';
 
 			return $output;
@@ -99,7 +99,7 @@
 			return $name;
 		}
 
-		function getFormElement()
+		function formatFormElementOutput()
 		{
 			$output = "";
 
@@ -142,12 +142,12 @@
 			return $attr;
 		}
 
-		public function getHeaderElement()
+		public function formatHeaderOutput()
 		{
 			return $this->getType() == self::TYPE_HIDDEN ? '' : '<label class="control-label" for="' . $this->getID() . '">' . $this->getLabel() . '</label>';
 		}
 
-		public function getFooterElement()
+		public function formatFooterOutput()
 		{
 			return $this->getType() == self::TYPE_HIDDEN ? '' : '<span class="help-block">' . $this->getDescription() . '</span>';
 		}

@@ -255,6 +255,14 @@
 		}
 
 		/**
+		 * Render and echo output HTML.
+		 */
+		public function output()
+		{
+			echo $this->formatOutput();
+		}
+
+		/**
 		 * Generates the HTML for output. Including header-, error-, form- and footer- element.
 		 * @return string
 		 * @see {@link getFormElement}
@@ -262,15 +270,15 @@
 		 * @see {@link getErrorMessageElement}
 		 * @see {@link getFooterElement}
 		 */
-		public function getElement()
+		public function formatOutput()
 		{
 			$output = "";
 			if ( $this->hasError() ) $output .= '<div class="form-group has-error ' . self::CSS_CLASS . '">';
 			else $output .= '<div class="form-group ' . self::CSS_CLASS . '">';
-			$output .= $this->getHeaderElement();
-			$output .= $this->getErrorMessageElement();
-			$output .= $this->getFormElement();
-			$output .= $this->getFooterElement();
+			$output .= $this->formatHeaderOutput();
+			$output .= $this->formatErrorMessageOutput();
+			$output .= $this->formatFormElementOutput();
+			$output .= $this->formatFooterOutput();
 			$output .= '</div>';
 
 			return $output;
@@ -281,7 +289,7 @@
 		 *
 		 * @return string
 		 */
-		public function getHeaderElement()
+		public function formatHeaderOutput()
 		{
 			return '<label class="control-label" for="' . $this->getID() . '">' . $this->getLabel() . '</label>';
 		}
@@ -292,7 +300,7 @@
 		 * @return string
 		 * @see {@link setDescription}
 		 */
-		public function getFooterElement()
+		public function formatFooterOutput()
 		{
 			return '<span class="help-block">' . $this->getDescription() . '</span>';
 		}
@@ -302,7 +310,7 @@
 		 * @return string
 		 * @see {@link setErrorMessage}
 		 */
-		public function getErrorMessageElement()
+		public function formatErrorMessageOutput()
 		{
 			if ( is_string( $this->getErrorMessage() ) )
 			{
@@ -317,7 +325,7 @@
 		 *
 		 * @return string
 		 */
-		public function getFormElement()
+		public function formatFormElementOutput()
 		{
 			return '';
 		}

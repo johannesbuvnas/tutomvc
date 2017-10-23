@@ -141,15 +141,15 @@
 			return FALSE;
 		}
 
-		final public function getElement()
+		final public function formatOutput()
 		{
 			$output = '<ul class="list-group fissile-form-group" id="' . $this->getID() . '">';
-			$output .= $this->getHeaderElement();
+			$output .= $this->formatHeaderOutput();
 			for ( $i = 0; $i < $this->count(); $i ++ )
 			{
 				$output .= $this->getSingleElement( $i );
 			}
-			if ( !$this->hasReachedMax() ) $output .= $this->getFooterElement();
+			if ( !$this->hasReachedMax() ) $output .= $this->formatFooterOutput();
 			$output .= '</ul>';
 
 			$output .= '
@@ -189,7 +189,7 @@
 			$output          = '<div class="list-group-item ui-sortable fissile-form-group-item">';
 			if ( $this->getMin() == 1 && $this->getMax() == 1 )
 			{
-				$output .= parent::getFormElement();
+				$output .= parent::formatFormElementOutput();
 			}
 			else
 			{
@@ -198,7 +198,7 @@
 					' . $this->getSingleElementIndexSelector( $index ) . '
 				</li>
 				<li class="list-group-item fissile-form-group-item-body">
-					' . parent::getFormElement() . '
+					' . parent::formatFormElementOutput() . '
 				</li>';
 			}
 			$output          .= '</div>';
@@ -232,7 +232,7 @@
 			return $output;
 		}
 
-		public function getHeaderElement()
+		public function formatHeaderOutput()
 		{
 			$output = '
 					<li class="list-group-item">
@@ -271,7 +271,7 @@
 			return $output;
 		}
 
-		public function getFooterElement()
+		public function formatFooterOutput()
 		{
 			$output = '
 					<li class="list-group-item fissile-form-group-footer" style="text-align: center">

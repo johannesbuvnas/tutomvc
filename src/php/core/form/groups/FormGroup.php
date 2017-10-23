@@ -129,7 +129,7 @@
 		}
 
 		/* SET AND GET */
-		public function getHeaderElement()
+		public function formatHeaderOutput()
 		{
 			return '
 					<header>
@@ -143,18 +143,18 @@
 			';
 		}
 
-		public function getFooterElement()
+		public function formatFooterOutput()
 		{
 			return '<hr/>';
 		}
 
-		function getFormElement()
+		function formatFormElementOutput()
 		{
 			$output = '<div class="form-group" id="' . $this->getID() . '">';
 			/** @var FormElement $formElement */
 			foreach ( $this->getFormElements() as $formElement )
 			{
-				$output .= $formElement->getElement();
+				$output .= $formElement->formatOutput();
 			}
 			$output .= '</div>';
 

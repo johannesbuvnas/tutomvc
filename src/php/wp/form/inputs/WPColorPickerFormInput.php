@@ -33,9 +33,9 @@
 			return $attr;
 		}
 
-		function getFooterElement()
+		function formatFooterOutput()
 		{
-			$el = parent::getFooterElement();
+			$el = parent::formatFooterOutput();
 			$el .= '
 			<script type="text/javascript">
 			jQuery(document).ready(function()

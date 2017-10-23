@@ -87,7 +87,7 @@
 			settings_fields( $this->getGroupName() );
 			$this->setFissions( get_option( $this->getName(), NULL ) );
 
-			echo $this->getElement();
+			$this->output();
 		}
 
 		public function renderField()

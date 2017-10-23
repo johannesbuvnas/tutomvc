@@ -56,9 +56,7 @@
 			$this->validate();
 			$meta = MetaBoxModule::getProxy()->getPostMetaByMetaKey( $post->ID, $this->getName(), TRUE );
 			$this->setFissions( $meta );
-			echo $this->getElement();
-
-			return $this;
+			$this->output();
 		}
 
 		public function filter( $postID, $metaKey, $metaValue )

@@ -24,7 +24,7 @@
 			$this->setLabel( $label );
 		}
 
-		public function getFormElement()
+		public function formatFormElementOutput()
 		{
 			return '
 			<div class="input-group-addon">' . $this->getLabel() . '</div>
