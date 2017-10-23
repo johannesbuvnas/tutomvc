@@ -133,7 +133,6 @@
 		/**
 		 * @param string $commandName
 		 * @param Command $command
-		 * TODO: Move name to this function.
 		 */
 		public function registerCommand( $commandName, $command )
 		{
