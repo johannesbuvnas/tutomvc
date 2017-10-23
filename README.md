@@ -1,10 +1,11 @@
 # Tuto MVC
 
-- [Installing](wiki/installing)
-- [WordPress: Framework](wiki/WordPress:-Framework)
-- [WordPress: MetaBoxModule](wiki/WordPress:-MetaBoxModule)
-- [WordPress: PageCacheModule](wiki/WordPress:-PageCacheModule)
-- [WordPress: ViewCacheModule](wiki/WordPress:-ViewCacheModule)
+- [Installing](http://tutomvc.com/docs/installing/)
+- [Forms](http://tutomvc.com/docs/forms/)
+- [WordPress: Framework](http://tutomvc.com/docs/wordpress-framework/)
+- [WordPress: MetaBoxModule](http://tutomvc.com/docs/wordpress-metaboxmodule/)
+- [WordPress: PageCacheModule](http://tutomvc.com/docs/wordpress-pagecachemodule/)
+- [WordPress: ViewCacheModule](http://tutomvc.com/docs/wordpress-viewcachemodule/)
 
 **Dependencies**
 
