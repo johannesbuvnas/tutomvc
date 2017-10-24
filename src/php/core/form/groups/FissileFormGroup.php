@@ -62,11 +62,6 @@
 			return FALSE;
 		}
 
-		public function createCloneAt( $index = 0 )
-		{
-
-		}
-
 		public function count()
 		{
 			$fissions = $this->getFissionsValue();
