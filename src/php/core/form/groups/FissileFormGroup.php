@@ -356,7 +356,7 @@
 		 *
 		 * @param null|int $atIndex Current index if NULL
 		 */
-		public function setValueToFission( $atIndex = NULL )
+		public function setCurrentValueToFission( $atIndex = NULL )
 		{
 			if ( !is_array( $this->_value ) ) $this->_value = array();
 			if ( is_null( $atIndex ) || !is_int( $atIndex ) ) $atIndex = $this->getIndex();
@@ -366,7 +366,7 @@
 
 		public function setValueByFission( $index )
 		{
-			parent::setValue( $this->getFissionValueAt( $index ) );
+			$this->setValue( $this->getFissionValueAt( $index ) );
 		}
 
 		public function setFissionsValue( $value )
@@ -379,6 +379,7 @@
 			if ( is_null( $value ) || $value === FALSE )
 			{
 				parent::setValue( NULL );
+				$this->_value = NULL;
 			}
 			else if ( is_array( $value ) )
 			{
