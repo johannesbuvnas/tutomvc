@@ -356,7 +356,7 @@
 		 *
 		 * @param null|int $atIndex Current index if NULL
 		 */
-		public function setCurrentValueToFissions( $atIndex = NULL )
+		public function setValueToFission( $atIndex = NULL )
 		{
 			if ( !is_array( $this->_value ) ) $this->_value = array();
 			if ( is_null( $atIndex ) || !is_int( $atIndex ) ) $atIndex = $this->getIndex();
