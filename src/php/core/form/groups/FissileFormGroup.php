@@ -62,9 +62,9 @@
 			return FALSE;
 		}
 
-		public function reset()
+		public function resetFissions()
 		{
-			parent::reset();
+			$this->reset();
 			$this->setFissionsValue( NULL );
 		}
 
@@ -492,7 +492,7 @@
 					$this->setValue( NULL ); // Just in case
 					$this->setIndex( $key );
 					$this->setValue( $fission );
-					$valueMap[] = $this->getValueMapAt( $key );
+					$valueMap[] = parent::getValueMapAt( $key );
 				}
 
 				// Restore value
