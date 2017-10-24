@@ -154,6 +154,15 @@
 		}
 
 		/**
+		 * Resets value and clear errors.
+		 */
+		public function reset()
+		{
+			$this->setValue( NULL );
+			$this->clearError();
+		}
+
+		/**
 		 * Removes error message for user.
 		 */
 		public function clearError()

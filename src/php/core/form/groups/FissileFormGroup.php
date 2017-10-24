@@ -62,6 +62,12 @@
 			return FALSE;
 		}
 
+		public function reset()
+		{
+			parent::reset();
+			$this->setFissionsValue( NULL );
+		}
+
 		public function count()
 		{
 			$fissions = $this->getFissionsValue();
