@@ -503,7 +503,7 @@
 			}
 			else
 			{
-				return $this->getValueMapAt( $index );
+				return parent::getValueMapAt( $index );
 			}
 		}
 
