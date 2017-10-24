@@ -189,12 +189,13 @@
 		protected function formatFissionOutput( $index = 0 )
 		{
 			$indexBefore = $this->getIndex();
+
 			$this->switchToFission( $index );
 			$output = '<div class="list-group-item ui-sortable fissile-form-group-item">';
 			$output .= '<input type="hidden" value="' . $index . '" class="fissile-form-group-index" name="' . $this->formatRootElementName( $index ) . '[' . self::INPUT_INDEX . ']" >';
 			if ( $this->getMinimumFissions() == 1 && $this->getMaximumFissions() == 1 )
 			{
-				$output .= parent::formatFormElementOutput();
+				$output .= $this->formatFormElementOutput();
 			}
 			else
 			{
@@ -203,7 +204,7 @@
 					' . $this->formatFissionIndexSelectorOutput( $index ) . '
 				</li>
 				<li class="list-group-item fissile-form-group-item-body">
-					' . parent::formatFormElementOutput() . '
+					' . $this->formatFormElementOutput() . '
 				</li>';
 			}
 			$output .= '</div>';
@@ -367,7 +368,7 @@
 			if ( !is_array( $this->_value ) ) $this->_value = array();
 			if ( is_null( $atIndex ) || !is_int( $atIndex ) ) $atIndex = $this->getIndex();
 
-			$this->_value[ $atIndex ] = parent::getValue();
+			$this->_value[ $atIndex ] = $this->getValue();
 		}
 
 		public function setValueByFission( $index )
@@ -384,7 +385,7 @@
 
 			if ( is_null( $value ) || $value === FALSE )
 			{
-				parent::setValue( NULL );
+				$this->setValue( NULL );
 				$this->_value = NULL;
 			}
 			else if ( is_array( $value ) )
@@ -401,13 +402,13 @@
 				}
 				if ( array_key_exists( self::BUTTON_NAME_ADD_BEFORE, $value ) && !$this->hasReachedMax() )
 				{
-					parent::setValue( NULL );
-					array_unshift( $this->_value, parent::getValue() );
+					$this->setValue( NULL );
+					array_unshift( $this->_value, $this->getValue() );
 				}
 				if ( array_key_exists( self::BUTTON_NAME_ADD_AFTER, $value ) && !$this->hasReachedMax() )
 				{
-					parent::setValue( NULL );
-					$this->_value[] = parent::getValue();
+					$this->setValue( NULL );
+					$this->_value[] = $this->getValue();
 				}
 			}
 			else if ( is_int( $value ) )
@@ -416,8 +417,8 @@
 				$i            = 0;
 				while( $i < $value )
 				{
-					parent::setValue( NULL );
-					array_unshift( $this->_value, parent::getValue() );
+					$this->setValue( NULL );
+					array_unshift( $this->_value, $this->getValue() );
 					$i ++;
 				}
 			}
@@ -441,13 +442,13 @@
 			if ( count( $value ) < $this->getMinimumFissions() )
 			{
 				$defaultValue = array();
-				$before       = parent::getValue();
-				parent::setValue( NULL );
+				$before       = $this->getValue();
+				$this->setValue( NULL );
 				for ( $i = 0; $i < $this->getMinimumFissions(); $i ++ )
 				{
-					$defaultValue[] = parent::getValue();
+					$defaultValue[] = $this->getValue();
 				}
-				parent::setValue( $before );
+				$this->setValue( $before );
 				$value = array_merge( $value, $defaultValue );
 			}
 			if ( $this->getMaximumFissions() > 0 && count( $value ) > $this->getMaximumFissions() )
@@ -459,14 +460,14 @@
 			$dp = array();
 			if ( is_array( $value ) && count( $value ) )
 			{
-				$before = parent::getValue();
+				$before = $this->getValue();
 				foreach ( $value as $index => $valueClone )
 				{
-					parent::setValue( NULL ); // JUST IN CASE
-					parent::setValue( $valueClone );
-					$dp[] = parent::getValue( $call_user_func );
+					$this->setValue( NULL ); // JUST IN CASE
+					$this->setValue( $valueClone );
+					$dp[] = $this->getValue( $call_user_func );
 				}
-				parent::setValue( $before );
+				$this->setValue( $before );
 			}
 
 			if ( !is_null( $call_user_func ) ) $this->_value = call_user_func_array( $call_user_func, array(
@@ -484,25 +485,25 @@
 			{
 				$valueMap = array();
 				$fissions = $this->getFissionsValue();
-				$value    = parent::getValue();
+				$value    = $this->getValue();
 
 				foreach ( $fissions as $key => $fission )
 				{
-					parent::setValue( NULL ); // Just in case
+					$this->setValue( NULL ); // Just in case
 					$this->setIndex( $key );
-					parent::setValue( $fission );
-					$valueMap[] = parent::getValueMapAt( $key );
+					$this->setValue( $fission );
+					$valueMap[] = $this->getValueMapAt( $key );
 				}
 
 				// Restore value
-				parent::setValue( NULL );
-				parent::setValue( $value );
+				$this->setValue( NULL );
+				$this->setValue( $value );
 
 				return $valueMap;
 			}
 			else
 			{
-				return parent::getValueMapAt( $index );
+				return $this->getValueMapAt( $index );
 			}
 		}
 
@@ -520,9 +521,9 @@
 			foreach ( $currentValue as $key => $value )
 			{
 				$this->setIndex( $key );
-				parent::setValue( NULL ); // JUST IN CASE
-				parent::setValue( $value );
-				$flatValue[ $key ] = parent::getFlatValue( $call_user_func );
+				$this->setValue( NULL ); // JUST IN CASE
+				$this->setValue( $value );
+				$flatValue[ $key ] = $this->getFlatValue( $call_user_func );
 			}
 
 			return $flatValue;
@@ -544,15 +545,15 @@
 		{
 			$errors = array();
 			$count  = $this->count();
-			$before = parent::getValue();
+			$before = $this->getValue();
 			for ( $i = 0; $i < $count; $i ++ )
 			{
-				parent::setValue( $this->getFissionValueAt( $i ) );
+				$this->setValue( $this->getFissionValueAt( $i ) );
 				$fissionErrors = parent::getErrors();
 				if ( is_array( $fissionErrors ) ) $errors[ $i ] = $fissionErrors;
 			}
 
-			parent::setValue( $before );
+			$this->setValue( $before );
 
 			if ( count( $errors ) ) return $errors;
 			else return NULL;

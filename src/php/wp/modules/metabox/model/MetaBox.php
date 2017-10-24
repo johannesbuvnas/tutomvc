@@ -77,7 +77,7 @@
 		}
 
 		/**
-		 * Saves current fissions to the WordPress meta-table.
+		 * Saves current fissions to the WordPress postmeta.
 		 *
 		 * @param $postID
 		 *
