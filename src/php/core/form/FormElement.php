@@ -264,7 +264,7 @@
 		}
 
 		/**
-		 * Render and echo output HTML.
+		 * Format and echo output HTML.
 		 */
 		public function output()
 		{
