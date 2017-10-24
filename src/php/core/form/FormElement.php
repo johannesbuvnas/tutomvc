@@ -139,7 +139,7 @@
 		 *
 		 * @param array $dataArray
 		 *
-		 * @return bool TRUE if there exists data, FALSE if no data exists.
+		 * @return bool TRUE if exists data, FALSE if no data exists.
 		 */
 		public function parse( $dataArray )
 		{
