@@ -64,6 +64,7 @@
 		 * Try to find a element by a certain name, first in this current group, and then in children. Returns the first match.
 		 *
 		 * @param $name
+		 *
 		 * @see FormGroup::findFormElementByElementName() For more accurate search.
 		 *
 		 * @return null|FormElement|FormGroup
@@ -172,6 +173,12 @@
 			}
 
 			return $this->getErrors();
+		}
+
+		public function reset()
+		{
+			parent::reset();
+			$this->clearErrors();
 		}
 
 		/**

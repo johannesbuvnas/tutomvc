@@ -76,6 +76,13 @@
 			return intval( $int );
 		}
 
+		/**
+		 * Saves current fissions to the WordPress postmeta.
+		 *
+		 * @param $postID
+		 *
+		 * @return $this
+		 */
 		public function update( $postID )
 		{
 			$this->clear( $postID );
