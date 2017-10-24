@@ -78,14 +78,14 @@
 				}
 			}
 
-			return $this->getFissions();
+			return $this->getFissionsValue();
 		}
 
 		public function render( $args )
 		{
 			$this->validate();
 			settings_fields( $this->getGroupName() );
-			$this->setFissions( get_option( $this->getName(), NULL ) );
+			$this->setFissionsValue( get_option( $this->getName(), NULL ) );
 
 			$this->output();
 		}
