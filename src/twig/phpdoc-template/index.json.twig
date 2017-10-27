@@ -1,0 +1,7 @@
+{% for class in project.indexes.classes|sort_asc %}
+{% if not class.abstract %}
+{{ jsonEncode(class) }}
+{% endif %}
+{% endfor %}
+
+{{ outputJSON() }}

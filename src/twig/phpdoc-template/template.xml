@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<template>
+  <author></author>
+  <email></email>
+  <version>1.0.0</version>
+  <copyright></copyright>
+  <description></description>
+  <transformations>
+    <transformation writer="twig" query="indexes.classes" source="templates/phpdoc-template/class.md.twig" />
+    <transformation writer="twig" source="templates/phpdoc-template/index.json.twig" artifact="index.json" />
+  </transformations>
+  <parameters>
+    <parameter key="twig-debug">true</parameter>
+    <parameter key="twig-extension">tutomvc\twig\TutoMVCTwigExtension</parameter>
+  </parameters>
+</template>
