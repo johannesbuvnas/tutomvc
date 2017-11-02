@@ -73,6 +73,7 @@
 			$json                = array();
 			$package             = substr( str_replace( "\\", ".", $class->getNamespace()->getFullyQualifiedStructuralElementName() ), 1 );
 			$json[ 'name' ]      = $class->getName();
+			$json[ 'fullName' ]  = $class->getFullyQualifiedStructuralElementName();
 			$json[ 'package' ]   = $package;
 			$json[ 'path' ]      = $class->getPath();
 			$json[ 'namespace' ] = $class->getNamespace()->getFullyQualifiedStructuralElementName();

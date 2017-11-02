@@ -1,12 +1,7 @@
-# {{ node.name }}
-
 {{ node.summary|raw }}
 
 {{ node.description|raw }}
 
-* Full name: {{ node.FullyQualifiedStructuralElementName }}
-{% if node.parent %}* Parent class: {{ node.parent.FullyQualifiedStructuralElementName }}
-{% endif %}
 {% if node.interfaces is not empty %}* This class implements: {{ node.interfaces|join(', ')|raw }}
 {% endif %}
 {% if node.deprecated %}* **Warning:** this class is **deprecated**. This means that this class will likely be removed in a future version.
