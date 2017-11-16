@@ -1,6 +1,6 @@
 {
   "name": "tutomvc",
-  "version": "3.5.4",
+  "version": "3.5.5",
   "description": "The WordPress MVC Framework for developers.",
   "license": "MIT",
   "repository": {
@@ -10,6 +10,7 @@
   "scripts": {
     "postinstall": "typings install",
     "clean:dist": "rm -r dist",
+    "clean:phpdocs": "rm -r docs",
     "phpdocs": "vendor/bin/phpdoc -c phpdoc.dist.xml",
     "build:dev": "webpack --config src/node/webpack.dev.js --progress --profile --colors --display-error-details --display-cached --bail",
     "build:prod": "webpack --config src/node/webpack.prod.js --progress --profile --colors --display-error-details --display-cached --bail",

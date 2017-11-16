@@ -23,9 +23,11 @@
         </paths>
     </logging>
     <transformations>
-        <template name="clean" />
+        <template name="src/twig/phpdoc-template"/>
+        <!--<template name="responsive-twig" />-->
     </transformations>
     <files>
         <directory>src/php</directory>
+        <ignore>src/php/twig/*</ignore>
     </files>
 </phpdoc>

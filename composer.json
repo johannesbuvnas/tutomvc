@@ -25,7 +25,8 @@
     "php": ">=5.5.0"
   },
   "require-dev": {
-    "phpdocumentor/phpdocumentor": "2.*"
+    "phpdocumentor/phpdocumentor": "2.*",
+    "cvuorinen/phpdoc-markdown-public": "*"
   },
   "suggest": {},
   "autoload": {

@@ -497,7 +497,7 @@
 
 		/**
 		 * @return callable|null
-		 * @see {@link setValidationMethod}
+		 * @see FormElement::setValidationMethod
 		 */
 		public function getValidationMethod()
 		{

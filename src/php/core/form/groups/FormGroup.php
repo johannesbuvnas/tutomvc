@@ -43,15 +43,18 @@
 		/**
 		 * Only removes the element if it's a direct child of this group.
 		 *
-		 * @param $formElementName
+		 * @param $name
 		 *
 		 * @return bool
+		 *
 		 */
-		public function removeFormElement( $formElementName )
+		public function removeFormElement( $name )
 		{
-			if ( $formElement = $this->getFormElementByName( $formElementName ) )
+			$formElement = $this->getFormElementByName( $name );
+
+			if ( $formElement )
 			{
-				unset( $this->_formElementsMap[ $formElementName ] );
+				unset( $this->_formElementsMap[ $name ] );
 				$formElement = NULL;
 
 				return TRUE;
