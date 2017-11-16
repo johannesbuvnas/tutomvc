@@ -73,7 +73,7 @@
 
 			if ( array_key_exists( "query", $url ) && !empty( $url[ 'query' ] ) )
 			{
-				$relativePath .= "--" . preg_replace( "/[^A-Za-z0-9-]+/", '_', $url[ 'query' ] );
+				$relativePath = trim( $relativePath ) . "--" . preg_replace( "/[^A-Za-z0-9-]+/", '_', $url[ 'query' ] );
 			}
 
 			return self::formatPageCacheRoot( $relativePath );
