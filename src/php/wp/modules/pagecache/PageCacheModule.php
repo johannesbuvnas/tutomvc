@@ -34,7 +34,14 @@
 
 				// .../wp-content/cache/**/*.html
 				//////////////////////////////////////////
-				self::$_currentIndexHTML = FileUtil::sanitizePath( self::formatCachePagePathByURL( URLUtil::formatCurrentURL() ) . "/index.html" );
+				$currentURL              = URLUtil::formatCurrentURL();
+				self::$_currentIndexHTML = FileUtil::sanitizePath( self::formatCachePagePathByURL( $currentURL ) );
+				if ( !empty( $_GET ) )
+				{
+					$urlParsed               = parse_url( $currentURL );
+					self::$_currentIndexHTML .= "--" . preg_replace( "/[^A-Za-z0-9-]+/", '_', $urlParsed[ 'query' ] );
+				}
+				self::$_currentIndexHTML .= "/index.html";
 				//////////////////////////////////////////
 
 				// Ignore cache?
