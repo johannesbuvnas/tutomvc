@@ -34,13 +34,7 @@
 
 				// .../wp-content/cache/**/*.html
 				//////////////////////////////////////////
-				$currentURL              = URLUtil::formatCurrentURL();
-				self::$_currentIndexHTML = FileUtil::sanitizePath( self::formatCachePagePathByURL( $currentURL ) );
-				if ( !empty( $_GET ) )
-				{
-					$urlParsed               = parse_url( $currentURL );
-					self::$_currentIndexHTML .= "--" . preg_replace( "/[^A-Za-z0-9-]+/", '_', $urlParsed[ 'query' ] );
-				}
+				self::$_currentIndexHTML = FileUtil::sanitizePath( self::formatCachePagePathByURL( URLUtil::formatCurrentURL() ) );
 				self::$_currentIndexHTML .= "/index.html";
 				//////////////////////////////////////////
 
@@ -76,6 +70,11 @@
 			$url = parse_url( $url );
 			if ( $url === FALSE ) return NULL;
 			$relativePath = $url[ 'host' ] . "/" . $url[ 'path' ];
+
+			if ( array_key_exists( "query", $url ) && !empty( $url[ 'query' ] ) )
+			{
+				$relativePath .= "--" . preg_replace( "/[^A-Za-z0-9-]+/", '_', $url[ 'query' ] );
+			}
 
 			return self::formatPageCacheRoot( $relativePath );
 		}
