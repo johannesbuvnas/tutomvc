@@ -15,7 +15,7 @@
 		 */
 		public static function activate( $parentFacade, $cacheExpirationTimeInSeconds = 0 )
 		{
-			if ( self::getInstance() ) throw new \ErrorException( "AltContentModule has already been activated!" );
+			if ( self::getInstance() ) throw new \ErrorException( "ViewCacheModule has already been activated!" );
 
 			$parentFacade->registerModule( new ViewCacheFacade( $cacheExpirationTimeInSeconds ) );
 		}

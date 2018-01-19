@@ -11,7 +11,10 @@
 
 	use tutomvc\core\model\ValueObject;
 	use tutomvc\core\utils\FileUtil;
+	use tutomvc\wp\adminmenu\AdminMenuModule;
+	use tutomvc\wp\adminmenu\model\AdminMenuPage;
 	use tutomvc\wp\core\facade\Facade;
+	use tutomvc\wp\log\model\adminmenu\LogAdminMenuPage;
 	use tutomvc\wp\system\SystemApp;
 
 	class LogModule
@@ -19,6 +22,18 @@
 		public static function add( $message )
 		{
 			self::getProxy()->add( new ValueObject( "", $message ) );
+		}
+
+		/**
+		 * Adds to settings page.
+		 */
+		public static function addAdminMenuPage()
+		{
+			if ( is_admin() )
+			{
+				if ( is_network_admin() ) AdminMenuModule::addPageToNetwork( new LogAdminMenuPage( AdminMenuPage::PARENT_SLUG_NETWORK_SETTINGS ) );
+				else AdminMenuModule::addPage( new LogAdminMenuPage( AdminMenuPage::PARENT_SLUG_SETTINGS ) );
+			}
 		}
 
 		public static function print_r( $expression )
