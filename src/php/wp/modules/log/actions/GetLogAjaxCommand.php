@@ -16,8 +16,15 @@
 				$logFile = LogModule::getProxy()->getLogFileByTimestamp( strtotime( $_GET[ 'date' ] ) );
 				if ( is_file( $logFile ) )
 				{
-					echo file_get_contents( $logFile );
+					$log = file_get_contents( $logFile );
+					$log = explode( "\n", $log );
+					array_unshift( $log );
+					echo implode( "\n", $log );
 					exit;
+				}
+				else
+				{
+					die( "Log not found." );
 				}
 			}
 

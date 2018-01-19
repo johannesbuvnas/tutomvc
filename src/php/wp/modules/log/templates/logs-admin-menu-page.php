@@ -16,7 +16,7 @@
                         url: $form.attr( "action" ),
                         data: $form.serialize(), // serializes the form's elements.
                         success: function ( result ) {
-                            console.log( result );
+                            $( ".card-log" ).removeClass( "hidden" ).html( "<pre><code>" + result + "</code></pre>" );
                         },
                         error: function ( result ) {
                             console.error( result );
@@ -25,18 +25,9 @@
                 } );
             } );
         </script>
-        <div class="log-container">
-
-        </div>
-        <!-- LEVERAGE BROWSER CACHE -->
-        <div class="card">
+        <div class="card card-log hidden">
             <div class="card-block">
-                <h2>Some code yo</h2>
-                <code>
-                    Hej ho
-                </code>
             </div>
         </div>
-        <!-- -->
     </div>
 </div>
