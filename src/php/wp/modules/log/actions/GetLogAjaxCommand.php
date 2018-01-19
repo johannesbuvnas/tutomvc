@@ -3,6 +3,7 @@
 	namespace tutomvc\wp\log\actions;
 
 	use tutomvc\wp\core\controller\command\AjaxCommand;
+	use tutomvc\wp\log\LogModule;
 
 	class GetLogAjaxCommand extends AjaxCommand
 	{
@@ -12,7 +13,12 @@
 		{
 			if ( wp_verify_nonce( $_GET[ 'nonce' ], $_GET[ 'action' ] ) )
 			{
-				die( "SUCCESS" );
+				$logFile = LogModule::getProxy()->getLogFileByTimestamp( strtotime( $_GET[ 'date' ] ) );
+				if ( is_file( $logFile ) )
+				{
+					echo file_get_contents( $logFile );
+					exit;
+				}
 			}
 
 			die( "ERROR" );

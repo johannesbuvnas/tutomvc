@@ -15,7 +15,6 @@
 	use tutomvc\wp\adminmenu\model\AdminMenuPage;
 	use tutomvc\wp\core\facade\Facade;
 	use tutomvc\wp\log\model\adminmenu\LogAdminMenuPage;
-	use tutomvc\wp\system\SystemApp;
 
 	class LogModule
 	{
@@ -51,7 +50,7 @@
 		 */
 		public static function getInstance()
 		{
-			return Facade::getInstance( LogModuleFacade::KEY ) ? Facade::getInstance( LogModuleFacade::KEY ) : SystemApp::getInstance()->registerModule( new LogModuleFacade() );
+			return Facade::getInstance( LogModuleFacade::KEY );
 		}
 
 		/**
