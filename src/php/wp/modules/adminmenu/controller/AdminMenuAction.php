@@ -15,18 +15,20 @@
 			{
 				if ( !$adminMenuPage->isSubmenuPage() )
 				{
-					add_menu_page( $adminMenuPage->getPageTitle(), $adminMenuPage->getMenuTitle(), $adminMenuPage->getCapability(), $adminMenuPage->getMenuSlug(), array(
+					$id = add_menu_page( $adminMenuPage->getPageTitle(), $adminMenuPage->getMenuTitle(), $adminMenuPage->getCapability(), $adminMenuPage->getMenuSlug(), array(
 						$adminMenuPage,
 						"render"
 					), $adminMenuPage->getIconURL(), $adminMenuPage->getPosition() );
 				}
 				else
 				{
-					add_submenu_page( $adminMenuPage->getParentSlug(), $adminMenuPage->getPageTitle(), $adminMenuPage->getMenuTitle(), $adminMenuPage->getCapability(), $adminMenuPage->getMenuSlug(), array(
+					$id = add_submenu_page( $adminMenuPage->getParentSlug(), $adminMenuPage->getPageTitle(), $adminMenuPage->getMenuTitle(), $adminMenuPage->getCapability(), $adminMenuPage->getMenuSlug(), array(
 						$adminMenuPage,
 						"render"
 					) );
 				}
+
+				add_action( "load-$id", array($adminMenuPage, "load") );
 			}
 		}
 	}

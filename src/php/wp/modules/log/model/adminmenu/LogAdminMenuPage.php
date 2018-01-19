@@ -25,4 +25,9 @@
 			$view = LogModule::getModuleRoot( "templates/logs-admin-menu-page.php" );
 			include($view);
 		}
+
+		function load()
+		{
+			die("shit");
+		}
 	}

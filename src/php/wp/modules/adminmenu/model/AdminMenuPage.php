@@ -48,6 +48,14 @@
 			echo $output;
 		}
 
+		/**
+		 * Triggered when load.
+		 */
+		function load()
+		{
+
+		}
+
 		function isSubmenuPage()
 		{
 			return !empty($this->_parentSlug);
