@@ -7,6 +7,20 @@
 	class ViewCacheModule
 	{
 		/**
+		 * @param Facade $parentFacade
+		 *
+		 * @param int $cacheExpirationTimeInSeconds
+		 *
+		 * @throws \ErrorException
+		 */
+		public static function activate( $parentFacade, $cacheExpirationTimeInSeconds = 0 )
+		{
+			if ( self::getInstance() ) throw new \ErrorException( "AltContentModule has already been activated!" );
+
+			$parentFacade->registerModule( new ViewCacheFacade( $cacheExpirationTimeInSeconds ) );
+		}
+
+		/**
 		 * Renders a file. If it exists in the cache, it will render the cached version.
 		 *
 		 * @param $relativePath

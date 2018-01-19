@@ -188,7 +188,7 @@
 		 *
 		 * @return mixed|string
 		 */
-		public static function getModulesRoot( $relativePath = NULL )
+		public static function getModuleRoot( $relativePath = NULL )
 		{
 			return is_null( $relativePath ) ? FileUtil::sanitizePath( dirname( __FILE__ ) ) : FileUtil::sanitizePath( dirname( __FILE__ ) . "/{$relativePath}" );
 		}
@@ -259,7 +259,7 @@
 		 */
 		public static function getCacheTemplatePath()
 		{
-			if ( empty( self::$_cacheTemplatePath ) ) self::$_cacheTemplatePath = self::getModulesRoot( "templates/view/page-cache-template.php" );
+			if ( empty( self::$_cacheTemplatePath ) ) self::$_cacheTemplatePath = self::getModuleRoot( "templates/view/page-cache-template.php" );
 
 			return self::$_cacheTemplatePath;
 		}

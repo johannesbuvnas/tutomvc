@@ -6,9 +6,11 @@
 	 * Date: 19/11/15
 	 * Time: 08:22
 	 */
+
 	namespace tutomvc\wp\log;
 
 	use tutomvc\core\model\ValueObject;
+	use tutomvc\core\utils\FileUtil;
 	use tutomvc\wp\core\facade\Facade;
 	use tutomvc\wp\system\SystemApp;
 
@@ -35,6 +37,16 @@
 		public static function getInstance()
 		{
 			return Facade::getInstance( LogModuleFacade::KEY ) ? Facade::getInstance( LogModuleFacade::KEY ) : SystemApp::getInstance()->registerModule( new LogModuleFacade() );
+		}
+
+		/**
+		 * @param null $relativePath
+		 *
+		 * @return mixed|string
+		 */
+		public static function getModuleRoot( $relativePath = NULL )
+		{
+			return is_null( $relativePath ) ? FileUtil::sanitizePath( dirname( __FILE__ ) ) : FileUtil::sanitizePath( dirname( __FILE__ ) . "/{$relativePath}" );
 		}
 
 		/**
