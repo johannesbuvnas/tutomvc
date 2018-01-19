@@ -18,7 +18,7 @@
 				{
 					$log = file_get_contents( $logFile );
 					$log = explode( "\n", $log );
-					array_unshift( $log );
+					array_shift( $log );
 					echo implode( "\n", $log );
 					exit;
 				}
