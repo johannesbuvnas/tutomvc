@@ -2,7 +2,7 @@
     /* .tutomvc-log-handler */
     .tutomvc-log-handler
     {
-        width: 100%;
+        width: 550px;
         font-family: HelveticaNeue-Light, "Helvetica Neue Light", "Helvetica Neue", sans-serif;
         font-size: 14px;
         line-height: 1.5em;
@@ -11,7 +11,7 @@
 
     .tutomvc-log-handler > .inner
     {
-        width: 560px;
+        width: 550px;
         padding: 30px 30px;
         margin: 0 auto;
         background: #ebebeb;
@@ -138,7 +138,7 @@
         <form id="logs" method="get" action="<?php echo admin_url( 'admin-ajax.php' ); ?>">
             <input type="hidden" name="action" value="<?php echo \tutomvc\wp\log\actions\GetLogAjaxCommand::NAME; ?>"/>
             <input type="hidden" name="nonce" value="<?php echo wp_create_nonce( \tutomvc\wp\log\actions\GetLogAjaxCommand::NAME ); ?>"/>
-            <input type="date" class="datepicker" name="date"/>
+            <input type="date" class="datepicker" name="date" value="<?php echo date( "Y-m-d" ); ?>"/>
         </form>
         <script type="text/javascript">
             jQuery( document ).ready( function ( $ ) {
@@ -150,29 +150,28 @@
                         url: $form.attr( "action" ),
                         data: $form.serialize(), // serializes the form's elements.
                         success: function ( result ) {
-                            $( ".card-log" ).removeClass( "hidden" ).find(".code-wrapper").html( "<pre><code>" + result + "</code></pre>" );
+                            $( ".tutomvc-log-handler .title" ).text( $( "input[name=date]" ).val() );
+                            $( ".tutomvc-log-handler .code-wrapper" ).html( "<pre><code>" + result + "</code></pre>" );
+                            $( ".tutomvc-log-handler" ).removeClass( "hidden" );
                         },
                         error: function ( result ) {
                             console.error( result );
                         }
                     } );
                 } );
+                $datepicker.trigger( "change" );
             } );
         </script>
-        <div class="card card-log hidden">
-            <div class="card-block">
-                <div class="tutomvc-log-handler">
-                    <div class="inner">
-                        <h1>Tuto MVC</h1>
-                        <div class="code-wrapper">
-							<?php
-								foreach ( $lines as $key => $value )
-								{
-									echo "<pre class='" . ($key == ($line - 1) ? 'line' : '') . "'><code><span class='line-index'>" . ($key + 1) . "</span> " . htmlspecialchars( $value ) . "</code></pre>";
-								}
-							?>
-                        </div>
-                    </div>
+        <div class="tutomvc-log-handler hidden">
+            <div class="inner">
+                <h3 class="title">Tuto MVC log</h3>
+                <div class="code-wrapper">
+					<?php
+						foreach ( $lines as $key => $value )
+						{
+							echo "<pre class='" . ($key == ($line - 1) ? 'line' : '') . "'><code><span class='line-index'>" . ($key + 1) . "</span> " . htmlspecialchars( $value ) . "</code></pre>";
+						}
+					?>
                 </div>
             </div>
         </div>
