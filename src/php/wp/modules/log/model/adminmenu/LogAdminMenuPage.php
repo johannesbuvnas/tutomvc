@@ -28,6 +28,5 @@
 
 		function load()
 		{
-			die("shit");
 		}
 	}
