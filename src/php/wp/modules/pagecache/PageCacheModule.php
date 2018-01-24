@@ -40,8 +40,7 @@
 
 				// Ignore cache?
 				//////////////////////////////////////////
-				self::$_ignoreCacheMode = self::hasLoggedInCookies();
-
+				self::$_ignoreCacheMode = self::hasLoggedInCookies() || !empty( $_POST );
 				//////////////////////////////////////////
 
 				self::$_initialized = TRUE;
