@@ -166,12 +166,6 @@
             <div class="inner">
                 <h3 class="title">Tuto MVC log</h3>
                 <div class="code-wrapper">
-					<?php
-						foreach ( $lines as $key => $value )
-						{
-							echo "<pre class='" . ($key == ($line - 1) ? 'line' : '') . "'><code><span class='line-index'>" . ($key + 1) . "</span> " . htmlspecialchars( $value ) . "</code></pre>";
-						}
-					?>
                 </div>
             </div>
         </div>
