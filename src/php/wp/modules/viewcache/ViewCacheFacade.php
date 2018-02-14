@@ -7,7 +7,8 @@
 
 	class ViewCacheFacade extends Facade
 	{
-		const KEY = "tutomvc_viewcache";
+		const KEY                                = "tutomvc_viewcache";
+		const HTML_COMMENT_IGNORE_VIEW_CACHE_KEY = "<!-- [ignore_view_cache] -->";
 
 		protected $_cacheExpirationTimeInSeconds = 0;
 
@@ -36,13 +37,18 @@
 				else
 				{
 					$output = parent::render( $relativePath, $name, $dataProvider, TRUE );
-					$this->getViewCacheProxy()->add( $output, $key, TRUE );
+					if ( !$this->hasIgnoreCacheKey( $output ) ) $this->getViewCacheProxy()->add( $output, $key, TRUE );
 					if ( $returnOutput ) return $output;
 					echo $output;
 				}
 			}
 
 			return NULL;
+		}
+
+		function hasIgnoreCacheKey( $html )
+		{
+			return stripos( $html, self::HTML_COMMENT_IGNORE_VIEW_CACHE_KEY ) !== FALSE;
 		}
 
 		/**

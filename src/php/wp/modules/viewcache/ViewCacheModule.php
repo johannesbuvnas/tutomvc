@@ -35,6 +35,11 @@
 			return self::getInstance()->render( $relativePath, $name, $dataProvider, $returnOutput );
 		}
 
+		public static function outputIgnoreViewCacheHTMLComment()
+		{
+			echo ViewCacheFacade::HTML_COMMENT_IGNORE_VIEW_CACHE_KEY;
+		}
+
 		public static function clearAll()
 		{
 			return self::getInstance()->getViewCacheProxy()->clearAll();
