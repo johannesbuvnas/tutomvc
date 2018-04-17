@@ -25,6 +25,7 @@
 		const INPUT_DELETE           = "_tutomvc_fissile_form_group_delete";
 		protected $_maximumFissions = 1;
 		protected $_minimumFissions = 1;
+		protected $_cachedFission;
 
 		/**
 		 * @param $name
@@ -47,6 +48,7 @@
 		 * @param array $dataArray
 		 *
 		 * @return bool
+		 * @throws \ErrorException
 		 */
 		public function parse( $dataArray )
 		{
@@ -149,6 +151,22 @@
 			$this->setValueByFission( $index );
 		}
 
+		/**
+		 * Saves current fission index to cache.
+		 */
+		public function cacheFission()
+		{
+			$this->_cachedFission = $this->getIndex();
+		}
+
+		/**
+		 * Switch current value to fission index in cache.
+		 */
+		public function switchToCachedFission()
+		{
+			$this->switchToFission( $this->_cachedFission );
+		}
+
 		final public function formatOutput()
 		{
 			$output = '<ul class="list-group fissile-form-group" id="' . $this->getID() . '">';
@@ -188,8 +206,7 @@
 
 		protected function formatFissionOutput( $index = 0 )
 		{
-			$indexBefore = $this->getIndex();
-
+			$this->cacheFission();
 			$this->switchToFission( $index );
 			$output = '<div class="list-group-item ui-sortable fissile-form-group-item">';
 			$output .= '<input type="hidden" value="' . $index . '" class="fissile-form-group-index" name="' . $this->formatRootElementName( $index ) . '[' . self::INPUT_INDEX . ']" >';
@@ -209,7 +226,7 @@
 			}
 			$output .= '</div>';
 
-			$this->switchToFission( $indexBefore );
+			$this->switchToCachedFission();
 
 			return $output;
 		}
@@ -373,6 +390,7 @@
 
 		public function setValueByFission( $index )
 		{
+			$this->setValue( NULL );
 			$this->setValue( $this->getFissionValueAt( $index ) );
 		}
 
@@ -442,13 +460,13 @@
 			if ( count( $value ) < $this->getMinimumFissions() )
 			{
 				$defaultValue = array();
-				$before       = $this->getValue();
+				$this->cacheFission();
 				$this->setValue( NULL );
 				for ( $i = 0; $i < $this->getMinimumFissions(); $i ++ )
 				{
 					$defaultValue[] = $this->getValue();
 				}
-				$this->setValue( $before );
+				$this->switchToCachedFission();
 				$value = array_merge( $value, $defaultValue );
 			}
 			if ( $this->getMaximumFissions() > 0 && count( $value ) > $this->getMaximumFissions() )
@@ -460,14 +478,13 @@
 			$dp = array();
 			if ( is_array( $value ) && count( $value ) )
 			{
-				$before = $this->getValue();
+				$this->cacheFission();
 				foreach ( $value as $index => $valueClone )
 				{
-					$this->setValue( NULL ); // JUST IN CASE
-					$this->setValue( $valueClone );
+					$this->switchToFission( $index );
 					$dp[] = $this->getValue( $call_user_func );
 				}
-				$this->setValue( $before );
+				$this->switchToCachedFission();
 			}
 
 			if ( !is_null( $call_user_func ) ) $this->_value = call_user_func_array( $call_user_func, array(
@@ -484,20 +501,17 @@
 			if ( empty( $index ) && filter_var( $index, FILTER_VALIDATE_INT ) === FALSE )
 			{
 				$valueMap = array();
+				$this->cacheFission();
 				$fissions = $this->getFissionsValue();
-				$value    = $this->getValue();
 
-				foreach ( $fissions as $key => $fission )
+				foreach ( $fissions as $fissionIndex => $fission )
 				{
-					$this->setValue( NULL ); // Just in case
-					$this->setIndex( $key );
-					$this->setValue( $fission );
-					$valueMap[] = parent::getValueMapAt( $key );
+					$this->switchToFission( $fissionIndex );
+					$valueMap[] = parent::getValueMapAt( $fissionIndex );
 				}
 
 				// Restore value
-				$this->setValue( NULL );
-				$this->setValue( $value );
+				$this->switchToCachedFission();
 
 				return $valueMap;
 			}
@@ -511,20 +525,19 @@
 		 * @param callable|null $call_user_func
 		 *
 		 * @return array
-		 * @throws \ErrorException
 		 */
 		public function getFissionsValueFlatten( $call_user_func = NULL )
 		{
+			$this->cacheFission();
 			$flatValue    = array();
 			$currentValue = $this->getFissionsValue( $call_user_func );
 			/** @var FormElement $formElement */
-			foreach ( $currentValue as $key => $value )
+			foreach ( $currentValue as $fissionIndex => $value )
 			{
-				$this->setIndex( $key );
-				$this->setValue( NULL ); // JUST IN CASE
-				$this->setValue( $value );
-				$flatValue[ $key ] = $this->getFlatValue( $call_user_func );
+				$this->switchToFission( $fissionIndex );
+				$flatValue = array_merge( $flatValue, $this->getFlatValue( $call_user_func ) );
 			}
+			$this->switchToCachedFission();
 
 			return $flatValue;
 		}
@@ -540,6 +553,7 @@
 		 * Returns array of errors if errors exists.
 		 * If no errors exists, it returns NULL.
 		 * @return array|null
+		 * @throws \ErrorException
 		 */
 		public function getErrors()
 		{
