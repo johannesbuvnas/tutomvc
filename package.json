@@ -8,7 +8,7 @@
     "url": "https://github.com/johannesbuvnas/tutomvc"
   },
   "scripts": {
-    "postinstall": "typings install",
+    "postinstall": "",
     "clean:dist": "rm -r dist",
     "clean:phpdocs": "rm -r docs",
     "phpdocs": "vendor/bin/phpdoc -c phpdoc.dist.xml",
