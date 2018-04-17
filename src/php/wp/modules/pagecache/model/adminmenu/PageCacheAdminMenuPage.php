@@ -16,7 +16,7 @@
 
 		function render()
 		{
-			$view = PageCacheModule::getModulesRoot( "templates/view/admin-menu-page-main.php" );
+			$view = PageCacheModule::getModuleRoot( "templates/view/admin-menu-page-main.php" );
 			include($view);
 		}
 	}

@@ -3,6 +3,7 @@
 	namespace tutomvc\wp\pagecache;
 
 	use tutomvc\wp\adminmenu\AdminMenuModule;
+	use tutomvc\wp\adminmenu\model\AdminMenuPage;
 	use tutomvc\wp\core\facade\Facade;
 	use tutomvc\wp\pagecache\controller\actions\ClearPageCacheAction;
 	use tutomvc\wp\pagecache\controller\actions\SetupAdvancedCacheAction;
@@ -27,8 +28,8 @@
 
 			if ( is_admin() )
 			{
-				if ( is_network_admin() ) AdminMenuModule::addPageToNetwork( new PageCacheAdminMenuPage( "settings.php" ) );
-				else AdminMenuModule::addPage( new PageCacheAdminMenuPage( "options-general.php" ) );
+				if ( is_network_admin() ) AdminMenuModule::addPageToNetwork( new PageCacheAdminMenuPage( AdminMenuPage::PARENT_SLUG_NETWORK_SETTINGS ) );
+				else AdminMenuModule::addPage( new PageCacheAdminMenuPage( AdminMenuPage::PARENT_SLUG_SETTINGS ) );
 			}
 		}
 

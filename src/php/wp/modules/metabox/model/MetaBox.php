@@ -82,6 +82,7 @@
 		 * @param $postID
 		 *
 		 * @return $this
+		 * @throws \ErrorException
 		 */
 		public function update( $postID )
 		{
@@ -90,7 +91,7 @@
 			$map = $this->getFissionsValueFlatten();
 
 			// get_metadata is executed when update_post_meta
-			add_post_meta( $postID, $this->getName(), count( $map ) );
+			add_post_meta( $postID, $this->getName(), $this->count() );
 
 			if ( count( $map ) )
 			{

@@ -22,10 +22,10 @@
 
 		function execute()
 		{
-			$php      = file_get_contents( PageCacheModule::getModulesRoot( "templates/advanced-cache.php" ) );
+			$php      = file_get_contents( PageCacheModule::getModuleRoot( "templates/advanced-cache.php" ) );
 			$php      = str_ireplace( "[URLUtil.php]", TutoMVC::getRoot( "src/php/core/utils/URLUtil.php" ), $php );
 			$php      = str_ireplace( "[FileUtil.php]", TutoMVC::getRoot( "src/php/core/utils/FileUtil.php" ), $php );
-			$php      = str_ireplace( "[PageCacheModule.php]", PageCacheModule::getModulesRoot( "PageCacheModule.php" ), $php );
+			$php      = str_ireplace( "[PageCacheModule.php]", PageCacheModule::getModuleRoot( "PageCacheModule.php" ), $php );
 			$filePath = FileUtil::sanitizePath( WP_CONTENT_DIR . "/advanced-cache.php" );
 			$result   = file_put_contents( $filePath, $php );
 			if ( $result === FALSE )

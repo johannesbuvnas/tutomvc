@@ -1,14 +1,9 @@
 <?php
 
-	/**
-	 * Created by PhpStorm.
-	 * User: johannesbuvnas
-	 * Date: 19/11/15
-	 * Time: 08:19
-	 */
 	namespace tutomvc\wp\log;
 
 	use tutomvc\wp\core\facade\Facade;
+	use tutomvc\wp\log\actions\GetLogAjaxCommand;
 
 	class LogModuleFacade extends Facade
 	{
@@ -25,5 +20,6 @@
 			// Model
 			$this->registerProxy( new LogProxy() );
 			// Controller
+			$this->registerCommand( GetLogAjaxCommand::NAME, new GetLogAjaxCommand() );
 		}
 	}

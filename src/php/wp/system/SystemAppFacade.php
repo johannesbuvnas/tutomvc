@@ -1,7 +1,9 @@
 <?php
+
 	namespace tutomvc\wp;
 
 	use tutomvc\wp\core\facade\Facade;
+	use tutomvc\wp\log\LogModuleFacade;
 	use tutomvc\wp\system\controller\actions\AdminEnqueueScriptsAction;
 
 	/**
@@ -31,6 +33,7 @@
 
 		protected function prepModel()
 		{
+			$this->registerModule( new LogModuleFacade() );
 //			MetaBoxModule::add( new ExampleMetaBox() );
 //			SettingsModule::add( new ExampleSettings() );
 //			TaxonomyModule::add( new ExampleTaxonomy() );
