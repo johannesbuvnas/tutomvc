@@ -25,7 +25,8 @@
 		const INPUT_DELETE           = "_tutomvc_fissile_form_group_delete";
 		protected $_maximumFissions = 1;
 		protected $_minimumFissions = 1;
-		protected $_cachedFission;
+		protected $_cachedFissionIndex;
+		protected $_cachedFissionValue;
 
 		/**
 		 * @param $name
@@ -156,7 +157,8 @@
 		 */
 		public function cacheFission()
 		{
-			$this->_cachedFission = $this->getIndex();
+			$this->_cachedFissionIndex = $this->getIndex();
+			$this->_cachedFissionValue = $this->getValue();
 		}
 
 		/**
@@ -164,7 +166,9 @@
 		 */
 		public function switchToCachedFission()
 		{
-			$this->switchToFission( $this->_cachedFission );
+			$this->setValue( NULL );
+			$this->setIndex( $this->_cachedFissionIndex );
+			$this->setValue( $this->_cachedFissionValue );
 		}
 
 		final public function formatOutput()
@@ -481,7 +485,9 @@
 				$this->cacheFission();
 				foreach ( $value as $index => $valueClone )
 				{
-					$this->switchToFission( $index );
+					$this->setValue( NULL );
+					$this->setIndex( $index );
+					$this->setValue( $valueClone );
 					$dp[] = $this->getValue( $call_user_func );
 				}
 				$this->switchToCachedFission();
@@ -504,9 +510,11 @@
 				$this->cacheFission();
 				$fissions = $this->getFissionsValue();
 
-				foreach ( $fissions as $fissionIndex => $fission )
+				foreach ( $fissions as $fissionIndex => $value )
 				{
-					$this->switchToFission( $fissionIndex );
+					$this->setValue( NULL );
+					$this->setIndex( $fissionIndex );
+					$this->setValue( $value );
 					$valueMap[] = parent::getValueMapAt( $fissionIndex );
 				}
 
@@ -525,6 +533,7 @@
 		 * @param callable|null $call_user_func
 		 *
 		 * @return array
+		 * @throws \ErrorException
 		 */
 		public function getFissionsValueFlatten( $call_user_func = NULL )
 		{
@@ -534,7 +543,9 @@
 			/** @var FormElement $formElement */
 			foreach ( $currentValue as $fissionIndex => $value )
 			{
-				$this->switchToFission( $fissionIndex );
+				$this->setValue( NULL );
+				$this->setIndex( $fissionIndex );
+				$this->setValue( $value );
 				$flatValue = array_merge( $flatValue, $this->getFlatValue( $call_user_func ) );
 			}
 			$this->switchToCachedFission();
