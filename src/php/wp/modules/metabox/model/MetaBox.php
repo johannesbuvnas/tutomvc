@@ -94,23 +94,20 @@
 
 			if ( count( $map ) )
 			{
-				foreach ( $map as $fission )
+				foreach ( $map as $key => $value )
 				{
-					foreach ( $fission as $key => $value )
+					if ( !empty( $value ) )
 					{
-						if ( !empty( $value ) )
+						if ( is_array( $value ) )
 						{
-							if ( is_array( $value ) )
+							foreach ( $value as $nestedValue )
 							{
-								foreach ( $value as $nestedValue )
-								{
-									add_post_meta( $postID, $key, $nestedValue );
-								}
+								add_post_meta( $postID, $key, $nestedValue );
 							}
-							else
-							{
-								add_post_meta( $postID, $key, $value );
-							}
+						}
+						else
+						{
+							add_post_meta( $postID, $key, $value );
 						}
 					}
 				}
@@ -127,12 +124,9 @@
 			$this->setFissionsValue( $int );
 			delete_post_meta( $postID, $this->getName() );
 			$map = $this->getFissionsValueFlatten();
-			foreach ( $map as $clone )
+			foreach ( $map as $key => $value )
 			{
-				foreach ( $clone as $key => $value )
-				{
-					delete_post_meta( $postID, $key );
-				}
+				delete_post_meta( $postID, $key );
 			}
 
 			$this->_value = $prevValue;
