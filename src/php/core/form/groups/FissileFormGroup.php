@@ -57,7 +57,7 @@
 			{
 				$dataArray = $dataArray[ $this->getName() ];
 
-				$this->setFissionsValue( $dataArray );
+				$this->setFissions( $dataArray );
 
 				return TRUE;
 			}
@@ -68,12 +68,12 @@
 		public function resetFissions()
 		{
 			$this->reset();
-			$this->setFissionsValue( NULL );
+			$this->setFissions( NULL );
 		}
 
 		public function count()
 		{
-			$fissions = $this->getFissionsValue();
+			$fissions = $this->getFissions();
 
 			return is_array( $fissions ) ? count( $fissions ) : 0;
 		}
@@ -146,10 +146,29 @@
 			return FALSE;
 		}
 
+		/**
+		 * @param $index
+		 *
+		 * @throws \ErrorException
+		 */
 		public function switchToFission( $index )
 		{
 			$this->setIndex( $index );
-			$this->setValueByFission( $index );
+			$this->setValue( NULL );
+			$this->setValue( $this->getFissionAt( $index ) );
+		}
+
+		/**
+		 * Store current values to fissions at the specified index.
+		 *
+		 * @param null|int $atIndex Current index if NULL
+		 */
+		public function storeFission( $atIndex = NULL )
+		{
+			if ( !is_array( $this->_value ) ) $this->_value = array();
+			if ( is_null( $atIndex ) || !is_int( $atIndex ) ) $atIndex = $this->getIndex();
+
+			$this->_value[ $atIndex ] = $this->getValue();
 		}
 
 		/**
@@ -179,7 +198,7 @@
 			{
 				$output .= $this->formatFissionOutput( $i );
 			}
-			if ( !$this->hasReachedMax() ) $output .= $this->formatFooterOutput();
+			if ( !$this->hasReachedMaxFissions() ) $output .= $this->formatFooterOutput();
 			$output .= '</ul>';
 
 			$output .= '
@@ -271,7 +290,7 @@
 						</h2>
 					</li>
 			';
-			if ( !$this->hasReachedMax() ) $output .= $this->getTopNavOutput();
+			if ( !$this->hasReachedMaxFissions() ) $output .= $this->getTopNavOutput();
 
 			return $output;
 		}
@@ -312,13 +331,16 @@
 
 		public function getFormElementByElementName( $elementName )
 		{
+			$this->cacheFission();
 			$index = FormElement::extractAncestorIndex( $elementName );
 			$this->setIndex( $index );
+			$formElement = parent::getFormElementByElementName( $elementName );
+			$this->switchToCachedFission();
 
-			return parent::getFormElementByElementName( $elementName );
+			return $formElement;
 		}
 
-		public function hasReachedMax()
+		public function hasReachedMaxFissions()
 		{
 			return $this->count() >= $this->getMaximumFissions() && $this->getMaximumFissions() >= 0;
 		}
@@ -376,29 +398,9 @@
 			if ( $value < 1 ) $value = - 1;
 
 			$this->_minimumFissions = $value;
-
 		}
 
-		/**
-		 * Set current value to fissions at the specified index.
-		 *
-		 * @param null|int $atIndex Current index if NULL
-		 */
-		public function setCurrentValueToFission( $atIndex = NULL )
-		{
-			if ( !is_array( $this->_value ) ) $this->_value = array();
-			if ( is_null( $atIndex ) || !is_int( $atIndex ) ) $atIndex = $this->getIndex();
-
-			$this->_value[ $atIndex ] = $this->getValue();
-		}
-
-		public function setValueByFission( $index )
-		{
-			$this->setValue( NULL );
-			$this->setValue( $this->getFissionValueAt( $index ) );
-		}
-
-		public function setFissionsValue( $value )
+		public function setFissions( $value )
 		{
 			if ( !is_array( $value ) && !is_null( $value ) && !is_int( $value ) && !is_bool( $value ) )
 			{
@@ -422,12 +424,12 @@
 						$newIndex ++;
 					}
 				}
-				if ( array_key_exists( self::BUTTON_NAME_ADD_BEFORE, $value ) && !$this->hasReachedMax() )
+				if ( array_key_exists( self::BUTTON_NAME_ADD_BEFORE, $value ) && !$this->hasReachedMaxFissions() )
 				{
 					$this->setValue( NULL );
 					array_unshift( $this->_value, $this->getValue() );
 				}
-				if ( array_key_exists( self::BUTTON_NAME_ADD_AFTER, $value ) && !$this->hasReachedMax() )
+				if ( array_key_exists( self::BUTTON_NAME_ADD_AFTER, $value ) && !$this->hasReachedMaxFissions() )
 				{
 					$this->setValue( NULL );
 					$this->_value[] = $this->getValue();
@@ -450,7 +452,7 @@
 			}
 		}
 
-		public function getFissionsValue( $call_user_func = NULL )
+		public function getFissions( $call_user_func = NULL )
 		{
 			$value = empty( $this->_value ) ? $this->getDefaultValue() : $this->_value;
 
@@ -508,7 +510,7 @@
 			{
 				$valueMap = array();
 				$this->cacheFission();
-				$fissions = $this->getFissionsValue();
+				$fissions = $this->getFissions();
 
 				foreach ( $fissions as $fissionIndex => $value )
 				{
@@ -535,11 +537,11 @@
 		 * @return array
 		 * @throws \ErrorException
 		 */
-		public function getFissionsValueFlatten( $call_user_func = NULL )
+		public function getFlatFissions( $call_user_func = NULL )
 		{
 			$this->cacheFission();
 			$flatValue    = array();
-			$currentValue = $this->getFissionsValue( $call_user_func );
+			$currentValue = $this->getFissions( $call_user_func );
 			/** @var FormElement $formElement */
 			foreach ( $currentValue as $fissionIndex => $value )
 			{
@@ -553,9 +555,9 @@
 			return $flatValue;
 		}
 
-		public function getFissionValueAt( $index = 0 )
+		public function getFissionAt( $index = 0 )
 		{
-			$fissions = $this->getFissionsValue();
+			$fissions = $this->getFissions();
 
 			return is_array( $fissions ) && array_key_exists( $index, $fissions ) ? $fissions[ $index ] : NULL;
 		}
@@ -573,7 +575,7 @@
 			$before = $this->getValue();
 			for ( $i = 0; $i < $count; $i ++ )
 			{
-				$this->setValue( $this->getFissionValueAt( $i ) );
+				$this->setValue( $this->getFissionAt( $i ) );
 				$fissionErrors = parent::getErrors();
 				if ( is_array( $fissionErrors ) ) $errors[ $i ] = $fissionErrors;
 			}

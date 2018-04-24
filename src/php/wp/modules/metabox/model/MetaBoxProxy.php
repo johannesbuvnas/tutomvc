@@ -44,7 +44,7 @@
 					if ( $metaKey == $metaBox->getName() )
 					{
 						$int = $metaBox->countFissions( $postID );
-						$metaBox->setFissionsValue( $int );
+						$metaBox->setFissions( $int );
 						$formElement = $metaBox;
 						$valueMap    = $metaBox->getValueMapAt();
 					}
