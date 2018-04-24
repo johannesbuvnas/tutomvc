@@ -11,8 +11,7 @@
 	use tutomvc\core\form\FormElement;
 
 	/**
-	 * FissileFormGroup is a FormGroup that can clone itself - like a fission - but without factoring more instances of the same class.
-	 * FissileFormGroup just clones the value map.
+	 * This is a fissible FormGroup without factoring more instances of the same class.
 	 *
 	 * @package tutomvc\core\form\groups
 	 */
@@ -257,23 +256,9 @@
 		protected function formatFissionIndexSelectorOutput( $index )
 		{
 			$output = "";
-//			$output = '<div class="row">';
-			//			$output .= '<div class="col-xs-6">';
 			$output .= '<label class="btn btn-danger btn-sm">
 							<input name="' . $this->formatRootElementName( $index ) . '[' . self::BUTTON_NAME_DELETE . ']" type="checkbox" style="margin:0 6px 0 0;"> <span class="glyphicon glyphicon-remove"></span>
 						</label>';
-//			$output .= '</div>';
-//			$output .= '<div class="col-xs-5">';
-//			$output .= '<select class="pull-right" name="' . $this->formatRootElementName( $index ) . '[' . self::INPUT_INDEX_SELECTOR . ']">';
-//			for ( $i = 0; $i < $this->count(); $i ++ )
-//			{
-//				if ( $i == $index ) $output .= '<option selected value="' . $i . '">#' . ($i + 1) . '</option>';
-//				else $output .= '<option value="' . $i . '">#' . ($i + 1) . '</option>';
-//			}
-//			$output .= '</select>';
-//			$output .= '</div>';
-
-//			$output .= '</div>';
 
 			return $output;
 		}
@@ -297,16 +282,6 @@
 
 		protected function getTopNavOutput()
 		{
-//			$output = '
-//			<li class="list-group-item fissile-form-group-top-nav disabled" style="text-align: center">
-//				<div class="input-group input-sm">
-//					<input type="number" value="1" min="1" class="form-control" id="appendedInput">
-//					<label class="input-group-addon text-primary has-success">
-//						<input name="" type="checkbox"> <span class="glyphicon glyphicon-plus"></span>
-//					</label>
-//				</div>
-//			</li>';
-
 			$output = '
 					<li class="list-group-item fissile-form-group-top-nav" style="text-align: center">
 					    <label class="btn btn-default">
