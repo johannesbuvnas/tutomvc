@@ -206,7 +206,6 @@
 		public function setLabel( $title )
 		{
 			$this->_label = $title;
-
 		}
 
 		/**
@@ -227,7 +226,6 @@
 		public function setDescription( $description )
 		{
 			$this->_description = $description;
-
 		}
 
 		/**
