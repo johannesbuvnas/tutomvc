@@ -9,6 +9,7 @@
 	namespace tutomvc\core\form\groups;
 
 	use tutomvc\core\form\FormElement;
+	use tutomvc\core\form\inputs\FormInput;
 
 	/**
 	 * A group of form elements. Can be other FormGroups or FormInputs.
@@ -70,7 +71,7 @@
 		 *
 		 * @see FormGroup::findByElementName() For more accurate search.
 		 *
-		 * @return null|FormElement|FormGroup
+		 * @return null|FormElement|FormGroup|FormInput|FissileFormGroup
 		 */
 		public function findByName( $name )
 		{
@@ -99,7 +100,7 @@
 		 *
 		 * @param $elementName
 		 *
-		 * @return null|FormElement|FormGroup
+		 * @return null|FormElement|FormGroup|FormInput|FissileFormGroup
 		 * @see {@link getElementName}
 		 */
 		public function findByElementName( $elementName )
