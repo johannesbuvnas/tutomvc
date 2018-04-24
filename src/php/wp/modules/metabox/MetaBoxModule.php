@@ -64,7 +64,7 @@
 			if ( $metaBox = self::get( $metaBoxName ) )
 			{
 				$metaBox->setIndex( $atIndex );
-				if ( $formElement = $metaBox->findFormElementByName( $formElementName ) )
+				if ( $formElement = $metaBox->findByName( $formElementName ) )
 				{
 					return $formElement->getElementName();
 				}

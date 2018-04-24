@@ -26,14 +26,14 @@
 		 * @throws \ErrorException
 		 * @return FormElement
 		 */
-		public function addFormElement( FormElement $formElement )
+		public function add( FormElement $formElement )
 		{
 			if ( !($formElement instanceof FormInput) && !($formElement instanceof FormInputAddon) )
 			{
 				throw new \ErrorException( "Only accepts FormInput and FormInputAddon - ", 0, E_ERROR );
 			}
 
-			return parent::addFormElement( $formElement );
+			return parent::add( $formElement );
 		}
 
 		/**

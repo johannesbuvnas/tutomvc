@@ -77,7 +77,7 @@
 			return is_array( $fissions ) ? count( $fissions ) : 0;
 		}
 
-		public function findFormElementByElementName( $elementName )
+		public function findByElementName( $elementName )
 		{
 			$elementName = self::sanitizeName( $elementName );
 			$index       = self::extractAncestorIndex( $elementName );
@@ -94,7 +94,7 @@
 				{
 					/** @var FormGroup $formElement */
 					/** @var FormElement $subFormElement */
-					$subFormElement = $formElement->findFormElementByElementName( $elementName );
+					$subFormElement = $formElement->findByElementName( $elementName );
 					if ( $subFormElement ) return $subFormElement;
 				}
 			}
