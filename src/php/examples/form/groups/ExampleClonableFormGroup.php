@@ -25,9 +25,9 @@
 		{
 			parent::__construct( self::NAME, "Example of clonable form group", "What the title says.", 1, - 1 );
 
-			$this->addFormElement( new ExampleFormGroup() );
-			$this->addFormElement( new ExampleSelectorFormGroup() );
-			$this->addFormElement( new WPEditorFormInput( self::WP_EDITOR, "Some WP Editor", "Edit some stuff", FALSE, FALSE, "Placeholder" ) )
+			$this->add( new ExampleFormGroup() );
+			$this->add( new ExampleSelectorFormGroup() );
+			$this->add( new WPEditorFormInput( self::WP_EDITOR, "Some WP Editor", "Edit some stuff", FALSE, FALSE, "Placeholder" ) )
 			     ->setDefaultValue( '<p class="VA">hej</p>' );
 		}
 	}

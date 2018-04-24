@@ -32,7 +32,7 @@
 		 *
 		 * @return FormElement
 		 */
-		public function addFormElement( FormElement $formElement )
+		public function add( FormElement $formElement )
 		{
 			$this->_formElementsMap[ $formElement->getName() ] = $formElement;
 			$formElement->setParentName( $this->getNameAsParent() );
@@ -48,7 +48,7 @@
 		 * @return bool
 		 *
 		 */
-		public function removeFormElement( $name )
+		public function removeByName( $name )
 		{
 			$formElement = $this->getFormElementByName( $name );
 
@@ -68,11 +68,11 @@
 		 *
 		 * @param $name
 		 *
-		 * @see FormGroup::findFormElementByElementName() For more accurate search.
+		 * @see FormGroup::findByElementName() For more accurate search.
 		 *
 		 * @return null|FormElement|FormGroup
 		 */
-		public function findFormElementByName( $name )
+		public function findByName( $name )
 		{
 			$name        = self::sanitizeID( $name );
 			$formElement = $this->getFormElementByName( $name );
@@ -86,7 +86,7 @@
 				{
 					/** @var FormGroup $formElement */
 					/** @var FormElement $subFormElement */
-					$subFormElement = $formElement->findFormElementByName( $name );
+					$subFormElement = $formElement->findByName( $name );
 					if ( $subFormElement ) return $subFormElement;
 				}
 			}
@@ -102,7 +102,7 @@
 		 * @return null|FormElement|FormGroup
 		 * @see {@link getElementName}
 		 */
-		public function findFormElementByElementName( $elementName )
+		public function findByElementName( $elementName )
 		{
 			$elementName = self::sanitizeName( $elementName );
 			$formElement = $this->getFormElementByElementName( $elementName );
@@ -116,7 +116,7 @@
 				{
 					/** @var FormGroup $formElement */
 					/** @var FormElement $subFormElement */
-					$subFormElement = $formElement->findFormElementByElementName( $elementName );
+					$subFormElement = $formElement->findByElementName( $elementName );
 					if ( $subFormElement ) return $subFormElement;
 				}
 			}

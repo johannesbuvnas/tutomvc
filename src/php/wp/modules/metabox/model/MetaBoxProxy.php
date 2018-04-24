@@ -48,7 +48,7 @@
 						$formElement = $metaBox;
 						$valueMap    = $metaBox->getValueMapAt();
 					}
-					else if ( $formElement = $metaBox->findFormElementByElementName( $metaKey ) )
+					else if ( $formElement = $metaBox->findByElementName( $metaKey ) )
 					{
 						if ( $formElement instanceof FormGroup )
 						{
@@ -86,7 +86,7 @@
 			{
 				if ( is_array( $value ) )
 				{
-					if ( $formElement instanceof FormGroup ) $childElement = $formElement->findFormElementByName( $key );
+					if ( $formElement instanceof FormGroup ) $childElement = $formElement->findByName( $key );
 					$value = $this->mapPostMeta( $value, $postID, $formElement, $suppressFilters );
 				}
 				else if ( is_string( $value ) )
@@ -94,7 +94,7 @@
 					// META KEY
 					if ( $formElement instanceof FormGroup )
 					{
-						$childElement = $formElement->findFormElementByElementName( $value );
+						$childElement = $formElement->findByElementName( $value );
 					}
 					else if ( $formElement->getElementName() == $value )
 					{
@@ -217,7 +217,7 @@
 			{
 				if ( is_string( $formElementName ) )
 				{
-					$formElement = $metaBox->findFormElementByName( $formElementName );
+					$formElement = $metaBox->findByName( $formElementName );
 					if ( !($formElement instanceof FormElement) ) return FALSE;
 				}
 				else
