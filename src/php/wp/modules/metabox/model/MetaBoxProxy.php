@@ -46,14 +46,14 @@
 						$int = $metaBox->countFissions( $postID );
 						$metaBox->setFissions( $int );
 						$formElement = $metaBox;
-						$valueMap    = $metaBox->getValueMapAt();
+						$valueMap    = $metaBox->getFissionKeyMap();
 					}
 					else if ( $formElement = $metaBox->findByElementName( $metaKey ) )
 					{
 						if ( $formElement instanceof FormGroup )
 						{
 							/** @var FormGroup $formElement */
-							$valueMap = $formElement->getValueMapAt();
+							$valueMap = $formElement->getKeyMap();
 						}
 						else
 						{

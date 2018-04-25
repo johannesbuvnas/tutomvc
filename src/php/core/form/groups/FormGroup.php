@@ -327,7 +327,7 @@
 		 *
 		 * @return array|bool|string
 		 */
-		public function getValueMapByElementName( $elementName )
+		public function getKeyMapByElementName( $elementName )
 		{
 			$elementName = FormElement::sanitizeName( $elementName );
 			$matches     = FormElement::extractNames( $elementName );
@@ -339,7 +339,7 @@
 				{
 					$i ++;
 
-					if ( $i == 1 && count( $matches ) == 1 && $elementName == $this->getElementName() ) return $this->getValueMapAt( NULL );
+					if ( $i == 1 && count( $matches ) == 1 && $elementName == $this->getElementName() ) return $this->getKeyMap();
 
 					/** @var FormElement $formElement */
 					$formElement = $this->findByName( $elementName, FALSE );
@@ -348,13 +348,13 @@
 						/** @var FormGroup $formElement */
 						if ( $i == count( $matches ) )
 						{
-							return $formElement->getValueMapAt();
+							return $formElement->getKeyMap();
 						}
 						else
 						{
 							$namesLeft = array_slice( $matches, $i );
 
-							return $formElement->getValueMapByElementName( implode( "|", $namesLeft ) );
+							return $formElement->getKeyMapByElementName( implode( "|", $namesLeft ) );
 						}
 					}
 					else if ( $formElement instanceof FormElement )
@@ -448,18 +448,13 @@
 		}
 
 		/**
-		 * Generates a value map with a specific index.
-		 *
-		 * @param null $index
+		 * Generates a array that contains where the key is the name of the element, and the value is the full element name.
 		 *
 		 * @return array
 		 */
-		public function getValueMapAt( $index = NULL )
+		public function getKeyMap()
 		{
-			$oldIndex = $this->getIndex();
-			$this->setIndex( $index );
-
-			$valueMap = array();
+			$map = array();
 
 			/** @var FormElement $formElement */
 			foreach ( $this->getMap() as $formElement )
@@ -469,18 +464,16 @@
 					if ( $formElement instanceof FormGroup )
 					{
 						/** @var FormGroup $formElement */
-						$valueMap[ $formElement->getName() ] = $formElement->getValueMapAt( $index );
+						$map[ $formElement->getName() ] = $formElement->getKeyMap();
 					}
 					else
 					{
-						$valueMap[ $formElement->getName() ] = $formElement->getElementName();
+						$map[ $formElement->getName() ] = $formElement->getElementName();
 					}
 				}
 			}
 
-			$this->setIndex( $oldIndex );
-
-			return $valueMap;
+			return $map;
 		}
 
 		/**

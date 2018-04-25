@@ -8,6 +8,7 @@
 
 	namespace tutomvc\core\form\groups;
 
+	use tutomvc\core\form\ElementNameExtractor;
 	use tutomvc\core\form\FormElement;
 
 	/**
@@ -95,44 +96,42 @@
 			return NULL;
 		}
 
-		public function getValueMapByElementName( $elementName )
+		public function getKeyMapByElementName( $elementName )
 		{
-			$elementName = FormElement::sanitizeName( $elementName );
-			$matches     = FormElement::matchElementName( $elementName );
+			$extractor = new ElementNameExtractor( $elementName );
 
-			if ( count( $matches ) == 4 )
+			if ( $extractor->getAncestor() == $this->getElementName() )
 			{
-				$ancestor = $matches[ 1 ];
-				if ( $ancestor == $this->getElementName() )
+				$oldIndex = $this->getIndex();
+				$children = $extractor->getChildren();
+				if ( is_array( $children ) && count( $children ) )
 				{
-					$index    = intval( $matches[ 2 ] );
-					$rest     = $matches[ 3 ];
-					$children = FormElement::extractGroupNames( $rest );
-					if ( is_array( $children ) && count( $children ) )
+					$formElement = $this->findByElementName( $extractor->getElementName() );
+					if ( $formElement instanceof FormGroup )
 					{
-						$formElement = $this->findByElementName( $elementName );
-						if ( $formElement instanceof FormGroup )
-						{
-							return $formElement->getValueMapAt( $index );
-						}
-						else if ( $formElement instanceof FormElement )
-						{
-							return $formElement->getElementName();
-						}
-						else
-						{
-//							return $children;
-						}
+						$this->setIndex( $extractor->getIndex() );
+						$map = $formElement->getKeyMap();
+						$this->setIndex( $oldIndex );
+
+						return $map;
 					}
-					else
+					else if ( $formElement instanceof FormElement )
 					{
-						return $this->getValueMapAt( $index );
+						return $formElement->getElementName();
 					}
 				}
+				else
+				{
+					$this->setIndex( $extractor->getIndex() );
+					$map = $this->getKeyMap();
+					$this->setIndex( $oldIndex );
+
+					return $map;
+				}
 			}
-			else if ( $elementName == $this->getElementName() )
+			else if ( $extractor->getElementName() == $this->getElementName() )
 			{
-				return $this->getValueMapAt( NULL );
+				return $this->getFissionKeyMap();
 			}
 
 			return FALSE;
@@ -461,31 +460,25 @@
 			return $this->_value;
 		}
 
-		public function getValueMapAt( $index = NULL )
+		public function getFissionKeyMap()
 		{
-			if ( empty( $index ) && filter_var( $index, FILTER_VALIDATE_INT ) === FALSE )
+			$map      = array();
+			$oldIndex = $this->getIndex();
+			$fissions = $this->getFissions();
+
+			$this->cacheFission();
+
+			foreach ( $fissions as $fissionIndex => $value )
 			{
-				$valueMap = array();
-				$this->cacheFission();
-				$fissions = $this->getFissions();
-
-				foreach ( $fissions as $fissionIndex => $value )
-				{
-					$this->setValue( NULL );
-					$this->setIndex( $fissionIndex );
-					$this->setValue( $value );
-					$valueMap[] = parent::getValueMapAt( $fissionIndex );
-				}
-
-				// Restore value
-				$this->switchToCachedFission();
-
-				return $valueMap;
+				$this->setValue( NULL );
+				$this->setIndex( $fissionIndex );
+				$this->setValue( $value );
+				$map[] = $this->getKeyMap( $fissionIndex );
 			}
-			else
-			{
-				return parent::getValueMapAt( $index );
-			}
+
+			$this->setIndex( $oldIndex );
+
+			return $map;
 		}
 
 		/**
