@@ -386,7 +386,14 @@
 					$formElement = $this->findByName( $key, FALSE );
 					if ( $formElement )
 					{
-						$formElement->setValue( $value );
+						if ( $formElement instanceof FissileFormGroup )
+						{
+							$formElement->setFissions( $value );
+						}
+						else
+						{
+							$formElement->setValue( $value );
+						}
 					}
 				}
 			}
@@ -410,10 +417,16 @@
 		public function getValue( $call_user_func = NULL )
 		{
 			$value = array();
-			/** @var FormElement $formElement */
 			foreach ( $this->getMap() as $formElement )
 			{
-				$value[ $formElement->getName() ] = $formElement->getValue( $call_user_func );
+				if ( $formElement instanceof FissileFormGroup )
+				{
+					$value[ $formElement->getName() ] = $formElement->getFissions( $call_user_func );
+				}
+				else
+				{
+					$value[ $formElement->getName() ] = $formElement->getValue( $call_user_func );
+				}
 			}
 
 			if ( !is_null( $call_user_func ) ) return call_user_func_array( $call_user_func, array(&$this, $value) );
