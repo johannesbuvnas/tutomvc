@@ -42,17 +42,17 @@
 			$inputGroup->add( new FormInputAddon( "@" ) );
 
 			// Adding email domain input
-			$inputGroup->add( new FormInput( self::GROUP_EMAIL_DOMAIN, NULL ) )
-			           ->setPlaceholder( "Domain" )
-			           ->setDefaultValue( "gmail" );
+			$domain = $inputGroup->add( new FormInput( self::GROUP_EMAIL_DOMAIN, NULL ) );
+			$domain->setPlaceholder( "Domain" );
+			$domain->setDefaultValue( "gmail" );
 
 			// Adding .
 			$inputGroup->add( new FormInputAddon( "." ) );
 
 			// Adding top level domain input
-			$inputGroup->add( new FormInput( self::GROUP_EMAIL_TLD, NULL ) )
-			           ->setPlaceholder( "TLD" )
-			           ->setDefaultValue( "com" );
+			$tld = $inputGroup->add( new FormInput( self::GROUP_EMAIL_TLD, NULL ) );
+			$tld->setPlaceholder( "TLD" );
+			$tld->setDefaultValue( "com" );
 		}
 
 		function validateEmailFormGroup( $formElement, $value )

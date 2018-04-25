@@ -196,71 +196,6 @@
 			return NULL;
 		}
 
-		/* SET AND GET */
-		/**
-		 * Label / title.
-		 *
-		 * @param string $title
-		 *
-		 */
-		public function setLabel( $title )
-		{
-			$this->_label = $title;
-		}
-
-		/**
-		 * @return null|string
-		 * @see {@link setLabel}
-		 */
-		public function getLabel()
-		{
-			return $this->_label;
-		}
-
-		/**
-		 * A short help text about this form element.
-		 *
-		 * @param $description
-		 *
-		 */
-		public function setDescription( $description )
-		{
-			$this->_description = $description;
-		}
-
-		/**
-		 * @return null|string
-		 * @see {@link setDescription}
-		 */
-		public function getDescription()
-		{
-			return $this->_description;
-		}
-
-		/**
-		 * An array that contains all the attributes and attribute-data that the element will output.
-		 * @return array
-		 */
-		function getFormElementAttributes()
-		{
-			return array();
-		}
-
-		/**
-		 * @return string
-		 * @see FormElement::getFormElementAttributes() Creates a string based on this array.
-		 */
-		function getFormElementAttributesAsString()
-		{
-			$attributes = "";
-			foreach ( (array)$this->getFormElementAttributes() as $key => $value )
-			{
-				$attributes .= ' ' . $key . '="' . $value . '"';
-			}
-
-			return $attributes;
-		}
-
 		/**
 		 * Format and echo output HTML.
 		 */
@@ -346,6 +281,87 @@
 		public function isSingle()
 		{
 			return $this->_single;
+		}
+
+		/**
+		 * If a error message is set, then the form contains errors.<br/>
+		 * The error message is normally automatically set when running {@link validate} which is calling the method is set via {@link setValidationMethod}
+		 *
+		 * @return bool
+		 * @see {@link setErrorMessage}
+		 * @see {@link setValidationMethod}
+		 * @see {@link validate}
+		 */
+		public function hasError()
+		{
+			return !empty( $this->getErrorMessage() );
+		}
+
+		/* SET AND GET */
+		/**
+		 * Label / title.
+		 *
+		 * @param string $title
+		 *
+		 */
+		public function setLabel( $title )
+		{
+			$this->_label = $title;
+
+		}
+
+		/**
+		 * @return null|string
+		 * @see {@link setLabel}
+		 */
+		public function getLabel()
+		{
+			return $this->_label;
+		}
+
+		/**
+		 * A short help text about this form element.
+		 *
+		 * @param $description
+		 *
+		 */
+		public function setDescription( $description )
+		{
+			$this->_description = $description;
+
+		}
+
+		/**
+		 * @return null|string
+		 * @see {@link setDescription}
+		 */
+		public function getDescription()
+		{
+			return $this->_description;
+		}
+
+		/**
+		 * An array that contains all the attributes and attribute-data that the element will output.
+		 * @return array
+		 */
+		function getFormElementAttributes()
+		{
+			return array();
+		}
+
+		/**
+		 * @return string
+		 * @see FormElement::getFormElementAttributes() Creates a string based on this array.
+		 */
+		function getFormElementAttributesAsString()
+		{
+			$attributes = "";
+			foreach ( (array)$this->getFormElementAttributes() as $key => $value )
+			{
+				$attributes .= ' ' . $key . '="' . $value . '"';
+			}
+
+			return $attributes;
 		}
 
 		/**
@@ -524,20 +540,6 @@
 		public function getErrorMessage()
 		{
 			return $this->_errorMessage;
-		}
-
-		/**
-		 * If a error message is set, then the form contains errors.<br/>
-		 * The error message is normally automatically set when running {@link validate} which is calling the method is set via {@link setValidationMethod}
-		 *
-		 * @return bool
-		 * @see {@link setErrorMessage}
-		 * @see {@link setValidationMethod}
-		 * @see {@link validate}
-		 */
-		public function hasError()
-		{
-			return !empty( $this->getErrorMessage() );
 		}
 
 		/**
