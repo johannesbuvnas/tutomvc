@@ -81,22 +81,15 @@
 		{
 			$elementName = self::sanitizeName( $elementName );
 			$index       = self::extractAncestorIndex( $elementName );
-			if ( is_null( $index ) ) return NULL;
-			else $this->setIndex( $index );
-			$formElement = $this->getFormElementByElementName( $elementName );
 
-			/** @var FormElement $formElement */
-			if ( $formElement ) return $formElement;
-
-			foreach ( $this->getFormElements() as $formElement )
+			if ( !is_null( $index ) )
 			{
-				if ( $formElement instanceof FormGroup )
-				{
-					/** @var FormGroup $formElement */
-					/** @var FormElement $subFormElement */
-					$subFormElement = $formElement->findByElementName( $elementName );
-					if ( $subFormElement ) return $subFormElement;
-				}
+				$indexBefore = $index;
+				$this->setIndex( $index );
+				$formElement = parent::findByElementName( $elementName );
+				$this->setIndex( $indexBefore );
+
+				return $formElement;
 			}
 
 			return NULL;
@@ -117,7 +110,7 @@
 					$children = FormElement::extractGroupNames( $rest );
 					if ( is_array( $children ) && count( $children ) )
 					{
-						$formElement = $this->getFormElementByElementName( $elementName );
+						$formElement = $this->findByElementName( $elementName );
 						if ( $formElement instanceof FormGroup )
 						{
 							return $formElement->getValueMapAt( $index );
@@ -173,7 +166,7 @@
 		/**
 		 * Saves current fission index to cache.
 		 */
-		public function cacheFission()
+		protected function cacheFission()
 		{
 			$this->_cachedFissionIndex = $this->getIndex();
 			$this->_cachedFissionValue = $this->getValue();
@@ -182,7 +175,7 @@
 		/**
 		 * Switch current value to fission index in cache.
 		 */
-		public function switchToCachedFission()
+		protected function switchToCachedFission()
 		{
 			$this->setValue( NULL );
 			$this->setIndex( $this->_cachedFissionIndex );
@@ -302,17 +295,6 @@
 					</li>';
 
 			return $output;
-		}
-
-		public function getFormElementByElementName( $elementName )
-		{
-			$this->cacheFission();
-			$index = FormElement::extractAncestorIndex( $elementName );
-			$this->setIndex( $index );
-			$formElement = parent::getFormElementByElementName( $elementName );
-			$this->switchToCachedFission();
-
-			return $formElement;
 		}
 
 		public function hasReachedMaxFissions()

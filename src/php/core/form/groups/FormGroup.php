@@ -41,6 +41,11 @@
 			return $formElement;
 		}
 
+		public function has( $name )
+		{
+			return array_key_exists( $name, $this->_formElementsMap );
+		}
+
 		/**
 		 * Only removes the element if it's a direct child of this group.
 		 *
@@ -51,7 +56,7 @@
 		 */
 		public function removeByName( $name )
 		{
-			$formElement = $this->getFormElementByName( $name );
+			$formElement = $this->findByName( $name, FALSE );
 
 			if ( $formElement )
 			{
@@ -68,27 +73,58 @@
 		 * Try to find a element by a certain name, first in this current group, and then in children. Returns the first match.
 		 *
 		 * @param $name
-		 *
-		 * @see FormGroup::findByElementName() For more accurate search.
+		 * @param bool $searchInChildGroups If not found in current group
 		 *
 		 * @return null|FormElement|FormGroup|FormInput|FissileFormGroup
+		 * @see FormGroup::findByElementName() For more accurate search.
+		 *
 		 */
-		public function findByName( $name )
+		public function findByName( $name, $searchInChildGroups = TRUE )
 		{
-			$name        = self::sanitizeID( $name );
-			$formElement = $this->getFormElementByName( $name );
+			$name = self::sanitizeID( $name );
 
-			/** @var FormElement $formElement */
-			if ( $formElement ) return $formElement;
-
-			foreach ( $this->getFormElements() as $formElement )
+			if ( $this->has( $name ) )
 			{
+				return $this->_formElementsMap[ $name ];
+			}
+
+			if ( $searchInChildGroups )
+			{
+				foreach ( $this->getMap() as $formElement )
+				{
+					if ( $formElement instanceof FormGroup )
+					{
+						/** @var FormGroup $formElement */
+						/** @var FormElement $subFormElement */
+						$subFormElement = $formElement->findByName( $name );
+						if ( $subFormElement ) return $subFormElement;
+					}
+				}
+			}
+
+			return NULL;
+		}
+
+		/**
+		 * Search for a child by it's id-attr.<br/>
+		 * Searches through child FormGroups as well.
+		 *
+		 * @param $elementID
+		 *
+		 * @return null|FormElement|FormGroup
+		 */
+		public function findByElementID( $elementID )
+		{
+			/** @var FormElement $formElement */
+			foreach ( $this->getMap() as $formElement )
+			{
+				if ( $formElement->getID() == $elementID ) return $formElement;
+
 				if ( $formElement instanceof FormGroup )
 				{
 					/** @var FormGroup $formElement */
-					/** @var FormElement $subFormElement */
-					$subFormElement = $formElement->findByName( $name );
-					if ( $subFormElement ) return $subFormElement;
+					$search = $formElement->findByElementID( $elementID );
+					if ( $search ) return $search;
 				}
 			}
 
@@ -106,19 +142,15 @@
 		public function findByElementName( $elementName )
 		{
 			$elementName = self::sanitizeName( $elementName );
-			$formElement = $this->getFormElementByElementName( $elementName );
 
-			/** @var FormElement $formElement */
-			if ( $formElement ) return $formElement;
-
-			foreach ( $this->getFormElements() as $formElement )
+			foreach ( $this->getMap() as $formElement )
 			{
+				if ( $formElement->getElementName() == $elementName ) return $formElement;
+
 				if ( $formElement instanceof FormGroup )
 				{
-					/** @var FormGroup $formElement */
-					/** @var FormElement $subFormElement */
-					$subFormElement = $formElement->findByElementName( $elementName );
-					if ( $subFormElement ) return $subFormElement;
+					$find = $formElement->findByElementName( $elementName );
+					if ( $find ) return $find;
 				}
 			}
 
@@ -157,7 +189,7 @@
 		{
 			$output = '<div class="form-group" id="' . $this->getID() . '">';
 			/** @var FormElement $formElement */
-			foreach ( $this->getFormElements() as $formElement )
+			foreach ( $this->getMap() as $formElement )
 			{
 				$output .= $formElement->formatOutput();
 			}
@@ -171,7 +203,7 @@
 			parent::validate();
 
 			/** @var FormElement $formElement */
-			foreach ( $this->getFormElements() as $formElement )
+			foreach ( $this->getMap() as $formElement )
 			{
 				$formElement->validate();
 			}
@@ -192,7 +224,7 @@
 		{
 			$this->clearError();
 			/** @var FormElement $formElement */
-			foreach ( $this->getFormElements() as $formElement )
+			foreach ( $this->getMap() as $formElement )
 			{
 				if ( $formElement instanceof FormGroup )
 				{
@@ -216,7 +248,7 @@
 			$errors = array();
 			if ( is_string( $this->getErrorMessage() ) ) $errors[ $this->getElementName() ] = $this->getErrorMessage();
 			/** @var FormElement $formElement */
-			foreach ( $this->getFormElements() as $formElement )
+			foreach ( $this->getMap() as $formElement )
 			{
 				if ( $formElement instanceof FormGroup )
 				{
@@ -251,7 +283,7 @@
 			if ( is_string( $this->getErrorMessage() ) ) $errors[ $this->getElementName() ] = $this->getErrorMessage();
 
 			/** @var FormElement $formElement */
-			foreach ( $this->getFormElements() as $formElement )
+			foreach ( $this->getMap() as $formElement )
 			{
 				if ( $formElement instanceof FormGroup )
 				{
@@ -270,37 +302,19 @@
 		}
 
 		/**
-		 * @return array
+		 * @return FormElement[]
 		 */
-		public function getFormElements()
+		public function getMap()
 		{
 			return $this->_formElementsMap;
 		}
 
 		/**
-		 * @param array <FormElement> $map
+		 * @param FormElement[] $map
 		 */
-		public function setFormElements( $map )
+		public function setMap( $map )
 		{
 			$this->_formElementsMap = $map;
-		}
-
-		/**
-		 * @param $name
-		 *
-		 * @return null|FormElement
-		 */
-		public function getFormElementByName( $name )
-		{
-			$name = FormElement::sanitizeID( $name );
-			if ( array_key_exists( $name, $this->_formElementsMap ) )
-			{
-				return $this->_formElementsMap[ $name ];
-			}
-			else
-			{
-				return NULL;
-			}
 		}
 
 		/**
@@ -328,7 +342,7 @@
 					if ( $i == 1 && count( $matches ) == 1 && $elementName == $this->getElementName() ) return $this->getValueMapAt( NULL );
 
 					/** @var FormElement $formElement */
-					$formElement = $this->getFormElementByName( $elementName );
+					$formElement = $this->findByName( $elementName, FALSE );
 					if ( $formElement instanceof FormGroup )
 					{
 						/** @var FormGroup $formElement */
@@ -354,58 +368,6 @@
 		}
 
 		/**
-		 * Search for a child by it's autogenerated name-attr / element name.<br/>
-		 * Searches through child FormGroups as well.
-		 *
-		 * @param $elementName
-		 *
-		 * @return null|FormElement|FormGroup
-		 */
-		public function getFormElementByElementName( $elementName )
-		{
-			/** @var FormElement $formElement */
-			foreach ( $this->getFormElements() as $formElement )
-			{
-				if ( $formElement->getElementName() == $elementName ) return $formElement;
-
-				if ( $formElement instanceof FormGroup )
-				{
-					/** @var FormGroup $formElement */
-					$search = $formElement->getFormElementByElementName( $elementName );
-					if ( $search ) return $search;
-				}
-			}
-
-			return NULL;
-		}
-
-		/**
-		 * Search for a child by it's id-attr.<br/>
-		 * Searches through child FormGroups as well.
-		 *
-		 * @param $elementID
-		 *
-		 * @return null|FormElement|FormGroup
-		 */
-		public function getFormElementByElementID( $elementID )
-		{
-			/** @var FormElement $formElement */
-			foreach ( $this->getFormElements() as $formElement )
-			{
-				if ( $formElement->getID() == $elementID ) return $formElement;
-
-				if ( $formElement instanceof FormGroup )
-				{
-					/** @var FormGroup $formElement */
-					$search = $formElement->getFormElementByElementID( $elementID );
-					if ( $search ) return $search;
-				}
-			}
-
-			return NULL;
-		}
-
-		/**
 		 * @param array|null $value
 		 *
 		 * @throws \ErrorException
@@ -421,7 +383,7 @@
 			{
 				foreach ( $value as $key => $value )
 				{
-					$formElement = $this->getFormElementByName( $key );
+					$formElement = $this->findByName( $key, FALSE );
 					if ( $formElement )
 					{
 						$formElement->setValue( $value );
@@ -431,7 +393,7 @@
 			else if ( is_null( $value ) )
 			{
 				/** @var FormElement $formElement */
-				foreach ( $this->getFormElements() as $formElement )
+				foreach ( $this->getMap() as $formElement )
 				{
 					$formElement->setValue( NULL );
 				}
@@ -449,7 +411,7 @@
 		{
 			$value = array();
 			/** @var FormElement $formElement */
-			foreach ( $this->getFormElements() as $formElement )
+			foreach ( $this->getMap() as $formElement )
 			{
 				$value[ $formElement->getName() ] = $formElement->getValue( $call_user_func );
 			}
@@ -469,7 +431,7 @@
 		{
 			$value = array();
 			/** @var FormElement $formElement */
-			foreach ( $this->getFormElements() as $formElement )
+			foreach ( $this->getMap() as $formElement )
 			{
 				if ( $formElement instanceof FormGroup )
 				{
@@ -500,7 +462,7 @@
 			$valueMap = array();
 
 			/** @var FormElement $formElement */
-			foreach ( $this->getFormElements() as $formElement )
+			foreach ( $this->getMap() as $formElement )
 			{
 				if ( strlen( $formElement->getName() ) )
 				{
@@ -534,7 +496,7 @@
 			parent::setParentName( $parentName );
 
 			/** @var FormElement $formElement */
-			foreach ( $this->getFormElements() as $formElement )
+			foreach ( $this->getMap() as $formElement )
 			{
 				$formElement->setParentName( $this->getNameAsParent() );
 			}
@@ -545,7 +507,7 @@
 			parent::setIndex( $index );
 
 			/** @var FormElement $formElement */
-			foreach ( $this->getFormElements() as $formElement )
+			foreach ( $this->getMap() as $formElement )
 			{
 				$formElement->setParentName( $this->getNameAsParent() );
 			}

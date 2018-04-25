@@ -43,7 +43,7 @@
 		{
 			$output = '<div class="input-group">';
 			/** @var FormElement $formElement */
-			foreach ( $this->getFormElements() as $formElement )
+			foreach ( $this->getMap() as $formElement )
 			{
 				$output .= $formElement->formatFormElementOutput();
 			}
@@ -71,7 +71,7 @@
 			$output .= parent::formatErrorMessageOutput();
 
 			/** @var FormElement $formElement */
-			foreach ( $this->getFormElements() as $formElement )
+			foreach ( $this->getMap() as $formElement )
 			{
 				$output .= $formElement->formatErrorMessageOutput();
 			}
@@ -93,7 +93,7 @@
 		public function hasError()
 		{
 			/** @var FormElement $formElement */
-			foreach ( $this->getFormElements() as $formElement )
+			foreach ( $this->getMap() as $formElement )
 			{
 				if ( $formElement->hasError() ) return TRUE;
 			}
