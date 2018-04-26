@@ -228,7 +228,6 @@
 			{
 				if ( $formElement instanceof FormGroup )
 				{
-					/** @var FormGroup $formElement */
 					if ( !is_null( $formElement->getErrors() ) ) $formElement->clearErrors();
 				}
 				else
@@ -247,10 +246,19 @@
 		{
 			$errors = array();
 			if ( is_string( $this->getErrorMessage() ) ) $errors[ $this->getElementName() ] = $this->getErrorMessage();
-			/** @var FormElement $formElement */
 			foreach ( $this->getMap() as $formElement )
 			{
-				if ( $formElement instanceof FormGroup )
+				if ( $formElement instanceof FissileFormGroup )
+				{
+					$formElementErrors = $formElement->getFissionErrors();
+					if ( !is_null( $formElementErrors ) || is_string( $formElement->getErrorMessage() ) )
+					{
+						if ( !is_array( $formElementErrors ) ) $formElementErrors = array();
+						if ( is_string( $formElement->getErrorMessage() ) ) $formElementErrors[] = $formElement->getErrorMessage();
+						$errors[ $formElement->getName() ] = $formElementErrors;
+					}
+				}
+				else if ( $formElement instanceof FormGroup )
 				{
 					/** @var FormGroup $formElement */
 					if ( !is_null( $formElement->getErrors() ) || is_string( $formElement->getErrorMessage() ) )
@@ -285,9 +293,13 @@
 			/** @var FormElement $formElement */
 			foreach ( $this->getMap() as $formElement )
 			{
-				if ( $formElement instanceof FormGroup )
+				if ( $formElement instanceof FissileFormGroup )
 				{
-					/** @var FormGroup $formElement */
+					$formGroupErrors = $formElement->getFlatFissionErrors();
+					if ( is_array( $formGroupErrors ) ) $errors = array_merge( $errors, $formGroupErrors );
+				}
+				else if ( $formElement instanceof FormGroup )
+				{
 					$formGroupErrors = $formElement->getFlatErrors();
 					if ( is_array( $formGroupErrors ) ) $errors = array_merge( $errors, $formGroupErrors );
 				}
@@ -345,7 +357,6 @@
 					$formElement = $this->findByName( $elementName, FALSE );
 					if ( $formElement instanceof FormGroup )
 					{
-						/** @var FormGroup $formElement */
 						if ( $i == count( $matches ) )
 						{
 							return $formElement->getKeyMap();
@@ -439,6 +450,7 @@
 		 * @param callable|null $call_user_func
 		 *
 		 * @return array|null
+		 * @throws \ErrorException
 		 */
 		public function getFlatValue( $call_user_func = NULL )
 		{
@@ -446,7 +458,11 @@
 			/** @var FormElement $formElement */
 			foreach ( $this->getMap() as $formElement )
 			{
-				if ( $formElement instanceof FormGroup )
+				if ( $formElement instanceof FissileFormGroup )
+				{
+					$value = array_merge( $value, $formElement->getFlatFissions( $call_user_func ) );
+				}
+				else if ( $formElement instanceof FormGroup )
 				{
 					/** @var FormGroup $formElement */
 					$value = array_merge( $value, $formElement->getFlatValue( $call_user_func ) );
@@ -474,7 +490,11 @@
 			{
 				if ( strlen( $formElement->getName() ) )
 				{
-					if ( $formElement instanceof FormGroup )
+					if ( $formElement instanceof FissileFormGroup )
+					{
+						$map[ $formElement->getName() ] = $formElement->getFissionKeyMap();
+					}
+					else if ( $formElement instanceof FormGroup )
 					{
 						/** @var FormGroup $formElement */
 						$map[ $formElement->getName() ] = $formElement->getKeyMap();
