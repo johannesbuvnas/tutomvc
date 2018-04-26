@@ -8,6 +8,7 @@
 
 	namespace tutomvc\core\form;
 
+	use tutomvc\core\form\formatters\IFormElementFormatter;
 	use tutomvc\core\model\NameObject;
 
 	/**
@@ -32,6 +33,7 @@
 		protected $_parentName;
 		protected $_validationMethod;
 		protected $_errorMessage;
+		protected $_formatter;
 
 		/**
 		 * @param string $name A single name-identifier. Whatever string you like.
@@ -214,16 +216,7 @@
 		 */
 		public function formatOutput()
 		{
-			$output = "";
-			if ( $this->hasError() ) $output .= '<div class="form-group has-error ' . self::CSS_CLASS . '">';
-			else $output .= '<div class="form-group ' . self::CSS_CLASS . '">';
-			$output .= $this->formatHeaderOutput();
-			$output .= $this->formatErrorMessageOutput();
-			$output .= $this->formatFormElementOutput();
-			$output .= $this->formatFooterOutput();
-			$output .= '</div>';
-
-			return $output;
+			return $this->getFormatter()->formatOutput( $this );
 		}
 
 		/**
@@ -233,7 +226,7 @@
 		 */
 		public function formatHeaderOutput()
 		{
-			return '<label class="control-label" for="' . $this->getID() . '">' . $this->getLabel() . '</label>';
+			return $this->getFormatter()->formatHeaderOutput( $this );
 		}
 
 		/**
@@ -244,9 +237,7 @@
 		 */
 		public function formatFooterOutput()
 		{
-			$desc = $this->getDescription();
-
-			return is_string( $desc ) && strlen( $desc ) ? '<span class="help-block">' . $this->getDescription() . '</span>' : '';
+			return $this->getFormatter()->formatFooterOutput( $this );
 		}
 
 		/**
@@ -256,12 +247,7 @@
 		 */
 		public function formatErrorMessageOutput()
 		{
-			if ( is_string( $this->getErrorMessage() ) )
-			{
-				return '<div class="alert alert-danger" role="alert">' . $this->getErrorMessage() . '</div>';
-			}
-
-			return '';
+			return $this->getFormatter()->formatErrorMessageOutput( $this );
 		}
 
 		/**
@@ -271,7 +257,7 @@
 		 */
 		public function formatFormElementOutput()
 		{
-			return '';
+			return $this->getFormatter()->formatFormElementOutput( $this );
 		}
 
 		/**
@@ -562,5 +548,21 @@
 		public function getName()
 		{
 			return $this->_name;
+		}
+
+		/**
+		 * @return IFormElementFormatter
+		 */
+		public function getFormatter()
+		{
+			return $this->_formatter;
+		}
+
+		/**
+		 * @param IFormElementFormatter $formatter
+		 */
+		public function setFormatter( IFormElementFormatter $formatter )
+		{
+			$this->_formatter = $formatter;
 		}
 	}

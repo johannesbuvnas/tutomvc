@@ -72,24 +72,6 @@
 			$this->setSingle( $single );
 		}
 
-		public function formatOutput()
-		{
-			$classNames = array(
-				"form-group",
-				self::CSS_CLASS
-			);
-			if ( is_string( $this->getErrorMessage() ) ) $classNames[] = "has-error";
-			if ( $this->getType() == self::TYPE_HIDDEN ) $classNames[] = "hidden";
-			$output = '<div class="' . implode( " ", $classNames ) . '">';
-			$output .= $this->formatHeaderOutput();
-			$output .= $this->formatErrorMessageOutput();
-			$output .= $this->formatFormElementOutput();
-			$output .= $this->formatFooterOutput();
-			$output .= '</div>';
-
-			return $output;
-		}
-
 		public function getElementName()
 		{
 			$name = parent::getElementName();
@@ -97,17 +79,6 @@
 			if ( $this->getType() == self::TYPE_FILE ) $name = FormElement::sanitizeID( $name );
 
 			return $name;
-		}
-
-		function formatFormElementOutput()
-		{
-			$output = "";
-
-			$output .= '
-					<input ' . $this->getFormElementAttributesAsString() . ' />
-				';
-
-			return $output;
 		}
 
 		function getFormElementAttributes()
@@ -140,16 +111,6 @@
 			if ( strlen( $this->isMultiple() ) ) $attr[ "multiple" ] = "multiple";
 
 			return $attr;
-		}
-
-		public function formatHeaderOutput()
-		{
-			return $this->getType() == self::TYPE_HIDDEN ? '' : '<label class="control-label" for="' . $this->getID() . '">' . $this->getLabel() . '</label>';
-		}
-
-		public function formatFooterOutput()
-		{
-			return $this->getType() == self::TYPE_HIDDEN ? '' : parent::formatFooterOutput();
 		}
 
 		public function setValue( $value )
