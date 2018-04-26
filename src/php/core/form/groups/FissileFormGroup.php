@@ -512,25 +512,40 @@
 			return is_array( $fissions ) && array_key_exists( $index, $fissions ) ? $fissions[ $index ] : NULL;
 		}
 
-		/**
-		 * Returns array of errors if errors exists.
-		 * If no errors exists, it returns NULL.
-		 * @return array|null
-		 * @throws \ErrorException
-		 */
-		public function getErrors()
+		public function getFlatFissionErrors()
 		{
-			$errors = array();
-			$count  = $this->count();
-			$before = $this->getValue();
-			for ( $i = 0; $i < $count; $i ++ )
+			$this->cacheFission();
+			$errors       = array();
+			$currentValue = $this->getFissions();
+			foreach ( $currentValue as $fissionIndex => $value )
 			{
-				$this->setValue( $this->getFissionAt( $i ) );
-				$fissionErrors = parent::getErrors();
-				if ( is_array( $fissionErrors ) ) $errors[ $i ] = $fissionErrors;
+				$this->setValue( NULL );
+				$this->setIndex( $fissionIndex );
+				$this->setValue( $value );
+				$errors = array_merge( $errors, $this->getFlatErrors() );
 			}
 
-			$this->setValue( $before );
+			$this->switchToCachedFission();
+
+			if ( count( $errors ) ) return $errors;
+			else return NULL;
+		}
+
+		public function getFissionErrors()
+		{
+			$this->cacheFission();
+			$errors       = array();
+			$currentValue = $this->getFissions();
+			foreach ( $currentValue as $fissionIndex => $value )
+			{
+				$this->setValue( NULL );
+				$this->setIndex( $fissionIndex );
+				$this->setValue( $value );
+				$fissionErrors = $this->getErrors();
+				if ( is_array( $fissionErrors ) ) $errors[ $fissionIndex ] = $fissionErrors;
+			}
+
+			$this->switchToCachedFission();
 
 			if ( count( $errors ) ) return $errors;
 			else return NULL;
