@@ -8,6 +8,7 @@
 
 	namespace tutomvc\core\form;
 
+	use tutomvc\core\form\formatters\bootstrap3\Bootstrap3Formatter;
 	use tutomvc\core\form\formatters\IFormElementFormatter;
 	use tutomvc\core\model\NameObject;
 
@@ -22,18 +23,18 @@
 		const REGEX_SANITIZE_NAME = "/[^\[\]A-Za-z0-9-]+/";
 		const REGEX_ELEMENT_NAME  = "/(.*?)\[([0-9]+)\](.*)/ix";
 		const REGEX_GROUP_NAME    = "/\[([^\]]*)\]/ix";
-		const CSS_CLASS           = "tutomvc-form-element";
-		protected $_value;
-		protected $_label;
-		protected $_id;
-		protected $_description;
-		protected $_single = TRUE;
-		protected $_index  = NULL;
-		protected $_defaultValue;
-		protected $_parentName;
-		protected $_validationMethod;
-		protected $_errorMessage;
-		protected $_formatter;
+		protected        $_value;
+		protected        $_label;
+		protected        $_id;
+		protected        $_description;
+		protected        $_single = TRUE;
+		protected        $_index  = NULL;
+		protected        $_defaultValue;
+		protected        $_parentName;
+		protected        $_validationMethod;
+		protected        $_errorMessage;
+		protected        $_formatter;
+		protected static $_defaultFormatter;
 
 		/**
 		 * @param string $name A single name-identifier. Whatever string you like.
@@ -555,6 +556,13 @@
 		 */
 		public function getFormatter()
 		{
+			if ( !$this->_formatter )
+			{
+				if ( !self::$_defaultFormatter ) self::$_defaultFormatter = new Bootstrap3Formatter();
+
+				return self::$_defaultFormatter;
+			}
+
 			return $this->_formatter;
 		}
 

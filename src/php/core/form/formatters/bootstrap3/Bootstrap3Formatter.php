@@ -7,6 +7,7 @@
 	use tutomvc\core\form\groups\FissileFormGroup;
 	use tutomvc\core\form\groups\FormGroup;
 	use tutomvc\core\form\groups\FormInputGroup;
+	use tutomvc\core\form\inputs\CheckBoxFormInput;
 	use tutomvc\core\form\inputs\FormInput;
 
 	class Bootstrap3Formatter implements IFormElementFormatter
@@ -51,7 +52,11 @@
 
 		public function formatHeaderOutput( FormElement $el )
 		{
-			if ( $el instanceof FormInput )
+			if ( $el instanceof CheckBoxFormInput )
+			{
+				return '<div class="checkbox"><label class="control-label" for="' . $el->getID() . '">' . $this->formatInputElementOutput( $el ) . " " . $el->getLabel() . '</label></div>';
+			}
+			else if ( $el instanceof FormInput )
 			{
 				return $el->getType() == FormInput::TYPE_HIDDEN ? '' : '<label class="control-label" for="' . $el->getID() . '">' . $el->getLabel() . '</label>';
 			}
@@ -68,13 +73,21 @@
 					</header>
 					';
 			}
+			else if ( $el instanceof FissileFormGroup )
+			{
+				return $this->_fissileFormatter->formatHeaderOutput( $el );
+			}
 
 			return '';
 		}
 
 		public function formatFooterOutput( FormElement $el )
 		{
-			if ( $el instanceof FormInput )
+			if ( $el instanceof FissileFormGroup )
+			{
+				return $this->_fissileFormatter->formatFooterOutput( $el );
+			}
+			else if ( $el instanceof FormInput )
 			{
 				if ( $el->getType() == FormInput::TYPE_HIDDEN ) return '';
 			}
@@ -108,6 +121,10 @@
 
 				return $output;
 			}
+			else if ( $el instanceof FissileFormGroup )
+			{
+				return $this->_fissileFormatter->formatErrorMessageOutput( $el );
+			}
 
 			return $this->formatDefaultErrorMessageOutput( $el );
 		}
@@ -125,15 +142,13 @@
 
 		public function formatFormElementOutput( FormElement $el )
 		{
-			if ( $el instanceof FormInput )
+			if ( $el instanceof CheckBoxFormInput )
 			{
-				$output = "";
-
-				$output .= '
-					<input ' . $el->getFormElementAttributesAsString() . ' />
-				';
-
-				return $output;
+				return '';
+			}
+			else if ( $el instanceof FormInput )
+			{
+				return $this->formatInputElementOutput( $el );
 			}
 			else if ( $el instanceof FormGroup )
 			{
@@ -152,5 +167,16 @@
 			}
 
 			return '';
+		}
+
+		protected function formatInputElementOutput( FormElement $el )
+		{
+			$output = "";
+
+			$output .= '
+					<input ' . $el->getFormElementAttributesAsString() . ' />
+				';
+
+			return $output;
 		}
 	}
