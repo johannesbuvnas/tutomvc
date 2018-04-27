@@ -64,21 +64,6 @@
 			return is_string( $desc ) && strlen( $desc ) ? '<span class="help-block">' . $this->getDescription() . '</span>' : '';
 		}
 
-		public function formatErrorMessageOutput()
-		{
-			$output = '';
-
-			$output .= parent::formatErrorMessageOutput();
-
-			/** @var FormElement $formElement */
-			foreach ( $this->getMap() as $formElement )
-			{
-				$output .= $formElement->formatErrorMessageOutput();
-			}
-
-			return $output;
-		}
-
 		/**
 		 * Indexes not supported
 		 *

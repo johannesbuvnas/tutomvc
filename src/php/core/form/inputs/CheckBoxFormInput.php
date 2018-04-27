@@ -15,23 +15,6 @@
 			parent::__construct( $name, $title, $description, self::TYPE_CHECKBOX, $readonly, NULL, TRUE );
 		}
 
-		public function formatOutput()
-		{
-			$classNames = array(
-				"form-group",
-				self::CSS_CLASS,
-			);
-			if ( is_string( $this->getErrorMessage() ) ) $classNames[] = "has-error";
-			if ( $this->getType() == self::TYPE_HIDDEN ) $classNames[] = "hidden";
-			$output = '<div class="' . implode( " ", $classNames ) . '">';
-			$output .= $this->formatHeaderOutput();
-			$output .= $this->formatErrorMessageOutput();
-			$output .= $this->formatFooterOutput();
-			$output .= '</div>';
-
-			return $output;
-		}
-
 		function getFormElementAttributes()
 		{
 			$attr = parent::getFormElementAttributes();
@@ -39,10 +22,5 @@
 			$attr[ "class" ] = "form-input-element";
 
 			return $attr;
-		}
-
-		public function formatHeaderOutput()
-		{
-			return '<div class="checkbox"><label class="control-label" for="' . $this->getID() . '">' . $this->formatFormElementOutput() . " " . $this->getLabel() . '</label></div>';
 		}
 	}

@@ -1,15 +1,8 @@
 <?php
-	/**
-	 * Created by PhpStorm.
-	 * User: johannesbuvnas
-	 * Date: 13/01/15
-	 * Time: 15:23
-	 */
 
 	namespace tutomvc\examples\form\groups;
 
 	use tutomvc\core\form\groups\FissileFormGroup;
-	use tutomvc\wp\form\inputs\WPEditorFormInput;
 
 	class ExampleFissileFormGroup extends FissileFormGroup
 	{
@@ -27,5 +20,12 @@
 
 			$this->add( new ExampleFormGroup() );
 			$this->add( new ExampleSelectorFormGroup() );
+
+			$this->setValidationMethod( array($this, "validateReq") );
+		}
+
+		function validateReq()
+		{
+			return "minst 1";
 		}
 	}

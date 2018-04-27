@@ -10,6 +10,7 @@
 
 	use tutomvc\core\form\groups\FormGroup;
 	use tutomvc\core\form\groups\FormInputGroup;
+	use tutomvc\core\form\inputs\CheckBoxFormInput;
 	use tutomvc\core\form\inputs\FormInput;
 	use tutomvc\core\form\inputs\FormInputAddon;
 
@@ -53,6 +54,8 @@
 			$tld = $inputGroup->add( new FormInput( self::GROUP_EMAIL_TLD, NULL ) );
 			$tld->setPlaceholder( "TLD" );
 			$tld->setDefaultValue( "com" );
+
+			$this->add( new CheckBoxFormInput( "checkbox", "Check me" ) );
 		}
 
 		function validateEmailFormGroup( $formElement, $value )

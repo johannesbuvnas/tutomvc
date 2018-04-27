@@ -166,38 +166,6 @@
 		}
 
 		/* SET AND GET */
-		public function formatHeaderOutput()
-		{
-			return '
-					<header>
-						<h2>
-							' . $this->getLabel() . '
-							<small class="help-block">
-								' . $this->getDescription() . '
-							</small>
-						</h2>
-					</header>
-			';
-		}
-
-		public function formatFooterOutput()
-		{
-			return '<hr/>';
-		}
-
-		function formatFormElementOutput()
-		{
-			$output = '<div class="form-group" id="' . $this->getID() . '">';
-			/** @var FormElement $formElement */
-			foreach ( $this->getMap() as $formElement )
-			{
-				$output .= $formElement->formatOutput();
-			}
-			$output .= '</div>';
-
-			return $output;
-		}
-
 		public function validate()
 		{
 			parent::validate();
