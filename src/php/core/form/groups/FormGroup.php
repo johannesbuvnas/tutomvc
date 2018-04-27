@@ -8,6 +8,7 @@
 
 	namespace tutomvc\core\form\groups;
 
+	use tutomvc\core\form\formatters\IFormElementFormatter;
 	use tutomvc\core\form\FormElement;
 	use tutomvc\core\form\inputs\FormInput;
 
@@ -37,6 +38,7 @@
 		{
 			$this->_formElementsMap[ $formElement->getName() ] = $formElement;
 			$formElement->setParentName( $this->getNameAsParent() );
+			$formElement->setFormatter( $this->getFormatter() );
 
 			return $formElement;
 		}
@@ -165,7 +167,6 @@
 			return is_string( $rootName ) && strlen( $rootName ) ? $this->_parentName . $name . "[" . $rootName . "]" : $this->_parentName . $name;
 		}
 
-		/* SET AND GET */
 		public function validate()
 		{
 			parent::validate();
@@ -205,6 +206,7 @@
 			}
 		}
 
+		/* SET AND GET */
 		/**
 		 * Returns nested array of errors.
 		 * If no errors exists, it returns NULL.
@@ -519,5 +521,15 @@
 		public function hasError()
 		{
 			return !empty( $this->getErrors() );
+		}
+
+		public function setFormatter( IFormElementFormatter $formatter )
+		{
+			parent::setFormatter( $formatter );
+
+			foreach ( $this->getMap() as $formElement )
+			{
+				$formElement->setFormatter( $formatter );
+			}
 		}
 	}
