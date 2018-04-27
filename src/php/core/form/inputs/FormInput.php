@@ -61,10 +61,10 @@
 		protected $_width;
 		protected $_height;
 
-		function __construct( $name, $title, $description = NULL, $type = FormInput::TYPE_TEXT, $readonly = FALSE, $placeholder = "", $single = TRUE )
+		function __construct( $name, $title = NULL, $description = NULL, $type = FormInput::TYPE_TEXT, $readonly = FALSE, $placeholder = "", $single = TRUE )
 		{
 			parent::__construct( $name );
-			$this->setLabel( $title );
+			$this->setLabel( is_null( $title ) ? $name : $title );
 			$this->setDescription( $description );
 			$this->setType( $type );
 			$this->setReadOnly( $readonly );
@@ -239,7 +239,7 @@
 
 			$file = array_key_exists( $this->getElementName(), $_FILES ) ? $_FILES[ $this->getElementName() ] : NULL;
 
-			if ( is_array( $file ) && !empty($file[ 'size' ]) && empty($file[ 'error' ]) ) return $file;
+			if ( is_array( $file ) && !empty( $file[ 'size' ] ) && empty( $file[ 'error' ] ) ) return $file;
 
 			return NULL;
 		}
@@ -429,7 +429,7 @@
 		{
 			$value = $this->getValue();
 
-			return !empty($value);
+			return !empty( $value );
 		}
 
 		/**
