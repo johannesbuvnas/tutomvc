@@ -8,7 +8,7 @@
 
 	namespace tutomvc\core\form;
 
-	use tutomvc\core\form\formatters\bootstrap3\Bootstrap3Formatter;
+	use tutomvc\core\form\formatters\bootstrap3\BS3Formatter;
 	use tutomvc\core\form\formatters\IFormElementFormatter;
 	use tutomvc\core\model\NameObject;
 
@@ -554,13 +554,29 @@
 		/**
 		 * @return IFormElementFormatter
 		 */
+		public static function getDefaultFormatter()
+		{
+			if ( !self::$_defaultFormatter ) self::$_defaultFormatter = new BS3Formatter();
+
+			return self::$_defaultFormatter;
+		}
+
+		/**
+		 * @param IFormElementFormatter $formatter
+		 */
+		public static function setDefaultFormatter( IFormElementFormatter $formatter )
+		{
+			self::$_defaultFormatter = $formatter;
+		}
+
+		/**
+		 * @return IFormElementFormatter
+		 */
 		public function getFormatter()
 		{
 			if ( !$this->_formatter )
 			{
-				if ( !self::$_defaultFormatter ) self::$_defaultFormatter = new Bootstrap3Formatter();
-
-				return self::$_defaultFormatter;
+				return self::getDefaultFormatter();
 			}
 
 			return $this->_formatter;

@@ -27,5 +27,12 @@
 
 			$this->add( new ExampleFormGroup() );
 			$this->add( new ExampleSelectorFormGroup() );
+
+			$this->setValidationMethod( array($this, "validateReq") );
+		}
+
+		function validateReq()
+		{
+			return "minst 1";
 		}
 	}

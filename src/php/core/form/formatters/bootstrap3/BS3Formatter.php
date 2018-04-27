@@ -10,14 +10,14 @@
 	use tutomvc\core\form\inputs\CheckBoxFormInput;
 	use tutomvc\core\form\inputs\FormInput;
 
-	class Bootstrap3Formatter implements IFormElementFormatter
+	class BS3Formatter implements IFormElementFormatter
 	{
 		const CSS_CLASS = "";
 		protected $_fissileFormatter;
 
 		public function __construct()
 		{
-			$this->_fissileFormatter = new FissileBoostrap3Formatter();
+			$this->_fissileFormatter = new BS3FissileFormatter();
 		}
 
 		public function formatOutput( FormElement $el )
@@ -163,7 +163,7 @@
 			}
 			else if ( $el instanceof FissileFormGroup )
 			{
-				return "";
+				$this->_fissileFormatter->formatFormElementOutput( $el );
 			}
 
 			return '';

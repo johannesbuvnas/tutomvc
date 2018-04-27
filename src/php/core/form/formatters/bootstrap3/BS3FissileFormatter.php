@@ -6,7 +6,7 @@
 	use tutomvc\core\form\FormElement;
 	use tutomvc\core\form\groups\FissileFormGroup;
 
-	class FissileBoostrap3Formatter implements IFormElementFormatter
+	class BS3FissileFormatter implements IFormElementFormatter
 	{
 
 		/**
@@ -18,10 +18,7 @@
 		{
 			$output = '<ul class="list-group fissile-form-group" id="' . $el->getID() . '">';
 			$output .= $this->formatHeaderOutput( $el );
-			for ( $i = 0; $i < $el->count(); $i ++ )
-			{
-				$output .= $this->formatFissionOutput( $el, $i );
-			}
+			$output .= $this->formatFormElementOutput( $el );
 			if ( !$el->hasReachedMaxFissions() ) $output .= $el->formatFooterOutput();
 			$output .= '</ul>';
 
@@ -95,13 +92,15 @@
 		 */
 		public function formatHeaderOutput( FormElement $el )
 		{
-			$output = '
+			$errorOutput = $this->formatErrorMessageOutput( $el );
+			$output      = '
 					<li class="list-group-item">
 						<h2>
 							' . $el->getLabel() . '
 							<small class="help-block">
 								' . $el->getDescription() . '
 							</small>
+							' . $errorOutput . '
 						</h2>
 					</li>
 			';
@@ -141,11 +140,28 @@
 
 		public function formatErrorMessageOutput( FormElement $el )
 		{
+			$errorMsg = $el->getErrorMessage();
+			if ( is_string( $errorMsg ) )
+			{
+				return '<div class="alert alert-danger" role="alert">' . $errorMsg . '</div>';
+			}
+
 			return '';
 		}
 
+		/**
+		 * @param FissileFormGroup $el
+		 *
+		 * @return string
+		 */
 		public function formatFormElementOutput( FormElement $el )
 		{
-			return '';
+			$output = '';
+			for ( $i = 0; $i < $el->count(); $i ++ )
+			{
+				$output .= $this->formatFissionOutput( $el, $i );
+			}
+
+			return $output;
 		}
 	}
