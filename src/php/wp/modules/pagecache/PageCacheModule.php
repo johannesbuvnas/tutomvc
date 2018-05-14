@@ -127,6 +127,7 @@
 					else $remote_mod_time = NULL;
 
 					$local_mod_time = gmdate( "D, d M Y H:i:s", filemtime( $file ) ) . ' GMT';
+					$headers[]      = "Last-Modified: $local_mod_time";
 					if ( !is_null( $remote_mod_time ) && $remote_mod_time == $local_mod_time )
 					{
 						header( "HTTP/1.0 304 Not Modified" );
