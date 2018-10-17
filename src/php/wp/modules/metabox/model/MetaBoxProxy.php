@@ -30,9 +30,9 @@
 		 * @return array|mixed|null|void
 		 * @throws \ErrorException
 		 */
-		public function getPostMetaByMetaKey( $postID, $metaKey, $suppressFilters = FALSE )
+		public function getPostMetaByMetaKey( $postID, $metaKey, $suppressFilters = FALSE, $defaultValue = NULL )
 		{
-			$value    = NULL;
+			$value    = $defaultValue;
 			$postType = get_post_type( $postID );
 
 			/** @var MetaBox $metaBox */
