@@ -56,7 +56,7 @@
 			}
 
 			$this->_optionsDisabledMap[ $value ] = $disabled;
-			$this->_optionTitleMap[ $value ]     = !empty($title) ? $title : $label;
+			$this->_optionTitleMap[ $value ]     = !empty( $title ) ? $title : $label;
 
 			return $this;
 		}
@@ -70,9 +70,9 @@
 		{
 			if ( array_key_exists( $optionValue, $this->_options ) )
 			{
-				unset($this->_options[ $optionValue ]);
-				unset($this->_optionsDisabledMap[ $optionValue ]);
-				unset($this->_optionTitleMap[ $optionValue ]);
+				unset( $this->_options[ $optionValue ] );
+				unset( $this->_optionsDisabledMap[ $optionValue ] );
+				unset( $this->_optionTitleMap[ $optionValue ] );
 			}
 			foreach ( $this->_options as $groupLabel => $groupLabelArray )
 			{
@@ -80,7 +80,7 @@
 				{
 					if ( array_key_exists( $optionValue, $groupLabelArray ) )
 					{
-						unset($groupLabelArray[ $optionValue ]);
+						unset( $groupLabelArray[ $optionValue ] );
 					}
 				}
 			}
@@ -168,6 +168,7 @@
 
 		public function setDefaultValue( $value )
 		{
+			if ( !is_string( $value ) && !is_array( $value ) && !is_null( $value ) ) $value = strval( $value );
 			if ( is_string( $value ) ) $value = array($value);
 			if ( !is_array( $value ) && !is_null( $value ) )
 			{
@@ -185,6 +186,7 @@
 		 */
 		public function setValue( $value )
 		{
+			if ( !is_string( $value ) && !is_array( $value ) && !is_null( $value ) ) $value = strval( $value );
 			if ( is_string( $value ) ) $value = array($value);
 			if ( !is_array( $value ) && !is_null( $value ) )
 			{
