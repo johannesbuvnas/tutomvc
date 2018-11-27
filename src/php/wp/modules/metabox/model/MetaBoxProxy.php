@@ -26,6 +26,7 @@
 		 * @param int|string $postID
 		 * @param string $metaKey
 		 * @param bool $suppressFilters
+		 * @param null $defaultValue
 		 *
 		 * @return array|mixed|null|void
 		 * @throws \ErrorException

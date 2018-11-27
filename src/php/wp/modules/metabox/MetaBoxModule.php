@@ -124,4 +124,12 @@
 		{
 			return self::getInstance()->getProxy( MetaBoxProxy::NAME );
 		}
+
+		/**
+		 * @return UserMetaBoxProxy
+		 */
+		public static function getUserProxy()
+		{
+			return self::getInstance()->getProxy( UserMetaBoxProxy::NAME );
+		}
 	}
