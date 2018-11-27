@@ -49,6 +49,14 @@
 		}
 
 		/**
+		 * @param UserMetaBox $metaBox
+		 */
+		public static function addUserMetaBox( $metaBox )
+		{
+			self::getUserProxy()->add( $metaBox, $metaBox->getName() );
+		}
+
+		/**
 		 * @param $metaBoxName
 		 *
 		 * @return MetaBox|null
