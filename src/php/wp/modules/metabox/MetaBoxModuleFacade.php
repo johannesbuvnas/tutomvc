@@ -39,5 +39,6 @@
 			$this->registerCommand( "show_user_profile", new RenderUserMetaBoxesAction( 10, 1 ) );
 			$this->registerCommand( "edit_user_profile", new RenderUserMetaBoxesAction( 10, 1 ) );
 			$this->registerCommand( "get_post_metadata", new GetPostMetadataFilter( 99, 4 ) );
+			$this->registerCommand( "get_user_metadata", new GetUserMetadataFilter( 99, 4 ) );
 		}
 	}
