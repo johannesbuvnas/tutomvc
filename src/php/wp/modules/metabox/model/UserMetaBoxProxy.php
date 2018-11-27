@@ -2,6 +2,7 @@
 
 	namespace tutomvc\wp\metabox;
 
+	use tutomvc\core\form\FormElement;
 	use tutomvc\core\form\groups\FormGroup;
 	use tutomvc\wp\core\model\proxy\Proxy;
 
@@ -137,5 +138,81 @@
 			}
 
 			return $dp;
+		}
+
+		/**
+		 * @param $userID
+		 * @param UserMetaBox $metaBox
+		 * @param FormElement|null $formElement
+		 * @param int|null $fissionIndex
+		 *
+		 * @return mixed
+		 */
+		public function getUserMeta( $userID, $metaBox, $formElement = NULL, $fissionIndex = NULL )
+		{
+			if ( is_int( $fissionIndex ) ) $metaBox->setIndex( $fissionIndex );
+			else $metaBox->setIndex( 0 );
+
+			if ( !is_null( $formElement ) )
+			{
+				if ( $formElement instanceof FormElement )
+				{
+					$metaKey = $formElement->getElementName();
+
+					return get_user_meta( $userID, $metaKey, TRUE );
+				}
+
+				return FALSE;
+			}
+
+			$metaKey      = $metaBox->getName();
+			$fissonsCount = $metaBox->countFissions( $userID );
+			if ( empty( $fissonsCount ) ) return NULL;
+			$allMetaBoxMeta = get_user_meta( $userID, $metaKey, FALSE );
+
+			if ( !is_null( $fissionIndex ) )
+			{
+				if ( is_int( $fissionIndex ) )
+				{
+					if ( is_array( $allMetaBoxMeta ) && array_key_exists( $fissionIndex, $allMetaBoxMeta ) ) return $allMetaBoxMeta[ $fissionIndex ];
+
+					return FALSE;
+				}
+
+				return FALSE;
+			}
+
+			return $allMetaBoxMeta;
+		}
+
+		/**
+		 * @param $userID
+		 * @param string $metaBoxName
+		 * @param null|string $formElementName
+		 * @param null|int $fissionIndex
+		 *
+		 * @return bool|mixed
+		 */
+		public function getUserMetaByName( $userID, $metaBoxName, $formElementName = NULL, $fissionIndex = NULL )
+		{
+			if ( !$this->get( $metaBoxName ) ) return FALSE;
+			/** @var UserMetaBox $metaBox */
+			$metaBox     = $this->get( $metaBoxName );
+			$formElement = NULL;
+
+			if ( !is_null( $formElementName ) )
+			{
+				if ( is_string( $formElementName ) )
+				{
+					$formElement = $metaBox->findByName( $formElementName );
+					if ( !($formElement instanceof FormElement) ) return FALSE;
+				}
+				else
+				{
+					return FALSE;
+				}
+			}
+
+			return $this->getUserMeta( $userID, $metaBox, $formElement, $fissionIndex );
 		}
 	}

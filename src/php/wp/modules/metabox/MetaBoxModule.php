@@ -108,6 +108,19 @@
 		}
 
 		/**
+		 * @param int $userID
+		 * @param string $metaBoxName
+		 * @param null|string $formElementName
+		 * @param null|int $fissionIndex
+		 *
+		 * @return bool|mixed
+		 */
+		public static function getWPUserMetaByName( $userID, $metaBoxName, $formElementName = NULL, $fissionIndex = NULL )
+		{
+			return self::getUserProxy()->getUserMetaByName( $userID, $metaBoxName, $formElementName, $fissionIndex );
+		}
+
+		/**
 		 * @param $metaBoxName
 		 *
 		 * @return bool
