@@ -7,6 +7,13 @@
 
 	class UserMetaBoxProxy extends Proxy
 	{
+		const NAME = __CLASS__;
+
+		function __construct()
+		{
+			parent::__construct( self::NAME );
+		}
+
 		/**
 		 * @param int|string $userID
 		 * @param string $metaKey
