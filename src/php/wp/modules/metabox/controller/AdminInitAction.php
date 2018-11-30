@@ -15,6 +15,8 @@
 		function execute()
 		{
 			$this->getFacade()->registerCommand( "save_post", new SavePostAction() );
+			$this->getFacade()->registerCommand( "profile_update", new EditUserProfileAction() );
+			$this->getFacade()->registerCommand( "user_register", new EditUserProfileAction() );
 			$this->getFacade()->registerCommand( "edit_attachment", $this->getFacade()->getCommand( "save_post" ) );
 		}
 	}

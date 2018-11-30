@@ -49,6 +49,14 @@
 		}
 
 		/**
+		 * @param UserMetaBox $metaBox
+		 */
+		public static function addUserMetaBox( $metaBox )
+		{
+			self::getUserProxy()->add( $metaBox, $metaBox->getName() );
+		}
+
+		/**
 		 * @param $metaBoxName
 		 *
 		 * @return MetaBox|null
@@ -100,6 +108,19 @@
 		}
 
 		/**
+		 * @param int $userID
+		 * @param string $metaBoxName
+		 * @param null|string $formElementName
+		 * @param null|int $fissionIndex
+		 *
+		 * @return bool|mixed
+		 */
+		public static function getWPUserMetaByName( $userID, $metaBoxName, $formElementName = NULL, $fissionIndex = NULL )
+		{
+			return self::getUserProxy()->getUserMetaByName( $userID, $metaBoxName, $formElementName, $fissionIndex );
+		}
+
+		/**
 		 * @param $metaBoxName
 		 *
 		 * @return bool
@@ -123,5 +144,13 @@
 		public static function getProxy()
 		{
 			return self::getInstance()->getProxy( MetaBoxProxy::NAME );
+		}
+
+		/**
+		 * @return UserMetaBoxProxy
+		 */
+		public static function getUserProxy()
+		{
+			return self::getInstance()->getProxy( UserMetaBoxProxy::NAME );
 		}
 	}
