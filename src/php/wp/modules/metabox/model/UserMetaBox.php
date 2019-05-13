@@ -15,9 +15,9 @@
 		 */
 		public function render( $user )
 		{
-			$this->validate();
 			$meta = MetaBoxModule::getUserProxy()->getUserMetaByMetaKey( $user->ID, $this->getName(), TRUE );
 			$this->setFissions( $meta );
+			$this->validate();
 			$this->output();
 		}
 

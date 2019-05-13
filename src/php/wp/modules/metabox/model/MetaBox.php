@@ -54,9 +54,9 @@
 		/* PUBLIC METHODS */
 		public function render( $post, $metabox )
 		{
-			$this->validate();
 			$meta = MetaBoxModule::getProxy()->getPostMetaByMetaKey( $post->ID, $this->getName(), TRUE );
 			$this->setFissions( $meta );
+			$this->validate();
 			$this->output();
 		}
 
