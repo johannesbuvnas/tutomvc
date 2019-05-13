@@ -81,6 +81,21 @@
 			return NULL;
 		}
 
+		public static function findUserMetaKey( $userMetaBoxName, $formElementName, $atIndex = 0 )
+		{
+			/** @var MetaBox $metaBox */
+			if ( $metaBox = self::getUserProxy()->get( $userMetaBoxName ) )
+			{
+				$metaBox->setIndex( $atIndex );
+				if ( $formElement = $metaBox->findByName( $formElementName ) )
+				{
+					return $formElement->getElementName();
+				}
+			}
+
+			return NULL;
+		}
+
 		/**
 		 * @param int $postID
 		 * @param MetaBox $metaBox
