@@ -8,6 +8,8 @@
 
 	namespace tutomvc\wp\log;
 
+	use function get_current_blog_id;
+	use function is_multisite;
 	use tutomvc\core\model\ValueObject;
 	use tutomvc\wp\core\model\proxy\Proxy;
 
@@ -103,7 +105,7 @@
 
 		public function getLogFileByTimestamp( $time = 0 )
 		{
-			if ( empty($time) )
+			if ( empty( $time ) )
 			{
 				$time = time();
 			}
@@ -118,6 +120,11 @@
 		public function getLogFilePath( $year, $month, $day )
 		{
 			$relativePath = $year . "/" . $month . "/" . $day . ".php";
+			if ( is_multisite() )
+			{
+				$blogID       = get_current_blog_id();
+				$relativePath = "site-" . $blogID . "/" . $relativePath;
+			}
 
 			return $this->getLogPath( $relativePath );
 		}
