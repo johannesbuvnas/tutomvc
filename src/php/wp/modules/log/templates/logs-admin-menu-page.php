@@ -40,24 +40,25 @@
     <div class="container-fluid">
         <h1>Logs</h1>
         <script type="text/javascript">
-            jQuery( document ).ready( function ( $ ) {
-                var $form = $( "#logs" );
-                var $datepicker = $( "#logs .datepicker" );
-                $datepicker.on( "change", function () {
-                    $.ajax( {
-                        type: $form.attr( "method" ),
-                        url: $form.attr( "action" ),
-                        data: $form.serialize(), // serializes the form's elements.
-                        success: function ( result ) {
-                            $( ".code-wrapper" ).html( "<pre><code>" + result + "</code></pre>" );
-                        },
-                        error: function ( result ) {
-                            console.error( result );
-                        }
-                    } );
-                } );
-                $datepicker.trigger( "change" );
-            } );
+			jQuery( document ).ready( function ( $ ) {
+				var $form = $( "#logs" );
+				var $datepicker = $( "#logs .datepicker,#logs .sitepicker" );
+				$datepicker.on( "change", function () {
+					console.log( "change" );
+					$.ajax( {
+						type: $form.attr( "method" ),
+						url: $form.attr( "action" ),
+						data: $form.serialize(), // serializes the form's elements.
+						success: function ( result ) {
+							$( ".code-wrapper" ).html( "<pre><code>" + result + "</code></pre>" );
+						},
+						error: function ( result ) {
+							console.error( result );
+						}
+					} );
+				} );
+				$datepicker.trigger( "change" );
+			} );
         </script>
         <div class="panel panel-default">
             <div class="panel-heading">
@@ -65,6 +66,24 @@
                     <input type="hidden" name="action" value="<?php echo \tutomvc\wp\log\actions\GetLogAjaxCommand::NAME; ?>"/>
                     <input type="hidden" name="nonce" value="<?php echo wp_create_nonce( \tutomvc\wp\log\actions\GetLogAjaxCommand::NAME ); ?>"/>
                     <input type="date" class="datepicker form-control" name="date" value="<?php echo date( "Y-m-d" ); ?>"/>
+					<?php
+						if ( is_multisite() && is_network_admin() )
+						{
+							?>
+                            <select class="sitepicker" name="site">
+								<?php
+									$sites = wp_get_sites();
+									foreach ( $sites as $site )
+									{
+										?>
+                                        <option <?php if ( get_current_blog_id() == $site[ 'blog_id' ] ) echo "selected"; ?> value="<?php echo $site[ 'blog_id' ]; ?>"><?php echo $site[ 'domain' ] ?></option>
+										<?php
+									}
+								?>
+                            </select>
+							<?php
+						}
+					?>
                 </form>
             </div>
             <div class="panel-body">
