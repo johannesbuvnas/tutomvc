@@ -2,6 +2,7 @@
 
 	namespace tutomvc\wp\log\actions;
 
+	use function switch_to_blog;
 	use tutomvc\wp\core\controller\command\AjaxCommand;
 	use tutomvc\wp\log\LogModule;
 
@@ -13,6 +14,11 @@
 		{
 			if ( wp_verify_nonce( $_GET[ 'nonce' ], $_GET[ 'action' ] ) )
 			{
+				$site = isset( $_GET[ 'site' ] ) ? $_GET[ 'site' ] : NULL;
+				if ( $site )
+				{
+					switch_to_blog( $site );
+				}
 				$logFile = LogModule::getProxy()->getLogFileByTimestamp( strtotime( $_GET[ 'date' ] ) );
 				if ( is_file( $logFile ) )
 				{

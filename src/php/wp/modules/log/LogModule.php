@@ -31,7 +31,7 @@
 			if ( is_admin() )
 			{
 				if ( is_multisite() ) AdminMenuModule::addPageToNetwork( new LogAdminMenuPage( AdminMenuPage::PARENT_SLUG_NETWORK_SETTINGS ) );
-				else AdminMenuModule::addPage( new LogAdminMenuPage( AdminMenuPage::PARENT_SLUG_SETTINGS ) );
+				AdminMenuModule::addPage( new LogAdminMenuPage( AdminMenuPage::PARENT_SLUG_SETTINGS ) );
 			}
 		}
 
