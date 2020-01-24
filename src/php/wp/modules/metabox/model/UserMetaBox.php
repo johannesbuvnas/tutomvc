@@ -6,6 +6,8 @@
 
 	class UserMetaBox extends FissileFormGroup
 	{
+		protected $_restEnabled = TRUE;
+
 		/**
 		 * @param \WP_User $user
 		 *
@@ -13,9 +15,9 @@
 		 */
 		public function render( $user )
 		{
-			$this->validate();
 			$meta = MetaBoxModule::getUserProxy()->getUserMetaByMetaKey( $user->ID, $this->getName(), TRUE );
 			$this->setFissions( $meta );
+			$this->validate();
 			$this->output();
 		}
 
@@ -87,5 +89,21 @@
 			$this->_value = $prevValue;
 
 			return $this;
+		}
+
+		/**
+		 * @return bool
+		 */
+		public function isRestEnabled()
+		{
+			return $this->_restEnabled;
+		}
+
+		/**
+		 * @param bool $restEnabled
+		 */
+		public function setRestEnabled( $restEnabled )
+		{
+			$this->_restEnabled = $restEnabled;
 		}
 	}

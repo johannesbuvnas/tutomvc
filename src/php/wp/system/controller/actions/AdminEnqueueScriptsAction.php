@@ -10,6 +10,7 @@
 
 	use tutomvc\wp\core\controller\command\ActionCommand;
 	use tutomvc\wp\TutoMVC;
+	use function wp_enqueue_editor;
 
 	class AdminEnqueueScriptsAction extends ActionCommand
 	{

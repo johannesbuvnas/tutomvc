@@ -25,6 +25,7 @@
 		protected $_postTypes;
 		protected $_context;
 		protected $_priority;
+		protected $_restEnabled = TRUE;
 
 		/**
 		 * @param string $name
@@ -36,9 +37,9 @@
 		 * @param string $context
 		 * @param string $priority
 		 *
+		 * @throws \ErrorException
 		 * @see https://codex.wordpress.org/Function_Reference/add_meta_box
 		 *
-		 * @throws \ErrorException
 		 */
 		function __construct( $name, $title, $description, $postTypes, $min = 0, $max = - 1, $context = MetaBox::CONTEXT_NORMAL, $priority = MetaBox::PRIORITY_DEFAULT )
 		{
@@ -53,9 +54,9 @@
 		/* PUBLIC METHODS */
 		public function render( $post, $metabox )
 		{
-			$this->validate();
 			$meta = MetaBoxModule::getProxy()->getPostMetaByMetaKey( $post->ID, $this->getName(), TRUE );
 			$this->setFissions( $meta );
+			$this->validate();
 			$this->output();
 		}
 
@@ -174,5 +175,21 @@
 		public function setPriority( $priority )
 		{
 			$this->_priority = $priority;
+		}
+
+		/**
+		 * @return bool
+		 */
+		public function isRestEnabled()
+		{
+			return $this->_restEnabled;
+		}
+
+		/**
+		 * @param bool $restEnabled
+		 */
+		public function setRestEnabled( $restEnabled )
+		{
+			$this->_restEnabled = $restEnabled;
 		}
 	}

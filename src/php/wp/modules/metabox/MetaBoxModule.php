@@ -66,10 +66,45 @@
 			return self::getProxy()->get( $metaBoxName );
 		}
 
+		/**
+		 * @param $elemtName
+		 *
+		 * @return FormElement|null
+		 */
+		public static function findElement( $formElementName )
+		{
+			/** @var MetaBox $metaBox */
+			foreach ( self::getProxy()->getMap() as $metaBox )
+			{
+				if ( $metaBox->getName() == $formElementName ) return $metaBox;
+				if ( $formElement = $metaBox->findByElementName( $formElementName ) )
+				{
+					return $formElement;
+				}
+			}
+
+			return NULL;
+		}
+
 		public static function findMetaKey( $metaBoxName, $formElementName, $atIndex = 0 )
 		{
 			/** @var MetaBox $metaBox */
 			if ( $metaBox = self::get( $metaBoxName ) )
+			{
+				$metaBox->setIndex( $atIndex );
+				if ( $formElement = $metaBox->findByName( $formElementName ) )
+				{
+					return $formElement->getElementName();
+				}
+			}
+
+			return NULL;
+		}
+
+		public static function findUserMetaKey( $userMetaBoxName, $formElementName, $atIndex = 0 )
+		{
+			/** @var MetaBox $metaBox */
+			if ( $metaBox = self::getUserProxy()->get( $userMetaBoxName ) )
 			{
 				$metaBox->setIndex( $atIndex );
 				if ( $formElement = $metaBox->findByName( $formElementName ) )

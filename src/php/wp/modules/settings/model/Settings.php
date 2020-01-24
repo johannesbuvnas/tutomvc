@@ -11,6 +11,7 @@
 	use tutomvc\core\form\FormElement;
 	use tutomvc\core\form\groups\FissileFormGroup;
 	use tutomvc\wp\TutoMVC;
+	use function wp_editor;
 
 	class Settings extends FissileFormGroup
 	{
@@ -58,8 +59,8 @@
 		 *
 		 * @return array|mixed
 		 *
+		 * @throws \ErrorException
 		 * @see http://wpseek.com/function/sanitize_option/
-		 *
 		 */
 		public function sanitize( $value )
 		{
@@ -83,10 +84,19 @@
 
 		public function render( $args )
 		{
+
 			$this->validate();
 			settings_fields( $this->getGroupName() );
 			$this->setFissions( get_option( $this->getName(), NULL ) );
 
+			// Fulfix
+			?>
+            <div class="hidden">
+				<?php
+					wp_editor( "", $this->getID(), array() );
+				?>
+            </div>
+			<?php
 			$this->output();
 		}
 

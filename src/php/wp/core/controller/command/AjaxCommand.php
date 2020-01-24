@@ -1,9 +1,18 @@
 <?php
+
 	namespace tutomvc\wp\core\controller\command;
+
+	use function call_user_func_array;
+	use function func_get_args;
 
 	class AjaxCommand extends Command
 	{
 		/* ACTIONS */
+		public function executeNoPriv()
+		{
+
+		}
+
 		public function register()
 		{
 			add_action( "wp_ajax_" . $this->getName(), array(
@@ -12,7 +21,7 @@
 			) );
 			add_action( "wp_ajax_nopriv_" . $this->getName(), array(
 				$this,
-				"onBeforeExecution"
+				"onBeforeNoPrivExecution"
 			) );
 		}
 
@@ -24,7 +33,16 @@
 			) );
 			remove_action( "wp_ajax_nopriv_" . $this->getName(), array(
 				$this,
-				"onBeforeExecution"
+				"onBeforeNoPrivExecution"
 			) );
+		}
+
+		public function onBeforeNoPrivExecution()
+		{
+			if ( $this->hasReachedExecutionLimit() ) return NULL;
+
+			$this->_executions ++;
+
+			return call_user_func_array( array($this, "executeNoPriv"), func_get_args() );
 		}
 	}

@@ -5,6 +5,9 @@
 	use tutomvc\core\form\formatters\IFormElementFormatter;
 	use tutomvc\core\form\FormElement;
 	use tutomvc\core\form\groups\FissileFormGroup;
+	use tutomvc\wp\metabox\MetaBox;
+	use tutomvc\wp\metabox\UserMetaBox;
+	use tutomvc\wp\settings\Settings;
 
 	class BS3FissileFormatter implements IFormElementFormatter
 	{
@@ -16,7 +19,11 @@
 		 */
 		public function formatOutput( FormElement $el )
 		{
-			$output = '<ul class="list-group fissile-form-group" id="' . $el->getID() . '">';
+			$classes = "list-group fissile-form-group";
+			if ( $el instanceof MetaBox ) $classes .= " tutomvc-metabox";
+			if ( $el instanceof UserMetaBox ) $classes .= " tutomvc-user_metabox";
+			if ( $el instanceof Settings ) $classes .= " tutomvc-settings";
+			$output = '<ul class="' . $classes . '" id="' . $el->getID() . '">';
 			$output .= $this->formatHeaderOutput( $el );
 			$output .= $this->formatFormElementOutput( $el );
 			if ( !$el->hasReachedMaxFissions() ) $output .= $el->formatFooterOutput();
@@ -79,7 +86,7 @@
 		{
 			$output = "";
 			$output .= '<label class="btn btn-danger btn-sm">
-							<input name="' . $el->formatRootElementName( $index ) . '[' . FissileFormGroup::BUTTON_NAME_DELETE . ']" type="checkbox" style="margin:0 6px 0 0;"> <span class="glyphicon glyphicon-remove"></span>
+							<input name="' . $el->formatRootElementName( $index ) . '[' . FissileFormGroup::BUTTON_NAME_DELETE . ']" class="fissile-form-group-nuke" type="checkbox" style="margin:0 6px 0 0;"> <span class="glyphicon glyphicon-remove"></span>
 						</label>';
 
 			return $output;
@@ -114,7 +121,7 @@
 			$output = '
 					<li class="list-group-item fissile-form-group-top-nav" style="text-align: center">
 					    <label class="btn btn-default">
-							<input name="' . $el->formatRootElementName( FissileFormGroup::BUTTON_NAME_ADD_BEFORE ) . '" type="checkbox" style="margin:0 6px 0 0;"> <span class="glyphicon glyphicon-plus"></span> 1
+							<input name="' . $el->formatRootElementName( FissileFormGroup::BUTTON_NAME_ADD_BEFORE ) . '" class="fissile-form-group-nuke" type="checkbox" style="margin:0 6px 0 0;"> <span class="glyphicon glyphicon-plus"></span> 1
 						</label>
 					</li>';
 
@@ -131,7 +138,7 @@
 			$output = '
 					<li class="list-group-item fissile-form-group-footer" style="text-align: center">
 						<label class="btn btn-default">
-							<input name="' . $el->formatRootElementName( FissileFormGroup::BUTTON_NAME_ADD_AFTER ) . '" type="checkbox" style="margin:0 6px 0 0;"> <span class="glyphicon glyphicon-plus"></span> 1
+							<input name="' . $el->formatRootElementName( FissileFormGroup::BUTTON_NAME_ADD_AFTER ) . '" class="fissile-form-group-nuke" type="checkbox" style="margin:0 6px 0 0;"> <span class="glyphicon glyphicon-plus"></span> 1
 						</label>
 					</li>';
 

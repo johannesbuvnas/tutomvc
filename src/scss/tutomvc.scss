@@ -10,10 +10,21 @@
 .fissile-form-group,
 .fissile-form-group .list-group-item
 {
-  background-color: #f6f6f6;
+    background-color: #f6f6f6;
 }
 
 .fissile-form-group .fissile-form-group-item-body
 {
-  background-color: #ffffff;
+    background-color: #ffffff;
+}
+
+.wpeditor-placeholder
+{
+    position: relative;
+
+    .wpeditor-placeholder-container
+    {
+        background: #a4a4a4;
+        max-height: 10rem;
+    }
 }

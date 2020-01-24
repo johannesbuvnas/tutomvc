@@ -6,9 +6,14 @@
 	 * Date: 07/12/15
 	 * Time: 09:18
 	 */
+
 	namespace tutomvc\wp\form\inputs;
 
 	use tutomvc\core\form\inputs\TextAreaFormInput;
+	use tutomvc\wp\system\SystemApp;
+	use function ob_get_clean;
+	use function ob_start;
+	use function wp_editor;
 
 	class WPEditorFormInput extends TextAreaFormInput
 	{
@@ -40,9 +45,14 @@
 				'quicktags'           => TRUE
 			) );
 
+			// TODO: Ugly fix
 			ob_start();
-			wp_editor( $this->getValue(), $this->getID(), $this->getArgs() );
-			return ob_get_clean();
+			wp_editor( $this->getValue(), "dummy", $this->getArgs() );
+			$editor = ob_get_clean();
+
+			return SystemApp::getInstance()->render( "src/templates/wp/forminput", "wpeditor", array(
+				"formInput" => $this
+			), TRUE );
 		}
 
 		/**
