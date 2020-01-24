@@ -5,6 +5,8 @@ declare interface IWP
 	media( options: any );
 }
 
+//declare var jQuery:any;
+
 declare interface WPMediaAttachmentModel
 {
 	src?:string;

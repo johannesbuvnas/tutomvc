@@ -35,10 +35,12 @@
 		function prepController()
 		{
 			$this->registerCommand( "admin_init", new AdminInitAction() );
+			$this->registerCommand( "admin_head", new AdminHeadAction() );
 			$this->registerCommand( "add_meta_boxes", new AddMetaBoxesAction( 10, 2 ) );
 			$this->registerCommand( "show_user_profile", new RenderUserMetaBoxesAction( 10, 1 ) );
 			$this->registerCommand( "edit_user_profile", new RenderUserMetaBoxesAction( 10, 1 ) );
 			$this->registerCommand( "get_post_metadata", new GetPostMetadataFilter( 99, 4 ) );
 			$this->registerCommand( "get_user_metadata", new GetUserMetadataFilter( 99, 4 ) );
+			$this->registerCommand( ParseMetaBoxAjaxCommand::NAME, new ParseMetaBoxAjaxCommand() );
 		}
 	}

@@ -1,4 +1,5 @@
 <?php
+
 	namespace tutomvc\wp\settings;
 
 	use tutomvc\wp\core\facade\Facade;
@@ -18,12 +19,13 @@
 			parent::__construct( self::KEY );
 		}
 
-		function onRegister()
+		protected function prepModel()
 		{
-			// Model
 			$this->registerProxy( new SettingsProxy() );
-			// View
-			// Controller
+		}
+
+		protected function prepController()
+		{
 			$this->registerCommand( "admin_init", new AdminInitAction() );
 		}
 	}

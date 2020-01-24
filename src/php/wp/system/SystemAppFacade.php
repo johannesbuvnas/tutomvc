@@ -5,6 +5,8 @@
 	use tutomvc\wp\core\facade\Facade;
 	use tutomvc\wp\log\LogModuleFacade;
 	use tutomvc\wp\system\controller\actions\AdminEnqueueScriptsAction;
+	use tutomvc\wp\system\controller\actions\WPEditorAjaxCommand;
+	use tutomvc\wp\system\controller\actions\WPParseMetaBoxAjacCommand;
 
 	/**
 	 * Class SystemAppFacade
@@ -44,5 +46,6 @@
 		protected function prepController()
 		{
 			$this->registerCommand( "admin_enqueue_scripts", new AdminEnqueueScriptsAction() );
+			$this->registerCommand( WPEditorAjaxCommand::NAME, new WPEditorAjaxCommand() );
 		}
 	}

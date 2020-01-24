@@ -3,6 +3,8 @@ import "script-loader!bootstrap/dist/js/bootstrap.js";
 import "script-loader!select2/dist/js/select2.js";
 import "script-loader!bootstrap-select/dist/js/bootstrap-select.js";
 import "./plugins/jQueryWPAttachmentFormInput";
+import "./plugins/jQueryWPEditorFormInput";
+import "./plugins/jQueryWPMetaBox";
 
 (function( $ )
 {
