@@ -13,7 +13,11 @@
 			$metaBoxNonce = wp_create_nonce( ParseMetaBoxAjaxCommand::NAME );
 			?>
             <script type="text/javascript">
-				var tutomvcParseMBURL = "<?php echo admin_url( 'admin-ajax.php?action=' . ParseMetaBoxAjaxCommand::NAME . '&nonce=' . $metaBoxNonce ); ?>";
+				var TutoMVCMetaBoxModule = {
+					parseURL: "<?php echo admin_url( 'admin-ajax.php?action=' . ParseMetaBoxAjaxCommand::NAME . '&nonce=' . $metaBoxNonce ); ?>",
+					parseNonce: "<?php echo $metaBoxNonce; ?>",
+					parseAction: "<?php echo ParseMetaBoxAjaxCommand::NAME ?>"
+				};
             </script>
 			<?php
 		}

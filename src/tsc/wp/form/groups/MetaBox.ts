@@ -39,19 +39,16 @@ export class MetaBox
 	{
 		if( this.$form.length )
 		{
-			if( typeof tinymce !== 'undefined' )
-			{
-				tinymce.triggerSave();
-			}
-			let data        = new FormData( this.$form[ 0 ] );
-			let url         = tutomvcParseMBURL + "&mid=" + this.id + "&type=" + this.type;
+			let data = new FormData( this.$form[ 0 ] );
+			data.append( "action", TutoMVCMetaBoxModule.parseAction );
+			data.append( "nonce", TutoMVCMetaBoxModule.parseNonce );
+			let url         = TutoMVCMetaBoxModule.parseURL + "&mid=" + this.id + "&type=" + this.type;
 			var ajaxRequest = jQuery.ajax( url, {
 				data:       data,
 				method:     "POST",
 				contentType:false,
 				processData:false,
 				success:    ( result ) => {
-					console.log( result );
 					if( result )
 					{
 						let $metabox = jQuery( result );
