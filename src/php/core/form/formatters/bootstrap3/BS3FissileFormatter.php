@@ -8,6 +8,7 @@
 	use tutomvc\wp\metabox\MetaBox;
 	use tutomvc\wp\metabox\UserMetaBox;
 	use tutomvc\wp\settings\Settings;
+	use function is_string;
 
 	class BS3FissileFormatter implements IFormElementFormatter
 	{
@@ -24,6 +25,10 @@
 			if ( $el instanceof UserMetaBox ) $classes .= " tutomvc-user_metabox";
 			if ( $el instanceof Settings ) $classes .= " tutomvc-settings";
 			$output = '<ul class="' . $classes . '" id="' . $el->getID() . '">';
+			if ( !$el->count() )
+			{
+				$output .= "<input type='hidden' name='" . $el->getName() . "' value='0' />";
+			}
 			$output .= $this->formatHeaderOutput( $el );
 			$output .= $this->formatFormElementOutput( $el );
 			if ( !$el->hasReachedMaxFissions() ) $output .= $el->formatFooterOutput();

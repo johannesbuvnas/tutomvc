@@ -10,6 +10,7 @@ export class MetaBox
 
 		this._$el.on( "change", ".fissile-form-group-nuke", ( e ) => this.parse() );
 		console.log( "MetaBox" );
+		console.log( TutoMVC );
 	}
 
 	private render( html )
@@ -39,18 +40,24 @@ export class MetaBox
 	{
 		if( this.$form.length )
 		{
-			console.log( this.$form[ 0 ] );
-			let data        = new FormData( this.$form[ 0 ] );
-			let url         = tutomvcParseMBURL + "&mid=" + this.id + "&type=" + this.type;
+			if( typeof tinymce !== 'undefined' )
+			{
+				tinymce.triggerSave();
+			}
+			let data = new FormData( this.$form[ 0 ] );
+			data.append( "action", TutoMVC.parseAction );
+			data.append( "nonce", TutoMVC.parseNonce );
+			let url         = TutoMVC.parseURL + "&id=" + this.id + "&type=" + this.type;
+			console.log(url);
 			var ajaxRequest = jQuery.ajax( url, {
 				data:       data,
 				method:     "POST",
 				contentType:false,
 				processData:false,
 				success:    ( result ) => {
-					console.log( result );
 					if( result )
 					{
+						console.log(result);
 						let $metabox = jQuery( result );
 						this.destroy();
 						this.render( $metabox.html() );

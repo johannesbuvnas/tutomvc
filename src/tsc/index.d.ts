@@ -1,15 +1,23 @@
 declare var wp: IWP;
+declare var TutoMVC: TutoMVC;
 
 declare interface IWP
 {
 	media( options: any );
 }
 
+declare interface TutoMVC
+{
+	parseURL: string;
+	parseNonce: string;
+	parseAction: string;
+}
+
 //declare var jQuery:any;
 
 declare interface WPMediaAttachmentModel
 {
-	src?:string;
+	src?: string;
 	alt: string;
 	author: string;
 	authorName: string;
