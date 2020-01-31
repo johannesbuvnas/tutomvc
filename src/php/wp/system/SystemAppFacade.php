@@ -5,8 +5,9 @@
 	use tutomvc\wp\core\facade\Facade;
 	use tutomvc\wp\log\LogModuleFacade;
 	use tutomvc\wp\system\controller\actions\AdminEnqueueScriptsAction;
+	use tutomvc\wp\system\controller\actions\AdminHeadAction;
+	use tutomvc\wp\system\controller\actions\ParseFormGroupAjaxCommand;
 	use tutomvc\wp\system\controller\actions\WPEditorAjaxCommand;
-	use tutomvc\wp\system\controller\actions\WPParseMetaBoxAjacCommand;
 
 	/**
 	 * Class SystemAppFacade
@@ -36,16 +37,13 @@
 		protected function prepModel()
 		{
 			$this->registerModule( new LogModuleFacade() );
-//			MetaBoxModule::add( new ExampleMetaBox() );
-//			SettingsModule::add( new ExampleSettings() );
-//			TaxonomyModule::add( new ExampleTaxonomy() );
-//			NotificationModule::add( $this->getURL(), NotificationModule::TYPE_UPDATE );
-//			LogModule::add( "YOYYOO" );
 		}
 
 		protected function prepController()
 		{
 			$this->registerCommand( "admin_enqueue_scripts", new AdminEnqueueScriptsAction() );
+			$this->registerCommand( "admin_head", new AdminHeadAction() );
 			$this->registerCommand( WPEditorAjaxCommand::NAME, new WPEditorAjaxCommand() );
+			$this->registerCommand( ParseFormGroupAjaxCommand::NAME, new ParseFormGroupAjaxCommand() );
 		}
 	}
