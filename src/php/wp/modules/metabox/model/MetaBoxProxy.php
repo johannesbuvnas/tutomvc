@@ -39,7 +39,8 @@
 			/** @var MetaBox $metaBox */
 			foreach ( $this->getMap() as $metaBox )
 			{
-				$valueMap = NULL;
+				$valueMap  = NULL;
+				$isMetaBox = FALSE;
 				if ( in_array( $postType, $metaBox->getPostTypes() ) )
 				{
 					if ( $metaKey == $metaBox->getName() )
@@ -48,6 +49,7 @@
 						$metaBox->setFissions( $int );
 						$formElement = $metaBox;
 						$valueMap    = $metaBox->getFissionKeyMap();
+						$isMetaBox   = TRUE;
 					}
 					else if ( $formElement = $metaBox->findByElementName( $metaKey ) )
 					{
@@ -65,6 +67,10 @@
 					if ( isset( $valueMap ) && !empty( $valueMap ) )
 					{
 						$value = $this->mapPostMeta( $valueMap, $postID, $formElement, $suppressFilters );
+						if ( $isMetaBox && !$suppressFilters )
+						{
+							$value = MetaBoxModule::apply_filters( $value, $metaBox, $postID );
+						}
 					}
 				}
 			}
