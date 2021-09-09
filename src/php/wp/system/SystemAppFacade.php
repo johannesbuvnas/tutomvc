@@ -24,6 +24,7 @@
 		{
 			if ( !session_id() )
 			{
+				// TODO: Why do we need this? Does it have something to do with view rendering?
 				session_name( TutoMVC::NAME );
 				session_start();
 			}
