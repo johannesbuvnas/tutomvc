@@ -65,7 +65,6 @@
 					if ( isset( $valueMap ) && !empty( $valueMap ) )
 					{
 						$value = $this->mapPostMeta( $valueMap, $postID, $formElement, $suppressFilters );
-						if ( !$suppressFilters ) $value = MetaBoxModule::apply_filters( $value, $formElement, $postID );
 					}
 				}
 			}
