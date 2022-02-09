@@ -12,12 +12,12 @@
 	{
 		public static function addPage( AdminMenuPage $adminMenuPage )
 		{
-			return self::getProxy()->add( $adminMenuPage, $adminMenuPage->getMenuSlug() );
+			return self::getProxy()->add( $adminMenuPage, $adminMenuPage->isSubmenuPage() ? $adminMenuPage->getParentSlug() . "-" . $adminMenuPage->getMenuSlug() : $adminMenuPage->getMenuSlug() );
 		}
 
 		public static function addPageToNetwork( AdminMenuPage $adminMenuPage )
 		{
-			return self::getNetworkProxy()->add( $adminMenuPage, $adminMenuPage->getMenuSlug() );
+			return self::getNetworkProxy()->add( $adminMenuPage, $adminMenuPage->isSubmenuPage() ? $adminMenuPage->getParentSlug() . "-" . $adminMenuPage->getMenuSlug() : $adminMenuPage->getMenuSlug() );
 		}
 
 		/* SET AND GET */
