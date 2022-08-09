@@ -4,8 +4,6 @@
 
 	use TutoMVC\Form\FormElement;
 	use TutoMVC\WordPress\Core\Facade\Facade;
-	use TutoMVC\WordPress\Core\Model\Cache\ICacheDriver;
-	use const tutomvc\wp\core\model\cache\WP_CONTENT_DIR;
 
 	class LocalStorageCacheDriver implements ICacheDriver
 	{

@@ -9,7 +9,6 @@
 	namespace TutoMVC\Form\Group;
 
 	use TutoMVC\Form\Formatter\IFormElementFormatter;
-	use TutoMVC\Form\Group\FissileFormGroup;
 	use TutoMVC\Form\FormElement;
 	use TutoMVC\Form\Input\FormInput;
 
@@ -17,7 +16,6 @@
 	 * A group of form elements. Can be other FormGroups or FormInputs.
 	 *
 	 * @see \TutoMVC\Form\Input\FormInput FormInput
-	 * @package tutomvc\core\form\groups
 	 */
 	class FormGroup extends FormElement
 	{

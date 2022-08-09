@@ -7,7 +7,6 @@
 	use TutoMVC\Form\FormElement;
 	use TutoMVC\Form\Group\FissileFormGroup;
 	use TutoMVC\Form\Group\FormGroup;
-	use tutomvc\core\form\groups\FormInputGroup;
 	use TutoMVC\Form\Input\CheckBoxFormInput;
 	use TutoMVC\Form\Input\FormInput;
 	use TutoMVC\Form\Input\SelectFormInput;
@@ -162,20 +161,7 @@
 
 		public function formatErrorMessageOutput( FormElement $el )
 		{
-			if ( $el instanceof FormInputGroup )
-			{
-				$output = '';
-
-				$output .= $this->formatDefaultErrorMessageOutput( $el );
-
-				foreach ( $el->getMap() as $formElement )
-				{
-					$output .= $this->formatDefaultErrorMessageOutput( $formElement );
-				}
-
-				return $output;
-			}
-			else if ( $el instanceof FissileFormGroup )
+			if ( $el instanceof FissileFormGroup )
 			{
 				return $this->_fissileFormatter->formatErrorMessageOutput( $el );
 			}

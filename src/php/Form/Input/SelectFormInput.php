@@ -14,7 +14,6 @@
 	/**
 	 * A select element.
 	 *
-	 * @package tutomvc\core\form\inputs
 	 */
 	class SelectFormInput extends FormInput
 	{

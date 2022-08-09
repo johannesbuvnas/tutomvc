@@ -141,7 +141,7 @@
 					echo $exception->getMessage(); ?></span>
 		</p>
 		<?php
-			\tutomvc\wp\exception\ExceptionModule::getInstance()->render( "src/templates/errors/exception", "code", array(
+			\TutoMVC\WordPress\Modules\Exception\ExceptionModule::getInstance()->render( "src/templates/errors/exception", "code", array(
 				"filePath" => $exception->getFile(),
 				"line"     => $exception->getLine(),
 				"expanded" => TRUE
@@ -155,7 +155,7 @@
 				{
 					if ( array_key_exists( "file", $backtrace ) && array_key_exists( "line", $backtrace ) )
 					{
-						\tutomvc\wp\exception\ExceptionModule::getInstance()->render( "src/templates/errors/exception", "code", array(
+						\TutoMVC\WordPress\Modules\Exception\ExceptionModule::getInstance()->render( "src/templates/errors/exception", "code", array(
 							"filePath" => $backtrace[ 'file' ],
 							"line"     => $backtrace[ 'line' ],
 							"expanded" => FALSE

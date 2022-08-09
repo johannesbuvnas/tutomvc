@@ -5,9 +5,9 @@
 	use TutoMVC\Form\Formatter\IFormElementFormatter;
 	use TutoMVC\Form\FormElement;
 	use TutoMVC\Form\Group\FissileFormGroup;
-	use tutomvc\wp\metabox\MetaBox;
-	use tutomvc\wp\metabox\UserMetaBox;
-	use tutomvc\wp\settings\Settings;
+	use TutoMVC\WordPress\Modules\MetaBox\Controller\MetaBox;
+	use TutoMVC\WordPress\Modules\MetaBox\Controller\UserMetaBox;
+	use TutoMVC\WordPress\Modules\Settings\Controller\Settings;
 
 	class BS5FissileFormmatter implements IFormElementFormatter
 	{

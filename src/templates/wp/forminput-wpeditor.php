@@ -1,6 +1,6 @@
 <?php
-	use tutomvc\wp\form\inputs\WPEditorFormInput;
-	use tutomvc\wp\system\controller\actions\WPEditorAjaxCommand;
+	use TutoMVC\WordPress\Form\Input\WPEditorFormInput;
+	use TutoMVC\WordPress\Core\Controller\Ajax\WPEditorAjaxCommand;
 
 	/**
 	 * @var WPEditorFormInput $formInput

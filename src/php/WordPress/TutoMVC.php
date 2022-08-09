@@ -2,10 +2,8 @@
 	namespace TutoMVC\WordPress;
 	use TutoMVC\Utils\FileUtil;
 	use TutoMVC\WordPress\Core\Facade\Facade;
-	use tutomvc\wp\SystemAppFacade;
+	use TutoMVC\WordPress\System\SystemAppFacade;
 	use function dirname;
-	use function tutomvc\wp\do_action;
-	use function tutomvc\wp\get_bloginfo;
 
 	final class TutoMVC
 	{

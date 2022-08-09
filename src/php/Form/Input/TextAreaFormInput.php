@@ -12,7 +12,6 @@
 
 	/**
 	 * Textarea form element.
-	 * @package tutomvc\core\form\inputs
 	 */
 	class TextAreaFormInput extends FormInput
 	{

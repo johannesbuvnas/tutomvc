@@ -2,11 +2,8 @@
 
 	namespace TutoMVC\WordPress\Core\Controller\Command;
 
-	use TutoMVC\WordPress\Core\Controller\Command\Command;
 	use function call_user_func_array;
 	use function func_get_args;
-	use function tutomvc\wp\core\controller\command\add_action;
-	use function tutomvc\wp\core\controller\command\remove_action;
 
 	class AjaxCommand extends Command
 	{

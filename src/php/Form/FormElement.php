@@ -14,7 +14,6 @@
 
 	/**
 	 * Base class of all classes in this package.
-	 * @package tutomvc\core\form
 	 */
 	class FormElement extends NameObject
 	{

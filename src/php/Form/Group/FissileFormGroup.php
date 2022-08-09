@@ -10,12 +10,9 @@
 
 	use TutoMVC\Form\ElementNameExtractor;
 	use TutoMVC\Form\FormElement;
-	use TutoMVC\Form\Group\FormGroup;
 
 	/**
 	 * This is a fissible FormGroup without factoring more instances of the same class.
-	 *
-	 * @package tutomvc\core\form\groups
 	 */
 	class FissileFormGroup extends FormGroup
 	{

@@ -8,6 +8,7 @@ export class MetaBox
 	{
 		this._$el = $el;
 
+		// TODO: Check if this is used. If not. Remove the Ajax Commands in SystemAppFacade.
 		this._$el.on( "change", ".fissile-form-group-nuke", ( e ) => this.parse() );
 		console.log( "MetaBox" );
 		console.log( TutoMVC );

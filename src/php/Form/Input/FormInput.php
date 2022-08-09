@@ -8,15 +8,12 @@
 
 	namespace TutoMVC\Form\Input;
 
-	use tutomvc\core\form\inputs\date;
-	use tutomvc\core\form\inputs\regexp;
 	use TutoMVC\Form\FormElement;
 	use function htmlspecialchars;
 
 	/**
 	 * HTML element "input"
 	 *
-	 * @package tutomvc\core\form\inputs
 	 */
 	class FormInput extends FormElement
 	{

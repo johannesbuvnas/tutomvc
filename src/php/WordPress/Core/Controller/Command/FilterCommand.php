@@ -1,10 +1,6 @@
 <?php
 	namespace TutoMVC\WordPress\Core\Controller\Command;
 
-	use TutoMVC\WordPress\Core\Controller\Command\ActionCommand;
-	use function tutomvc\wp\core\controller\command\add_filter;
-	use function tutomvc\wp\core\controller\command\remove_filter;
-
 	class FilterCommand extends ActionCommand
 	{
 

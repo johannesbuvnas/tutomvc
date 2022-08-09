@@ -9,9 +9,7 @@
 	namespace TutoMVC\Example\Form\Input;
 
 	use TutoMVC\Form\Group\FormGroup;
-	use tutomvc\core\form\inputs\Select2FormInput;
 	use TutoMVC\Form\Input\SelectFormInput;
-	use tutomvc\core\form\inputs\SelectPickerFormInput;
 
 	class ExampleSelectorFormGroup extends FormGroup
 	{
@@ -31,23 +29,6 @@
 			                 ->addOption( "Denmark", "dk", "Nordic countries" )
 			                 ->addOption( "Norway", "no", "Nordic countries" )
 			                 ->addOption( "Finland", "fi", "Nordic countries" );
-
-			$this->add( new SelectPickerFormInput( self::MULTIPLE_SELECTPICKER, "Selectpicker", "", FALSE, FALSE, "Placeholder text" ) )
-			     ->addOption( "Sweden", "sv", "Nordic countries", "Title: Sweden" )
-			     ->addOption( "Denmark", "dk", "Nordic countries" )
-			     ->addOption( "Norway", "no", "Nordic countries" )
-			     ->addOption( "Finland", "fi", "Nordic countries" )
-			     ->setLiveSearchEnabled( TRUE );
-
-			$this->add( new Select2FormInput( self::TAGS, "Tags", "", FALSE, FALSE, "Placeholder text" ) )
-			     ->addOption( "Sweden", "sv", "Nordic countries", "Title: Sweden" )
-			     ->addOption( "Denmark", "dk", "Nordic countries" )
-			     ->addOption( "Norway", "no", "Nordic countries" )
-			     ->addOption( "Finland", "fi", "Nordic countries" )
-			     ->setSelect2Options( array(
-				     "tags" => TRUE,
-				     //				     "tokenSeparators" => array(",", " ")
-			     ) );
 
 			/** @var SelectFormInput $singleSelector */
 			$singleSelector = $this->add( new SelectFormInput( self::SINGLE, "Single selector", "Select only one value.", TRUE, FALSE ) );
