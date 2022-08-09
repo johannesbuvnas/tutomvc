@@ -36,7 +36,7 @@
     "file-loader": "^1.1.11",
     "glob": "^7.0.3",
     "jquery": "2.1.4",
-    "jquery-ui": "1.12.1",
+    "jquery-ui": "1.13.2",
     "less": "^2.7.1",
     "less-loader": "^4.1.0",
     "loader-utils": "^1.1.0",
