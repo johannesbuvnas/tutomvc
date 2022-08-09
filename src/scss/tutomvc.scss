@@ -1,16 +1,18 @@
 // Bootstrap
-//@import "../../node_modules/bootstrap/scss/bootstrap";
-// Core variables and mixins
-@import "../../node_modules/bootstrap/dist/css/bootstrap.css";
+@import "bootstrap";
+
 ////////////////////////////////////////
 // Customization
-@import "../../node_modules/bootstrap-select/sass/bootstrap-select";
-@import "../../node_modules/select2/dist/css/select2.css";
+@import "~bootstrap-select/sass/bootstrap-select";
+@import "~select2/dist/css/select2.css";
 
-.fissile-form-group,
-.fissile-form-group .list-group-item
+.list-group.fissile-form-group
 {
     background-color: #f6f6f6;
+    > .list-group-item.fissile-form-group-item
+    {
+        background-color: #f6f6f6;
+    }
 }
 
 .fissile-form-group .fissile-form-group-item-body
@@ -18,13 +20,53 @@
     background-color: #ffffff;
 }
 
+
 .wpeditor-placeholder
 {
     position: relative;
 
     .wpeditor-placeholder-container
     {
-        background: #a4a4a4;
+        background: #f6f6f6;
         max-height: 10rem;
+        min-height: 5rem;
+        overflow: hidden;
+        padding: 2em;
+    }
+
+    .wpeditor-placeholder-overlay
+    {
+        cursor: pointer;
+        opacity: 0;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, .5);
+
+        &:hover
+        {
+            opacity: 1;
+        }
+
+        .glyphicon
+        {
+            color: #FFF;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+    }
+}
+
+.tutomvc-metabox,
+.tutomvc-settings,
+.tutomvc-user_metabox
+{
+    input.fissile-form-group-nuke
+    {
+        display: none;
     }
 }

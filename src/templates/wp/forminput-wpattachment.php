@@ -77,13 +77,13 @@
 				?>
 				<div class="list-group-item" data-attachment-id="<?php echo $wpAttachmentID; ?>">
 					<input type="hidden" name="<?php echo $formInput->getElementName(); ?>" value="<?php echo $wpAttachmentID; ?>">
-					<div class="media" style="position:relative;">
-						<div class="media-left" style="min-width: 150px;min-height: 150px; vertical-align: middle;cursor: move;">
+					<div class="d-flex" style="position:relative;">
+						<div class="flex-shrink-0" style="min-width: 150px;min-height: 150px; vertical-align: middle;cursor: move;">
 							<img class="media-object" src="<?php echo $src[ 0 ]; ?>" style="margin: 0 auto;max-width: 100%; height: auto;">
 						</div>
-						<div class="media-body">
-							<h4 class="media-heading"><?php echo $attachment[ 'title' ]; ?></h4>
-							<ul>
+						<div class="flex-grow-1 ms-3">
+							<h4><?php echo $attachment[ 'title' ]; ?></h4>
+							<ul class="list-unstyled">
 								<li>
 									<a href="<?php echo $attachment[ 'editLink' ]; ?>"><?php _e( "Edit" ); ?></a> |
 									<a role="button" href="#" class="btn-remove" data-target="#<?php echo $formInput->getID(); ?>"><?php _e( "Remove" ); ?></a>
@@ -120,8 +120,8 @@
 			}
 		?>
 	</div>
-	<button type="button" class="btn btn-default btn-add" data-target="#<?php echo $formInput->getID(); ?>" disabled style="margin: 0 auto;display: block">
-		<span class="glyphicon glyphicon-plus"></span>
+	<button type="button" class="btn btn-default btn-add mt-3" data-target="#<?php echo $formInput->getID(); ?>" disabled style="margin: 0 auto;display: block">
+        <i class="bi bi-plus-circle-fill"></i>
 	</button>
 </div>
 <script type="text/javascript">

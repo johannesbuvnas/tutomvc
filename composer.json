@@ -22,7 +22,7 @@
     }
   ],
   "require": {
-    "php": ">=5.5.0"
+    "php": ">=7.4"
   },
   "require-dev": {
     "phpdocumentor/phpdocumentor": "2.*",
@@ -30,9 +30,9 @@
   },
   "suggest": {},
   "autoload": {
-    "classmap": [
-      "src/php/"
-    ]
+    "psr-4": {
+      "TutoMVC\\": "src/php"
+    }
   },
   "provide": {},
   "extra": {}

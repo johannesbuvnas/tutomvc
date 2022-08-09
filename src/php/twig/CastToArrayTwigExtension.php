@@ -1,6 +1,6 @@
 <?php
 
-	namespace tutomvc\twig;
+	namespace TutoMVC\Twig;
 
 	use phpDocumentor\Descriptor\ClassDescriptor;
 	use Twig_SimpleFunction;

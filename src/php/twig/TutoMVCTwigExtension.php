@@ -1,10 +1,10 @@
 <?php
 
-	namespace tutomvc\twig;
+	namespace TutoMVC\Twig;
 
 	use phpDocumentor\Descriptor\ClassDescriptor;
 	use phpDocumentor\Descriptor\MethodDescriptor;
-	use tutomvc\core\form\FormElement;
+	use TutoMVC\Form\FormElement;
 	use Twig_SimpleFunction;
 
 	class TutoMVCTwigExtension extends \Twig_Extension

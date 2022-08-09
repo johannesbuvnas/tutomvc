@@ -1,0 +1,100 @@
+// 1. Include functions first (so you can manipulate colors, SVGs, calc, etc)
+@import "~bootstrap/scss/functions";
+// 2. Include any default variable overrides here
+
+// 3. Include remainder of required Bootstrap stylesheets
+@import "~bootstrap/scss/variables";
+
+// 4. Include any default map overrides here
+
+// 5. Include remainder of required parts
+@import "~bootstrap/scss/maps";
+@import "~bootstrap/scss/mixins";
+@import "~bootstrap/scss/root";
+
+.bs5
+{
+    font-size:1rem;
+    // 6. Optionally include any other parts as needed
+    @import "~bootstrap/scss/utilities";
+    @import "~bootstrap/scss/reboot";
+    @import "~bootstrap/scss/type";
+    @import "~bootstrap/scss/images";
+    @import "~bootstrap/scss/containers";
+    @import "~bootstrap/scss/grid";
+    @import "~bootstrap/scss/helpers";
+    @import "~bootstrap/scss/nav";
+    @import "~bootstrap/scss/navbar";
+    @import "~bootstrap/scss/tables";
+    @import "~bootstrap/scss/dropdown";
+    @import "~bootstrap/scss/forms";
+    @import "~bootstrap/scss/placeholders";
+    @import "~bootstrap/scss/buttons";
+    @import "~bootstrap/scss/card";
+    @import "~bootstrap/scss/pagination";
+    @import "~bootstrap/scss/alert";
+    @import "~bootstrap/scss/list-group";
+    @import "~bootstrap-icons/font/bootstrap-icons.css";
+
+
+    // 7. Optionally include utilities API last to generate classes based on the Sass map in `_utilities.scss`
+    @import "~bootstrap/scss/utilities/api";
+
+    // Reboot WordPress
+    .card
+    {
+        padding: 0;
+        max-width: none;
+        margin-top: 0;
+    }
+    .form-check input[type=checkbox]
+    {
+        @extend .form-check-input;
+
+        &:checked::before
+        {
+            content: none;
+        }
+    }
+
+    .form-check label
+    {
+        vertical-align: unset;
+    }
+
+    .form-check.form-switch input[type=checkbox]
+    {
+        width: $form-switch-width;
+        margin-left: $form-switch-padding-start * -1;
+        background-image: escape-svg($form-switch-bg-image);
+        background-position: left center;
+        @include border-radius($form-switch-border-radius);
+        @include transition($form-switch-transition);
+
+        &:focus
+        {
+            background-image: escape-svg($form-switch-focus-bg-image);
+        }
+
+        &:checked
+        {
+            background-position: $form-switch-checked-bg-position;
+
+            @if $enable-gradients
+            {
+                background-image: escape-svg($form-switch-checked-bg-image), var(--#{$variable-prefix}gradient);
+            } @else
+            {
+                background-image: escape-svg($form-switch-checked-bg-image);
+            }
+        }
+    }
+    //ul.navbar-nav li
+    //{
+    //    margin: 0;
+    //}
+    //table ul
+    //{
+    //    list-style: disc;
+    //}
+}

@@ -17,7 +17,7 @@ export class WPAttachmentFormInput
 		// Model
 		this.options  = jQuery.extend( {}, this.options, options );
 		// View
-		this.template = _.template( this.$el.find( "textarea.underscore-template" ).val() );
+		this.template = _.template( <string>this.$el.find( "textarea.underscore-template" ).val() );
 		this.wpMedia  = wp.media( {
 			title:   this.options.title,
 			multiple:this.options.max < 0 || this.options.max > 1 ? true : false,
@@ -46,7 +46,6 @@ export class WPAttachmentFormInput
 
 	public add( attachmentModel: WPMediaAttachmentModel )
 	{
-		var __this          = this;
 		attachmentModel.src = attachmentModel.icon;
 		if( !attachmentModel.width ) attachmentModel.width = "";
 		if( !attachmentModel.height ) attachmentModel.height = "";

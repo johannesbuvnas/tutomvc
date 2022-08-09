@@ -2,7 +2,7 @@ const path = require( 'path' )
 const pkg = require( '../../package.json' )
 const MiniCssExtractPlugin = require( 'mini-css-extract-plugin' )
 const CleanWebpackPlugin = require( 'clean-webpack-plugin' )
-const sass = require( 'node-sass' )
+const sass = require( 'sass' )
 const sassUtils = require( 'node-sass-utils' )( sass )
 const FixStyleOnlyEntriesPlugin = require( "webpack-fix-style-only-entries" );
 const argv = require( 'minimist' )( process.argv.slice( 2 ) )
@@ -48,7 +48,8 @@ module.exports = {
 	},
 	output: {
 		filename: '[name].js',
-		path: __dirname + '/../../dist/'
+		path: __dirname + '/../../dist/',
+		publicPath: ''
 	},
 	externals: {
 		jquery: 'jQuery'
