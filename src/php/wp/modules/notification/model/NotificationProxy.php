@@ -48,6 +48,8 @@
 		/* EVENTS */
 		function onRegister()
 		{
+			if(!$_SESSION) $_SESSION = array();
+			
 			if ( array_key_exists( NotificationModule::SESSION_COOKIE, $_SESSION ) )
 			{
 				foreach ( $_SESSION[ NotificationModule::SESSION_COOKIE ] as $key => $notification )

@@ -9,6 +9,7 @@
 	namespace tutomvc\core\form\inputs;
 
 	use tutomvc\core\form\FormElement;
+	use function htmlspecialchars;
 
 	/**
 	 * HTML element "input"
@@ -27,7 +28,7 @@
 		const TYPE_BUTTON         = "button";
 		const TYPE_CHECKBOX       = "checkbox";
 		const TYPE_COLOR          = "color";
-		const TYPE_DATETIME_LOCAL = "datetime-local ";
+		const TYPE_DATETIME_LOCAL = "datetime-local";
 		const TYPE_EMAIL          = "email";
 		const TYPE_IMAGE          = "image";
 		const TYPE_MONTH          = "month";
@@ -95,20 +96,20 @@
 			if ( $this->isRequired() ) $attr[ "required" ] = "required";
 			if ( $this->isDisabled() ) $attr[ "disabled" ] = "disabled";
 			if ( $this->isChecked() ) $attr[ "checked" ] = "checked";
-			if ( strlen( $this->getMin() ) ) $attr[ "min" ] = $this->getMin();
-			if ( strlen( $this->getMax() ) ) $attr[ "max" ] = $this->getMax();
-			if ( strlen( $this->getMaxlength() ) ) $attr[ "maxlength" ] = $this->getMaxlength();
-			if ( strlen( $this->getPattern() ) ) $attr[ "pattern" ] = $this->getPattern();
-			if ( strlen( $this->getAlt() ) ) $attr[ "alt" ] = $this->getAlt();
-			if ( strlen( $this->getSize() ) ) $attr[ "size" ] = $this->getSize();
-			if ( strlen( $this->getSrc() ) ) $attr[ "src" ] = $this->getSrc();
-			if ( strlen( $this->getStep() ) ) $attr[ "step" ] = $this->getStep();
-			if ( strlen( $this->getWidth() ) ) $attr[ "width" ] = $this->getWidth();
-			if ( strlen( $this->getHeight() ) ) $attr[ "height" ] = $this->getHeight();
-			if ( !is_array( $this->getValue() ) && strlen( $this->getValue() ) ) $attr[ "value" ] = $this->getValue();
-			if ( strlen( $this->getPlaceholder() ) ) $attr[ "placeholder" ] = $this->getPlaceholder();
-			if ( strlen( $this->getAccept() ) ) $attr[ "accept" ] = $this->getAccept();
-			if ( strlen( $this->isMultiple() ) ) $attr[ "multiple" ] = "multiple";
+			if ( $this->getMin() ) $attr[ "min" ] = $this->getMin();
+			if ( $this->getMax() ) $attr[ "max" ] = $this->getMax();
+			if ( $this->getMaxlength() ) $attr[ "maxlength" ] = $this->getMaxlength();
+			if ( $this->getPattern() ) $attr[ "pattern" ] = $this->getPattern();
+			if ( $this->getAlt() ) $attr[ "alt" ] = $this->getAlt();
+			if ( $this->getSize() ) $attr[ "size" ] = $this->getSize();
+			if ( $this->getSrc() ) $attr[ "src" ] = $this->getSrc();
+			if ( $this->getStep() ) $attr[ "step" ] = $this->getStep();
+			if ( $this->getWidth() ) $attr[ "width" ] = $this->getWidth();
+			if ( $this->getHeight() ) $attr[ "height" ] = $this->getHeight();
+			if ( !is_array( $this->getValue() ) && !is_null($this->getValue()) ) $attr[ "value" ] = $this->getValue();
+			if ( $this->getPlaceholder() ) $attr[ "placeholder" ] = $this->getPlaceholder();
+			if ( $this->getAccept() ) $attr[ "accept" ] = $this->getAccept();
+			if ( $this->isMultiple() ) $attr[ "multiple" ] = "multiple";
 
 			return $attr;
 		}

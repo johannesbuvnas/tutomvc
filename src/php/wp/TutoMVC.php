@@ -2,6 +2,7 @@
 	namespace tutomvc\wp;
 	use tutomvc\core\utils\FileUtil;
 	use tutomvc\wp\core\facade\Facade;
+	use function dirname;
 
 	final class TutoMVC
 	{

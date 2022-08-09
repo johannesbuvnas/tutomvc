@@ -8,6 +8,8 @@
 
 	namespace tutomvc\core\form\inputs;
 
+	use function array_key_exists;
+
 	/**
 	 * A select element.
 	 *
@@ -16,6 +18,7 @@
 	class SelectFormInput extends FormInput
 	{
 		protected $_options            = array();
+		protected $_optionsLabelMap    = array();
 		protected $_optionsDisabledMap = array();
 		protected $_optionTitleMap     = array();
 
@@ -57,8 +60,14 @@
 
 			$this->_optionsDisabledMap[ $value ] = $disabled;
 			$this->_optionTitleMap[ $value ]     = !empty( $title ) ? $title : $label;
+			$this->_optionsLabelMap[ $value ]    = $label;
 
 			return $this;
+		}
+
+		public function getOptionLabel( $optionValue )
+		{
+			return array_key_exists( $optionValue, $this->_optionsLabelMap ) ? $this->_optionsLabelMap[ $optionValue ] : NULL;
 		}
 
 		/**
@@ -73,6 +82,7 @@
 				unset( $this->_options[ $optionValue ] );
 				unset( $this->_optionsDisabledMap[ $optionValue ] );
 				unset( $this->_optionTitleMap[ $optionValue ] );
+				unset( $this->_optionsLabelMap[ $optionValue ] );
 			}
 			foreach ( $this->_options as $groupLabel => $groupLabelArray )
 			{
@@ -148,7 +158,7 @@
 		 *
 		 * @return string
 		 */
-		protected function getOptionElement( $label, $value )
+		public function getOptionElement( $label, $value )
 		{
 			$attr = array(
 				"value" => $value,
@@ -164,6 +174,11 @@
 			}
 
 			return '<option ' . $attributes . '>' . $label . '</option>';
+		}
+
+		public function isOptionDisabled( $optionValue )
+		{
+			return array_key_exists( $optionValue, $this->_optionsDisabledMap );
 		}
 
 		public function setDefaultValue( $value )

@@ -22,11 +22,11 @@
 
 		public function onRegister()
 		{
-			if ( !session_id() )
-			{
-				session_name( TutoMVC::NAME );
-				session_start();
-			}
+//			if ( !session_id() )
+//			{
+//				session_name( TutoMVC::NAME );
+//				session_start();
+//			}
 
 			$this->setRoot( TutoMVC::getRoot() );
 			$this->setURL( TutoMVC::getURL() );
