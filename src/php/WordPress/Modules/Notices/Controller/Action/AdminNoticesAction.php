@@ -22,7 +22,7 @@
 			foreach ( NoticesModule::getProxy()->getMap() as $notification )
 			{
 				$output = '
-						<div class="' . $notification->getName() . '">
+						<div class="notice ' . $notification->getName() . ' is-dismissible">
 							<p>' . $notification->getValue() . '</p>
 						</div>';
 				echo $output;

@@ -19,6 +19,7 @@
 	use function is_string;
 	use function str_ireplace;
 	use function strlen;
+	use function var_dump;
 
 	class BS5Formatter implements IFormElementFormatter
 	{
@@ -69,8 +70,8 @@
 			$classNames = array_merge( $classNames, $this->_spacingClasses );
 			$output     = '<div class="' . implode( " ", $classNames ) . '">';
 			$output     .= $el->formatHeaderOutput();
-			$output     .= $el->formatErrorMessageOutput();
 			$output     .= $el->formatFormElementOutput();
+			$output     .= $el->formatErrorMessageOutput();
 			$output     .= $el->formatFooterOutput();
 			$output     .= '</div>';
 
@@ -124,11 +125,18 @@
 		{
 			if ( $el instanceof CheckBoxFormInput )
 			{
-				return '<div class="form-check form-switch">' . $this->formatInputElementOutput( $el ) . '<label class="form-check-label" for="' . $el->getID() . '">' . $el->getLabel() . '</label></div>';
+				if ( $el->isSwitchMode() )
+				{
+					return '<div class="form-check form-switch">' . $this->formatInputElementOutput( $el ) . '<label class="form-check-label" for="' . $el->getID() . '">' . $el->getLabel() . '</label></div>';
+				}
+				else
+				{
+					return '<div class="form-check">' . $this->formatInputElementOutput( $el ) . '<label class="form-check-label" for="' . $el->getID() . '">' . $el->getLabel() . '</label></div>';
+				}
 			}
 			else if ( $el instanceof FormInput )
 			{
-				return $el->getType() == FormInput::TYPE_HIDDEN ? '' : '<label for="' . $el->getID() . '">' . $el->getLabel() . '</label>';
+				return $el->getType() == FormInput::TYPE_HIDDEN ? '' : '<label class="form-label" for="' . $el->getID() . '">' . $el->getLabel() . '</label>';
 			}
 
 			return '';
@@ -180,7 +188,7 @@
 
 			if ( !array_key_exists( "placeholder", $attr ) )
 			{
-				$attr[ 'placeholder' ] = $el->getLabel();
+				$attr[ 'placeholder' ] = $el->getPlaceholder();
 			}
 			if ( $el->hasError() )
 			{
@@ -212,7 +220,7 @@
 			$errorMsg = $el->getErrorMessage();
 			if ( is_string( $errorMsg ) )
 			{
-				return '<div id="' . $el->getID() . "-feedback" . '" class="invalid-feedback">' . $errorMsg . '</div>';
+				return '<div id="' . $el->getID() . "-feedback" . '" class="invalid-feedback d-block">' . $errorMsg . '</div>';
 			}
 
 			return '';

@@ -11,7 +11,10 @@
 	use TutoMVC\WordPress\Modules\PageCache\Controller\PageCacheAdminMenuPage;
 	use TutoMVC\WordPress\Modules\PageCache\Model\PageCacheProxy;
 	use TutoMVC\WordPress\Modules\PageCache\PageCacheModule;
+	use function array_key_exists;
+	use function do_action;
 	use function is_network_admin;
+	use function wp_verify_nonce;
 
 	class PageCacheFacade extends Facade
 	{
@@ -42,7 +45,19 @@
 			if ( is_admin() )
 			{
 				$this->registerCommand( SetupAdvancedCacheAction::NAME, new SetupAdvancedCacheAction() );
-				$this->registerCommand( SetupAdvancedCacheAction::NAME, new ClearPageCacheAction() );
+				$this->registerCommand( ClearPageCacheAction::NAME, new ClearPageCacheAction() );
+			}
+
+			if ( !empty( $_POST ) && array_key_exists( "_wpnonce", $_POST ) )
+			{
+				if ( wp_verify_nonce( $_POST[ '_wpnonce' ], SetupAdvancedCacheAction::NAME ) )
+				{
+					do_action( SetupAdvancedCacheAction::NAME );
+				}
+				if ( wp_verify_nonce( $_POST[ '_wpnonce' ], ClearPageCacheAction::NAME ) )
+				{
+					do_action( ClearPageCacheAction::NAME );
+				}
 			}
 		}
 

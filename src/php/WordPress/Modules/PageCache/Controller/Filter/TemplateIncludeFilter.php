@@ -8,11 +8,6 @@
 	class TemplateIncludeFilter extends FilterCommand
 	{
 
-		public function onRegister()
-		{
-
-		}
-
 		public function execute()
 		{
 			$template = func_get_arg( 0 );

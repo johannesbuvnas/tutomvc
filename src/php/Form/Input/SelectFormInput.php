@@ -114,42 +114,6 @@
 			return $this->_options;
 		}
 
-		function formatFormElementOutput()
-		{
-			$output = "";
-
-			$attributes = $this->getFormElementAttributesAsString();
-
-			$output .= '
-					<select ' . $attributes . '>
-				';
-			foreach ( $this->getOptions() as $key => $label )
-			{
-				if ( is_array( $label ) )
-				{
-					$output .= '
-					<optgroup label="' . $key . '">
-					';
-					foreach ( $label as $groupOptionValue => $groupOptionLabel )
-					{
-						$output .= $this->getOptionElement( $groupOptionLabel, $groupOptionValue );
-					}
-					$output .= '
-					</optgroup>
-					';
-				}
-				else
-				{
-					$output .= $this->getOptionElement( $label, $key );
-				}
-			}
-			$output .= '
-					</select>
-				';
-
-			return $output;
-		}
-
 		/**
 		 * Generates the option HTML element.
 		 *

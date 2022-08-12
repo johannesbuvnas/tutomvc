@@ -12,10 +12,10 @@
 	use TutoMVC\WordPress\System\SystemApp;
 	use TutoMVC\WordPress\Modules\Notices\Model\Notice;
 	use TutoMVC\WordPress\Modules\Notices\Model\NoticesProxy;
+	use function var_dump;
 
 	class NoticesModule
 	{
-		const SESSION_COOKIE  = "com.tutomvc.system.session.cookie.notifications";
 		const TYPE_UPDATE     = "updated";
 		const TYPE_ERROR      = "error";
 		const TYPE_UPDATE_NAG = "update-nag";
