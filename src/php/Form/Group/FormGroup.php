@@ -15,6 +15,8 @@
 	/**
 	 * A group of form elements. Can be other FormGroups or FormInputs.
 	 *
+	 * TODO: Implement a buildQuery() method. See how its done in StickerApp EventQBForm.
+	 *
 	 * @see \TutoMVC\Form\Input\FormInput FormInput
 	 */
 	class FormGroup extends FormElement

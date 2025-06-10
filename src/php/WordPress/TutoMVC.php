@@ -1,9 +1,15 @@
 <?php
+
 	namespace TutoMVC\WordPress;
+
 	use TutoMVC\Utils\FileUtil;
 	use TutoMVC\WordPress\Core\Facade\Facade;
 	use TutoMVC\WordPress\System\SystemAppFacade;
 	use function dirname;
+	use function strlen;
+	use function strripos;
+	use function substr;
+	use function var_dump;
 
 	final class TutoMVC
 	{
@@ -16,11 +22,11 @@
 		const SCRIPT_JS_PATH = "deploy/com.tutomvc.core.js";
 
 		/* STATIC VARS */
-		private static $_initiated      = FALSE;
+		public static $_initiated      = FALSE;
 		private static $_domain         = "";
 		private static $_wpRelativeRoot = "";
 		private static $_documentRoot   = "";
-		private static $_root           = "";
+		public static $_root           = "";
 		private static $_url            = "";
 		private static $_facadeMap      = array();
 		private static $_pkg;
@@ -65,7 +71,7 @@
 		 *
 		 * @return Facade
 		 */
-		public static function startup( $facade )
+		public static function startup( $facade ):Facade
 		{
 			if ( !self::$_initiated )
 			{
@@ -77,7 +83,8 @@
 			$caller    = $backtrace[ 0 ][ 'file' ];
 			$appRoot   = realpath( dirname( $caller ) );
 			$appURL    = get_bloginfo( 'wpurl' ) . FileUtil::sanitizePath( substr( $appRoot, strripos( $appRoot, TutoMVC::getDocumentRoot() ) + strlen( TutoMVC::getWPRelativeRoot() ) + strlen( TutoMVC::getDocumentRoot() ) ) );
-
+//			var_dump( $appRoot,TutoMVC::getDocumentRoot(), TutoMVC::getWPRelativeRoot(), substr( $appRoot, strripos( $appRoot, TutoMVC::getDocumentRoot() ) + strlen( TutoMVC::getWPRelativeRoot() ) + strlen( TutoMVC::getDocumentRoot() ) ), $appURL, get_bloginfo( 'wpurl' ) );
+//			exit;
 			$facade->setRoot( $appRoot );
 			$facade->setURL( $appURL );
 			self::$_facadeMap[ $facade->getKey() ] = $facade;
@@ -115,7 +122,7 @@
 
 		public static function getPackageAsJSON( $param = NULL )
 		{
-			if ( empty(self::$_pkg) )
+			if ( empty( self::$_pkg ) )
 			{
 				self::$_pkg = json_decode( file_get_contents( self::getRoot( "package.json" ) ) );
 			}

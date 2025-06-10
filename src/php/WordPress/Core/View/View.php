@@ -76,7 +76,7 @@
 		public function getViewComponentRealpath( $relativeFilePath, $name = NULL )
 		{
 			// Maybe the absolute file position is passed?
-			$absoluteFilePathPosition = strpos( $relativeFilePath, TutoMVC::getDocumentRoot() );
+			$absoluteFilePathPosition = !empty( TutoMVC::getDocumentRoot() ) ? strpos( $relativeFilePath, TutoMVC::getDocumentRoot() ) : FALSE;
 
 			if ( $absoluteFilePathPosition === FALSE )
 			{

@@ -15,6 +15,7 @@
 	use function func_get_arg;
 	use function get_post_type;
 	use function in_array;
+	use function var_dump;
 
 	class SavePostAction extends ActionCommand
 	{
